@@ -1,6 +1,14 @@
-import { useStyled, ICustomConfig } from "@gluestack-ui/themed";
+import {
+  useStyled,
+  ICustomConfig,
+  Box,
+  Text,
+  Center,
+} from "@gluestack-ui/themed";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
+import { ConnectWallet } from "@thirdweb-dev/react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];
@@ -13,33 +21,53 @@ export default function TabLayout() {
   const theme: { config: ICustomConfig } = useStyled();
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: theme.config.tokens.colors.amber200,
-        tabBarStyle: {
-          backgroundColor: theme.config.tokens.colors.backgroundDark950,
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Testing Walletconnect",
-          headerStyle: {
-            backgroundColor: theme.config.tokens.colors.backgroundDark950,
+    <Box flex={1}>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: theme.config.tokens.colors.blue900,
+          header: () => {
+            return (
+              <Box bg="white" pb="$4">
+                <SafeAreaView />
+                <Box
+                  w={"$full"}
+                  paddingHorizontal="$4"
+                  flexDirection="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Text bold size="2xl">
+                    {" "}
+                    Home{" "}
+                  </Text>
+                  <ConnectWallet />
+                </Box>
+              </Box>
+            );
           },
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarStyle: {
+            backgroundColor: theme.config.tokens.colors.white,
+          },
         }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: "BCH",
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="android" color={color} />
-          ),
-        }}
-      />
-    </Tabs>
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "Home",
+
+            tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          }}
+        />
+        <Tabs.Screen
+          name="two"
+          options={{
+            title: "Eas",
+            tabBarIcon: ({ color }) => (
+              <TabBarIcon name="android" color={color} />
+            ),
+          }}
+        />
+      </Tabs>
+    </Box>
   );
 }
