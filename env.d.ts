@@ -1,4 +1,5 @@
-declare module '@env' {
+declare module "@env" {
   export const TW_CLIENT_ID: string;
-  // Add other variables here
+  export const EAS_CONTRACT: string;
+  export const EAS_SCHEMA_REGISTRY: string;
 }

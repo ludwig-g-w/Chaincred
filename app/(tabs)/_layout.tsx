@@ -37,8 +37,7 @@ export default function TabLayout() {
                   justifyContent="space-between"
                 >
                   <Text bold size="2xl">
-                    {" "}
-                    Home{" "}
+                    Home
                   </Text>
                   <ConnectWallet />
                 </Box>

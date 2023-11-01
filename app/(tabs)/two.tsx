@@ -1,6 +1,8 @@
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { Button, Text, VStack } from "@gluestack-ui/themed";
 
+import { EAS_CONTRACT, EAS_SCHEMA_REGISTRY } from "@env";
+import { SchemaRegistry } from "@ethereum-attestation-service/eas-sdk";
 import { useSigner } from "@thirdweb-dev/react-native";
 import { useState } from "react";
 
@@ -8,15 +10,32 @@ export default function App() {
   const [eas, setEas] = useState<EAS>();
   const signer = useSigner();
 
-  const getAllAttestations = () => {};
+  const createSchema = async () => {
+    const schemaRegistryContractAddress = EAS_SCHEMA_REGISTRY;
+    const schemaRegistry = new SchemaRegistry(schemaRegistryContractAddress);
+    schemaRegistry.connect(signer);
+    const schema = "bool isTrusted, uint8 voteIndex";
+    const resolverAddress = EAS_SCHEMA_REGISTRY; // Sepolia 0.26
+    const revocable = true;
+
+    const transaction = await schemaRegistry.register({
+      schema,
+      resolverAddress,
+      revocable,
+    });
+
+    // Optional: Wait for transaction to be validated
+    await transaction.wait();
+  };
+  const getAmountAttestationsForSchema = () => {};
+  const getAllSchemasForAddress = () => {};
 
   const register = async () => {
     try {
-      const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
+      const EASContractAddress = EAS_CONTRACT;
       const eas = new EAS(EASContractAddress);
       eas.connect(signer as any);
 
-      // Initialize SchemaEncoder with the schema string
       const schemaEncoder = new SchemaEncoder(
         "uint256 eventId, uint8 voteIndex"
       );
