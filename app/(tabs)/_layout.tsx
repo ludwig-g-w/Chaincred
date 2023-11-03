@@ -10,63 +10,66 @@ import { Tabs } from "expo-router";
 import { ConnectWallet } from "@thirdweb-dev/react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
-
 export default function TabLayout() {
   const theme: { config: ICustomConfig } = useStyled();
 
   return (
     <Box flex={1}>
       <Tabs
+        initialRouteName="(home)"
         screenOptions={{
           tabBarActiveTintColor: theme.config.tokens.colors.blue900,
-          header: () => {
-            return (
-              <Box bg="white" pb="$4">
-                <SafeAreaView />
-                <Box
-                  w={"$full"}
-                  paddingHorizontal="$4"
-                  flexDirection="row"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Text bold size="2xl">
-                    Home
-                  </Text>
-                  <ConnectWallet />
-                </Box>
-              </Box>
-            );
-          },
+          header: Header,
           tabBarStyle: {
             backgroundColor: theme.config.tokens.colors.white,
           },
         }}
       >
         <Tabs.Screen
-          name="index"
+          name="(home)"
           options={{
-            title: "Home",
-
+            title: "Feed",
             tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           }}
         />
+
         <Tabs.Screen
-          name="two"
+          name="settings"
           options={{
-            title: "Eas",
+            title: "Settings",
             tabBarIcon: ({ color }) => (
-              <TabBarIcon name="android" color={color} />
+              <TabBarIcon name="angellist" color={color} />
             ),
           }}
         />
       </Tabs>
     </Box>
   );
+}
+
+const Header = () => {
+  return (
+    <Box bg="white" pb="$4">
+      <SafeAreaView />
+      <Box
+        w={"$full"}
+        paddingHorizontal="$4"
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Text bold size="2xl">
+          Home
+        </Text>
+        <ConnectWallet />
+      </Box>
+    </Box>
+  );
+};
+
+function TabBarIcon(props: {
+  name: React.ComponentProps<typeof FontAwesome>["name"];
+  color: string;
+}) {
+  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }

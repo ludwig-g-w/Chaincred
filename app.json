@@ -1,8 +1,8 @@
 {
   "expo": {
     "scheme": "thirdweb-test",
-    "name": "react-native-expo-starter",
-    "slug": "react-native-expo-starter",
+    "name": "thirdweb-test",
+    "slug": "thirdweb-test",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,14 +15,14 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.reactnative.example"
+      "bundleIdentifier": "com.thirdweb.test"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.reactnative.example"
+      "package": "com.thirdweb.test"
     },
     "web": {
       "favicon": "./assets/favicon.png",

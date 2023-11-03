@@ -5,6 +5,7 @@ module.exports = function (api) {
     plugins: [
       ["module:react-native-dotenv"],
       "expo-router/babel",
+      "@babel/plugin-transform-flow-strip-types",
       ["@babel/plugin-transform-private-methods", { loose: true }],
     ],
   };
