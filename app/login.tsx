@@ -1,8 +1,16 @@
 import { Box, Center, Text } from "@gluestack-ui/themed";
-import { ConnectWallet } from "@thirdweb-dev/react-native";
+import { ConnectWallet, useAddress } from "@thirdweb-dev/react-native";
+import { Redirect, useLocalSearchParams } from "expo-router";
 import React from "react";
 
 export default () => {
+  const user = useAddress();
+  const params = useLocalSearchParams<{ rUrl: string }>();
+
+  if (user) {
+    return <Redirect href={"/settings"} />;
+  }
+
   return (
     <Box flex={1}>
       <Center flex={1}>

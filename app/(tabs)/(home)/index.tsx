@@ -11,11 +11,12 @@ import { Link, useFocusEffect } from "expo-router";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { FlashList } from "@shopify/flash-list";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import type { AttestItem } from "../../../utils/types";
 
 const itemSize = 88;
 
 export default () => {
-  const [list, setList] = useState<{ title: string; desc: string }[]>([]);
+  const [list, setList] = useState<AttestItem[]>([]);
 
   useFocusEffect(() => {
     (async () => {
@@ -54,7 +55,7 @@ export default () => {
                 mb="$2"
               >
                 <Text bold>{item.title}</Text>
-                <Text>{item.desc}</Text>
+                <Text>{item.description}</Text>
               </Pressable>
             </Link>
           );

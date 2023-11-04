@@ -6,12 +6,19 @@ import {
   Center,
 } from "@gluestack-ui/themed";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Tabs } from "expo-router";
-import { ConnectWallet } from "@thirdweb-dev/react-native";
+import { Redirect, Tabs } from "expo-router";
+import { ConnectWallet, useAddress } from "@thirdweb-dev/react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TabLayout() {
   const theme: { config: ICustomConfig } = useStyled();
+  const user = useAddress();
+
+  if (!user) {
+    return (
+      <Redirect href={{ pathname: "/login", params: { rUrl: "/index" } }} />
+    );
+  }
 
   return (
     <Box flex={1}>

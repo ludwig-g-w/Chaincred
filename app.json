@@ -1,5 +1,8 @@
 {
   "expo": {
+    "experiments": {
+      "typedRoutes": true
+    },
     "scheme": "thirdweb-test",
     "name": "thirdweb-test",
     "slug": "thirdweb-test",

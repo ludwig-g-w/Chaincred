@@ -22,12 +22,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import type { AttestItem } from "../utils/types";
 export default () => {
-  type AttestItem = typeof toSubmit;
-  const [toSubmit, setToSubmit] = useState({
+  const [toSubmit, setToSubmit] = useState<AttestItem>({
     title: "",
-    desc: "",
+    description: "",
   });
 
   const createAttestation = async () => {
@@ -53,7 +52,7 @@ export default () => {
   const changeDesc = (s: string) =>
     setToSubmit((prev) => ({
       ...prev,
-      desc: s,
+      description: s,
     }));
 
   return (
