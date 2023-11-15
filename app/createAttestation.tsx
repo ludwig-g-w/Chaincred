@@ -23,6 +23,7 @@ import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import type { AttestItem } from "../utils/types";
+
 export default () => {
   const [toSubmit, setToSubmit] = useState<AttestItem>({
     title: "",
