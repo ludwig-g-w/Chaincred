@@ -7,6 +7,17 @@ module.exports = function (api) {
       "expo-router/babel",
       "@babel/plugin-transform-flow-strip-types",
       ["@babel/plugin-transform-private-methods", { loose: true }],
+      [
+        "module-resolver",
+        {
+          root: ["."],
+          extensions: [".ios.js", ".android.js", ".js", ".ts", ".tsx", ".json"],
+          alias: {
+            "@components": "./components",
+            "@utils": "./utils",
+          },
+        },
+      ],
     ],
   };
 };

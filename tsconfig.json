@@ -1,7 +1,13 @@
 {
   "extends": "expo/tsconfig.base",
+  "baseUrl": ".",
   "alias": {
-    "./utils/*": "@/utils/*"
+    "@utils/*": [
+      "utils/*"
+    ],
+    "@components/*": [
+      "components/*"
+    ],
   },
   "compilerOptions": {
     "strict": true

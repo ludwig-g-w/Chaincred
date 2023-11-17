@@ -127,3 +127,14 @@ const RestaurantList = () => {
 };
 
 export default RestaurantList;
+
+export interface Attestation {
+  id: string;
+  attester: string;
+  recipient: string;
+  refUID: string;
+  revocable: boolean;
+  revocationTime: number;
+  expirationTime: number;
+  data: string;
+}

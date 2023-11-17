@@ -12,6 +12,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { FlashList } from "@shopify/flash-list";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { AttestItem } from "../../../utils/types";
+import { usePathname } from "expo-router";
 
 const itemSize = 88;
 

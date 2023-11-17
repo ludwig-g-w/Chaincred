@@ -1,14 +1,21 @@
+import { EAS_GRAPHQL, TW_CLIENT_ID } from "@env";
+import { config } from "@gluestack-ui/config"; // O
+import { GluestackUIProvider } from "@gluestack-ui/themed";
 import {
+  ThirdwebProvider,
   localWallet,
   metamaskWallet,
   rainbowWallet,
-  ThirdwebProvider,
+  phan,
 } from "@thirdweb-dev/react-native";
-import { Redirect, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import React from "react";
-import { GluestackUIProvider, Text, Box, View } from "@gluestack-ui/themed";
-import { config } from "@gluestack-ui/config"; // O
-import { TW_CLIENT_ID } from "@env";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+
+const client = new ApolloClient({
+  uri: EAS_GRAPHQL,
+  cache: new InMemoryCache(),
+});
 
 const App = () => {
   return (
@@ -18,7 +25,9 @@ const App = () => {
         activeChain="ethereum"
         supportedWallets={[metamaskWallet(), rainbowWallet(), localWallet()]}
       >
-        <Inner />
+        <ApolloProvider client={client}>
+          <Inner />
+        </ApolloProvider>
       </ThirdwebProvider>
     </GluestackUIProvider>
   );

@@ -23,6 +23,7 @@ import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import type { AttestItem } from "../utils/types";
+import { STORAGE_KEY } from "../utils/constants";
 
 export default () => {
   const [toSubmit, setToSubmit] = useState<AttestItem>({
@@ -33,10 +34,10 @@ export default () => {
   const createAttestation = async () => {
     try {
       const prev: AttestItem[] = JSON.parse(
-        (await AsyncStorage.getItem("listOfAttestations")) ?? "[]"
+        (await AsyncStorage.getItem(STORAGE_KEY)) ?? "[]"
       );
       await AsyncStorage.setItem(
-        "listOfAttestations",
+        STORAGE_KEY,
         JSON.stringify([...prev, toSubmit])
       );
       router.back();

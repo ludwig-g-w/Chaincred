@@ -3,7 +3,7 @@ import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { useSigner, useAddress } from "@thirdweb-dev/react-native";
 import { Redirect, useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
-import type { AttestItem } from "../utils/types";
+import { AttestItem } from "@utils/types";
 import { match, P } from "ts-pattern";
 
 export default () => {
