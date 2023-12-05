@@ -6,7 +6,7 @@ import {
   localWallet,
   metamaskWallet,
   rainbowWallet,
-  phan,
+  walletConnect,
 } from "@thirdweb-dev/react-native";
 import { Stack } from "expo-router";
 import React from "react";
@@ -23,7 +23,12 @@ const App = () => {
       <ThirdwebProvider
         clientId={TW_CLIENT_ID}
         activeChain="ethereum"
-        supportedWallets={[metamaskWallet(), rainbowWallet(), localWallet()]}
+        supportedWallets={[
+          metamaskWallet(),
+          rainbowWallet(),
+          localWallet(),
+          walletConnect(),
+        ]}
       >
         <ApolloProvider client={client}>
           <Inner />

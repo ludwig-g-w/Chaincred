@@ -1,24 +1,28 @@
-import React, {
-  useRef,
-  useState,
-  useMemo,
-  useCallback,
-  useEffect,
-} from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
-import { Camera } from "expo-camera";
+import {
+  Button,
+  Box,
+  ICustomConfig,
+  Text,
+  useStyled,
+} from "@gluestack-ui/themed";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import { Box, FormControl, Input } from "@gluestack-ui/themed";
-import { InputField } from "@gluestack-ui/themed";
+import { Camera } from "expo-camera";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { StyleSheet } from "react-native";
+import ListOfAttestations from "../../components/ListOfAttestations";
+import { match } from "ts-pattern";
+import { Link } from "expo-router";
+import type { AttestItem } from "../../utils/types";
 
 const QRScannerScreen = () => {
-  const [hasPermission, setHasPermission] = useState(null);
+  const theme: { config: ICustomConfig } = useStyled();
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scannedAddress, setScannedAddress] = useState("");
   const [address, setAddress] = useState("");
+  const [attestItem, setAttestItem] = useState<AttestItem>();
+  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
   const bottomSheetRef = useRef<BottomSheet>(null);
-
-  const snapPoints = useMemo(() => ["25%", "50%"], []);
 
   useEffect(() => {
     (async () => {
@@ -27,19 +31,8 @@ const QRScannerScreen = () => {
     })();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
-    if (isValidEthereumAddress(data)) {
-      setScannedAddress(data);
-      bottomSheetRef.current?.expand();
-    } else {
-      // Handle invalid Ethereum address
-      console.log("Scanned data is not a valid Ethereum address");
-    }
-  };
-
   const handleConfirm = () => {
     setAddress(scannedAddress);
-    bottomSheetRef.current?.close();
   };
 
   // Ethereum address validation
@@ -55,33 +48,81 @@ const QRScannerScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <Box flex={1}>
       <Camera
         style={styles.camera}
-        onBarCodeScanned={handleBarCodeScanned}
+        onBarCodeScanned={({ type, data }) => {
+          if (isValidEthereumAddress(data)) {
+            setScannedAddress(data);
+            setIsBottomSheetVisible(true);
+            bottomSheetRef.current?.expand();
+          } else {
+            console.log("Scanned data is not a valid Ethereum address");
+          }
+        }}
         barCodeScannerSettings={{
           barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
         }}
       />
-      <BottomSheet
-        ref={bottomSheetRef}
-        snapPoints={snapPoints}
-        enablePanDownToClose={true}
-      >
-        <View style={styles.contentContainer}>
-          <Text>Scanned Ethereum Address:</Text>
-          <Text>{scannedAddress}</Text>
-          <Button title="Confirm Address" onPress={handleConfirm} />
-        </View>
-      </BottomSheet>
-    </View>
+      {isBottomSheetVisible && (
+        <BottomSheet
+          backgroundStyle={{
+            backgroundColor: theme.config.tokens.colors.coolGray100,
+          }}
+          ref={bottomSheetRef}
+          snapPoints={["50%", "75%"]}
+          enablePanDownToClose={true}
+          onClose={() => setIsBottomSheetVisible(false)}
+        >
+          <Box bg="$coolGray100" flex={1}>
+            {match(!!address)
+              .with(true, () => (
+                <Box flex={1}>
+                  <ListOfAttestations
+                    onPressItem={(attestItem) => {
+                      setAttestItem(attestItem);
+                    }}
+                  />
+                  {!!attestItem && (
+                    <Link
+                      href={{
+                        params: {
+                          address,
+                          ...attestItem,
+                        },
+                        pathname: "/confirmAttest",
+                      }}
+                      asChild
+                    >
+                      <Button
+                        left="30%"
+                        bottom="$4"
+                        position="absolute"
+                        bg="$backgroundDark950"
+                      >
+                        <Text color="white">Create Attestation</Text>
+                      </Button>
+                    </Link>
+                  )}
+                </Box>
+              ))
+              .otherwise(() => (
+                <Box style={styles.contentContainer}>
+                  <Text bold>Scanned Ethereum Address:</Text>
+                  <Text>{scannedAddress}</Text>
+                  <Button onPress={handleConfirm}>
+                    <Text color="white">Confirm Address</Text>
+                  </Button>
+                </Box>
+              ))}
+          </Box>
+        </BottomSheet>
+      )}
+    </Box>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   camera: {
     flex: 1,
   },

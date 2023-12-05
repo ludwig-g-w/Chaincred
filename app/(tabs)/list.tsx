@@ -14,14 +14,31 @@ import {
   SearchIcon,
 } from "@gluestack-ui/themed";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
+import { schemaEncoder } from "../../utils/eas";
+
+const List = gql`
+  query Attestation($id: String!) {
+    attestations(where: { attester: { equals: $id } }) {
+      id
+      attester
+      recipient
+      refUID
+      revocable
+      revocationTime
+      expirationTime
+      data
+    }
+  }
+`;
 
 import Fuse from "fuse.js";
+import FoodItem from "../../components/ListItem";
+import { gql, useQuery } from "@apollo/client";
+import { useAddress } from "@thirdweb-dev/react-native";
 
 // Dummy data for restaurants, replace with your actual data source
 const data = {
-  Restaurants: [
-    // ...your restaurants data
-  ],
+  Restaurants: [{ id: 1, title: "Test 1", description: "test", count: 4 }],
   Dishes: [
     // ...your dishes data
   ],
@@ -30,19 +47,52 @@ const data = {
 const RestaurantList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("Restaurants"); // For segmented control
-  const [sortOption, setSortOption] = useState("rating"); // default sort by rating
+  const [sortOption, setSortOption] = useState("title"); // default sort by rating
   const [activeSegment, setActiveSegment] = useState(0); // Index of the active segment
+  const [attestationsByAttester, setAttestationsByAttester] = useState<
+    Record<Attestation["attester"], Attestation[]>
+  >({});
   const [filteredData, setFilteredData] = useState(data.Restaurants);
+
+  const address = useAddress();
+
+  const result = useQuery<{ attestations: Attestation[] }>(List, {
+    skip: !address,
+    variables: {
+      id: address,
+    },
+    onError(err) {
+      console.log(err);
+    },
+
+    onCompleted: ({ attestations }) => {
+      const encoded = attestations.map((a) => {
+        let decodedData;
+        try {
+          decodedData = schemaEncoder.decodeData(a.data ?? "");
+        } catch (error) {}
+        decodedData = decodedData ? convertJsonToObject(decodedData) : null;
+        return {
+          ...a,
+          data: decodedData,
+        };
+      });
+      setAttestationsByAttester(groupAttestationsByAttester(encoded));
+    },
+  });
+
+  console.log(convertToDesiredFormat(attestationsByAttester));
 
   // Setup for Fuse.js for fuzzy searching
   const options = {
-    keys: ["name"],
+    keys: ["title"],
     includeScore: true,
   };
+
   const fuseRestaurants = new Fuse(data.Restaurants, options);
   const fuseDishes = new Fuse(data.Dishes, options);
 
-  const handleSearch = (text) => {
+  const handleSearch = (text: string) => {
     setSearchQuery(text);
     let results = [];
     if (activeSegment === 0) {
@@ -57,16 +107,13 @@ const RestaurantList = () => {
   };
 
   const sortedRestaurants = useMemo(() => {
-    // Implement sorting logic based on sortOption here
-    // For example, sort by rating:
     return filteredData.sort((a, b) => b[sortOption] - a[sortOption]);
   }, [data, sortOption]);
 
   return (
-    <Box py="$10">
-      {/* Segmented control for navigation */}
+    <Box gap={"$4"} py="$4" px="$4" flex={1}>
       <SegmentedControl
-        values={["Restaurants", "Dishes"]}
+        values={["Available", "Done"]}
         selectedIndex={activeSegment}
         onChange={(event) => {
           setActiveSegment(event.nativeEvent.selectedSegmentIndex);
@@ -74,53 +121,25 @@ const RestaurantList = () => {
         }}
       />
 
-      {/* Search bar with an icon */}
-      <Input>
+      <Input borderRadius="$full" bg="white">
         <InputSlot pl="$3">
           <InputIcon as={SearchIcon} />
-          {/* Replace SearchIcon with actual icon component */}
         </InputSlot>
         <InputField
           placeholder="Search..."
+          type="text"
           value={searchQuery}
-          onChange={handleSearch}
+          onChangeText={handleSearch}
         />
-        {/* You can add Sort and Filter icons and functionality here as well */}
-        <InputSlot pr="$3">
-          <InputIcon
-            as={SearchIcon}
-            onPress={() => {
-              /* Handle sort */
-            }}
-          />
-          <InputIcon
-            as={SearchIcon}
-            onPress={() => {
-              /* Handle filter */
-            }}
-          />
-        </InputSlot>
       </Input>
 
-      {/* List of restaurants */}
       <FlatList
-        data={sortedRestaurants}
+        numColumns={1}
+        data={convertToDesiredFormat(attestationsByAttester)}
         renderItem={({ item }) => (
-          <Box borderBottomWidth="$1" borderColor="$trueGray800" py="$2">
-            <HStack space="md" justifyContent="space-between">
-              <Avatar size="md">
-                <AvatarImage source={{ uri: item.image }} />
-              </Avatar>
-              <VStack>
-                <Text color="$coolGray800" fontWeight="$bold">
-                  {item?.name}
-                </Text>
-              </VStack>
-            </HStack>
-          </Box>
+          <FoodItem count={item.count} title={item.title} />
         )}
-        keyExtractor={(item) => item.id.toString()}
-        // ... other props
+        keyExtractor={(item) => item.title}
       />
     </Box>
   );
@@ -137,4 +156,45 @@ export interface Attestation {
   revocationTime: number;
   expirationTime: number;
   data: string;
+}
+
+function groupAttestationsByAttester(attestations: Attestation[]) {
+  return attestations.reduce((acc, attestation) => {
+    // Group by 'attester'
+    if (!acc[attestation.attester]) {
+      acc[attestation.attester] = [];
+    }
+    acc[attestation.attester].push(attestation);
+    return acc;
+  }, {});
+}
+
+function convertJsonToObject(jsonArray: Record<string, any>[]) {
+  let result = {};
+  jsonArray.forEach((item) => {
+    result[item.name] = item.value.value;
+  });
+  return result;
+}
+
+interface InputData {
+  [key: string]: Attestation[];
+}
+
+interface ResultObject {
+  title: string;
+  count: number;
+}
+
+function convertToDesiredFormat(data: InputData): ResultObject[] {
+  const result: ResultObject[] = [];
+
+  for (const key in data) {
+    if (data.hasOwnProperty(key)) {
+      const amount = data[key].length;
+      result.push({ title: key, count: amount });
+    }
+  }
+
+  return result;
 }

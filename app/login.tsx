@@ -8,7 +8,7 @@ export default () => {
   const params = useLocalSearchParams<{ rUrl: string }>();
 
   if (user) {
-    return <Redirect href={"/settings"} />;
+    return <Redirect href={"/list"} />;
   }
 
   return (

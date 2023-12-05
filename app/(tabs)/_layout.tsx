@@ -1,18 +1,16 @@
-import {
-  useStyled,
-  ICustomConfig,
-  Box,
-  Text,
-  Center,
-  ChevronLeftIcon,
-  Button,
-} from "@gluestack-ui/themed";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Redirect, Tabs, router, usePathname } from "expo-router";
+import {
+  Box,
+  ChevronLeftIcon,
+  ICustomConfig,
+  Text,
+  useStyled,
+} from "@gluestack-ui/themed";
 import { ConnectWallet, useAddress } from "@thirdweb-dev/react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Redirect, Tabs, router, usePathname } from "expo-router";
 import { memo } from "react";
 import { Pressable } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TabLayout() {
   const theme: { config: ICustomConfig } = useStyled();
@@ -27,9 +25,9 @@ export default function TabLayout() {
   return (
     <Box flex={1}>
       <Tabs
-        initialRouteName="(home)"
+        initialRouteName="list"
         screenOptions={{
-          tabBarActiveTintColor: theme.config.tokens.colors.blue900,
+          tabBarActiveTintColor: theme.config.tokens.colors.black,
           header: () => <Header />,
           tabBarStyle: {
             backgroundColor: theme.config.tokens.colors.white,
@@ -37,36 +35,27 @@ export default function TabLayout() {
         }}
       >
         <Tabs.Screen
-          name="(home)"
-          options={{
-            title: "Feed",
-            tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          }}
-        />
-        <Tabs.Screen
           name="list"
           options={{
-            title: "List",
-            tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+            title: "Home",
+            tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           }}
         />
+
         <Tabs.Screen
           name="scanAddress"
           options={{
             title: "Scan",
             tabBarIcon: ({ color }) => (
-              <TabBarIcon name="camera" color={"#000"} />
+              <TabBarIcon name="camera" color={color} />
             ),
           }}
         />
-
         <Tabs.Screen
-          name="settings"
+          name="(settings)"
           options={{
             title: "Settings",
-            tabBarIcon: ({ color }) => (
-              <TabBarIcon name="angellist" color={color} />
-            ),
+            tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
           }}
         />
       </Tabs>
