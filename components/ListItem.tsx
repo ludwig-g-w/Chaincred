@@ -1,58 +1,53 @@
 import React from "react";
-import { Box, Text, Badge, Button, Center } from "@gluestack-ui/themed";
+import {
+  Box,
+  Text,
+  Badge,
+  Button,
+  Center,
+  VStack,
+  HStack,
+} from "@gluestack-ui/themed";
 import { StyleSheet, ImageBackground } from "react-native";
 
 const AttestationCard = ({ title, count, description }) => {
+  const isAddress = /^(0x)?[0-9a-fA-F]{40}$/.test(title);
+  const formattedTitle = isAddress
+    ? `${title.slice(0, 4)}....${title.slice(-4)}`
+    : title;
   return (
-    <Box style={styles.card}>
-      <ImageBackground
-        source={{
-          uri: "https://images.unsplash.com/photo-1686052179725-0af7f4805c80?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        }}
-        alt="Image"
-        style={styles.image}
-      >
-        <Text fontVariant={["lining-nums"]} color="white">
-          {title}
+    <HStack
+      justifyContent="space-between"
+      alignItems="center"
+      flex={1}
+      style={styles.card}
+    >
+      <VStack>
+        <Text bold fontVariant={["lining-nums"]} color="white">
+          {formattedTitle}
         </Text>
-        <Text color="white">{description}</Text>
-
-        <Badge style={styles.badge} variant="solid" bg="white">
-          <Center flex={1}>
-            <Text bold size="lg" fontFamily="$heading">
-              {count} +
-            </Text>
-          </Center>
-        </Badge>
-      </ImageBackground>
-    </Box>
+        {description && <Text color="white">{description}</Text>}
+      </VStack>
+      <Badge aspectRatio={1} style={styles.badge} variant="solid" bg="white">
+        <Text bold size="lg" fontFamily="$heading">
+          {count} +
+        </Text>
+      </Badge>
+    </HStack>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
     borderRadius: 20,
-    overflow: "hidden",
-    position: "relative",
-  },
-  image: {
     width: "100%",
-    height: 184, // Adjust height as needed
-  },
-  overlay: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: 10,
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Adjust the overlay color and opacity as needed
+    height: 88, // Adjust height as needed
+    backgroundColor: "black",
+    padding: 12,
   },
   badge: {
-    minHeight: 48,
-    minWidth: 48,
-    position: "absolute",
-    right: 10,
-    bottom: 10,
+    Height: 48,
+    Width: 48,
     borderRadius: 50,
   },
   addButton: {

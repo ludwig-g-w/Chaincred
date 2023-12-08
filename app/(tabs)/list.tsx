@@ -15,6 +15,10 @@ import {
 } from "@gluestack-ui/themed";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { schemaEncoder } from "../../utils/eas";
+import Fuse from "fuse.js";
+import FoodItem from "../../components/ListItem";
+import { gql, useQuery } from "@apollo/client";
+import { useAddress } from "@thirdweb-dev/react-native";
 
 const List = gql`
   query Attestation($id: String!) {
@@ -30,11 +34,6 @@ const List = gql`
     }
   }
 `;
-
-import Fuse from "fuse.js";
-import FoodItem from "../../components/ListItem";
-import { gql, useQuery } from "@apollo/client";
-import { useAddress } from "@thirdweb-dev/react-native";
 
 // Dummy data for restaurants, replace with your actual data source
 const data = {
@@ -81,7 +80,7 @@ const RestaurantList = () => {
     },
   });
 
-  console.log(convertToDesiredFormat(attestationsByAttester));
+  console.log(convertToTitleCount(attestationsByAttester));
 
   // Setup for Fuse.js for fuzzy searching
   const options = {
@@ -135,7 +134,7 @@ const RestaurantList = () => {
 
       <FlatList
         numColumns={1}
-        data={convertToDesiredFormat(attestationsByAttester)}
+        data={convertToTitleCount(attestationsByAttester)}
         renderItem={({ item }) => (
           <FoodItem count={item.count} title={item.title} />
         )}
@@ -186,7 +185,7 @@ interface ResultObject {
   count: number;
 }
 
-function convertToDesiredFormat(data: InputData): ResultObject[] {
+function convertToTitleCount(data: InputData): ResultObject[] {
   const result: ResultObject[] = [];
 
   for (const key in data) {

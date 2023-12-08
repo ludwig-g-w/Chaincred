@@ -16,11 +16,11 @@ export default function TabLayout() {
   const theme: { config: ICustomConfig } = useStyled();
   const user = useAddress();
 
-  if (!user) {
-    return (
-      <Redirect href={{ pathname: "/login", params: { rUrl: "/index" } }} />
-    );
-  }
+  // if (!user) {
+  //   return (
+  //     <Redirect href={{ pathname: "/login", params: { rUrl: "/index" } }} />
+  //   );
+  // }
 
   return (
     <Box flex={1}>

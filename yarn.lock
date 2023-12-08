@@ -7895,7 +7895,7 @@
     mime "3.0.0"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/react-native-compat@^0.4.11":
+"@thirdweb-dev/react-native-compat@0.4.11":
   version "0.4.11"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-native-compat/-/react-native-compat-0.4.11.tgz#3e0200c12eca82ded12957e69539e4aeb698d453"
   integrity sha512-UIpcfJJQh2bMi6TSxIKhRlrVwjtrJQKQmDBcdwRwUv3jsyHGCRMmLGTAG8SOtTibiH2eh2cLUUR7VDdivJpWaQ==
@@ -7907,7 +7907,7 @@
     react-native-get-random-values "^1.9.0"
     react-native-url-polyfill "^2.0.0"
 
-"@thirdweb-dev/react-native@^0.4.11":
+"@thirdweb-dev/react-native@0.4.11":
   version "0.4.11"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-native/-/react-native-0.4.11.tgz#01b6420fd162917f360c9ea498c78462e849f2fe"
   integrity sha512-6P4jGqjyVPtJhuBTs6w8iWcZkQfawd71jqw7bREKYLRWkShecS0J0WhU0Hg2lpQHgTpk+LrEjYGcqnA3HueQNA==
