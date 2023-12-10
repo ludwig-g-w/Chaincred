@@ -25,7 +25,7 @@ export default function TabLayout() {
   return (
     <Box flex={1}>
       <Tabs
-        initialRouteName="list"
+        initialRoauteName="(home)"
         screenOptions={{
           tabBarActiveTintColor: theme.config.tokens.colors.black,
           header: () => <Header />,
@@ -35,7 +35,7 @@ export default function TabLayout() {
         }}
       >
         <Tabs.Screen
-          name="list"
+          name="(home)"
           options={{
             title: "Home",
             tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,

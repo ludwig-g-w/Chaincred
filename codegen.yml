@@ -1,0 +1,16 @@
+overwrite: true
+schema: ["https://sepolia.easscan.org/graphql"]
+documents:
+  - "app/**/*.{ts,tsx,graphql}"
+generates:
+  apollo-helpers.ts:
+    plugins:
+      - "typescript-apollo-client-helpers"
+  ./generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"

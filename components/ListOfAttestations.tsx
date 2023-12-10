@@ -2,7 +2,7 @@ import { Pressable, Text } from "@gluestack-ui/themed";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FlashList } from "@shopify/flash-list";
-import { Link, useFocusEffect } from "expo-router";
+import { useFocusEffect } from "expo-router";
 import React, { useState } from "react";
 import type { AttestItem } from "../utils/types";
 

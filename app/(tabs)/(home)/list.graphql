@@ -1,0 +1,16 @@
+query Companies($id: String!) {
+  attestations(where: { attester: { equals: $id } }) {
+    ...ListAttestation
+  }
+}
+
+fragment ListAttestation on Attestation {
+  id
+  attester
+  recipient
+  refUID
+  revocable
+  revocationTime
+  expirationTime
+  data
+}

@@ -1,39 +1,20 @@
-import React, { useState, useMemo } from "react";
 import {
   Box,
-  VStack,
-  HStack,
-  Text,
-  Avatar,
-  AvatarImage,
+  FlatList,
   Input,
   InputField,
   InputIcon,
   InputSlot,
-  FlatList,
   SearchIcon,
 } from "@gluestack-ui/themed";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
-import { schemaEncoder } from "../../utils/eas";
-import Fuse from "fuse.js";
-import FoodItem from "../../components/ListItem";
-import { gql, useQuery } from "@apollo/client";
 import { useAddress } from "@thirdweb-dev/react-native";
-
-const List = gql`
-  query Attestation($id: String!) {
-    attestations(where: { attester: { equals: $id } }) {
-      id
-      attester
-      recipient
-      refUID
-      revocable
-      revocationTime
-      expirationTime
-      data
-    }
-  }
-`;
+import Fuse from "fuse.js";
+import React, { useMemo, useState } from "react";
+import ListItem from "../../../components/ListItem";
+import { useCompaniesQuery } from "../../../generated/graphql";
+import { schemaEncoder } from "../../../utils/eas";
+import { Link } from "expo-router";
 
 // Dummy data for restaurants, replace with your actual data source
 const data = {
@@ -55,10 +36,10 @@ const RestaurantList = () => {
 
   const address = useAddress();
 
-  const result = useQuery<{ attestations: Attestation[] }>(List, {
+  useCompaniesQuery({
     skip: !address,
     variables: {
-      id: address,
+      id: address ?? "",
     },
     onError(err) {
       console.log(err);
@@ -80,9 +61,6 @@ const RestaurantList = () => {
     },
   });
 
-  console.log(convertToTitleCount(attestationsByAttester));
-
-  // Setup for Fuse.js for fuzzy searching
   const options = {
     keys: ["title"],
     includeScore: true,
@@ -136,7 +114,9 @@ const RestaurantList = () => {
         numColumns={1}
         data={convertToTitleCount(attestationsByAttester)}
         renderItem={({ item }) => (
-          <FoodItem count={item.count} title={item.title} />
+          <Link href="/company">
+            <ListItem count={item.count} title={item.title} />
+          </Link>
         )}
         keyExtractor={(item) => item.title}
       />
