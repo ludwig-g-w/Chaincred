@@ -114,7 +114,7 @@ const RestaurantList = () => {
         numColumns={1}
         data={convertToTitleCount(attestationsByAttester)}
         renderItem={({ item }) => (
-          <Link href="/company">
+          <Link href="/attestations">
             <ListItem count={item.count} title={item.title} />
           </Link>
         )}

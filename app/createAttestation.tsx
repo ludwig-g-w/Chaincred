@@ -59,21 +59,20 @@ export default () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Link
-        asChild
+      <Button
         style={{
+          backgroundColor: "transparent",
           zIndex: 99,
           position: "absolute",
           top: 64,
-          right: 24,
+          right: 12,
         }}
-        href={{}}
         onPress={() => {
           router.back();
         }}
       >
-        <FontAwesome size={28} name="toggle-off" />
-      </Link>
+        <FontAwesome size={28} name="stop" />
+      </Button>
       <Box paddingHorizontal={"$4"} mt="$16" flex={1}>
         <Text bold size="2xl" mb={"$4"}>
           Create an attestation

@@ -86,7 +86,7 @@ export default () => {
 
                 <Button
                   onPress={() => {
-                    router.replace("/list");
+                    router.replace("/companies");
                   }}
                   rounded={"$full"}
                   bgColor="$green700"
