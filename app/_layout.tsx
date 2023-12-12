@@ -13,7 +13,7 @@ import {
 import { Stack } from "expo-router";
 import React from "react";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-import { typePolicies } from "../utils/apolloConfig";
+import { typePolicies } from "@utils/apolloConfig";
 
 const client = new ApolloClient({
   uri: EAS_GRAPHQL,
