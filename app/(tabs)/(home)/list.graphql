@@ -5,12 +5,9 @@ query Companies($id: String!) {
 }
 
 fragment ListAttestation on Attestation {
+  timeCreated
   id
   attester
   recipient
-  refUID
-  revocable
-  revocationTime
-  expirationTime
   data
 }

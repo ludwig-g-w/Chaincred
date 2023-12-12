@@ -6,10 +6,9 @@ export default () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="companies"
+      initialRouteName="list"
     >
-      <Stack.Screen name="companies" />
-      <Stack.Screen name="attestations" />
+      <Stack.Screen name="discoverList" />
     </Stack>
   );
 };

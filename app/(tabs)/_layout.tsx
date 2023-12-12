@@ -14,8 +14,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TabLayout() {
   const theme: { config: ICustomConfig } = useStyled();
-  const user = useAddress();
 
+  // TODO: Put back
+  // const user = useAddress();
   // if (!user) {
   //   return (
   //     <Redirect href={{ pathname: "/login", params: { rUrl: "/index" } }} />
@@ -25,7 +26,7 @@ export default function TabLayout() {
   return (
     <Box flex={1}>
       <Tabs
-        initialRoauteName="(home)"
+        initialRouteName="(home)"
         screenOptions={{
           tabBarActiveTintColor: theme.config.tokens.colors.black,
           header: () => <Header />,
@@ -42,6 +43,15 @@ export default function TabLayout() {
           }}
         />
 
+        <Tabs.Screen
+          name="(discover)"
+          options={{
+            title: "Discover",
+            tabBarIcon: ({ color }) => (
+              <TabBarIcon name="search" color={color} />
+            ),
+          }}
+        />
         <Tabs.Screen
           name="scanAddress"
           options={{
@@ -76,19 +86,20 @@ const Header = memo(() => {
         justifyContent="space-between"
       >
         <Box alignItems="center" flexDirection="row">
-          <Pressable
-            style={{
-              opacity: router.canGoBack() ? 1 : 0,
-            }}
-            onPress={() => {
-              if (router.canGoBack()) {
-                router.back();
-              }
-            }}
-          >
-            <ChevronLeftIcon size="xl" />
-          </Pressable>
-
+          {!!router.canGoBack() && (
+            <Pressable
+              style={{
+                opacity: router.canGoBack() ? 1 : 0,
+              }}
+              onPress={() => {
+                if (router.canGoBack()) {
+                  router.back();
+                }
+              }}
+            >
+              <ChevronLeftIcon size="xl" />
+            </Pressable>
+          )}
           <Text ml="$4" bold size="md">
             {path.toLocaleUpperCase().slice(1)}
           </Text>
