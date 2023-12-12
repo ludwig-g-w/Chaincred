@@ -1,21 +1,22 @@
 {
   "extends": "expo/tsconfig.base",
-  "baseUrl": "./",
-  "alias": {
-    "@utils/*": [
-      "utils/*"
-    ],
-    "@components/*": [
-      "components/*"
-    ]
-  },
   "compilerOptions": {
-    "strict": true
+    "noEmit": true,
+    "baseUrl": "./",
+    "strict": true,
+    "paths": {
+      "@utils/*": [
+        "lib/utils/*"
+      ],
+      "@components/*": [
+        "lib/components/*"
+      ]
+    },
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "expo-env.d.ts",
   ]
 }

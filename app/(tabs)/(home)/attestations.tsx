@@ -5,6 +5,7 @@ import ListItem from "@components/ListItem";
 import {
   ListAttestationFragment,
   useCompaniesQuery,
+  useCompaniesSuspenseQuery,
 } from "../../../generated/graphql";
 import {
   ProcessedAttestation,
@@ -19,7 +20,7 @@ const Attestations = () => {
   // TODO: This needs to change to use the Companyaddress instead
   const address = useAddress();
 
-  useCompaniesQuery({
+  useCompaniesSuspenseQuery({
     skip: !address,
     variables: {
       id: address ?? "",

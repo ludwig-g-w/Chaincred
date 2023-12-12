@@ -1,3 +1,4 @@
+import ListItem from "@components/ListItem";
 import {
   Box,
   Input,
@@ -6,21 +7,19 @@ import {
   InputSlot,
   SearchIcon,
 } from "@gluestack-ui/themed";
-import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { FlashList } from "@shopify/flash-list";
 import { useAddress } from "@thirdweb-dev/react-native";
-import { Link, router } from "expo-router";
+import {
+  convertToTitleCount,
+  groupAttestationsByAttester,
+} from "@utils/attestations";
+import { router } from "expo-router";
 import Fuse from "fuse.js";
-import React, { useMemo, useState } from "react";
-import ListItem from "../../../lib/components/ListItem";
+import React, { useState } from "react";
 import {
   ListAttestationFragment,
   useCompaniesQuery,
 } from "../../../generated/graphql";
-import {
-  convertToTitleCount,
-  groupAttestationsByAttester,
-} from "../../../utils/attestations";
 
 // Dummy data for restaurants, replace with your actual data source
 const data = {

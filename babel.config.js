@@ -14,7 +14,7 @@ module.exports = function (api) {
           root: ["."],
           alias: {
             "@utils": "./utils",
-            "@components": "./components",
+            "@components": "./lib/components",
           },
         },
       ],
