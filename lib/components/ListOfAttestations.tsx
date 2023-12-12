@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FlashList } from "@shopify/flash-list";
 import { useFocusEffect } from "expo-router";
 import React, { useState } from "react";
-import type { AttestItem } from "../utils/types";
+import type { AttestItem } from "../../utils/types";
 
 const itemSize = 88;
 

@@ -10,7 +10,7 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 import { Camera } from "expo-camera";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
-import ListOfAttestations from "../../components/ListOfAttestations";
+import ListOfAttestations from "../../lib/components/ListOfAttestations";
 import { match } from "ts-pattern";
 import { Link } from "expo-router";
 import type { AttestItem } from "../../utils/types";

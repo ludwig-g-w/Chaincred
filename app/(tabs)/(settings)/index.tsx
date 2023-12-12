@@ -1,7 +1,7 @@
 import { Box, Button, Text } from "@gluestack-ui/themed";
 import { Link, router } from "expo-router";
 import React from "react";
-import ListOfAttestations from "../../../components/ListOfAttestations";
+import ListOfAttestations from "../../../lib/components/ListOfAttestations";
 
 export default () => {
   return (

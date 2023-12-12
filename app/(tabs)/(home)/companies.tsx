@@ -12,7 +12,7 @@ import { useAddress } from "@thirdweb-dev/react-native";
 import { Link, router } from "expo-router";
 import Fuse from "fuse.js";
 import React, { useMemo, useState } from "react";
-import ListItem from "../../../components/ListItem";
+import ListItem from "../../../lib/components/ListItem";
 import {
   ListAttestationFragment,
   useCompaniesQuery,

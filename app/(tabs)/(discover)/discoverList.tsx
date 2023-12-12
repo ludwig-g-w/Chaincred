@@ -1,7 +1,7 @@
 import { Box, FlatList, Text } from "@gluestack-ui/themed";
 import { useAddress } from "@thirdweb-dev/react-native";
 import React, { useState } from "react";
-import ListItem from "../../../components/ListItem";
+import ListItem from "../../../lib/components/ListItem";
 import { useCompaniesQuery } from "../../../generated/graphql";
 import { schemaEncoder } from "../../../utils/eas";
 
