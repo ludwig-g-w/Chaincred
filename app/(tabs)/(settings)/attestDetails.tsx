@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Link, useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
-import type { AttestItem } from "../../../utils/types";
+import type { AttestItem } from "@utils/types";
 import { useAddress } from "@thirdweb-dev/react-native";
 
 export default () => {

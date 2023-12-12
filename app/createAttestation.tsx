@@ -19,11 +19,11 @@ import {
   Text,
 } from "@gluestack-ui/themed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Link, router } from "expo-router";
+import { STORAGE_KEY } from "@utils/constants";
+import type { AttestItem } from "@utils/types";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import type { AttestItem } from "../utils/types";
-import { STORAGE_KEY } from "../utils/constants";
 
 export default () => {
   const [toSubmit, setToSubmit] = useState<AttestItem>({
