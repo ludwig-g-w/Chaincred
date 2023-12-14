@@ -1,52 +1,47 @@
-import { Box, FlatList } from "@gluestack-ui/themed";
-import { useAddress } from "@thirdweb-dev/react-native";
-import React, { useState } from "react";
 import ListItem from "@components/ListItem";
-import {
-  ListAttestationFragment,
-  useCompaniesQuery,
-  useCompaniesSuspenseQuery,
-} from "../../../generated/graphql";
-import {
-  ProcessedAttestation,
-  groupAttestationsByAttester,
-  processAttestations,
-} from "@utils/attestations";
+import { Box } from "@gluestack-ui/themed";
 import { FlashList } from "@shopify/flash-list";
+import { useAddress } from "@thirdweb-dev/react-native";
+import { processAttestations } from "@utils/attestations";
+import React, { Suspense, useMemo } from "react";
+import { useCompaniesSuspenseQuery } from "../../../generated/graphql";
 
 const Attestations = () => {
-  const [attestationsByAttester, setAttestationsByAttester] =
-    useState<ProcessedAttestation[]>();
-  // TODO: This needs to change to use the Companyaddress instead
+  // const [attestationsByAttester, setAttestationsByAttester] =
+  //   useState<ProcessedAttestation[]>();
+  // // TODO: This needs to change to use the Companyaddress instead
   const address = useAddress();
 
-  useCompaniesSuspenseQuery({
+  const { data } = useCompaniesSuspenseQuery({
     skip: !address,
     variables: {
       id: address ?? "",
     },
-    onCompleted: ({ attestations }) => {
-      const groupedAttestations = processAttestations(address, attestations);
-      setAttestationsByAttester(groupedAttestations);
-    },
   });
 
+  const attestationsByAttester = useMemo(() => {
+    // @ts-expect-error same data different types
+    return processAttestations(address ?? "", data.attestations);
+  }, [data.attestations, address]);
+
   if (!address) {
-    return null;
+    return <Box />;
   }
 
   return (
     <Box gap={"$4"} py="$4" px="$4" flex={1}>
-      <FlashList
-        estimatedItemSize={88}
-        data={attestationsByAttester}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item, index }) => (
-          <Box mb="$2">
-            <ListItem title={item.title} count={item?.count} />
-          </Box>
-        )}
-      />
+      <Suspense fallback={"...loading"}>
+        <FlashList
+          estimatedItemSize={88}
+          data={attestationsByAttester}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item, index }) => (
+            <Box mb="$2">
+              <ListItem title={item.title} count={item?.count} />
+            </Box>
+          )}
+        />
+      </Suspense>
     </Box>
   );
 };

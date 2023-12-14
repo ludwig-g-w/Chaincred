@@ -29,14 +29,14 @@ const AttestationCard = ({
         style={styles.card}
       >
         <VStack>
-          <Text bold fontVariant={["lining-nums"]} color="white">
+          <Text bold fontVariant={["tabular-nums"]} color="white">
             {formattedTitle}
           </Text>
           {description && <Text color="white">{description}</Text>}
         </VStack>
-        <Badge aspectRatio={1} style={styles.badge} variant="solid" bg="white">
+        <Badge style={styles.badge} variant="solid" bg="white">
           <Text bold size="lg" fontFamily="$heading">
-            {count} +
+            {count}+
           </Text>
         </Badge>
       </HStack>

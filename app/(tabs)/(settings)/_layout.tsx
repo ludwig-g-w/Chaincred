@@ -6,10 +6,12 @@ export default () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="index"
+      initialRouteName="settings"
     >
-      <Stack.Screen name="index" />
+      <Stack.Screen name="settings" />
       <Stack.Screen name="attestDetails" />
+      <Stack.Screen name="organization" />
+      <Stack.Screen name="manageAttestations" />
     </Stack>
   );
 };

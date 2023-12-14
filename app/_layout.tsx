@@ -14,6 +14,7 @@ import { Stack } from "expo-router";
 import React from "react";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { typePolicies } from "@utils/apolloConfig";
+import { Sepolia } from "@thirdweb-dev/chains";
 
 const client = new ApolloClient({
   uri: EAS_GRAPHQL,
@@ -32,7 +33,7 @@ const App = () => {
     <GluestackUIProvider config={config}>
       <ThirdwebProvider
         clientId={TW_CLIENT_ID}
-        activeChain="sepolia"
+        activeChain={Sepolia}
         supportedWallets={[
           smartWallet(embeddedWallet(), conf),
           metamaskWallet(),

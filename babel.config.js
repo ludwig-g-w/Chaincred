@@ -13,7 +13,7 @@ module.exports = function (api) {
         {
           root: ["."],
           alias: {
-            "@utils": "./utils",
+            "@utils": "./lib/utils",
             "@components": "./lib/components",
           },
         },

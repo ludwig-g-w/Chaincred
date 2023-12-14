@@ -1,4 +1,4 @@
-import { ListAttestationFragment } from "../generated/graphql";
+import { ListAttestationFragment } from "generated/graphql";
 
 export function groupAttestationsByAttester(
   attestations: ListAttestationFragment[]
@@ -54,7 +54,7 @@ export function convertToTitleCount(data: InputData): ResultObject[] {
   return result;
 }
 
-interface ConvertedAttestation {
+export interface ConvertedAttestation {
   __typename: string;
   attester: string;
   data: {

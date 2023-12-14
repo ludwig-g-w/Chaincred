@@ -21,6 +21,8 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Give $(PRODUCT_NAME) permission to save photos</string>
 	<string>1.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>

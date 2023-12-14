@@ -15,10 +15,11 @@ import {
 } from "@utils/attestations";
 import { router } from "expo-router";
 import Fuse from "fuse.js";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   ListAttestationFragment,
   useCompaniesQuery,
+  useCompaniesSuspenseQuery,
 } from "../../../generated/graphql";
 
 // Dummy data for restaurants, replace with your actual data source
@@ -29,53 +30,51 @@ const data = {
   ],
 };
 
-const RestaurantList = () => {
+const Companies = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeTab, setActiveTab] = useState("Restaurants"); // For segmented control
-  const [sortOption, setSortOption] = useState("title"); // default sort by rating
+  // const [activeTab, setActiveTab] = useState("Restaurants"); // For segmented control
+  // const [sortOption, setSortOption] = useState("title"); // default sort by rating
   const [activeSegment, setActiveSegment] = useState(0); // Index of the active segment
-  const [attestationsByAttester, setAttestationsByAttester] = useState<
-    Record<string, ListAttestationFragment[]>
-  >({});
-  const [filteredData, setFilteredData] = useState(data.Restaurants);
+
+  // const [filteredData, setFilteredData] = useState(data.Restaurants);
 
   const address = useAddress();
-
-  useCompaniesQuery({
+  const { data } = useCompaniesSuspenseQuery({
     skip: !address,
     variables: {
       id: address ?? "",
     },
-    onError(err) {
-      console.log(err);
-    },
-
-    onCompleted: ({ attestations }) => {
-      setAttestationsByAttester(groupAttestationsByAttester(attestations));
-    },
   });
 
-  const options = {
-    keys: ["title"],
-    includeScore: true,
-  };
+  const attestationsByAttester = useMemo(
+    () =>
+      data?.attestations
+        ? convertToTitleCount(groupAttestationsByAttester(data.attestations))
+        : [],
+    [data?.attestations, address]
+  );
 
-  const fuseRestaurants = new Fuse(data.Restaurants, options);
-  const fuseDishes = new Fuse(data.Dishes, options);
+  // const options = {
+  //   keys: ["title"],
+  //   includeScore: true,
+  // };
 
-  const handleSearch = (text: string) => {
-    setSearchQuery(text);
-    let results = [];
-    if (activeSegment === 0) {
-      // If Restaurants is selected
-      results = fuseRestaurants.search(text);
-    } else {
-      // If Dishes is selected
-      results = fuseDishes.search(text);
-    }
-    const matches = results.map((result) => result.item);
-    setFilteredData(matches);
-  };
+  // const fuseRestaurants = new Fuse(data.Restaurants, options);
+  // const fuseDishes = new Fuse(data.Dishes, options);
+
+  // const handleSearch = (text: string) => {
+  //   setSearchQuery(text);
+  //   let results = [];
+  //   if (activeSegment === 0) {
+  //     // If Restaurants is selected
+  //     results = fuseRestaurants.search(text);
+  //   } else {
+  //     // If Dishes is selected
+  //     results = fuseDishes.search(text);
+  //   }
+  //   const matches = results.map((result) => result.item);
+  //   setFilteredData(matches);
+  // };
 
   // const sortedRestaurants = useMemo(() => {
   //   return filteredData.sort((a, b) => b[sortOption] - a[sortOption]);
@@ -92,7 +91,7 @@ const RestaurantList = () => {
         }}
       /> */}
 
-      <Input borderRadius="$full" bg="white">
+      {/* <Input borderRadius="$full" bg="white">
         <InputSlot pl="$3">
           <InputIcon as={SearchIcon} />
         </InputSlot>
@@ -102,13 +101,13 @@ const RestaurantList = () => {
           value={searchQuery}
           onChangeText={handleSearch}
         />
-      </Input>
+      </Input> */}
 
       <FlashList
         numColumns={1}
         estimatedItemSize={88}
         keyExtractor={(d) => d.id}
-        data={convertToTitleCount(attestationsByAttester)}
+        data={attestationsByAttester}
         renderItem={({ item }) => (
           <ListItem
             // @ts-ignore
@@ -122,4 +121,4 @@ const RestaurantList = () => {
   );
 };
 
-export default RestaurantList;
+export default Companies;
