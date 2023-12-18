@@ -9,7 +9,7 @@ import {
   HStack,
 } from "@gluestack-ui/themed";
 import { StyleSheet, ImageBackground, Pressable } from "react-native";
-
+export const height = 48;
 const AttestationCard = ({
   title = "",
   count = 0,
@@ -46,10 +46,9 @@ const AttestationCard = ({
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 20,
     width: "100%",
-    height: 88, // Adjust height as needed
-    backgroundColor: "black",
+    height, // Adjust height as needed
+    backgroundColor: "gray",
     padding: 12,
   },
   badge: {

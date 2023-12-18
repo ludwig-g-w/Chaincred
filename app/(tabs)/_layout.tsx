@@ -100,8 +100,8 @@ const Header = memo(() => {
               <ChevronLeftIcon size="xl" />
             </Pressable>
           )}
-          <Text ml="$4" bold size="md">
-            {path.toLocaleUpperCase().slice(1)}
+          <Text size="sm">
+            {`${path.toLocaleUpperCase().slice(1, 2)}${path.slice(2, 13)}`}
           </Text>
         </Box>
 

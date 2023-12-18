@@ -11,7 +11,7 @@ export default () => {
         initialRouteName="index"
       >
         <Stack.Screen name="index" />
-        <Stack.Screen name="attestations" />
+        <Stack.Screen name="organization/[address]" />
       </Stack>
     </MyErrorBoundary>
   );

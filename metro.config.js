@@ -5,6 +5,7 @@ const extraNodeModules = require("node-libs-browser");
 
 const config = getDefaultConfig(__dirname);
 
+config.resolver.sourceExts.push("mjs");
 config.resolver.extraNodeModules = extraNodeModules;
 
 config.transformer.getTransformOptions = async () => ({

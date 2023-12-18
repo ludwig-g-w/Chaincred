@@ -31,10 +31,10 @@ const data = {
 };
 
 const Companies = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [searchQuery, setSearchQuery] = useState("");
   // const [activeTab, setActiveTab] = useState("Restaurants"); // For segmented control
   // const [sortOption, setSortOption] = useState("title"); // default sort by rating
-  const [activeSegment, setActiveSegment] = useState(0); // Index of the active segment
+  // const [activeSegment, setActiveSegment] = useState(0); // Index of the active segment
 
   // const [filteredData, setFilteredData] = useState(data.Restaurants);
 
@@ -111,7 +111,7 @@ const Companies = () => {
         renderItem={({ item }) => (
           <ListItem
             // @ts-ignore
-            onPress={() => router.push("/attestations")}
+            onPress={() => router.push(`/organization/${item.title}`)}
             count={item.count}
             title={item.title}
           />
