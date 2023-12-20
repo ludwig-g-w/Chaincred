@@ -1,16 +1,17 @@
-import ListItem from "@components/ListItem";
-import { Box, Divider, Text, VStack } from "@gluestack-ui/themed";
+import ListItem from "@components/ProfileCard";
+import { Box, Text, VStack } from "@gluestack-ui/themed";
 import { FlashList } from "@shopify/flash-list";
-import { useAddress, useStorage } from "@thirdweb-dev/react-native";
+import { useStorage } from "@thirdweb-dev/react-native";
 import { processAttestations } from "@utils/attestations";
+import { Image } from "expo-image";
+import { useLocalSearchParams } from "expo-router";
 import React, { Suspense, useEffect, useMemo, useState } from "react";
 import { useCompaniesSuspenseQuery } from "../../../../generated/graphql";
-import { useLocalSearchParams } from "expo-router";
-import { Image } from "expo-image";
 
-import { useContract, useContractRead } from "@thirdweb-dev/react-native";
-import { ORGANIZATION_MANAGER_ADDRESS } from "@env";
 import { invariant } from "@apollo/client/utilities/globals";
+import { ORGANIZATION_MANAGER_ADDRESS } from "@env";
+import { useContract, useContractRead } from "@thirdweb-dev/react-native";
+import AttestationItem from "@components/AttestationItem";
 
 const Attestations = () => {
   // const [attestationsByAttester, setAttestationsByAttester] =
@@ -49,8 +50,6 @@ const Attestations = () => {
     return processAttestations(address ?? "", data.attestations);
   }, [data.attestations, address]);
 
-  console.log(contractData);
-
   return (
     <Box flex={1}>
       <Suspense fallback={"...loading"}>
@@ -79,8 +78,8 @@ const Attestations = () => {
           data={attestationsByAttester}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => (
-            <Box px="$2" mb="$2">
-              <ListItem title={item.title} count={item?.count} />
+            <Box py="$1">
+              <AttestationItem title={item.title} count={item?.count} />
             </Box>
           )}
         />

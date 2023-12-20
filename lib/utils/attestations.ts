@@ -1,8 +1,9 @@
 import { ListAttestationFragment } from "generated/graphql";
 
 export function groupAttestationsByAttester(
-  attestations: ListAttestationFragment[]
+  attestations?: ListAttestationFragment[]
 ) {
+  if (!attestations?.length) return;
   return attestations.reduce(
     (
       acc: Record<
