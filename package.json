@@ -62,7 +62,7 @@
     "react-native-svg": "13.9.0",
     "react-native-web": "~0.19.6",
     "react-qr-code": "^2.0.12",
-    "supercluster": "^8.0.1",
+    "supercluster": "~7.0.1",
     "ts-pattern": "^5.0.5"
   },
   "devDependencies": {
