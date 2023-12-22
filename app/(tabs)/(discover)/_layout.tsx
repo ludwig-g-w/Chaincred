@@ -8,7 +8,7 @@ export default () => {
       }}
       initialRouteName="list"
     >
-      <Stack.Screen name="discoverList" />
+      <Stack.Screen name="discover" />
     </Stack>
   );
 };

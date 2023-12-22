@@ -3,7 +3,7 @@ PODS:
   - CoinbaseWalletSDK/Client (1.0.4)
   - CoinbaseWalletSDK/CrossPlatform (1.0.4):
     - CoinbaseWalletSDK/Client
-  - CoinbaseWalletSDKExpo (1.0.7):
+  - CoinbaseWalletSDKExpo (1.0.10):
     - CoinbaseWalletSDK/CrossPlatform (= 1.0.4)
     - ExpoModulesCore
   - DoubleConversion (1.1.6)
@@ -402,6 +402,8 @@ PODS:
     - React-Core
   - react-native-get-random-values (1.9.0):
     - React-Core
+  - react-native-maps (1.7.1):
+    - React-Core
   - react-native-mmkv (2.8.0):
     - MMKV (>= 1.2.13)
     - React-Core
@@ -643,6 +645,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-aes-gcm-crypto (from `../node_modules/react-native-aes-gcm-crypto`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
+  - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-quick-base64 (from `../node_modules/react-native-quick-base64`)
@@ -784,6 +787,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-aes-gcm-crypto"
   react-native-get-random-values:
     :path: "../node_modules/react-native-get-random-values"
+  react-native-maps:
+    :path: "../node_modules/react-native-maps"
   react-native-mmkv:
     :path: "../node_modules/react-native-mmkv"
   react-native-netinfo:
@@ -854,7 +859,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost: 57d2868c099736d80fcd648bf211b4431e51a558
   CoinbaseWalletSDK: ea1f37512bbc69ebe07416e3b29bf840f5cc3152
-  CoinbaseWalletSDKExpo: 89f8ad7f799227be7aff2b9353b7a77d37eb8283
+  CoinbaseWalletSDKExpo: c79420eb009f482f768c23b6768fc5b2d7c98777
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   EXApplication: 02655a251434d564bb0e73291f5a490c74b5b76f
   EXBarCodeScanner: 44783bf0be375ab18a838dcfef29dd648397000a
@@ -905,6 +910,7 @@ SPEC CHECKSUMS:
   React-logger: cebf22b6cf43434e471dc561e5911b40ac01d289
   react-native-aes-gcm-crypto: f1bade1824458569b0e0f27ef4bc647ffe48ebbc
   react-native-get-random-values: dee677497c6a740b71e5612e8dbd83e7539ed5bb
+  react-native-maps: 667f9b975549c6fa9b1631bf859440f68ebd3b8f
   react-native-mmkv: 7da5e18e55c04a9af9a7e0ab9792a1e8d33765a1
   react-native-netinfo: ccbe1085dffd16592791d550189772e13bf479e2
   react-native-quick-base64: a5dbe4528f1453e662fcf7351029500b8b63e7bb
