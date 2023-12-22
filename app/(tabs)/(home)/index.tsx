@@ -5,7 +5,6 @@ import { FlashList } from "@shopify/flash-list";
 import {
   useAddress,
   useContract,
-  useSigner,
   useStorage,
 } from "@thirdweb-dev/react-native";
 import { groupAttestationsByAttester } from "@utils/attestations";
@@ -13,6 +12,7 @@ import { ProfileListItem } from "@utils/types";
 import { router } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
 import { useCompaniesSuspenseQuery } from "../../../generated/graphql";
+import { getProfileByAddress, supabase } from "@services/supabase";
 
 // Dummy data for restaurants, replace with your actual data source
 const data = {
@@ -53,21 +53,23 @@ const Companies = () => {
       const results: ProfileListItem[] = [];
       for (const key in attestationsByAttester) {
         if (attestationsByAttester.hasOwnProperty(key)) {
-          const [title, imageUrl, description, locationCoords] =
-            await contract?.call("getOrganization", [key]);
+          const profile = await getProfileByAddress(key);
           const amount = attestationsByAttester[key].length;
-          const imgUrl = await storage?.download(
-            imageUrl.replace("coverphoto", "")
-          );
+          const imgUrl =
+            profile?.image_url &&
+            (await storage?.download(
+              profile?.image_url.replace("coverphoto", "")
+            ));
 
           results.push({
-            title: title ?? key,
-            description,
-            locationCoords,
+            title: profile?.title ?? key,
+            description: profile?.description ?? "",
+            locationCoords: profile?.location_coords ?? "",
             count: amount,
             id: attestationsByAttester[key][0].id,
             address: key,
-            imageUrl: imgUrl?.url ?? "",
+            // @ts-ignore
+            imageUrl: imgUrl?.url,
           });
         }
       }

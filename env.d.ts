@@ -5,4 +5,6 @@ declare module "@env" {
   export const EAS_GRAPHQL: string;
   export const API_KEY_GOOGLE: string;
   export const ORGANIZATION_MANAGER_ADDRESS: string;
+  export const SUPABASE_URL: string;
+  export const SUPABASE_ANON_KEY: string;
 }

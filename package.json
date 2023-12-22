@@ -21,6 +21,7 @@
     "@react-native-community/netinfo": "9.3.10",
     "@react-native-segmented-control/segmented-control": "2.4.1",
     "@shopify/flash-list": "1.4.3",
+    "@supabase/supabase-js": "^2.39.1",
     "@thirdweb-dev/react-native": "^0.5.2",
     "@thirdweb-dev/react-native-compat": "^0.5.2",
     "@thirdweb-dev/sdk": "^4.0.23",
@@ -62,7 +63,7 @@
     "react-native-svg": "13.9.0",
     "react-native-web": "~0.19.6",
     "react-qr-code": "^2.0.12",
-    "supercluster": "~7.0.1",
+    "supercluster": "^8.0.1",
     "ts-pattern": "^5.0.5"
   },
   "devDependencies": {

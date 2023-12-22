@@ -8,3 +8,14 @@ export interface ProfileListItem {
   locationCoords: string;
   imageUrl: string;
 }
+
+export interface Profile {
+  address: string;
+  created_at: string;
+  description: string;
+  id: number;
+  image_url: string;
+  location_coords: string;
+  title: string;
+  updated_at: string;
+}
