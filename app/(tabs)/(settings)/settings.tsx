@@ -11,7 +11,10 @@ export default () => {
         title="Attestations"
         onPress={() => router.push("/manageAttestations")}
       />
-      <Item title="Organization" onPress={() => router.push("/organization")} />
+      <Item
+        title="Your Profile"
+        onPress={() => router.push("/settingsProfile")}
+      />
     </VStack>
   );
 

@@ -133,7 +133,7 @@ const Companies = () => {
         data={profileData}
         renderItem={({ item }) => (
           <ListItem
-            onPress={() => router.push(`/organization/${item.address}`)}
+            onPress={() => router.push(`/profiles/${item.address}`)}
             imageUrl={item.imageUrl}
             count={item.count}
             title={item.title}

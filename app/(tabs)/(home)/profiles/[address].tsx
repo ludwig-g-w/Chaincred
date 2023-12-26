@@ -12,32 +12,34 @@ import { invariant } from "@apollo/client/utilities/globals";
 import { ORGANIZATION_MANAGER_ADDRESS } from "@env";
 import { useContract, useContractRead } from "@thirdweb-dev/react-native";
 import AttestationItem from "@components/AttestationItem";
+import { getProfileByAddress } from "@services/supabase";
+import { Profile } from "@utils/types";
 
 const Attestations = () => {
   // const [attestationsByAttester, setAttestationsByAttester] =
   //   useState<ProcessedAttestation[]>();
 
   const { address } = useLocalSearchParams<{ address: string }>();
-  const { contract } = useContract(ORGANIZATION_MANAGER_ADDRESS);
-  const [img, setImg] = useState("");
+  const [profile, setProfile] = useState<Profile>();
   const storage = useStorage();
-  const { data: contractData, isLoading } = useContractRead(
-    contract,
-    "getOrganization",
-    [address]
-  );
 
   useEffect(() => {
     (async () => {
-      if (!contractData?.[1]) return;
-      const resp = await storage?.download(
-        contractData?.[1].replace("coverphoto", "")
-      ); // Download a file from IPFS
-      const imageUrl = resp?.url;
-      invariant(imageUrl, "no url");
-      setImg(imageUrl);
+      const profile = await getProfileByAddress(address);
+      invariant(profile, "no profile found");
+      let img = "";
+      if (profile?.image_url.length && !!storage) {
+        img =
+          profile?.image_url &&
+          (await storage?.download(profile.image_url.replace("coverphoto", "")))
+            .url;
+      }
+      setProfile({
+        ...profile,
+        image_url: img,
+      });
     })();
-  }, [contractData]);
+  }, []);
 
   const { data } = useCompaniesSuspenseQuery({
     skip: !address,
@@ -62,15 +64,15 @@ const Attestations = () => {
                   width: "100%",
                   backgroundColor: "#0553",
                 }}
-                source={img}
+                source={profile?.image_url}
                 contentFit="cover"
                 transition={1000}
               />
               <VStack gap={"$2"} py="$6" px="$2" flex={1}>
                 <Text bold size="2xl">
-                  {contractData?.[0]}
+                  {profile?.title}
                 </Text>
-                <Text>{contractData?.[2]}</Text>
+                <Text>{profile?.description}</Text>
               </VStack>
             </>
           )}

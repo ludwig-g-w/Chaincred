@@ -20,3 +20,16 @@ export async function getProfileByAddress(
 
   return data;
 }
+
+export async function createOrModifyProfile(
+  profile: Profile
+): Promise<Profile | null> {
+  const { data, error } = await supabase.from("profiles").upsert(profile, {});
+
+  if (error) {
+    console.error("Error fetching profile", error);
+    return null;
+  }
+
+  return data;
+}

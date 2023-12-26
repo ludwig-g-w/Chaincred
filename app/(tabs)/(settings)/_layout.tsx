@@ -10,7 +10,7 @@ export default () => {
     >
       <Stack.Screen name="settings" />
       <Stack.Screen name="attestDetails" />
-      <Stack.Screen name="organization" />
+      <Stack.Screen name="settingsProfile" />
       <Stack.Screen name="manageAttestations" />
     </Stack>
   );

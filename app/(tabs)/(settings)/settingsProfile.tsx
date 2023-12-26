@@ -80,6 +80,7 @@ export default function Organization() {
         uri: imageUrl,
       });
       invariant(fileIpfsHash, "Error uploading image to IPFS");
+
       const data = await createOrganization({
         args: [title, fileIpfsHash, description, locationCoords],
       });
