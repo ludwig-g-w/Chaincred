@@ -1,19 +1,10 @@
-import React from "react";
-import {
-  Box,
-  Text,
-  Badge,
-  Button,
-  Center,
-  VStack,
-  HStack,
-} from "@gluestack-ui/themed";
-import { StyleSheet, ImageBackground, Pressable } from "react-native";
+import { Badge, Center, HStack, Text } from "@gluestack-ui/themed";
 import { ProfileListItem } from "@utils/types";
-import { Image } from "expo-image";
+import React from "react";
+import { Pressable } from "react-native";
 export const height = 160;
 
-type Props = ProfileListItem & {
+type Props = Partial<ProfileListItem> & {
   onPress: () => void;
 };
 

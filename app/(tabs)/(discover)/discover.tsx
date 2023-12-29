@@ -1,17 +1,15 @@
-import MapComponent from "@components/MapView";
-import { Box, Text } from "@gluestack-ui/themed";
+import Map from "@components/MapView";
+import { getAllProfiles } from "@services/supabase";
+import { Profile } from "@utils/types";
 import React from "react";
 
 const DiscoverList = () => {
-  return (
-    <MapComponent
-      coordinates={[
-        "43.7101728,7.261953200000001",
-        "44.7101728,7.261953200000001",
-        "45.7101728,7.261953200000001",
-      ]}
-    />
+  const { data: profiles } = getAllProfiles.read();
+  const coordinates: string[] = profiles?.map(
+    (p: Profile) => p.location_coords
   );
+
+  return <Map {...{ coordinates }} />;
 };
 
 export default DiscoverList;

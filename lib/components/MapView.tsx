@@ -11,7 +11,7 @@ import { Dimensions, StyleSheet } from "react-native";
 import MapView, { Callout, Circle, Marker, Region } from "react-native-maps";
 import Supercluster from "supercluster";
 
-const MapComponent = ({ coordinates }: { coordinates?: string[] }) => {
+const Map = ({ coordinates }: { coordinates?: string[] }) => {
   const mapRef = useRef(null);
   const [clusters, setClusters] = useState<
     Supercluster.PointFeature<Supercluster.AnyProps>[]
@@ -120,4 +120,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MapComponent;
+export default Map;

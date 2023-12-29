@@ -13,7 +13,7 @@ import { ProfileListItem } from "@utils/types";
 import { Image } from "expo-image";
 export const height = 160;
 
-type Props = ProfileListItem & {
+type Props = Partial<ProfileListItem> & {
   onPress: () => void;
 };
 

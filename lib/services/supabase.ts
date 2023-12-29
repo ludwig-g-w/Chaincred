@@ -57,6 +57,10 @@ export async function setOrModifyProfile({
   return data;
 }
 
+export const getAllProfiles = createResource(
+  supabase.from("profiles").select("*")
+);
+
 // Helper function to validate the location format
 function isValidLocationFormat(locationCoords: string) {
   return /^-?\d+\.\d+,-?\d+\.\d+$/.test(locationCoords);
@@ -69,4 +73,25 @@ function isValidIPFS(imageUrl: string) {
     /^ipfs:\/\/.+/i.test(imageUrl) ||
     imageUrl.startsWith("https://ipfs.io/ipfs/")
   );
+}
+
+export function createResource(promise) {
+  let status = "pending";
+  let result = promise
+    .then((data) => {
+      status = "success";
+      result = data;
+    })
+    .catch((error) => {
+      status = "error";
+      result = error;
+    });
+
+  return {
+    read() {
+      if (status === "pending") throw result;
+      if (status === "error") throw result;
+      if (status === "success") return result;
+    },
+  };
 }
