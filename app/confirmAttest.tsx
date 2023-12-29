@@ -17,7 +17,7 @@ import { Redirect, router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { P, match } from "ts-pattern";
 import { AttestItem } from "@utils/types";
-import { invariant } from "@apollo/client/utilities/globals";
+import invariant from "tiny-invariant";
 import { schemaEncoder } from "@utils/eas";
 
 export default () => {

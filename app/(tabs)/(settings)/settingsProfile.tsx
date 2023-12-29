@@ -1,4 +1,4 @@
-import { invariant } from "@apollo/client/utilities/globals";
+import invariant from "tiny-invariant";
 import ImageUploadArea from "@components/ImageUploadArea";
 import { API_KEY_GOOGLE, ORGANIZATION_MANAGER_ADDRESS } from "@env";
 import { Box, ButtonSpinner } from "@gluestack-ui/themed";
@@ -15,7 +15,9 @@ import {
   VStack,
   useToast,
 } from "@gluestack-ui/themed";
+import { setOrModifyProfile } from "@services/supabase";
 import {
+  useAddress,
   useContract,
   useContractEvents,
   useContractWrite,
@@ -35,6 +37,7 @@ export default function Organization() {
   const [loading, setLoading] = useState(false);
   const storage = useStorage();
   const toast = useToast();
+  const address = useAddress();
 
   const { contract } = useContract(ORGANIZATION_MANAGER_ADDRESS);
 
@@ -73,6 +76,9 @@ export default function Organization() {
         title || imageUrl || description || locationCoords,
         "Empty data"
       );
+      console.log(imageUrl);
+
+      invariant(address, "No Address");
       setLoading(true);
       const fileIpfsHash = await storage?.upload({
         name: `coverphoto`,
@@ -81,9 +87,17 @@ export default function Organization() {
       });
       invariant(fileIpfsHash, "Error uploading image to IPFS");
 
-      const data = await createOrganization({
-        args: [title, fileIpfsHash, description, locationCoords],
+      await setOrModifyProfile({
+        address,
+        title,
+        imageUrl: fileIpfsHash,
+        description,
+        locationCoords,
       });
+
+      // const data = await createOrganization({
+      //   args: [title, fileIpfsHash, description, locationCoords],
+      // });
       toast.show({
         placement: "top",
         render() {

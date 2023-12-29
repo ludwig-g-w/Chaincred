@@ -8,7 +8,7 @@ import { useLocalSearchParams } from "expo-router";
 import React, { Suspense, useEffect, useMemo, useState } from "react";
 import { useCompaniesSuspenseQuery } from "../../../../generated/graphql";
 
-import { invariant } from "@apollo/client/utilities/globals";
+import invariant from "tiny-invariant";
 import { ORGANIZATION_MANAGER_ADDRESS } from "@env";
 import { useContract, useContractRead } from "@thirdweb-dev/react-native";
 import AttestationItem from "@components/AttestationItem";

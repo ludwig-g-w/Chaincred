@@ -1,3 +1,4 @@
+import invariant from "tiny-invariant";
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@env";
 import { createClient } from "@supabase/supabase-js";
 import { Profile } from "@utils/types";
@@ -21,15 +22,51 @@ export async function getProfileByAddress(
   return data;
 }
 
-export async function createOrModifyProfile(
-  profile: Profile
-): Promise<Profile | null> {
-  const { data, error } = await supabase.from("profiles").upsert(profile, {});
+export async function setOrModifyProfile({
+  address,
+  title,
+  imageUrl,
+  description,
+  locationCoords,
+}: {
+  address: string;
+  title: string;
+  imageUrl: string;
+  description: string;
+  locationCoords: string;
+}) {
+  invariant(isValidLocationFormat(locationCoords), "Invalid location format");
+  invariant(isValidIPFS(imageUrl), "Invalid IPFS link");
+  const { data, error } = await supabase.from("profiles").upsert(
+    {
+      address,
+      title,
+      image_url: imageUrl,
+      description,
+      location_coords: locationCoords,
+    },
+    {
+      onConflict: "address",
+    }
+  );
 
   if (error) {
-    console.error("Error fetching profile", error);
-    return null;
+    throw error;
   }
 
   return data;
+}
+
+// Helper function to validate the location format
+function isValidLocationFormat(locationCoords: string) {
+  return /^-?\d+\.\d+,-?\d+\.\d+$/.test(locationCoords);
+}
+
+// Helper function to validate the IPFS URL
+function isValidIPFS(imageUrl: string) {
+  // For the sake of example, here's a simple regex for checking if the URL starts with 'ipfs://'
+  return (
+    /^ipfs:\/\/.+/i.test(imageUrl) ||
+    imageUrl.startsWith("https://ipfs.io/ipfs/")
+  );
 }
