@@ -22,7 +22,6 @@ const Map = ({ coordinates }: { coordinates?: string[] }) => {
     radius: 40,
     maxZoom: 16,
   });
-  // console.log(clusters);
 
   // Load the points into the cluster
   useEffect(() => {

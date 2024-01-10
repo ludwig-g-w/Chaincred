@@ -1,4 +1,4 @@
-import { TypedTypePolicies } from "../apollo-helpers";
+import { TypedTypePolicies } from "../../apollo-helpers";
 import { convertJsonToObject } from "./attestations";
 import { schemaEncoder } from "./eas";
 
