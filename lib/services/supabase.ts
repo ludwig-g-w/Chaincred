@@ -1,13 +1,13 @@
 import invariant from "tiny-invariant";
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@env";
 import { createClient } from "@supabase/supabase-js";
-import { Profile } from "@utils/types";
+import { Database } from "generated/supabase";
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-export async function getProfileByAddress(
-  address: string
-): Promise<Profile | null> {
+export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
+
+export async function getProfileByAddress(address: string) {
   const { data, error } = await supabase
     .from("profiles") // Replace with your table name
     .select("*") // Select all fields, or replace '*' with specific fields
@@ -57,9 +57,16 @@ export async function setOrModifyProfile({
   return data;
 }
 
-export const getAllProfiles = createResource(
-  supabase.from("profiles").select("*")
-);
+async function sbGetAllProfiles() {
+  const { data, error } = await supabase.from("profiles").select("*");
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+export const getAllProfiles = createResource(sbGetAllProfiles());
 
 // Helper function to validate the location format
 function isValidLocationFormat(locationCoords: string) {
@@ -75,23 +82,29 @@ function isValidIPFS(imageUrl: string) {
   );
 }
 
-export function createResource(promise) {
-  let status = "pending";
-  let result = promise
-    .then((data) => {
+export function createResource<T>(promise: Promise<T>): {
+  read: () => T;
+} {
+  let status: "pending" | "success" | "error" = "pending";
+  let result: T | Error;
+
+  let suspender = promise.then(
+    (data: T) => {
       status = "success";
       result = data;
-    })
-    .catch((error) => {
+    },
+    (error: Error) => {
       status = "error";
       result = error;
-    });
+    }
+  );
 
   return {
-    read() {
-      if (status === "pending") throw result;
+    read(): T {
+      if (status === "pending") throw suspender;
       if (status === "error") throw result;
-      if (status === "success") return result;
+      if (status === "success") return result as T; // Assure TypeScript that result is of type T
+      throw new Error("Unexpected status");
     },
   };
 }

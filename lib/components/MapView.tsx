@@ -1,17 +1,13 @@
-import {
-  Badge,
-  BadgeText,
-  Box,
-  Center,
-  Pressable,
-  Text,
-} from "@gluestack-ui/themed";
+import { AvatarImage } from "@gluestack-ui/themed";
+
+import { Avatar, Box, Center, HStack, Text } from "@gluestack-ui/themed";
+import { Profile } from "@utils/types";
+import { router } from "expo-router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
-import MapView, { Callout, Circle, Marker, Region } from "react-native-maps";
+import MapView, { Callout, Marker, Region } from "react-native-maps";
 import Supercluster from "supercluster";
-
-const Map = ({ coordinates }: { coordinates?: string[] }) => {
+const Map = ({ profiles }: { profiles: Profile[] }) => {
   const mapRef = useRef(null);
   const [clusters, setClusters] = useState<
     Supercluster.PointFeature<Supercluster.AnyProps>[]
@@ -25,12 +21,15 @@ const Map = ({ coordinates }: { coordinates?: string[] }) => {
 
   // Load the points into the cluster
   useEffect(() => {
-    if (!coordinates?.length || !mapRef.current) return;
-    const points = coordinates.map((coord, id) => {
-      const [long, lat] = coord.split(",");
+    if (!profiles.length || !mapRef.current) return;
+    const points = profiles.map((p) => {
+      const [long, lat] = p.location_coords.split(",");
       return {
         type: "Feature",
-        properties: { cluster: false, id },
+        properties: {
+          cluster: false,
+          ...profiles,
+        },
         geometry: {
           type: "Point",
           coordinates: [Number(lat), Number(long)],
@@ -38,26 +37,27 @@ const Map = ({ coordinates }: { coordinates?: string[] }) => {
       } as Supercluster.PointFeature<Supercluster.AnyProps>;
     });
     cluster.load(points);
-  }, [coordinates]);
+  }, [profiles]);
 
   // Function to estimate the zoom level based on latitude delta
   const getZoomLevel = (latitudeDelta: number) => {
     const angle = latitudeDelta;
     return Math.round(Math.log(360 / angle) / Math.LN2);
   };
-
   const onRegionChange = useCallback((region: Region) => {
     const zoom = getZoomLevel(region.latitudeDelta);
     const bbox = [
-      region.longitude - region.longitudeDelta / 2, // westLng - min lng
-      region.latitude - region.latitudeDelta / 2, // southLat - min lat
-      region.longitude + region.longitudeDelta / 2, // eastLng - max lng
+      region.longitude - region.longitudeDelta / 2,
+      // westLng - min lng
+      region.latitude - region.latitudeDelta / 2,
+      // southLat - min lat
+      region.longitude + region.longitudeDelta / 2,
+      // eastLng - max lng
       region.latitude + region.latitudeDelta / 2, // northLat - max lat
     ] as [number, number, number, number];
     const newClusters = cluster.getClusters(bbox, zoom);
     setClusters(newClusters);
   }, []);
-
   return (
     <MapView
       ref={mapRef}
@@ -69,13 +69,12 @@ const Map = ({ coordinates }: { coordinates?: string[] }) => {
           latitude: feature.geometry.coordinates[1],
           longitude: feature.geometry.coordinates[0],
         };
-
         if (feature.properties.cluster) {
           return (
             <Marker
               key={`cluster-${index}`}
               coordinate={coord}
-              title={`Cluster of ${feature.properties.point_count} items`}
+              title={`Cluster of ${feature.properties[0].point_count} items`}
             >
               <Box
                 aspectRatio={1}
@@ -85,25 +84,39 @@ const Map = ({ coordinates }: { coordinates?: string[] }) => {
                 bgColor="$fuchsia400"
               >
                 <Center>
-                  <Text color="$white">{feature.properties.point_count}</Text>
+                  <Text color="$white">
+                    {feature.properties[0].point_count}
+                  </Text>
                 </Center>
               </Box>
             </Marker>
           );
         }
-
         return (
           <Marker key={`marker-${feature.properties.id}`} coordinate={coord}>
             <Callout
               onPress={() => {
-                console.log("asdsad");
+                router.push(`/profiles/${feature.properties[0].address}`);
               }}
               tooltip
             >
-              <Box bgColor="white" p="$4">
-                <Text>Cluster Info</Text>
-                <Text>Items: {feature.properties.point_count}</Text>
-              </Box>
+              <HStack
+                gap="$2"
+                alignItems="center"
+                rounded={"$lg"}
+                bgColor="white"
+                p="$4"
+              >
+                <Avatar size={"md"} badge={true}>
+                  <AvatarImage
+                    source={{
+                      uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                    }}
+                  />
+                </Avatar>
+
+                <Text bold>{feature.properties[0].title}</Text>
+              </HStack>
             </Callout>
           </Marker>
         );
@@ -111,12 +124,10 @@ const Map = ({ coordinates }: { coordinates?: string[] }) => {
     </MapView>
   );
 };
-
 const styles = StyleSheet.create({
   map: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
 });
-
 export default Map;
