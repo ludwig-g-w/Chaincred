@@ -26,6 +26,7 @@
     "@thirdweb-dev/react-native-compat": "^0.5.2",
     "@thirdweb-dev/sdk": "^4.0.23",
     "amazon-cognito-identity-js": "^6.3.6",
+    "base64-arraybuffer": "^1.0.2",
     "ethers": "^5",
     "expo": "49.0.6",
     "expo-barcode-scanner": "~12.5.3",

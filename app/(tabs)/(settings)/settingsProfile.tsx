@@ -1,70 +1,40 @@
-import invariant from "tiny-invariant";
 import ImageUploadArea from "@components/ImageUploadArea";
-import { API_KEY_GOOGLE, ORGANIZATION_MANAGER_ADDRESS } from "@env";
-import { Box, ButtonSpinner } from "@gluestack-ui/themed";
+import MyToast from "@components/Toast";
+import { useApolloClient } from "@apollo/client";
+import { API_KEY_GOOGLE } from "@env";
 import {
-  AddIcon,
   Button,
+  ButtonSpinner,
   Input,
   InputField,
-  InputIcon,
   Text,
-  Toast,
-  ToastDescription,
-  ToastTitle,
   VStack,
   useToast,
 } from "@gluestack-ui/themed";
 import { setOrModifyProfile } from "@services/supabase";
-import {
-  useAddress,
-  useContract,
-  useContractEvents,
-  useContractWrite,
-  useStorage,
-} from "@thirdweb-dev/react-native";
-import * as ImagePicker from "expo-image-picker";
+import { useAddress } from "@thirdweb-dev/react-native";
+import { pickImage, uploadImage } from "@utils/uploading";
 import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { ScrollView } from "react-native-gesture-handler";
+import React, { useState } from "react";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import invariant from "tiny-invariant";
+import * as ImagePicker from "expo-image-picker";
 
 export default function Organization() {
+  const client = useApolloClient();
   const [title, setTitle] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [image, setImage] = useState<ImagePicker.ImagePickerAsset>();
   const [description, setDescription] = useState("");
   const [locationCoords, setLocationCoords] = useState("");
   const [loading, setLoading] = useState(false);
-  const storage = useStorage();
   const toast = useToast();
   const address = useAddress();
 
-  const { contract } = useContract(ORGANIZATION_MANAGER_ADDRESS);
-
-  const { mutateAsync: createOrganization, isLoading } = useContractWrite(
-    contract,
-    "setOrganization"
-  );
-
-  async function pickImage() {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      return result.assets[0].uri;
-    }
-    return null;
-  }
-
   async function handleImageUpload() {
     try {
-      const uri = await pickImage();
-      invariant(uri, "no image choosen");
-
-      setImageUrl(uri);
+      const image = await pickImage();
+      invariant(image, "no image choosen");
+      setImage(image);
     } catch (err) {
       console.error(err);
     }
@@ -72,46 +42,28 @@ export default function Organization() {
 
   async function submit() {
     try {
-      invariant(
-        title || imageUrl || description || locationCoords,
-        "Empty data"
-      );
-      console.log(imageUrl);
-
+      invariant(title || description || locationCoords, "Empty data");
       invariant(address, "No Address");
+      invariant(image?.base64, "no image");
       setLoading(true);
-      const fileIpfsHash = await storage?.upload({
-        name: `coverphoto`,
-        type: "image/jpeg",
-        uri: imageUrl,
-      });
-      invariant(fileIpfsHash, "Error uploading image to IPFS");
-
+      const path = await uploadImage(image.base64, address);
+      invariant(path, "No path");
       await setOrModifyProfile({
         address,
         title,
-        imageUrl: fileIpfsHash,
+        imageUrl: path,
         description,
         locationCoords,
       });
 
-      // const data = await createOrganization({
-      //   args: [title, fileIpfsHash, description, locationCoords],
-      // });
       toast.show({
         placement: "top",
         render() {
-          return (
-            <Toast action="success" variant="solid">
-              <VStack space="xs">
-                <ToastTitle>Organization created!</ToastTitle>
-                <ToastDescription>
-                  You have successfully created:
-                </ToastDescription>
-              </VStack>
-            </Toast>
-          );
+          return <MyToast />;
         },
+      });
+      client.cache.evict({
+        fieldName: "attestations",
       });
       router.back();
     } catch (err) {
@@ -152,7 +104,7 @@ export default function Organization() {
         />
       </Input>
 
-      <ImageUploadArea img={imageUrl} onPress={handleImageUpload} />
+      <ImageUploadArea img={image?.uri} onPress={handleImageUpload} />
 
       <Button
         disabled={loading}

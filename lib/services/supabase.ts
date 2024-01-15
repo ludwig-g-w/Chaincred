@@ -22,6 +22,9 @@ export async function getProfileByAddress(address: string) {
   return data;
 }
 
+export const suspenseGetProfileByAddress = (address: string) =>
+  createResource(getProfileByAddress(address));
+
 export async function setOrModifyProfile({
   address,
   title,
@@ -36,7 +39,7 @@ export async function setOrModifyProfile({
   locationCoords: string;
 }) {
   invariant(isValidLocationFormat(locationCoords), "Invalid location format");
-  invariant(isValidIPFS(imageUrl), "Invalid IPFS link");
+  // invariant(isValidIPFS(imageUrl), "Invalid IPFS link");
   const { data, error } = await supabase.from("profiles").upsert(
     {
       address,

@@ -13,30 +13,16 @@ import { Profile } from "@utils/types";
 import invariant from "tiny-invariant";
 
 const Attestations = () => {
-  // const [attestationsByAttester, setAttestationsByAttester] =
-  //   useState<ProcessedAttestation[]>();
-
   const { address } = useLocalSearchParams<{ address: string }>();
   const [profile, setProfile] = useState<Profile>();
-  const storage = useStorage();
 
   useEffect(() => {
+    if (!address) return;
     (async () => {
-      const profile = await getProfileByAddress(address);
-      invariant(profile, "no profile found");
-      let img = "";
-      if (profile?.image_url.length && !!storage) {
-        img =
-          profile?.image_url &&
-          (await storage?.download(profile.image_url.replace("coverphoto", "")))
-            .url;
-      }
-      setProfile({
-        ...profile,
-        image_url: img,
-      });
+      const p = await getProfileByAddress(address);
+      setProfile(p);
     })();
-  }, []);
+  }, [address]);
 
   const { data } = useCompaniesSuspenseQuery({
     skip: !address,

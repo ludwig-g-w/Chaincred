@@ -5,7 +5,6 @@ import React from "react";
 
 const DiscoverList = () => {
   const profiles = getAllProfiles.read();
-
   return <Map {...{ profiles }} />;
 };
 

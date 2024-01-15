@@ -1,4 +1,4 @@
-import { AvatarImage } from "@gluestack-ui/themed";
+import { AvatarImage, ChevronRightIcon } from "@gluestack-ui/themed";
 
 import { Avatar, Box, Center, HStack, Text } from "@gluestack-ui/themed";
 import { Profile } from "@utils/types";
@@ -93,7 +93,11 @@ const Map = ({ profiles }: { profiles: Profile[] }) => {
           );
         }
         return (
-          <Marker key={`marker-${feature.properties.id}`} coordinate={coord}>
+          <Marker
+            onPress={}
+            key={`marker-${feature.properties[0].id}`}
+            coordinate={coord}
+          >
             <Callout
               onPress={() => {
                 router.push(`/profiles/${feature.properties[0].address}`);
@@ -110,12 +114,14 @@ const Map = ({ profiles }: { profiles: Profile[] }) => {
                 <Avatar size={"md"} badge={true}>
                   <AvatarImage
                     source={{
-                      uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                      uri: feature.properties[0].image_url,
                     }}
                   />
                 </Avatar>
 
                 <Text bold>{feature.properties[0].title}</Text>
+
+                <ChevronRightIcon size="xl" />
               </HStack>
             </Callout>
           </Marker>

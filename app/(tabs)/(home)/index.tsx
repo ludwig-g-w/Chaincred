@@ -27,12 +27,10 @@ const Companies = () => {
   // const [activeTab, setActiveTab] = useState("Restaurants"); // For segmented control
   // const [sortOption, setSortOption] = useState("title"); // default sort by rating
   // const [activeSegment, setActiveSegment] = useState(0); // Index of the active segment
-
   // const [filteredData, setFilteredData] = useState(data.Restaurants);
 
   const [profileData, setProfileData] = useState<ProfileListItem[]>([]);
   const { contract } = useContract(ORGANIZATION_MANAGER_ADDRESS);
-  const storage = useStorage();
 
   const address = useAddress();
   const { data } = useCompaniesSuspenseQuery({
@@ -55,11 +53,6 @@ const Companies = () => {
         if (attestationsByAttester.hasOwnProperty(key)) {
           const profile = await getProfileByAddress(key);
           const amount = attestationsByAttester[key].length;
-          const imgUrl =
-            profile?.image_url &&
-            (await storage?.download(
-              profile?.image_url.replace("coverphoto", "")
-            ));
 
           results.push({
             title: profile?.title ?? key,
@@ -69,7 +62,7 @@ const Companies = () => {
             id: attestationsByAttester[key][0].id,
             address: key,
             // @ts-ignore
-            imageUrl: imgUrl?.url,
+            imageUrl: profile?.image_url,
           });
         }
       }
