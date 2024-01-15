@@ -93,11 +93,7 @@ const Map = ({ profiles }: { profiles: Profile[] }) => {
           );
         }
         return (
-          <Marker
-            onPress={}
-            key={`marker-${feature.properties[0].id}`}
-            coordinate={coord}
-          >
+          <Marker key={`marker-${feature.properties[0].id}`} coordinate={coord}>
             <Callout
               onPress={() => {
                 router.push(`/profiles/${feature.properties[0].address}`);
