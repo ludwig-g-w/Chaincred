@@ -1,16 +1,14 @@
 import { Box, Text, VStack } from "@gluestack-ui/themed";
 import { FlashList } from "@shopify/flash-list";
-import { useStorage } from "@thirdweb-dev/react-native";
 import { processAttestations } from "@utils/attestations";
 import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
 import React, { Suspense, useEffect, useMemo, useState } from "react";
-import { useCompaniesSuspenseQuery } from "../../../../generated/graphql";
+import { useCompaniesSuspenseQuery } from "../../generated/graphql";
 
 import AttestationItem from "@components/AttestationItem";
 import { getProfileByAddress } from "@services/supabase";
 import { Profile } from "@utils/types";
-import invariant from "tiny-invariant";
 
 const Attestations = () => {
   const { address } = useLocalSearchParams<{ address: string }>();
@@ -23,6 +21,7 @@ const Attestations = () => {
       setProfile(p);
     })();
   }, [address]);
+  console.log(profile);
 
   const { data } = useCompaniesSuspenseQuery({
     skip: !address,
@@ -47,9 +46,11 @@ const Attestations = () => {
                   width: "100%",
                   backgroundColor: "#0553",
                 }}
-                source={profile?.image_url}
+                cachePolicy={"none"}
+                source={{
+                  uri: profile?.image_url,
+                }}
                 contentFit="cover"
-                transition={1000}
               />
               <VStack gap={"$2"} py="$6" px="$2" flex={1}>
                 <Text bold size="2xl">

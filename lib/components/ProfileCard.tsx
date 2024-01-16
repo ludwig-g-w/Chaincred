@@ -36,6 +36,7 @@ const ProfileCard = ({
           style={{
             height: 100,
           }}
+          cachePolicy={"none"}
           source={{
             uri: imageUrl,
           }}

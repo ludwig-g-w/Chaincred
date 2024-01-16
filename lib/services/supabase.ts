@@ -39,7 +39,7 @@ export async function setOrModifyProfile({
   locationCoords: string;
 }) {
   invariant(isValidLocationFormat(locationCoords), "Invalid location format");
-  // invariant(isValidIPFS(imageUrl), "Invalid IPFS link");
+
   const { data, error } = await supabase.from("profiles").upsert(
     {
       address,

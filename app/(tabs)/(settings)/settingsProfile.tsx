@@ -44,10 +44,8 @@ export default function Organization() {
     try {
       invariant(title || description || locationCoords, "Empty data");
       invariant(address, "No Address");
-      invariant(image?.base64, "no image");
       setLoading(true);
-      const path = await uploadImage(image.base64, address);
-      invariant(path, "No path");
+      const path = image?.base64 && (await uploadImage(image.base64, address));
       await setOrModifyProfile({
         address,
         title,
@@ -62,9 +60,7 @@ export default function Organization() {
           return <MyToast />;
         },
       });
-      client.cache.evict({
-        fieldName: "attestations",
-      });
+      client.cache.gc();
       router.back();
     } catch (err) {
       console.error("contract call failure", err);
@@ -79,7 +75,6 @@ export default function Organization() {
         placeholder="Choose where you are based"
         fetchDetails
         onPress={(data, details = null) => {
-          console.log(details);
           setLocationCoords(
             `${details?.geometry.location.lat},${details?.geometry.location.lng}`
           );

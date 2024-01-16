@@ -73,6 +73,12 @@ const Inner = () => {
         }}
         name="confirmAttest"
       />
+      <Stack.Screen
+        options={{
+          presentation: "modal",
+        }}
+        name="profiles/[address]"
+      />
     </Stack>
   );
 };
