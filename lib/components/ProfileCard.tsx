@@ -7,6 +7,7 @@ import {
   Center,
   VStack,
   HStack,
+  ChevronRightIcon,
 } from "@gluestack-ui/themed";
 import { StyleSheet, ImageBackground, Pressable } from "react-native";
 import { ProfileListItem } from "@utils/types";
@@ -31,37 +32,43 @@ const ProfileCard = ({
     : title;
   return (
     <Pressable onPress={onPress}>
-      <VStack overflow="hidden" borderRadius="$lg" bgColor="$white">
-        <Image
-          style={{
-            height: 100,
-          }}
-          cachePolicy={"none"}
-          source={{
-            uri: imageUrl,
-          }}
-        />
-        <VStack px="$4" py="$2" gap="$2">
-          <Text bold>{formattedTitle}</Text>
-          {description && (
-            <Text color="$warmGray600">{description.slice(0, 38)}...</Text>
-          )}
-
-          <Badge
-            position="absolute"
-            top="$4"
-            right="$4"
-            aspectRatio="1"
-            borderRadius={50}
-            variant="solid"
-            bg="$yellow200"
-          >
-            <Center>
-              <Text bold>{count}</Text>
-            </Center>
-          </Badge>
-        </VStack>
-      </VStack>
+      <HStack
+        borderWidth="$1"
+        borderColor="$coolGray300"
+        justifyContent="space-between"
+        p="$2"
+        alignItems="center"
+        borderRadius="$lg"
+        bgColor="$white"
+      >
+        <HStack alignItems="center">
+          <Image
+            style={{
+              height: 48,
+              aspectRatio: 1,
+              borderRadius: 100,
+            }}
+            cachePolicy={"none"}
+            source={{
+              uri: imageUrl,
+            }}
+          />
+          <VStack px="$4" py="$2" gap="$2">
+            <Text bold>{formattedTitle}</Text>
+            <Badge
+              size="sm"
+              borderRadius={50}
+              variant="solid"
+              bg="$coolGray300"
+            >
+              <Center>
+                <Text>Recieved {count}</Text>
+              </Center>
+            </Badge>
+          </VStack>
+        </HStack>
+        <ChevronRightIcon />
+      </HStack>
     </Pressable>
   );
 };

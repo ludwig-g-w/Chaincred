@@ -1,18 +1,14 @@
 import ListItem from "@components/ProfileCard";
 import { ORGANIZATION_MANAGER_ADDRESS } from "@env";
-import { Box } from "@gluestack-ui/themed";
+import { Box, Text } from "@gluestack-ui/themed";
+import { getProfilesByAddresses } from "@services/supabase";
 import { FlashList } from "@shopify/flash-list";
-import {
-  useAddress,
-  useContract,
-  useStorage,
-} from "@thirdweb-dev/react-native";
+import { useAddress, useContract } from "@thirdweb-dev/react-native";
 import { groupAttestationsByAttester } from "@utils/attestations";
 import { ProfileListItem } from "@utils/types";
 import { router } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
 import { useCompaniesSuspenseQuery } from "../../../generated/graphql";
-import { getProfileByAddress, supabase } from "@services/supabase";
 
 // Dummy data for restaurants, replace with your actual data source
 const data = {
@@ -44,14 +40,16 @@ const Companies = () => {
     () => groupAttestationsByAttester(data?.attestations),
     [data?.attestations]
   );
-
   useEffect(() => {
     if (!attestationsByAttester) return;
-    (async function mergeProfileWithAttestation() {
+    (async function mergeProfileWithAttestations() {
+      const addresses = Object.keys(attestationsByAttester);
+      const profiles = await getProfilesByAddresses(addresses);
+
       const results: ProfileListItem[] = [];
       for (const key in attestationsByAttester) {
         if (attestationsByAttester.hasOwnProperty(key)) {
-          const profile = await getProfileByAddress(key);
+          const profile = profiles.find((p) => p.address === key);
           const amount = attestationsByAttester[key].length;
 
           results.push({
@@ -97,7 +95,7 @@ const Companies = () => {
   // }, [data, sortOption]);
 
   return (
-    <Box px="$4" flex={1}>
+    <Box px="$2" flex={1} bg="$white">
       {/* <SegmentedControl
         values={["Available", "Done"]}
         selectedIndex={activeSegment}
@@ -119,11 +117,15 @@ const Companies = () => {
         />
       </Input> */}
 
+      <Text my="$4" size="2xl" bold>
+        Received
+      </Text>
       <FlashList
         numColumns={1}
         estimatedItemSize={88}
         keyExtractor={(d) => d.id}
         data={profileData}
+        ItemSeparatorComponent={() => <Box h="$2" />}
         renderItem={({ item }) => (
           <ListItem
             onPress={() => router.push(`/profiles/${item.address}`)}

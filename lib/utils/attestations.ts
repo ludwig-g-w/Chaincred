@@ -85,7 +85,7 @@ export function processAttestations(
 
   const groupedAttestations: { [title: string]: ConvertedAttestation[] } = {};
   filteredAttestations.forEach((attestation) => {
-    const title = attestation.data.title;
+    const title: string | undefined = attestation?.data?.title;
     if (!groupedAttestations[title]) {
       groupedAttestations[title] = [];
     }

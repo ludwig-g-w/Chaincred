@@ -60,7 +60,7 @@ export async function setOrModifyProfile({
   return data;
 }
 
-async function sbGetAllProfiles() {
+async function getAllProfiles() {
   const { data, error } = await supabase.from("profiles").select("*");
 
   if (error) {
@@ -69,7 +69,28 @@ async function sbGetAllProfiles() {
 
   return data;
 }
-export const getAllProfiles = createResource(sbGetAllProfiles());
+export const suspenseGetAllProfiles = createResource(getAllProfiles());
+
+export async function getProfilesByAddresses(addresses: string[]) {
+  // Check if addresses array is empty
+  if (!addresses || addresses.length === 0) {
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .in("address", addresses); // Replace 'address' with the actual column name
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+export const suspenseGetProfilesByAddresses = (addresses: string[]) =>
+  createResource(getProfilesByAddresses(addresses));
 
 // Helper function to validate the location format
 function isValidLocationFormat(locationCoords: string) {

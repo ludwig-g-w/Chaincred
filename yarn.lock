@@ -4384,11 +4384,6 @@
   resolved "https://registry.yarnpkg.com/@bacons/react-views/-/react-views-1.1.3.tgz#06e7ae8803cc363d13d6fd06b828e10ad8bb3910"
   integrity sha512-aLipQAkQKRzG64e28XHBpByyBPfANz0A6POqYHGyryHizG9vLCLNQwLe8gwFANEMBWW2Mx5YdQ7RkNdQMQ+CXQ==
 
-"@bitauth/libauth@^2.0.0-alpha.8":
-  version "2.0.0-alpha.8"
-  resolved "https://registry.yarnpkg.com/@bitauth/libauth/-/libauth-2.0.0-alpha.8.tgz#352ade2075517f1548e05553e7bb1c5e1023d1fe"
-  integrity sha512-KINAJbzg5pKs+WM8wCjWw6Ct/CeZG1JMrRXsIyPFztjNtwA5eeQL8eFkyquePsf8aZ5peRYK2eFPUDo/1rkg+w==
-
 "@blocto/sdk@^0.5.4":
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/@blocto/sdk/-/sdk-0.5.5.tgz#807b9eaeee924c3eb0c5517c6b32891025f1f6b0"
@@ -5317,10 +5312,10 @@
   resolved "https://registry.yarnpkg.com/@gluestack-style/legend-motion-animation-driver/-/legend-motion-animation-driver-1.0.3.tgz#e2408ff8515ced92cb75f096f5eeff1f9636a0da"
   integrity sha512-sD6aFS6Tq5XpyjrboFEIc8LrRY4TA4kodFYHzk6mDchvbkdLODijtjnaDQB1UqihOkMRg49e7ANRAOzc7eymaQ==
 
-"@gluestack-style/react@^1.0.33":
-  version "1.0.33"
-  resolved "https://registry.yarnpkg.com/@gluestack-style/react/-/react-1.0.33.tgz#1999267bb41899db2d1609dd75e08dedf3fe0fb6"
-  integrity sha512-/B6YEs4m2tJTJr0rpJBQu7v9uBboypIcpG//RQ2QetuwwPIttBgPFEUEfyzS+/imtdvybbqOc/eKtzVV88GeDw==
+"@gluestack-style/react@^1.0.41":
+  version "1.0.41"
+  resolved "https://registry.yarnpkg.com/@gluestack-style/react/-/react-1.0.41.tgz#84f143990f8311b4a851f6c0c8f4ae122b7a8018"
+  integrity sha512-07sG6AmtcoLOYlicnJ1hqC7w3i8SMH4YBFjFSy0nb7Xjawvv9iDkYSrI8kFNph+zJWWrd8dS0RM6e1DCdqLlhQ==
   dependencies:
     inline-style-prefixer "^6.0.1"
     normalize-css-color "^1.0.2"
@@ -5395,10 +5390,10 @@
     "@react-native-aria/utils" "^0.2.10"
     "@react-stately/checkbox" "^3.4.2"
 
-"@gluestack-ui/config@^1.0.11":
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/@gluestack-ui/config/-/config-1.0.11.tgz#8a6525beb94d424df75212f48c31b97a59c0c51e"
-  integrity sha512-93DJKGqBMHcjrlpvqa41+4mz2tQUXWW7CKQmzLUdUGv+MdGzif3HPNrJ/lSbT7dhu8HZInSKn9MUEFs6iT+zXg==
+"@gluestack-ui/config@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@gluestack-ui/config/-/config-1.0.12.tgz#a2bad93f03de5edaf8aab57149b92f2cb98f9a13"
+  integrity sha512-T8cGsRdWHMpt9iVxac/hxpdoqq0rq83t+b5tZik9cKy8LLljRpXgy4zTELHbBFvHnDJmjlFgzhFsZavU90hbSg==
 
 "@gluestack-ui/divider@0.1.8":
   version "0.1.8"
@@ -5624,10 +5619,10 @@
     "@gluestack-ui/utils" "^0.1.12"
     "@react-native-aria/focus" "^0.2.9"
 
-"@gluestack-ui/themed@^1.0.35":
-  version "1.0.35"
-  resolved "https://registry.yarnpkg.com/@gluestack-ui/themed/-/themed-1.0.35.tgz#4129fcbc055351f335fdf4d1195d43e2acdcb5d9"
-  integrity sha512-zozkKnuCOuAKBrArgzt703EHcbXYL5Y4S8irhPL9Vvu9bs9QywqXLZA8PkK9RNUIk8A62A2jIKEtFpVaMqjiUA==
+"@gluestack-ui/themed@^1.0.36":
+  version "1.0.36"
+  resolved "https://registry.yarnpkg.com/@gluestack-ui/themed/-/themed-1.0.36.tgz#2710e7b919d923a6df31142e22b25f56846915f0"
+  integrity sha512-YrIwxf03sUgaeqKrINP9BXWakw3lH7bR6XYb58Ugs6922AZ+xqQfwmoyG6ksHR4MI3fNx2W4nKDjJ7KwTTN46A==
   dependencies:
     "@expo/html-elements" latest
     "@gluestack-style/animation-resolver" "1.0.3"
@@ -5712,10 +5707,10 @@
   dependencies:
     google-gax "^3.0.1"
 
-"@gorhom/bottom-sheet@^4.5.1":
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-4.5.1.tgz#1ac4b234a80e7dff263f0b7ac207f92e41562849"
-  integrity sha512-4Qy6hzvN32fXu2hDxDXOIS0IBGBT6huST7J7+K1V5bXemZ08KIx5ZffyLgwhCUl+CnyeG2KG6tqk6iYLkIwi7Q==
+"@gorhom/bottom-sheet@^4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-4.6.0.tgz#16bebbe4f5925447ece0d727830cf1776d5620f8"
+  integrity sha512-XgNflkhATUqTIiMDGuLaQZAtjUzcrhGOEJGHT+7Tou1ctTMb958YRGGnU9KFo5TkD6YCZcfWfxHPi9F0FF+DjA==
   dependencies:
     "@gorhom/portal" "1.0.14"
     invariant "^2.2.4"
@@ -7664,10 +7659,10 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-9.3.10.tgz#9b6cc2aec9329b5ccf35e866094c43aa420d927a"
   integrity sha512-OwnqoJUp/4sa9e3ju+wQavAa8l0fiA3DheeLMKzKxtKeAe0CA7bNxWRM752JvRQ6A/igPnt1V0zSlu5owvQEuA==
 
-"@react-native-segmented-control/segmented-control@2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@react-native-segmented-control/segmented-control/-/segmented-control-2.4.1.tgz#ea612c8b12bfea7712c7ea456b7b98dfc6748485"
-  integrity sha512-c8Q7TP14CD6vJ38VO5SWoIcxfwLPIz/4zRKJnJOJ0xKkMxkrUu089m86Y0dSvo+T3c1NQyvBFRtKWrPqbqG6tg==
+"@react-native-segmented-control/segmented-control@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-segmented-control/segmented-control/-/segmented-control-2.5.0.tgz#3a27a391b9ab9247d97038f8ad917f22ec93bb88"
+  integrity sha512-16tX2PPdeH1pQK/oVjNloU3ZKAKjg2NkllissESG6Xb7Cc7gOBuKDEqQgmpfb/9Wb/gGzF+7lhNbOnFjFJmyvA==
 
 "@react-native/assets-registry@^0.72.0":
   version "0.72.0"

@@ -5,8 +5,12 @@ import { API_KEY_GOOGLE } from "@env";
 import {
   Button,
   ButtonSpinner,
+  FormControl,
+  FormControlLabel,
+  FormControlLabelText,
   Input,
   InputField,
+  ScrollView,
   Text,
   VStack,
   useToast,
@@ -70,9 +74,19 @@ export default function Organization() {
   }
 
   return (
-    <VStack flex={1} p="$4" gap={"$4"}>
+    <ScrollView bg="$white" flex={1} p="$4" gap={"$2"}>
+      <FormControlLabel>
+        <FormControlLabelText>Location</FormControlLabelText>
+      </FormControlLabel>
       <GooglePlacesAutocomplete
         placeholder="Choose where you are based"
+        styles={{
+          textInput: {
+            borderWidth: 2,
+            borderColor: "#eaeaea",
+            borderRadius: 20,
+          },
+        }}
         fetchDetails
         onPress={(data, details = null) => {
           setLocationCoords(
@@ -84,32 +98,54 @@ export default function Organization() {
           language: "en",
         }}
       />
-      <Input>
-        <InputField
-          value={title}
-          onChangeText={(e) => setTitle(e)}
-          placeholder="Title"
-        />
-      </Input>
-      <Input>
-        <InputField
-          value={description}
-          onChangeText={(e) => setDescription(e)}
-          placeholder="Description"
-        />
-      </Input>
+      <FormControl mb="$4">
+        <FormControlLabel>
+          <FormControlLabelText>Title</FormControlLabelText>
+        </FormControlLabel>
+        <Input
+          bg="$white"
+          borderRadius="$lg"
+          h="$12"
+          borderWidth="$1"
+          borderColor="$coolGray400"
+        >
+          <InputField
+            value={title}
+            onChangeText={(e) => setTitle(e)}
+            placeholder="Title"
+          />
+        </Input>
+      </FormControl>
+
+      <FormControl mb="$4">
+        <FormControlLabel>
+          <FormControlLabelText>Description</FormControlLabelText>
+        </FormControlLabel>
+        <Input>
+          <InputField
+            value={description}
+            onChangeText={(e) => setDescription(e)}
+            placeholder="Description"
+          />
+        </Input>
+      </FormControl>
 
       <ImageUploadArea img={image?.uri} onPress={handleImageUpload} />
 
       <Button
+        mt="$8"
         disabled={loading}
         margin="auto"
-        bgColor={loading ? "$warmGray600" : "$black"}
+        bgColor={loading ? "$warmGray400" : "$black"}
         onPress={submit}
       >
-        <Text color="$backgroundDark100">Create Organization</Text>
-        {loading && <ButtonSpinner right="$4" position="absolute" />}
+        <Text bold color="$white">
+          Create Organization
+        </Text>
+        {loading && (
+          <ButtonSpinner color="$black" right="$4" position="absolute" />
+        )}
       </Button>
-    </VStack>
+    </ScrollView>
   );
 }

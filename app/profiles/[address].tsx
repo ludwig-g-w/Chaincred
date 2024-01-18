@@ -5,6 +5,7 @@ import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
 import React, { Suspense, useEffect, useMemo, useState } from "react";
 import { useCompaniesSuspenseQuery } from "../../generated/graphql";
+import SegmentedControl from "@react-native-segmented-control/segmented-control";
 
 import AttestationItem from "@components/AttestationItem";
 import { getProfileByAddress } from "@services/supabase";
@@ -21,7 +22,6 @@ const Attestations = () => {
       setProfile(p);
     })();
   }, [address]);
-  console.log(profile);
 
   const { data } = useCompaniesSuspenseQuery({
     skip: !address,
@@ -35,7 +35,7 @@ const Attestations = () => {
   }, [data.attestations, address]);
 
   return (
-    <Box flex={1}>
+    <Box bgColor="$white" flex={1}>
       <Suspense fallback={"...loading"}>
         <FlashList
           ListHeaderComponent={() => (
@@ -57,14 +57,16 @@ const Attestations = () => {
                   {profile?.title}
                 </Text>
                 <Text>{profile?.description}</Text>
+                <SegmentedControl values={["Badges", "Reviews"]} />
               </VStack>
             </>
           )}
           estimatedItemSize={88}
           data={attestationsByAttester}
           showsVerticalScrollIndicator={false}
+          ItemSeparatorComponent={() => <Box h="$2" />}
           renderItem={({ item, index }) => (
-            <Box py="$1">
+            <Box p="$2">
               <AttestationItem title={item.title} count={item?.count} />
             </Box>
           )}

@@ -1,3 +1,4 @@
+import { ChevronRightIcon, VStack } from "@gluestack-ui/themed";
 import { Badge, Center, HStack, Text } from "@gluestack-ui/themed";
 import { ProfileListItem } from "@utils/types";
 import React from "react";
@@ -21,23 +22,23 @@ const AttestationItem = ({
   return (
     <Pressable onPress={onPress}>
       <HStack
-        p="$2"
+        borderWidth="$1"
+        borderColor="$coolGray300"
         justifyContent="space-between"
-        overflow="hidden"
-        bgColor="$white"
+        p="$1"
         alignItems="center"
+        borderRadius="$lg"
+        bgColor="$white"
       >
-        <Text bold>{formattedTitle}</Text>
-        <Badge
-          aspectRatio="1"
-          borderRadius={50}
-          variant="solid"
-          bg="$yellow200"
-        >
-          <Center>
-            <Text bold>{count}</Text>
-          </Center>
-        </Badge>
+        <HStack alignItems="center">
+          <VStack px="$4" py="$2" gap="$2">
+            <Text bold>{formattedTitle}</Text>
+            <Badge borderRadius={50} variant="solid">
+              <Text>Recieved {count}</Text>
+            </Badge>
+          </VStack>
+        </HStack>
+        <ChevronRightIcon />
       </HStack>
     </Pressable>
   );

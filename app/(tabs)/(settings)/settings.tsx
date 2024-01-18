@@ -6,7 +6,7 @@ import { Pressable } from "react-native";
 
 export default () => {
   return (
-    <VStack gap={"$4"} flex={1}>
+    <VStack bg="$white" gap={"$2"} flex={1}>
       <Item
         title="Attestations"
         onPress={() => router.push("/manageAttestations")}

@@ -1,24 +1,21 @@
-import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
+import MyToast from "@components/Toast";
+import { EAS_CONTRACT, SCHEMA_ADRESS } from "@env";
+import { EAS } from "@ethereum-attestation-service/eas-sdk";
 import {
   Box,
   Button,
   ButtonSpinner,
   Center,
-  HStack,
   Text,
-  Toast,
-  ToastDescription,
-  ToastTitle,
-  VStack,
   useToast,
 } from "@gluestack-ui/themed";
 import { useAddress, useSigner } from "@thirdweb-dev/react-native";
-import { Redirect, router, useLocalSearchParams } from "expo-router";
-import React, { useState } from "react";
-import { P, match } from "ts-pattern";
-import { AttestItem } from "@utils/types";
-import invariant from "tiny-invariant";
 import { schemaEncoder } from "@utils/eas";
+import { AttestItem } from "@utils/types";
+import { useLocalSearchParams } from "expo-router";
+import React, { useState } from "react";
+import invariant from "tiny-invariant";
+import { P, match } from "ts-pattern";
 
 export default () => {
   const params = useLocalSearchParams<
@@ -33,13 +30,11 @@ export default () => {
 
   const [loading, setLoading] = useState(false);
 
-  type MakeAttestation = () => void;
-  const makeAttestation: MakeAttestation = async () => {
+  async function makeAttestation() {
     invariant(params.address && params.title, "Missing data");
-    const easContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e";
-    const schemaUID =
-      "0x82b6dfa1f89b37cffb75b5766fb10896d8fb0c196bb18b5cdbf44fef12606a96";
-    const eas = new EAS(easContractAddress);
+    const schemaUID = "";
+    a;
+    const eas = new EAS(EAS_CONTRACT);
     // Signer must be an ethers-like signer.
     await eas.connect(signer as any);
     // Initialize SchemaEncoder with the schema string
@@ -59,7 +54,7 @@ export default () => {
 
     try {
       const tx = await eas.attest({
-        schema: schemaUID,
+        schema: SCHEMA_ADRESS,
         data: {
           recipient: params.address,
           expirationTime: 0 as any,
@@ -74,28 +69,7 @@ export default () => {
         duration: null,
         placement: "top",
         render() {
-          return (
-            <Toast w={"90%"} zIndex={99} variant="solid" action="success">
-              <HStack justifyContent="space-between" alignItems="center">
-                <VStack>
-                  <ToastTitle>Attestation Complete!</ToastTitle>
-                  <ToastDescription>
-                    {`Toast ID: ${newAttestationUID}`}
-                  </ToastDescription>
-                </VStack>
-
-                <Button
-                  onPress={() => {
-                    router.replace("/index");
-                  }}
-                  rounded={"$full"}
-                  bgColor="$green700"
-                >
-                  <Text>Done</Text>
-                </Button>
-              </HStack>
-            </Toast>
-          );
+          return <MyToast />;
         },
       });
     } catch (error) {
@@ -103,42 +77,35 @@ export default () => {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
-  return (
-    match([params?.title, address])
-      .with([P.nullish, P._], () => (
-        <Box>
-          <Text>No Title</Text>
+  return match([params?.title, address])
+    .with([P.nullish, P._], () => (
+      <Box>
+        <Text>No Title</Text>
+      </Box>
+    ))
+    .otherwise(() => (
+      <Box py="$8" px="$2" flex={1}>
+        <Center flex={1}>
+          <Text bold size="2xl" mb={"$4"}>
+            {params?.title}
+          </Text>
+          <Text size="lg" mb={"$4"}>
+            {params?.description}
+          </Text>
+        </Center>
+        <Box flex={1}>
+          <Button
+            bg={loading ? "$coolGray500" : "$black"}
+            disabled={loading}
+            mt="auto"
+            onPress={makeAttestation}
+          >
+            <Text color="white">Confirm attestation</Text>
+            {loading && <ButtonSpinner right="$4" position="absolute" />}
+          </Button>
         </Box>
-      ))
-      // .with([P._, P.nullish], () => (
-      //   <Redirect
-      //     href={{ params: { rUrl: "confirmAttest" }, pathname: "/login" }}
-      //   />
-      // ))
-      .otherwise(() => (
-        <Box py="$8" px="$2" flex={1}>
-          <Center flex={1}>
-            <Text bold size="2xl" mb={"$4"}>
-              {params?.title}
-            </Text>
-            <Text size="lg" mb={"$4"}>
-              {params?.description}
-            </Text>
-          </Center>
-          <Box flex={1}>
-            <Button
-              bg={loading ? "$coolGray500" : "$black"}
-              disabled={loading}
-              mt="auto"
-              onPress={makeAttestation}
-            >
-              <Text color="white">Confirm attestation</Text>
-              {loading && <ButtonSpinner right="$4" position="absolute" />}
-            </Button>
-          </Box>
-        </Box>
-      ))
-  );
+      </Box>
+    ));
 };

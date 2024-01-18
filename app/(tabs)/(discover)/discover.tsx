@@ -1,10 +1,10 @@
 import Map from "@components/MapView";
-import { getAllProfiles } from "@services/supabase";
+import { suspenseGetAllProfiles } from "@services/supabase";
 import { Profile } from "@utils/types";
 import React from "react";
 
 const DiscoverList = () => {
-  const profiles = getAllProfiles.read();
+  const profiles = suspenseGetAllProfiles.read();
   return <Map {...{ profiles }} />;
 };
 
