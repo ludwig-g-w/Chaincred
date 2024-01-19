@@ -5,7 +5,7 @@ import ListOfAttestations from "../../../lib/components/ListOfAttestations";
 
 export default () => {
   return (
-    <Box flex={1}>
+    <Box bg="$white" flex={1} px="$2">
       <ListOfAttestations
         onPressItem={(_, idx) => {
           router.push({
@@ -17,11 +17,9 @@ export default () => {
         }}
       />
 
-      <Link asChild href={"/createAttestation"}>
-        <Button m="$10" bg="$backgroundDark950">
-          <Text color="white">Create Attestation</Text>
-        </Button>
-      </Link>
+      <Button m="$10" bg="$backgroundDark950">
+        <Text color="white">Create Attestation</Text>
+      </Button>
     </Box>
   );
 };

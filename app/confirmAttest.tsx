@@ -1,5 +1,5 @@
 import MyToast from "@components/Toast";
-import { EAS_CONTRACT, SCHEMA_ADRESS } from "@env";
+import { EAS_CONTRACT, SCHEMA_ADRESS_ACTION } from "@env";
 import { EAS } from "@ethereum-attestation-service/eas-sdk";
 import {
   Box,
@@ -10,7 +10,7 @@ import {
   useToast,
 } from "@gluestack-ui/themed";
 import { useAddress, useSigner } from "@thirdweb-dev/react-native";
-import { schemaEncoder } from "@utils/eas";
+import { createActionAttestation, schemaEncoder } from "@utils/eas";
 import { AttestItem } from "@utils/types";
 import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
@@ -32,45 +32,17 @@ export default () => {
 
   async function makeAttestation() {
     invariant(params.address && params.title, "Missing data");
-    const schemaUID = "";
-    a;
-    const eas = new EAS(EAS_CONTRACT);
-    // Signer must be an ethers-like signer.
-    await eas.connect(signer as any);
-    // Initialize SchemaEncoder with the schema string
-
-    const encodedData = schemaEncoder.encodeData([
-      { name: "title", value: params.title, type: "string" },
-      {
-        name: "description",
-        value: params.description ?? "",
-        type: "string",
-      },
-      { name: "entityName", value: "testbara", type: "string" },
-      { name: "quantity", value: "1", type: "uint8" },
-    ]);
-
     setLoading(true);
-
     try {
-      const tx = await eas.attest({
-        schema: SCHEMA_ADRESS,
-        data: {
-          recipient: params.address,
-          expirationTime: 0 as any,
-          revocable: true, // Be aware that if your schema is not revocable, this MUST be false
-          data: encodedData,
-        },
+      const id = await createActionAttestation({
+        ...params,
+        signer,
       });
-      const newAttestationUID = await tx.wait();
-      console.log("New attestation UID:", newAttestationUID);
 
       toast.show({
         duration: null,
         placement: "top",
-        render() {
-          return <MyToast />;
-        },
+        render: () => <MyToast description={`ID: ${id}`} />,
       });
     } catch (error) {
       console.log(error);

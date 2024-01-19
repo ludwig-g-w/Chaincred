@@ -1,28 +1,73 @@
+import {
+  Button,
+  ButtonSpinner,
+  FormControl,
+  KeyboardAvoidingView,
+  Textarea,
+  TextareaInput,
+  useToast,
+} from "@gluestack-ui/themed";
+
 import ListOfAttestations from "@components/ListOfAttestations";
+import ReviewComponent from "@components/Rating";
 import {
   Box,
-  Button,
   ICustomConfig,
   Text,
+  VStack,
   useStyled,
 } from "@gluestack-ui/themed";
 import BottomSheet from "@gorhom/bottom-sheet";
+import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import type { AttestItem } from "@utils/types";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Camera } from "expo-camera";
-import { Link } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
 import { match } from "ts-pattern";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { createReviewAttestation } from "@utils/eas";
+import { useSigner } from "@thirdweb-dev/react-native";
+import invariant from "tiny-invariant";
+import MyToast from "@components/Toast";
 
 const QRScannerScreen = () => {
-  const theme: { config: ICustomConfig } = useStyled();
+  const theme: {
+    config: ICustomConfig;
+  } = useStyled();
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [loading, setLoading] = useState(false);
   const [scannedAddress, setScannedAddress] = useState("");
-  const [address, setAddress] = useState("");
+  // const [address, setAddress] = useState("");
   const [attestItem, setAttestItem] = useState<AttestItem>();
+  const [rating, setRating] = useState(0);
+  const [sControl, setSControl] = useState("Review");
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
+  const [comment, setComment] = useState("");
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const signer = useSigner();
+  const toast = useToast();
+
+  const handleSubmitReview = async () => {
+    invariant(scannedAddress || rating || comment, " Missing input");
+    setLoading(true);
+    try {
+      const id = await createReviewAttestation({
+        address: scannedAddress,
+        rating,
+        comment,
+        signer,
+      });
+      toast.show({
+        duration: 3_000,
+        placement: "top",
+        render: () => <MyToast description={`ID: ${id}`} />,
+      });
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -31,22 +76,21 @@ const QRScannerScreen = () => {
     })();
   }, []);
 
-  const handleConfirm = () => {
-    setAddress(scannedAddress);
+  const handleRatingChange = (newRating) => {
+    setRating(newRating);
+    // Additional actions based on rating can be added here
   };
 
   // Ethereum address validation
   const isValidEthereumAddress = (address: string) => {
     return /^(0x)?[0-9a-fA-F]{40}$/.test(address);
   };
-
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
   }
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
-
   return (
     <Box flex={1}>
       <Camera
@@ -67,61 +111,98 @@ const QRScannerScreen = () => {
       {isBottomSheetVisible && (
         <BottomSheet
           backgroundStyle={{
-            backgroundColor: theme.config.tokens.colors.coolGray100,
+            backgroundColor: theme.config.tokens.colors.white,
           }}
           ref={bottomSheetRef}
-          snapPoints={["50%", "75%"]}
+          keyboardBehavior="extend"
+          snapPoints={["80%"]}
           enablePanDownToClose={true}
           onClose={() => setIsBottomSheetVisible(false)}
         >
-          <Box bg="$coolGray100" flex={1}>
-            {match(!!address)
-              .with(true, () => (
-                <Box flex={1}>
+          <KeyboardAwareScrollView>
+            <VStack p="$4">
+              <Text size="lg">
+                Scanned Ethereum Address:
+                <Text size="xl" bold color="$purple600">
+                  {` ${scannedAddress.slice(0, 4)}...${scannedAddress.slice(
+                    -4
+                  )}`}
+                </Text>
+              </Text>
+              <Text mb="$2" mt="$4" size="xl" bold>
+                I want to register a:
+              </Text>
+              <SegmentedControl
+                onValueChange={setSControl}
+                selectedIndex={sControl === "Action" ? 0 : 1}
+                activeFontStyle={{
+                  color: theme.config.tokens.colors.textLight800,
+                  fontSize: 18,
+                }}
+                fontStyle={{
+                  color: "white",
+                  fontSize: 18,
+                }}
+                style={{
+                  height: 36,
+                  backgroundColor:
+                    theme.config.tokens.colors.backgroundLight800,
+                  borderRadius: 19,
+                  marginBottom: 12,
+                }}
+                tabStyle={{
+                  borderRadius: 20,
+                }}
+                values={["Action", "Review"] as const}
+              />
+
+              {match(sControl)
+                .with("Action", () => (
                   <ListOfAttestations
                     onPressItem={(attestItem) => {
                       setAttestItem(attestItem);
                     }}
                   />
-                  {!!attestItem && (
-                    <Link
-                      href={{
-                        params: {
-                          address,
-                          ...attestItem,
-                        },
-                        pathname: "/confirmAttest",
-                      }}
-                      asChild
+                ))
+                .with("Review", () => (
+                  <>
+                    <ReviewComponent onRatingChange={handleRatingChange} />
+                    <Textarea p="$1" my="$4" rounded="$lg" bg="$blueGray100">
+                      <TextareaInput
+                        onChangeText={setComment}
+                        returnKeyType="default"
+                        placeholder="Make a comment..."
+                      />
+                    </Textarea>
+
+                    <Button
+                      onPress={handleSubmitReview}
+                      disabled={loading}
+                      rounded="$2xl"
+                      h="$16"
+                      bg={loading ? "$blue200" : "$blue500"}
                     >
-                      <Button
-                        left="30%"
-                        bottom="$4"
-                        position="absolute"
-                        bg="$backgroundDark950"
-                      >
-                        <Text color="white">Create Attestation</Text>
-                      </Button>
-                    </Link>
-                  )}
-                </Box>
-              ))
-              .otherwise(() => (
-                <Box style={styles.contentContainer}>
-                  <Text bold>Scanned Ethereum Address:</Text>
-                  <Text>{scannedAddress}</Text>
-                  <Button onPress={handleConfirm}>
-                    <Text color="white">Confirm Address</Text>
-                  </Button>
-                </Box>
-              ))}
-          </Box>
+                      <Text color="$white" bold size="lg">
+                        Confirm
+                      </Text>
+                      {loading && (
+                        <ButtonSpinner
+                          color="$white"
+                          right="$4"
+                          position="absolute"
+                        />
+                      )}
+                    </Button>
+                  </>
+                ))
+                .run()}
+            </VStack>
+          </KeyboardAwareScrollView>
         </BottomSheet>
       )}
     </Box>
   );
 };
-
 const styles = StyleSheet.create({
   camera: {
     flex: 1,
@@ -132,5 +213,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
 export default QRScannerScreen;

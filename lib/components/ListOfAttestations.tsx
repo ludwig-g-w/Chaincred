@@ -1,10 +1,11 @@
-import { Pressable, Text } from "@gluestack-ui/themed";
+import { Box, Pressable, Text } from "@gluestack-ui/themed";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FlashList } from "@shopify/flash-list";
 import type { AttestItem } from "@utils/types";
 import { useFocusEffect } from "expo-router";
 import React, { useState } from "react";
+import AttestationItem from "./AttestationItem";
 
 const itemSize = 88;
 
@@ -35,20 +36,7 @@ const ListOfAttestations: React.FC<Props> = (props) => {
           props.onPressItem(item, index);
         };
         return (
-          <Pressable
-            onPress={handleOnPressItem}
-            justifyContent="center"
-            h={itemSize}
-            flex={1}
-            bg="$white"
-            rounded="$lg"
-            padding="$3"
-            marginHorizontal="$4"
-            mb="$2"
-          >
-            <Text bold>{item.title}</Text>
-            {item.description && <Text>{item.description}</Text>}
-          </Pressable>
+          <AttestationItem title={item.title} description={item.description} />
         );
       }}
     />

@@ -11,6 +11,7 @@ import { Redirect, Tabs, router, usePathname } from "expo-router";
 import { memo } from "react";
 import { Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { match } from "ts-pattern";
 
 export default function TabLayout() {
   const theme: { config: ICustomConfig } = useStyled();
@@ -26,12 +27,13 @@ export default function TabLayout() {
   return (
     <Box flex={1}>
       <Tabs
-        initialRouteName="(home)"
+        initialRouteName="/scanAddress"
         screenOptions={{
-          tabBarActiveTintColor: theme.config.tokens.colors.black,
+          tabBarActiveTintColor: theme.config.tokens.colors.blue500,
           header: () => <Header />,
           tabBarStyle: {
             backgroundColor: theme.config.tokens.colors.white,
+            borderTopColor: theme.config.tokens.colors.borderLight200,
           },
         }}
       >
@@ -75,12 +77,21 @@ export default function TabLayout() {
 
 const Header = memo(() => {
   const path = usePathname();
+  const title = match(path)
+    .with("/", () => "Home")
+    .with("/profiles", () => "")
+    .with("/scanAddress", () => "Scan")
+    .with("/settingsProfile", () => "Your Profile")
+    .otherwise(
+      (path) => `${path.toLocaleUpperCase().slice(1, 2)}${path.slice(2, 13)}`
+    );
+
   return (
     <Box bg="white" pb="$4">
       <SafeAreaView />
       <Box
         w={"$full"}
-        paddingHorizontal="$2"
+        px="$2"
         flexDirection="row"
         alignItems="center"
         justifyContent="space-between"
@@ -100,8 +111,8 @@ const Header = memo(() => {
               <ChevronLeftIcon size="xl" />
             </Pressable>
           )}
-          <Text size="sm">
-            {`${path.toLocaleUpperCase().slice(1, 2)}${path.slice(2, 13)}`}
+          <Text bold size="xl">
+            {title}
           </Text>
         </Box>
 

@@ -15,15 +15,13 @@ import {
 } from "@gluestack-ui/themed";
 import { MessageCircle, AlertTriangleIcon } from "lucide-react-native";
 
-const MyToast = () => {
+const MyToast = ({ description = "" }) => {
   return (
     <>
       <Toast action={"success"} variant={"solid"}>
         <VStack space="xs">
           <ToastTitle>Success</ToastTitle>
-          <ToastDescription>
-            Please create a support tibnnbcket from the support page
-          </ToastDescription>
+          <ToastDescription>{description}</ToastDescription>
         </VStack>
       </Toast>
     </>

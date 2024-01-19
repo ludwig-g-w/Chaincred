@@ -1,6 +1,6 @@
+import { useApolloClient } from "@apollo/client";
 import ImageUploadArea from "@components/ImageUploadArea";
 import MyToast from "@components/Toast";
-import { useApolloClient } from "@apollo/client";
 import { API_KEY_GOOGLE } from "@env";
 import {
   Button,
@@ -10,19 +10,18 @@ import {
   FormControlLabelText,
   Input,
   InputField,
-  ScrollView,
   Text,
-  VStack,
+  View,
   useToast,
 } from "@gluestack-ui/themed";
 import { setOrModifyProfile } from "@services/supabase";
 import { useAddress } from "@thirdweb-dev/react-native";
 import { pickImage, uploadImage } from "@utils/uploading";
+import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import invariant from "tiny-invariant";
-import * as ImagePicker from "expo-image-picker";
 
 export default function Organization() {
   const client = useApolloClient();
@@ -74,14 +73,22 @@ export default function Organization() {
   }
 
   return (
-    <ScrollView bg="$white" flex={1} p="$4" gap={"$2"}>
+    <View height={"100%"} bg="$white" p="$4" gap={"$2"}>
       <FormControlLabel>
         <FormControlLabelText>Location</FormControlLabelText>
       </FormControlLabel>
       <GooglePlacesAutocomplete
         placeholder="Choose where you are based"
         styles={{
+          container: {
+            flex: 0,
+            zIndex: 99,
+          },
+          listView: {
+            zIndex: 99,
+          },
           textInput: {
+            zIndex: 99,
             borderWidth: 2,
             borderColor: "#eaeaea",
             borderRadius: 20,
@@ -107,7 +114,7 @@ export default function Organization() {
           borderRadius="$lg"
           h="$12"
           borderWidth="$1"
-          borderColor="$coolGray400"
+          borderColor="$borderLight300"
         >
           <InputField
             value={title}
@@ -116,13 +123,19 @@ export default function Organization() {
           />
         </Input>
       </FormControl>
-
       <FormControl mb="$4">
         <FormControlLabel>
-          <FormControlLabelText>Description</FormControlLabelText>
+          <FormControlLabelText>Title</FormControlLabelText>
         </FormControlLabel>
-        <Input>
+        <Input
+          bg="$white"
+          borderRadius="$lg"
+          h="$12"
+          borderWidth="$1"
+          borderColor="$borderLight300"
+        >
           <InputField
+            multiline
             value={description}
             onChangeText={(e) => setDescription(e)}
             placeholder="Description"
@@ -146,6 +159,6 @@ export default function Organization() {
           <ButtonSpinner color="$black" right="$4" position="absolute" />
         )}
       </Button>
-    </ScrollView>
+    </View>
   );
 }

@@ -117,8 +117,8 @@ const Companies = () => {
         />
       </Input> */}
 
-      <Text my="$4" size="2xl" bold>
-        Received
+      <Text color="$textLight600" my="$4" size="lg" bold>
+        Actions Received
       </Text>
       <FlashList
         numColumns={1}
