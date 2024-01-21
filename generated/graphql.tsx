@@ -2851,12 +2851,20 @@ export type TimestampWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type CompaniesQueryVariables = Exact<{
+export type HomeFeedQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type CompaniesQuery = { __typename?: 'Query', attestations: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }> };
+export type HomeFeedQuery = { __typename?: 'Query', attestations: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }> };
+
+export type ProfileQueryVariables = Exact<{
+  userAddress: Scalars['String']['input'];
+  profileAddress: Scalars['String']['input'];
+}>;
+
+
+export type ProfileQuery = { __typename?: 'Query', actions: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }>, reviews: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }> };
 
 export type ListAttestationFragment = { __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string };
 
@@ -2869,43 +2877,93 @@ export const ListAttestationFragmentDoc = gql`
   data
 }
     `;
-export const CompaniesDocument = gql`
-    query Companies($id: String!) {
-  attestations(where: {recipient: {equals: $id}}) {
+export const HomeFeedDocument = gql`
+    query HomeFeed($id: String!) {
+  attestations(
+    where: {recipient: {equals: $id}, AND: {schemaId: {equals: "0x82b6dfa1f89b37cffb75b5766fb10896d8fb0c196bb18b5cdbf44fef12606a96"}}}
+  ) {
     ...ListAttestation
   }
 }
     ${ListAttestationFragmentDoc}`;
 
 /**
- * __useCompaniesQuery__
+ * __useHomeFeedQuery__
  *
- * To run a query within a React component, call `useCompaniesQuery` and pass it any options that fit your needs.
- * When your component renders, `useCompaniesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useHomeFeedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeFeedQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useCompaniesQuery({
+ * const { data, loading, error } = useHomeFeedQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useCompaniesQuery(baseOptions: Apollo.QueryHookOptions<CompaniesQuery, CompaniesQueryVariables>) {
+export function useHomeFeedQuery(baseOptions: Apollo.QueryHookOptions<HomeFeedQuery, HomeFeedQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CompaniesQuery, CompaniesQueryVariables>(CompaniesDocument, options);
+        return Apollo.useQuery<HomeFeedQuery, HomeFeedQueryVariables>(HomeFeedDocument, options);
       }
-export function useCompaniesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CompaniesQuery, CompaniesQueryVariables>) {
+export function useHomeFeedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeFeedQuery, HomeFeedQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CompaniesQuery, CompaniesQueryVariables>(CompaniesDocument, options);
+          return Apollo.useLazyQuery<HomeFeedQuery, HomeFeedQueryVariables>(HomeFeedDocument, options);
         }
-export function useCompaniesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CompaniesQuery, CompaniesQueryVariables>) {
+export function useHomeFeedSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<HomeFeedQuery, HomeFeedQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<CompaniesQuery, CompaniesQueryVariables>(CompaniesDocument, options);
+          return Apollo.useSuspenseQuery<HomeFeedQuery, HomeFeedQueryVariables>(HomeFeedDocument, options);
         }
-export type CompaniesQueryHookResult = ReturnType<typeof useCompaniesQuery>;
-export type CompaniesLazyQueryHookResult = ReturnType<typeof useCompaniesLazyQuery>;
-export type CompaniesSuspenseQueryHookResult = ReturnType<typeof useCompaniesSuspenseQuery>;
-export type CompaniesQueryResult = Apollo.QueryResult<CompaniesQuery, CompaniesQueryVariables>;
+export type HomeFeedQueryHookResult = ReturnType<typeof useHomeFeedQuery>;
+export type HomeFeedLazyQueryHookResult = ReturnType<typeof useHomeFeedLazyQuery>;
+export type HomeFeedSuspenseQueryHookResult = ReturnType<typeof useHomeFeedSuspenseQuery>;
+export type HomeFeedQueryResult = Apollo.QueryResult<HomeFeedQuery, HomeFeedQueryVariables>;
+export const ProfileDocument = gql`
+    query Profile($userAddress: String!, $profileAddress: String!) {
+  actions: attestations(
+    where: {recipient: {equals: $userAddress}, AND: {schemaId: {equals: "0x82b6dfa1f89b37cffb75b5766fb10896d8fb0c196bb18b5cdbf44fef12606a96"}}}
+  ) {
+    ...ListAttestation
+  }
+  reviews: attestations(
+    where: {recipient: {equals: $profileAddress}, AND: {schemaId: {equals: "0xba299dc0f2f0caf692628b8bcb62037763e865804462c85b8adcf7ef7b8beb53"}}}
+  ) {
+    ...ListAttestation
+  }
+}
+    ${ListAttestationFragmentDoc}`;
+
+/**
+ * __useProfileQuery__
+ *
+ * To run a query within a React component, call `useProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProfileQuery({
+ *   variables: {
+ *      userAddress: // value for 'userAddress'
+ *      profileAddress: // value for 'profileAddress'
+ *   },
+ * });
+ */
+export function useProfileQuery(baseOptions: Apollo.QueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
+      }
+export function useProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
+        }
+export function useProfileSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
+        }
+export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
+export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
+export type ProfileSuspenseQueryHookResult = ReturnType<typeof useProfileSuspenseQuery>;
+export type ProfileQueryResult = Apollo.QueryResult<ProfileQuery, ProfileQueryVariables>;

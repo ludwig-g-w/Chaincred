@@ -1,6 +1,6 @@
 import { TypedTypePolicies } from "../../apollo-helpers";
 import { convertJsonToObject } from "./attestations";
-import { schemaEncoder } from "./eas";
+import { schemaEncoder, schemaEncoderReview } from "./eas";
 
 export const typePolicies: TypedTypePolicies = {
   Attestation: {
@@ -11,6 +11,11 @@ export const typePolicies: TypedTypePolicies = {
           try {
             decodedData = schemaEncoder.decodeData(data ?? "");
           } catch (error) {}
+          if (!decodedData) {
+            try {
+              decodedData = schemaEncoderReview.decodeData(data ?? "");
+            } catch (error) {}
+          }
           return decodedData ? convertJsonToObject(decodedData) : null;
         },
       },

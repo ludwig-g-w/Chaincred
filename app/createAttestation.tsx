@@ -1,3 +1,4 @@
+import MainButton from "@components/MainButton";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {
   AddIcon,
@@ -17,6 +18,8 @@ import {
   Input,
   InputField,
   Text,
+  Textarea,
+  TextareaInput,
 } from "@gluestack-ui/themed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { STORAGE_KEY } from "@utils/constants";
@@ -58,28 +61,12 @@ export default () => {
     }));
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Button
-        style={{
-          backgroundColor: "transparent",
-          zIndex: 99,
-          position: "absolute",
-          top: 64,
-          right: 12,
-        }}
-        onPress={() => {
-          router.back();
-        }}
-      >
-        <FontAwesome size={28} name="stop" />
-      </Button>
+    <Box bg="$white" style={{ flex: 1 }}>
       <Box paddingHorizontal={"$4"} mt="$16" flex={1}>
         <Text bold size="2xl" mb={"$4"}>
           Create an attestation
         </Text>
-        <Text size="lg" mb={"$4"}>
-          Cross pollination, create your interlinked rewards program
-        </Text>
+
         <FormControl
           size="md"
           isDisabled={false}
@@ -90,7 +77,13 @@ export default () => {
           <FormControlLabel mb="$1">
             <FormControlLabelText>Title</FormControlLabelText>
           </FormControlLabel>
-          <Input>
+          <Input
+            bg="$white"
+            borderRadius="$lg"
+            h="$12"
+            borderWidth="$1"
+            borderColor="$borderLight300"
+          >
             <InputField
               onChangeText={changeTitle}
               type="text"
@@ -111,38 +104,24 @@ export default () => {
           <FormControlLabel mb="$1">
             <FormControlLabelText>Description</FormControlLabelText>
           </FormControlLabel>
-          <Input>
-            <InputField
+          <Textarea>
+            <TextareaInput
               onChangeText={changeDesc}
               type="text"
-              placeholder="Title"
+              placeholder="Describe more in detail what this action actually represent"
             />
-          </Input>
-          <FormControlHelper>
-            <FormControlHelperText>
-              Must be at least 6 characters.
-            </FormControlHelperText>
-          </FormControlHelper>
+          </Textarea>
           <FormControlError>
             <FormControlErrorIcon as={AlertCircleIcon} />
             <FormControlErrorText>
               At least 6 characters are required.
             </FormControlErrorText>
           </FormControlError>
-          <Button
-            onPress={createAttestation}
-            size="md"
-            variant="solid"
-            action="primary"
-            isDisabled={false}
-            isFocusVisible={false}
-            bgColor="$darkBlue800"
-          >
-            <ButtonText>Add</ButtonText>
-            <ButtonIcon as={AddIcon} />
-          </Button>
+          <MainButton mt="$8" onPress={createAttestation}>
+            Create Action
+          </MainButton>
         </FormControl>
       </Box>
-    </SafeAreaView>
+    </Box>
   );
 };

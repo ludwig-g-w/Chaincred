@@ -30,8 +30,10 @@ import { createReviewAttestation } from "@utils/eas";
 import { useSigner } from "@thirdweb-dev/react-native";
 import invariant from "tiny-invariant";
 import MyToast from "@components/Toast";
+import MainButton from "@components/MainButton";
+import { shortenAddress } from "@utils/index";
 
-const QRScannerScreen = () => {
+const ScanScreen = () => {
   const theme: {
     config: ICustomConfig;
   } = useStyled();
@@ -124,9 +126,7 @@ const QRScannerScreen = () => {
               <Text size="lg">
                 Scanned Ethereum Address:
                 <Text size="xl" bold color="$purple600">
-                  {` ${scannedAddress.slice(0, 4)}...${scannedAddress.slice(
-                    -4
-                  )}`}
+                  {shortenAddress(scannedAddress)}
                 </Text>
               </Text>
               <Text mb="$2" mt="$4" size="xl" bold>
@@ -175,24 +175,9 @@ const QRScannerScreen = () => {
                       />
                     </Textarea>
 
-                    <Button
-                      onPress={handleSubmitReview}
-                      disabled={loading}
-                      rounded="$2xl"
-                      h="$16"
-                      bg={loading ? "$blue200" : "$blue500"}
-                    >
-                      <Text color="$white" bold size="lg">
-                        Confirm
-                      </Text>
-                      {loading && (
-                        <ButtonSpinner
-                          color="$white"
-                          right="$4"
-                          position="absolute"
-                        />
-                      )}
-                    </Button>
+                    <MainButton onPress={handleSubmitReview} {...{ loading }}>
+                      Confirm
+                    </MainButton>
                   </>
                 ))
                 .run()}
@@ -213,4 +198,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-export default QRScannerScreen;
+export default ScanScreen;

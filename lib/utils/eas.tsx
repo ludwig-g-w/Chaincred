@@ -6,14 +6,13 @@ export const schemaEncoder = new SchemaEncoder(
   "string title,string description,string entityName,uint8 quantity"
 );
 
-const eas = new EAS(EAS_CONTRACT);
-
 export async function createActionAttestation({
   signer,
   title,
   description,
   address,
 }) {
+  const eas = new EAS(EAS_CONTRACT);
   // Signer must be an ethers-like signer.
   await eas.connect(signer as any);
   // Initialize SchemaEncoder with the schema string
@@ -41,14 +40,16 @@ export async function createActionAttestation({
   return await tx.wait();
 }
 
-const schemaEncoderReview = new SchemaEncoder("uint8 rating,string comment");
-
+export const schemaEncoderReview = new SchemaEncoder(
+  "uint8 rating,string comment"
+);
 export async function createReviewAttestation({
   signer,
   rating = 0,
   comment = "",
   address = "",
 }) {
+  const eas = new EAS(EAS_CONTRACT);
   await eas.connect(signer);
 
   const encodedData = schemaEncoderReview.encodeData([

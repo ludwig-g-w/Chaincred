@@ -31,6 +31,7 @@ const ListOfAttestations: React.FC<Props> = (props) => {
       estimatedItemSize={itemSize}
       data={list}
       contentContainerStyle={{ paddingVertical: 12 }}
+      ItemSeparatorComponent={() => <Box h="$2" />}
       renderItem={({ item, index }) => {
         const handleOnPressItem = () => {
           props.onPressItem(item, index);

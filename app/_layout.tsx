@@ -63,7 +63,7 @@ const Inner = () => {
       <Stack.Screen name="login" />
       <Stack.Screen
         options={{
-          presentation: "containedModal",
+          presentation: "modal",
         }}
         name="createAttestation"
       />

@@ -1,4 +1,12 @@
-import { Box, Button, Text } from "@gluestack-ui/themed";
+import {
+  AddIcon,
+  Box,
+  Button,
+  Fab,
+  FabIcon,
+  FabLabel,
+  Text,
+} from "@gluestack-ui/themed";
 import { Link, router } from "expo-router";
 import React from "react";
 import ListOfAttestations from "../../../lib/components/ListOfAttestations";
@@ -16,10 +24,18 @@ export default () => {
           });
         }}
       />
-
-      <Button m="$10" bg="$backgroundDark950">
-        <Text color="white">Create Attestation</Text>
-      </Button>
+      <Link asChild href="/createAttestation">
+        <Fab
+          size="md"
+          placement="bottom right"
+          isHovered={false}
+          isDisabled={false}
+          isPressed={false}
+        >
+          <FabIcon as={AddIcon} mr="$1" />
+          <FabLabel>New Action</FabLabel>
+        </Fab>
+      </Link>
     </Box>
   );
 };

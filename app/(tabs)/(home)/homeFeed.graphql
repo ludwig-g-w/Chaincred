@@ -1,4 +1,4 @@
-query Companies($id: String!) {
+query HomeFeed($id: String!) {
   attestations(
     where: {
       recipient: { equals: $id }
@@ -11,12 +11,4 @@ query Companies($id: String!) {
   ) {
     ...ListAttestation
   }
-}
-
-fragment ListAttestation on Attestation {
-  timeCreated
-  id
-  attester
-  recipient
-  data
 }
