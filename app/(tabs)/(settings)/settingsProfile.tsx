@@ -21,22 +21,29 @@ import {
   Textarea,
   TextareaInput,
 } from "@gluestack-ui/themed";
-import { getProfileByAddress, setOrModifyProfile } from "@services/supabase";
+import {
+  Location,
+  getProfileByAddress,
+  setOrModifyProfile,
+  Profile,
+} from "@services/supabase";
 import { useAddress } from "@thirdweb-dev/react-native";
-import { Profile } from "@utils/types";
 import { pickImage, uploadImage } from "@utils/uploading";
 import * as ImagePicker from "expo-image-picker";
-import React, { Suspense, useEffect, useState } from "react";
+import { router } from "expo-router";
+import React, { ReactElement, Suspense, useEffect, useState } from "react";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import invariant from "tiny-invariant";
-import { boolean } from "ts-pattern/dist/patterns";
 
 export default function Organization() {
   const client = useApolloClient();
   const [title, setTitle] = useState("");
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset>();
   const [description, setDescription] = useState("");
-  const [locationCoords, setLocationCoords] = useState("");
+  const [location, setLocation] = useState<Location>({
+    coords: undefined,
+    name: undefined,
+  });
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState<Profile>();
   const toast = useToast();
@@ -75,7 +82,7 @@ export default function Organization() {
         title?: string;
         imageUrl?: string;
         description?: string;
-        locationCoords?: string;
+        location?: Location;
       } = {};
 
       if (title) updateObject.title = title;
@@ -84,7 +91,7 @@ export default function Organization() {
         updateObject.imageUrl = path;
       }
       if (description) updateObject.description = description;
-      if (locationCoords) updateObject.locationCoords = locationCoords;
+      if (location.coords) updateObject.location = location;
 
       await setOrModifyProfile({
         address,
@@ -94,11 +101,11 @@ export default function Organization() {
       toast.show({
         placement: "top",
         render() {
-          return <MyToast />;
+          return <MyToast description="Profile is updated!" />;
         },
       });
       client.cache.gc();
-
+      router.push("/settings");
       // ... the rest of the original submit function
     } catch (err) {
       console.error("contract call failure", err);
@@ -114,10 +121,10 @@ export default function Organization() {
       if (fieldName === "title" && title) updateObject.title = title;
       if (fieldName === "description" && description)
         updateObject.description = description;
-      if (fieldName === "location" && locationCoords)
-        updateObject.locationCoords = locationCoords;
-
-      // await setOrModifyProfile(updateObject);
+      if (fieldName === "location" && location.name) {
+        updateObject.location_name = location.name;
+        updateObject.location_coords = location.coords;
+      }
       setProfile((prev) => ({ ...prev, ...updateObject }));
       setEditing((prev) => ({ ...prev, [fieldName]: false }));
     } catch (error) {
@@ -139,58 +146,81 @@ export default function Organization() {
             onPress={handleImageUpload}
           />
         </View>
-        <FormControlLabel>
-          <FormControlLabelText>Location</FormControlLabelText>
-        </FormControlLabel>
+        <EditableField
+          label="Location"
+          isEditing={isEditing.location}
+          onSave={() => handleFieldSave("location")}
+          profileValue={profile?.location_name}
+          setEditing={setEditing}
+        >
+          <GooglePlacesAutocomplete
+            placeholder="Where you are based?"
+            styles={{
+              container: {
+                flex: 0,
+                zIndex: 99,
+              },
+              listView: {
+                zIndex: 99,
+              },
+              textInput: {
+                zIndex: 99,
+                borderWidth: 2,
+                borderColor: "#eaeaea",
+                borderRadius: 20,
+              },
+            }}
+            fetchDetails
+            onPress={(data, details = null) => {
+              setLocation({
+                coords: `${details?.geometry.location.lat},${details?.geometry.location.lng}`,
+                name: details?.formatted_address,
+              });
+            }}
+            query={{
+              key: API_KEY_GOOGLE,
+              language: "en",
+            }}
+          />
+        </EditableField>
 
         <EditableField
           label="Title"
           isEditing={isEditing.title}
-          value={title}
-          onChange={setTitle}
           onSave={() => handleFieldSave("title")}
           profileValue={profile?.title}
           setEditing={setEditing}
-        />
+        >
+          <Input
+            bg="$white"
+            borderRadius="$lg"
+            h="$12"
+            borderWidth="$1"
+            borderColor="$borderLight300"
+          >
+            <InputField
+              value={title}
+              onChangeText={setTitle}
+              placeholder={"Enter your name"}
+            />
+          </Input>
+        </EditableField>
 
         <EditableField
           label="Description"
           isEditing={isEditing.description}
-          value={description}
-          onChange={setDescription}
           onSave={() => handleFieldSave("description")}
           profileValue={profile?.description}
-          multiline
           setEditing={setEditing}
-        />
-        <GooglePlacesAutocomplete
-          placeholder="Where you are based?"
-          styles={{
-            container: {
-              flex: 0,
-              zIndex: 99,
-            },
-            listView: {
-              zIndex: 99,
-            },
-            textInput: {
-              zIndex: 99,
-              borderWidth: 2,
-              borderColor: "#eaeaea",
-              borderRadius: 20,
-            },
-          }}
-          fetchDetails
-          onPress={(data, details = null) => {
-            setLocationCoords(
-              `${details?.geometry.location.lat},${details?.geometry.location.lng}`
-            );
-          }}
-          query={{
-            key: API_KEY_GOOGLE,
-            language: "en",
-          }}
-        />
+        >
+          <Textarea>
+            <TextareaInput
+              value={description}
+              onChangeText={setDescription}
+              placeholder={"Describe your yourself"}
+            />
+          </Textarea>
+        </EditableField>
 
         <MainButton mt="auto" loading={loading} onPress={submit}>
           Save
@@ -203,23 +233,19 @@ export default function Organization() {
 type EditableFieldProps = {
   label: string;
   isEditing: boolean;
-  value: string;
-  onChange: Function;
   onSave: Function;
-  profileValue: string;
-  multiline: boolean;
+  profileValue?: string;
   setEditing: Function;
+  children: ReactElement;
 };
 
 const EditableField = ({
   label,
   isEditing,
-  value,
-  onChange,
   onSave,
   profileValue,
-  multiline = false,
   setEditing,
+  children,
 }: EditableFieldProps) => {
   return (
     <>
@@ -227,31 +253,7 @@ const EditableField = ({
       <HStack gap="$4" justifyContent="space-between" alignItems="center">
         {isEditing ? (
           <>
-            <FormControl flex={1}>
-              {multiline ? (
-                <Textarea>
-                  <TextareaInput
-                    value={value}
-                    onChangeText={onChange}
-                    placeholder={label}
-                  />
-                </Textarea>
-              ) : (
-                <Input
-                  bg="$white"
-                  borderRadius="$lg"
-                  h="$12"
-                  borderWidth="$1"
-                  borderColor="$borderLight300"
-                >
-                  <InputField
-                    value={value}
-                    onChangeText={onChange}
-                    placeholder={label}
-                  />
-                </Input>
-              )}
-            </FormControl>
+            <FormControl flex={1}>{children}</FormControl>
             <Pressable onPress={onSave} p="$2" bg="$green500" rounded="$full">
               <CheckCircleIcon size="sm" color="white" />
             </Pressable>

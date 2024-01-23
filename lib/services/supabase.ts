@@ -25,18 +25,23 @@ export async function getProfileByAddress(address: string) {
 export const suspenseGetProfileByAddress = (address: string) =>
   createResource(() => getProfileByAddress(address));
 
+export type Location = {
+  coords?: string;
+  name?: string;
+};
+
 export async function setOrModifyProfile({
   address,
   title,
   imageUrl,
   description,
-  locationCoords,
+  location,
 }: {
   address: string;
   title?: string;
   imageUrl?: string;
   description?: string;
-  locationCoords?: string;
+  location: Location;
 }) {
   const updateData: {
     address: string;
@@ -44,14 +49,19 @@ export async function setOrModifyProfile({
     image_url?: string;
     description?: string;
     location_coords?: string;
+    location_name?: string;
   } = { address };
 
   if (title) updateData.title = title;
   if (imageUrl) updateData.image_url = imageUrl;
   if (description) updateData.description = description;
-  if (locationCoords) {
-    invariant(isValidLocationFormat(locationCoords), "Invalid location format");
-    updateData.location_coords = locationCoords;
+  if (location?.coords) {
+    invariant(
+      isValidLocationFormat(location.coords),
+      "Invalid location format"
+    );
+    updateData.location_coords = location.coords;
+    updateData.location_name = location.name;
   }
 
   const { data, error } = await supabase.from("profiles").upsert(updateData, {

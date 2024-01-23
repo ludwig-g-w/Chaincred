@@ -82,7 +82,7 @@ const Header = memo(() => {
     .with("/profiles", () => "")
     .with("/scanAddress", () => "Scan")
     .with("/settingsProfile", () => "Your Profile")
-    .with("/manageAttestations", () => "Manage Actions")
+    .with("/manageAttestations", () => "Your Actions")
     .otherwise(
       (path) => `${path.toLocaleUpperCase().slice(1, 2)}${path.slice(2, 13)}`
     );
