@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, Pressable } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -10,8 +10,8 @@ const ReviewComponent = ({ onRatingChange }) => {
   const [rating, setRating] = useState(0);
   const scaleAnimations = Array.from({ length: 5 }, () => useSharedValue(1));
 
-  const handlePress = (index) => {
-    const newRating = index + 1;
+  const handlePress = (index: number) => {
+    const newRating = index;
     setRating(newRating);
     onRatingChange(newRating); // Call the callback function with the new rating
 
@@ -33,13 +33,13 @@ const ReviewComponent = ({ onRatingChange }) => {
         });
 
         return (
-          <TouchableOpacity key={index} onPress={() => handlePress(index)}>
+          <Pressable key={index} onPress={() => handlePress(index)}>
             <Animated.Text
               style={[{ fontSize: 40, marginHorizontal: 5 }, animatedStyle]}
             >
               {emoji}
             </Animated.Text>
-          </TouchableOpacity>
+          </Pressable>
         );
       })}
     </View>

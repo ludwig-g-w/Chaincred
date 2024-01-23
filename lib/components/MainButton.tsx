@@ -4,7 +4,7 @@ import { Text } from "@gluestack-ui/themed";
 import React from "react";
 
 type Props = {
-  loading: boolean;
+  loading?: boolean;
   children: string;
 } & IButtonProps["defaultProps"];
 

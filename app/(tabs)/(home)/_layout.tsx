@@ -6,16 +6,14 @@ import { Suspense } from "react";
 export default () => {
   return (
     <MyErrorBoundary>
-      <Suspense fallback={<SuspenseFallback />}>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-          initialRouteName="index"
-        >
-          <Stack.Screen name="index" />
-        </Stack>
-      </Suspense>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+        initialRouteName="index"
+      >
+        <Stack.Screen name="index" />
+      </Stack>
     </MyErrorBoundary>
   );
 };

@@ -7,6 +7,7 @@ import {
 import { Badge, Center, HStack, Text } from "@gluestack-ui/themed";
 import { ProfileListItem } from "@utils/types";
 import { Pressable } from "react-native";
+import { isAddress, shortenAddress } from "@utils/index";
 
 type Props = Partial<ProfileListItem> & {
   onPress: () => void;
@@ -19,10 +20,7 @@ const AttestationItem = ({
   onPress = () => {},
 }: Props) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const isAddress = /^(0x)?[0-9a-fA-F]{40}$/.test(title);
-  const formattedTitle = isAddress
-    ? `${title.slice(0, 4)}....${title.slice(-4)}`
-    : title;
+  const formattedTitle = isAddress(title) ? shortenAddress(title) : title;
 
   const handlePress = () => {
     if (!description) return;

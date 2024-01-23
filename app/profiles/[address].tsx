@@ -11,6 +11,8 @@ import AttestationItem from "@components/AttestationItem";
 import { getProfileByAddress } from "@services/supabase";
 import { Profile } from "@utils/types";
 import { shortenAddress } from "@utils/index";
+import ReviewListItem from "@components/ReviewListItem";
+import { formatDistanceToNow } from "date-fns";
 
 const segmentsValues = ["Registered Actions", "Reviews"] as const;
 
@@ -37,57 +39,73 @@ const ProfileScreen = () => {
       userAddress,
     },
   });
-  const attestationsByAttester = useMemo(() => {
+  const actionsWithCount = useMemo(() => {
     // @ts-expect-error same data different types
     return processAttestations(userAddress ?? "", data.actions);
   }, [data.actions, address]);
 
-  console.log(data.reviews.map((d) => d.data));
+  const reviews = useMemo(
+    () =>
+      data.reviews.map((r) => ({
+        ...r.data,
+        timestamp: r.timeCreated,
+        user: r.attester,
+      })),
+    [data.reviews]
+  );
 
   return (
     <Box bgColor="$white" flex={1}>
-      <Suspense fallback={"...loading"}>
-        <FlashList
-          ListHeaderComponent={() => (
-            <>
-              <Image
-                style={{
-                  aspectRatio: 1.5 / 1,
-                  width: "100%",
-                  backgroundColor: "#0553",
-                }}
-                cachePolicy={"none"}
-                source={{
-                  uri: profile?.image_url,
-                }}
-                contentFit="cover"
+      <FlashList
+        ListHeaderComponent={
+          <>
+            <Image
+              style={{
+                aspectRatio: 1.5 / 1,
+                width: "100%",
+                backgroundColor: "#0553",
+              }}
+              cachePolicy={"none"}
+              source={{
+                uri: profile?.image_url,
+              }}
+              contentFit="cover"
+            />
+            <VStack gap={"$2"} py="$6" px="$2" flex={1}>
+              <Text bold size="2xl">
+                {profile?.title}
+              </Text>
+              <Text color="$purple500">{shortenAddress(address)}</Text>
+              <Text>{profile?.description}</Text>
+              {/* @ts-ignore */}
+              <SegmentedControl
+                selectedIndex={segment === "Registered Actions" ? 0 : 1}
+                onValueChange={setSegment}
+                values={segmentsValues}
               />
-              <VStack gap={"$2"} py="$6" px="$2" flex={1}>
-                <Text bold size="2xl">
-                  {profile?.title}
-                </Text>
-                <Text color="$purple500">{shortenAddress(address)}</Text>
-                <Text>{profile?.description}</Text>
-                {/* @ts-ignore */}
-                <SegmentedControl
-                  selectedIndex={segment === "Registered Actions" ? 0 : 1}
-                  onValueChange={setSegment}
-                  values={segmentsValues}
-                />
-              </VStack>
-            </>
-          )}
-          estimatedItemSize={88}
-          data={attestationsByAttester}
-          showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={() => <Box h="$2" />}
-          renderItem={({ item, index }) => (
-            <Box p="$2">
+            </VStack>
+          </>
+        }
+        estimatedItemSize={88}
+        data={segment === "Reviews" ? reviews : actionsWithCount}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item, index }) => (
+          <Box p="$2">
+            {segment === "Reviews" ? (
+              <ReviewListItem
+                userName={item.user}
+                timeAgo={formatDistanceToNow(new Date(item.timestamp * 1000), {
+                  addSuffix: true,
+                })}
+                rating={item.rating}
+                comment={item.comment}
+              />
+            ) : (
               <AttestationItem title={item.title} count={item?.count} />
-            </Box>
-          )}
-        />
-      </Suspense>
+            )}
+          </Box>
+        )}
+      />
     </Box>
   );
 };

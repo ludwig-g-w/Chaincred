@@ -20,19 +20,21 @@ export default function ImageUploadArea({
     <Button
       onPress={onPress}
       bg="$coolGray100"
-      borderRadius="$md"
+      borderRadius="$full"
+      h={180}
       borderWidth={2}
+      aspectRatio={1}
       borderColor="$coolGray400"
       borderStyle="dashed"
-      h={220}
       justifyContent="center"
     >
       {img ? (
         <Image
           contentFit="cover"
           style={{
-            height: 210,
-            width: "110%",
+            aspectRatio: 1,
+            height: 170,
+            borderRadius: 200,
           }}
           source={img}
         />

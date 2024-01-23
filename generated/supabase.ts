@@ -17,6 +17,7 @@ export interface Database {
           id: number
           image_url: string | null
           location_coords: string | null
+          location_name: string | null
           title: string
           updated_at: string | null
         }
@@ -27,6 +28,7 @@ export interface Database {
           id?: number
           image_url?: string | null
           location_coords?: string | null
+          location_name?: string | null
           title: string
           updated_at?: string | null
         }
@@ -37,6 +39,7 @@ export interface Database {
           id?: number
           image_url?: string | null
           location_coords?: string | null
+          location_name?: string | null
           title?: string
           updated_at?: string | null
         }

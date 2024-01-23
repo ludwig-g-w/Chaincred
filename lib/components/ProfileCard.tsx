@@ -10,15 +10,16 @@ import {
   ChevronRightIcon,
 } from "@gluestack-ui/themed";
 import { StyleSheet, ImageBackground, Pressable } from "react-native";
-import { ProfileListItem } from "@utils/types";
+import { ProfileListItem as ProfileListItemType } from "@utils/types";
 import { Image } from "expo-image";
+import { isAddress, shortenAddress } from "../utils";
 export const height = 160;
 
-type Props = Partial<ProfileListItem> & {
+type Props = Partial<ProfileListItemType> & {
   onPress: () => void;
 };
 
-const ProfileCard = ({
+const ProfileListItem = ({
   title = "",
   count = 0,
   description = "",
@@ -26,10 +27,7 @@ const ProfileCard = ({
   imageUrl,
   locationCoords,
 }: Props) => {
-  const isAddress = /^(0x)?[0-9a-fA-F]{40}$/.test(title);
-  const formattedTitle = isAddress
-    ? `${title.slice(0, 4)}....${title.slice(-4)}`
-    : title;
+  const formattedTitle = isAddress(title) ? shortenAddress(title) : title;
   return (
     <Pressable onPress={onPress}>
       <HStack
@@ -73,4 +71,4 @@ const ProfileCard = ({
   );
 };
 
-export default ProfileCard;
+export default ProfileListItem;

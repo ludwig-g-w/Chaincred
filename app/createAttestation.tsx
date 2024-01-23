@@ -64,7 +64,11 @@ export default () => {
     <Box bg="$white" style={{ flex: 1 }}>
       <Box paddingHorizontal={"$4"} mt="$16" flex={1}>
         <Text bold size="2xl" mb={"$4"}>
-          Create an attestation
+          Create an Action
+        </Text>
+        <Text size="lg" mb={"$4"}>
+          This can later given to other people to register attesting to
+          something they have done
         </Text>
 
         <FormControl

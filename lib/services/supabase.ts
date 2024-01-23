@@ -23,7 +23,7 @@ export async function getProfileByAddress(address: string) {
 }
 
 export const suspenseGetProfileByAddress = (address: string) =>
-  createResource(getProfileByAddress(address));
+  createResource(() => getProfileByAddress(address));
 
 export async function setOrModifyProfile({
   address,
@@ -33,25 +33,30 @@ export async function setOrModifyProfile({
   locationCoords,
 }: {
   address: string;
-  title: string;
-  imageUrl: string;
-  description: string;
-  locationCoords: string;
+  title?: string;
+  imageUrl?: string;
+  description?: string;
+  locationCoords?: string;
 }) {
-  invariant(isValidLocationFormat(locationCoords), "Invalid location format");
+  const updateData: {
+    address: string;
+    title?: string;
+    image_url?: string;
+    description?: string;
+    location_coords?: string;
+  } = { address };
 
-  const { data, error } = await supabase.from("profiles").upsert(
-    {
-      address,
-      title,
-      image_url: imageUrl,
-      description,
-      location_coords: locationCoords,
-    },
-    {
-      onConflict: "address",
-    }
-  );
+  if (title) updateData.title = title;
+  if (imageUrl) updateData.image_url = imageUrl;
+  if (description) updateData.description = description;
+  if (locationCoords) {
+    invariant(isValidLocationFormat(locationCoords), "Invalid location format");
+    updateData.location_coords = locationCoords;
+  }
+
+  const { data, error } = await supabase.from("profiles").upsert(updateData, {
+    onConflict: "address",
+  });
 
   if (error) {
     throw error;
@@ -69,7 +74,7 @@ async function getAllProfiles() {
 
   return data;
 }
-export const suspenseGetAllProfiles = createResource(getAllProfiles());
+export const suspenseGetAllProfiles = createResource(() => getAllProfiles());
 
 export async function getProfilesByAddresses(addresses: string[]) {
   // Check if addresses array is empty
@@ -90,7 +95,7 @@ export async function getProfilesByAddresses(addresses: string[]) {
 }
 
 export const suspenseGetProfilesByAddresses = (addresses: string[]) =>
-  createResource(getProfilesByAddresses(addresses));
+  createResource(() => getProfilesByAddresses(addresses));
 
 // Helper function to validate the location format
 function isValidLocationFormat(locationCoords: string) {
@@ -106,29 +111,33 @@ function isValidIPFS(imageUrl: string) {
   );
 }
 
-export function createResource<T>(promise: Promise<T>): {
-  read: () => T;
-} {
+export function createResource<T>(promiseFn: () => Promise<T>) {
   let status: "pending" | "success" | "error" = "pending";
   let result: T | Error;
+  let suspender: Promise<void> | null = null;
 
-  let suspender = promise.then(
-    (data: T) => {
-      status = "success";
-      result = data;
-    },
-    (error: Error) => {
-      status = "error";
-      result = error;
+  const read = () => {
+    if (status === "pending") {
+      if (suspender === null) {
+        suspender = promiseFn().then(
+          (data: T) => {
+            status = "success";
+            result = data;
+          },
+          (error: Error) => {
+            status = "error";
+            result = error;
+          }
+        );
+      }
+      throw suspender;
+    } else if (status === "error") {
+      throw result;
+    } else if (status === "success") {
+      return result as T;
     }
-  );
-
-  return {
-    read(): T {
-      if (status === "pending") throw suspender;
-      if (status === "error") throw result;
-      if (status === "success") return result as T; // Assure TypeScript that result is of type T
-      throw new Error("Unexpected status");
-    },
+    throw new Error("This should never happen.");
   };
+
+  return { read };
 }
