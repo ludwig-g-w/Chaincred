@@ -35,6 +35,7 @@ const App = () => {
         clientId={TW_CLIENT_ID}
         activeChain={Sepolia}
         theme={"light"}
+        autoConnect={false}
         supportedWallets={[
           smartWallet(embeddedWallet(), conf),
           metamaskWallet(),

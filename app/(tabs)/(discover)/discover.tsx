@@ -4,8 +4,6 @@ import React from "react";
 
 const DiscoverList = () => {
   const profiles = suspenseGetAllProfiles.read();
-  console.log(profiles);
-
   return <Map {...{ profiles }} />;
 };
 

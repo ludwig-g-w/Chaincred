@@ -1,15 +1,8 @@
-import {
-  Button,
-  ButtonSpinner,
-  FormControl,
-  KeyboardAvoidingView,
-  Textarea,
-  TextareaInput,
-  useToast,
-} from "@gluestack-ui/themed";
-
+import { Textarea, TextareaInput, useToast } from "@gluestack-ui/themed";
 import ListOfAttestations from "@components/ListOfAttestations";
+import MainButton from "@components/MainButton";
 import ReviewComponent from "@components/Rating";
+import MyToast from "@components/Toast";
 import {
   Box,
   ICustomConfig,
@@ -19,19 +12,17 @@ import {
 } from "@gluestack-ui/themed";
 import BottomSheet from "@gorhom/bottom-sheet";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
+import { useSigner } from "@thirdweb-dev/react-native";
+import { createReviewAttestation } from "@utils/eas";
+import { shortenAddress } from "@utils/index";
 import type { AttestItem } from "@utils/types";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Camera } from "expo-camera";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
-import { match } from "ts-pattern";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { createReviewAttestation } from "@utils/eas";
-import { useSigner } from "@thirdweb-dev/react-native";
 import invariant from "tiny-invariant";
-import MyToast from "@components/Toast";
-import MainButton from "@components/MainButton";
-import { shortenAddress } from "@utils/index";
+import { match } from "ts-pattern";
 
 const ScanScreen = () => {
   const theme: {
@@ -40,7 +31,6 @@ const ScanScreen = () => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
   const [scannedAddress, setScannedAddress] = useState("");
-  // const [address, setAddress] = useState("");
   const [attestItem, setAttestItem] = useState<AttestItem>();
   const [rating, setRating] = useState(0);
   const [sControl, setSControl] = useState("Review");

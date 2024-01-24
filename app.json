@@ -3,9 +3,9 @@
     "experiments": {
       "typedRoutes": true
     },
-    "scheme": "thirdweb-test",
-    "name": "thirdweb-test",
-    "slug": "thirdweb-test",
+    "scheme": "chaincred",
+    "name": "ChainCred",
+    "slug": "chaincred",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,14 +18,18 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.thirdweb.test"
+      "bundleIdentifier": "com.ludwigw.chaincred"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.thirdweb.test"
+      "package": "com.ludwigw.chaincred",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -40,6 +44,15 @@
         }
       ],
       "expo-image-picker"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "ff56839b-d376-4b6f-bbae-895cf64f49ea"
+      }
+    },
+    "owner": "ludwigw"
   }
 }
