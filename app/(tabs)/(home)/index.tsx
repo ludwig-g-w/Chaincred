@@ -20,7 +20,7 @@ const data = {
 
 const Companies = () => {
   // const [searchQuery, setSearchQuery] = useState("");
-  // const [activeTab, setActiveTab] = useState("Restaurants"); // For segmented control
+  const [activeTab, setActiveTab] = useState("Restaurants"); // For segmented control
   // const [sortOption, setSortOption] = useState("title"); // default sort by rating
   // const [activeSegment, setActiveSegment] = useState(0); // Index of the active segment
   // const [filteredData, setFilteredData] = useState(data.Restaurants);
