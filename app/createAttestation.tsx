@@ -1,5 +1,6 @@
 import MainButton from "@components/MainButton";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 import {
   AddIcon,
   AlertCircleIcon,
@@ -61,7 +62,7 @@ export default () => {
     }));
 
   return (
-    <Box bg="$white" style={{ flex: 1 }}>
+    <KeyboardAwareScrollView style={{ flex: 1, backgroundColor: "white" }}>
       <Box paddingHorizontal={"$4"} mt="$16" flex={1}>
         <Text bold size="2xl" mb={"$4"}>
           Create an Action
@@ -126,6 +127,6 @@ export default () => {
           </MainButton>
         </FormControl>
       </Box>
-    </Box>
+    </KeyboardAwareScrollView>
   );
 };

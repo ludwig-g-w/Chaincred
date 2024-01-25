@@ -11,7 +11,7 @@ const itemSize = 88;
 
 type Props = {
   // @ts-ignore
-  onPressItem: (attestItem: AttestItem, idx: number) => void;
+  onPressItem?: (attestItem: AttestItem, idx: number) => void;
 };
 
 const ListOfAttestations: React.FC<Props> = (props) => {
@@ -34,10 +34,14 @@ const ListOfAttestations: React.FC<Props> = (props) => {
       ItemSeparatorComponent={() => <Box h="$2" />}
       renderItem={({ item, index }) => {
         const handleOnPressItem = () => {
-          props.onPressItem(item, index);
+          props.onPressItem && props.onPressItem(item, index);
         };
         return (
-          <AttestationItem title={item.title} description={item.description} />
+          <AttestationItem
+            onPress={handleOnPressItem}
+            title={item.title}
+            description={item.description}
+          />
         );
       }}
     />

@@ -35,6 +35,7 @@ const App = () => {
       <ThirdwebProvider
         clientId={TW_CLIENT_ID}
         activeChain={Sepolia}
+        supportedChains={[Sepolia]}
         theme={"light"}
         supportedWallets={[
           smartWallet(embeddedWallet(), conf),

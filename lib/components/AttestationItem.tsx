@@ -24,7 +24,7 @@ const AttestationItem = ({
 
   const handlePress = () => {
     if (!description) return;
-    setIsExpanded(!isExpanded);
+    !onPress && setIsExpanded(!isExpanded);
     onPress();
   };
 
@@ -50,9 +50,11 @@ const AttestationItem = ({
           <HStack alignItems="center">
             <VStack px="$4" py="$2" gap="$2">
               <Text bold>{formattedTitle}</Text>
-              <Badge borderRadius={50} variant="solid">
-                <Text>Received {count}</Text>
-              </Badge>
+              {count > 0 && (
+                <Badge borderRadius={50} variant="solid">
+                  <Text>Received {count}</Text>
+                </Badge>
+              )}
             </VStack>
           </HStack>
 

@@ -23,7 +23,7 @@ const Map = ({ profiles }: { profiles: Profile[] }) => {
   useEffect(() => {
     if (!profiles.length || !mapRef.current) return;
     const points = profiles.map((p) => {
-      const [long, lat] = p.location_coords.split(",");
+      const [long, lat] = p.location_coords?.split(",");
       return {
         type: "Feature",
         properties: {

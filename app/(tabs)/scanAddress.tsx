@@ -13,7 +13,7 @@ import {
 import BottomSheet from "@gorhom/bottom-sheet";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { useSigner } from "@thirdweb-dev/react-native";
-import { createReviewAttestation } from "@utils/eas";
+import { createActionAttestation, createReviewAttestation } from "@utils/eas";
 import { shortenAddress } from "@utils/index";
 import type { AttestItem } from "@utils/types";
 import { BarCodeScanner } from "expo-barcode-scanner";
@@ -49,6 +49,26 @@ const ScanScreen = () => {
         rating,
         comment,
         signer,
+      });
+      toast.show({
+        duration: 3_000,
+        placement: "top",
+        render: () => <MyToast description={`ID: ${id}`} />,
+      });
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmitAction = async () => {
+    invariant(attestItem, " Missing input");
+    setLoading(true);
+    try {
+      const id = await createActionAttestation({
+        address: scannedAddress,
+        signer,
+        ...attestItem,
       });
       toast.show({
         duration: 3_000,
@@ -137,22 +157,26 @@ const ScanScreen = () => {
                   height: 36,
                   backgroundColor:
                     theme.config.tokens.colors.backgroundLight800,
-                  borderRadius: 19,
+
                   marginBottom: 12,
-                }}
-                tabStyle={{
-                  borderRadius: 20,
                 }}
                 values={["Action", "Review"] as const}
               />
 
               {match(sControl)
                 .with("Action", () => (
-                  <ListOfAttestations
-                    onPressItem={(attestItem) => {
-                      setAttestItem(attestItem);
-                    }}
-                  />
+                  <>
+                    <ListOfAttestations
+                      onPressItem={(attestItem) => {
+                        setAttestItem(attestItem);
+                      }}
+                    />
+                    {attestItem && (
+                      <MainButton onPress={handleSubmitAction} {...{ loading }}>
+                        Confirm
+                      </MainButton>
+                    )}
+                  </>
                 ))
                 .with("Review", () => (
                   <>
