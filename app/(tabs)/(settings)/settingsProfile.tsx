@@ -5,6 +5,7 @@ import SuspenseFallback from "@components/SuspenseFallback";
 import MyToast from "@components/Toast";
 import { API_KEY_GOOGLE } from "@env";
 import { Box } from "@gluestack-ui/config/build/theme";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   EditIcon,
   FormControl,
@@ -20,6 +21,8 @@ import {
   CheckCircleIcon,
   Textarea,
   TextareaInput,
+  KeyboardAvoidingView,
+  Center,
 } from "@gluestack-ui/themed";
 import {
   Location,
@@ -138,7 +141,7 @@ export default function Organization() {
   };
 
   return (
-    <Suspense fallback={<SuspenseFallback />}>
+    <KeyboardAwareScrollView>
       <View height={"100%"} bg="$white" p="$4" gap={"$2"}>
         <View w="$full" alignItems="center">
           <ImageUploadArea
@@ -154,7 +157,9 @@ export default function Organization() {
           setEditing={setEditing}
         >
           <GooglePlacesAutocomplete
+            disableScroll
             placeholder="Where you are based?"
+            keepResultsAfterBlur
             styles={{
               container: {
                 flex: 0,
@@ -226,7 +231,7 @@ export default function Organization() {
           Save
         </MainButton>
       </View>
-    </Suspense>
+    </KeyboardAwareScrollView>
   );
 }
 
@@ -250,21 +255,33 @@ const EditableField = ({
   return (
     <>
       <FormControlLabelText>{label}</FormControlLabelText>
-      <HStack gap="$4" justifyContent="space-between" alignItems="center">
+      <HStack gap={"$2"} justifyContent="space-between">
         {isEditing ? (
           <>
             <FormControl flex={1}>{children}</FormControl>
-            <Pressable onPress={onSave} p="$2" bg="$green500" rounded="$full">
+
+            <Pressable
+              aspectRatio={1}
+              onPress={onSave}
+              w="$8"
+              bg="$green500"
+              rounded="$full"
+              mt="$1.5"
+              alignItems="center"
+              justifyContent="center"
+            >
               <CheckCircleIcon size="sm" color="white" />
             </Pressable>
           </>
         ) : (
           <>
-            <Text>{profileValue || `No ${label.toLowerCase()}`}</Text>
+            <Text flex={1}>{profileValue || `No ${label.toLowerCase()}`}</Text>
             <Pressable
               onPress={() =>
                 setEditing((prev) => ({ ...prev, [label.toLowerCase()]: true }))
               }
+              aspectRatio={1}
+              w="$8"
               p="$2"
               bg="$blue500"
               rounded="$full"
