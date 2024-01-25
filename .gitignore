@@ -1,6 +1,8 @@
 node_modules/
+.idea
 .env*
 .expo/
+gradle.properties
 dist/
 npm-debug.*
 *.jks

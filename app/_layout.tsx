@@ -1,3 +1,4 @@
+import "@thirdweb-dev/react-native-compat";
 import { EAS_GRAPHQL, TW_CLIENT_ID } from "@env";
 import { config } from "@gluestack-ui/config"; // O
 import { GluestackUIProvider } from "@gluestack-ui/themed";
@@ -35,7 +36,6 @@ const App = () => {
         clientId={TW_CLIENT_ID}
         activeChain={Sepolia}
         theme={"light"}
-        autoConnect={false}
         supportedWallets={[
           smartWallet(embeddedWallet(), conf),
           metamaskWallet(),
