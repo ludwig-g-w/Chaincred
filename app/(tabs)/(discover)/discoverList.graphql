@@ -1,4 +1,4 @@
-query HomeFeed($id: String!) {
+query DiscoverList($id: String!) {
   attestations(
     where: {
       recipient: { equals: $id }

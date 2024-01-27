@@ -2,13 +2,16 @@ import ListItem from "@components/ProfileCard";
 import { ORGANIZATION_MANAGER_ADDRESS } from "@env";
 import { Box, Text } from "@gluestack-ui/themed";
 import { getProfilesByAddresses } from "@services/supabase";
+import { format, parseISO } from "date-fns";
 import { FlashList } from "@shopify/flash-list";
 import { useAddress, useContract } from "@thirdweb-dev/react-native";
 import { groupAttestationsByAttester } from "@utils/attestations";
-import { ProfileListItem } from "@utils/types";
+import { ProfileListItem, isAttestItem } from "@utils/types";
 import { router } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
 import { useHomeFeedSuspenseQuery } from "../../../generated/graphql";
+import AttestationItem from "@components/AttestationItem";
+import ReviewListItem from "@components/ReviewListItem";
 
 // Dummy data for restaurants, replace with your actual data source
 const data = {
@@ -19,123 +22,73 @@ const data = {
 };
 
 const Companies = () => {
-  // const [searchQuery, setSearchQuery] = useState("");
-  const [activeTab, setActiveTab] = useState("Restaurants"); // For segmented control
-  // const [sortOption, setSortOption] = useState("title"); // default sort by rating
-  // const [activeSegment, setActiveSegment] = useState(0); // Index of the active segment
-  // const [filteredData, setFilteredData] = useState(data.Restaurants);
-
   const [profileData, setProfileData] = useState<ProfileListItem[]>([]);
   const { contract } = useContract(ORGANIZATION_MANAGER_ADDRESS);
 
   const address = useAddress();
-  const { data } = useHomeFeedSuspenseQuery({
+  const { data, error } = useHomeFeedSuspenseQuery({
     skip: !address,
     variables: {
       id: address ?? "",
     },
   });
 
-  const attestationsByAttester = useMemo(
-    () => groupAttestationsByAttester(data?.attestations),
-    [data?.attestations]
-  );
-  useEffect(() => {
-    if (!attestationsByAttester) return;
-    (async function mergeProfileWithAttestations() {
-      const addresses = Object.keys(attestationsByAttester);
-      const profiles = await getProfilesByAddresses(addresses);
-
-      const results: ProfileListItem[] = [];
-      for (const key in attestationsByAttester) {
-        if (attestationsByAttester.hasOwnProperty(key)) {
-          const profile = profiles.find((p) => p.address === key);
-          const amount = attestationsByAttester[key].length;
-
-          results.push({
-            title: profile?.title ?? key,
-            description: profile?.description ?? "",
-            locationCoords: profile?.location_coords ?? "",
-            count: amount,
-            id: attestationsByAttester[key][0].id,
-            address: key,
-            // @ts-ignore
-            imageUrl: profile?.image_url,
-          });
+  const sortedAndGroupedList = useMemo(() => {
+    if (!data?.attestations) return [];
+    const groups =
+      data?.attestations?.reduce((acc, item) => {
+        const date = format(new Date(item.timeCreated * 1000), "yyyy-MM-dd");
+        if (!acc[date]) {
+          acc[date] = [];
         }
-      }
-      setProfileData(results);
-    })();
-  }, [contract, attestationsByAttester]);
+        acc[date].push(item.data);
+        return acc;
+      }, {}) ?? {};
 
-  // const options = {
-  //   keys: ["title"],
-  //   includeScore: true,
-  // };
+    return Object.entries(groups).sort(
+      ([date1], [date2]) => -date1.localeCompare(date2)
+    );
+  }, [data?.attestations]);
 
-  // const fuseRestaurants = new Fuse(data.Restaurants, options);
-  // const fuseDishes = new Fuse(data.Dishes, options);
-
-  // const handleSearch = (text: string) => {
-  //   setSearchQuery(text);
-  //   let results = [];
-  //   if (activeSegment === 0) {
-  //     // If Restaurants is selected
-  //     results = fuseRestaurants.search(text);
-  //   } else {
-  //     // If Dishes is selected
-  //     results = fuseDishes.search(text);
-  //   }
-  //   const matches = results.map((result) => result.item);
-  //   setFilteredData(matches);
-  // };
-
-  // const sortedRestaurants = useMemo(() => {
-  //   return filteredData.sort((a, b) => b[sortOption] - a[sortOption]);
-  // }, [data, sortOption]);
+  console.log(sortedAndGroupedList);
 
   return (
     <Box px="$2" flex={1} bg="$white">
-      {/* <SegmentedControl
-        values={["Available", "Done"]}
-        selectedIndex={activeSegment}
-        onChange={(event) => {
-          setActiveSegment(event.nativeEvent.selectedSegmentIndex);
-          setFilteredData(data[event.nativeEvent.value]);
-        }}
-      /> */}
-
-      {/* <Input borderRadius="$full" bg="white">
-        <InputSlot pl="$3">
-          <InputIcon as={SearchIcon} />
-        </InputSlot>
-        <InputField
-          placeholder="Search..."
-          type="text"
-          value={searchQuery}
-          onChangeText={handleSearch}
-        />
-      </Input> */}
-
       <Text color="$textLight600" my="$4" size="lg" bold>
-        Actions Received
+        All Activity
       </Text>
       <FlashList
         numColumns={1}
         estimatedItemSize={88}
-        keyExtractor={(d) => d.id}
-        data={profileData}
-        ItemSeparatorComponent={() => <Box h="$2" />}
-        renderItem={({ item }) => (
-          <ListItem
-            onPress={() => router.push(`/profiles/${item.address}`)}
-            imageUrl={item.imageUrl}
-            count={item.count}
-            title={item.title}
-            description={item.description}
-            locationCoords={item.locationCoords}
-          />
-        )}
+        data={sortedAndGroupedList}
+        ItemSeparatorComponent={() => <Box h="$4" />}
+        renderItem={({ item }) => {
+          const [date, items] = item;
+          return (
+            <Box>
+              <Text pb="$2" size="md" bold>
+                {format(parseISO(date), "MMMM do, yyyy")}
+              </Text>
+              {items.map((subItem, index) => (
+                <Box pb="$2">
+                  {isAttestItem(subItem) ? (
+                    <AttestationItem
+                      key={index}
+                      title={subItem.title}
+                      description={subItem.description}
+                    />
+                  ) : (
+                    <ReviewListItem
+                      key={index}
+                      rating={subItem.rating}
+                      comment={subItem.comment}
+                    />
+                  )}
+                </Box>
+              ))}
+            </Box>
+          );
+        }}
       />
     </Box>
   );

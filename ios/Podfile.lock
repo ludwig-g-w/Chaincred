@@ -424,7 +424,7 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
-  - react-native-segmented-control (2.5.0):
+  - react-native-segmented-control (2.4.1):
     - React-Core
   - React-NativeModulesApple (0.72.6):
     - hermes-engine
@@ -917,7 +917,7 @@ SPEC CHECKSUMS:
   react-native-quick-crypto: 455c1b411db006dba1026a30681ececb19180187
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-safe-area-context: 36cc67648134e89465663b8172336a19eeda493d
-  react-native-segmented-control: 712749e75728a736a2b8a7d7dbc8c2a3344b73e8
+  react-native-segmented-control: 0e4b5d93911e2234f110057df2b41738b326ab3e
   React-NativeModulesApple: 02e35e9a51e10c6422f04f5e4076a7c02243fff2
   React-perflogger: e3596db7e753f51766bceadc061936ef1472edc3
   React-RCTActionSheet: 17ab132c748b4471012abbcdcf5befe860660485

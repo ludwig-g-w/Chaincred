@@ -24,7 +24,7 @@ interface UserCommentProps {
   onPress: () => {};
 }
 
-const UserComment: React.FC<UserCommentProps> = ({
+const ReviewListItem: React.FC<UserCommentProps> = ({
   avatarUri,
   fallbackInitials = "A",
   userName = "Ludwig",
@@ -114,4 +114,4 @@ const UserComment: React.FC<UserCommentProps> = ({
   );
 };
 
-export default UserComment;
+export default ReviewListItem;

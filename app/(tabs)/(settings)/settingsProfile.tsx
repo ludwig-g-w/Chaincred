@@ -1,41 +1,38 @@
 import { useApolloClient } from "@apollo/client";
 import ImageUploadArea from "@components/ImageUploadArea";
 import MainButton from "@components/MainButton";
-import SuspenseFallback from "@components/SuspenseFallback";
 import MyToast from "@components/Toast";
 import { API_KEY_GOOGLE } from "@env";
-import { Box } from "@gluestack-ui/config/build/theme";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
+  CheckCircleIcon,
   EditIcon,
   FormControl,
-  FormControlLabel,
   FormControlLabelText,
   HStack,
   Input,
   InputField,
-  Text,
-  View,
-  useToast,
   Pressable,
-  CheckCircleIcon,
+  Text,
   Textarea,
   TextareaInput,
-  KeyboardAvoidingView,
-  Center,
+  View,
+  useToast,
 } from "@gluestack-ui/themed";
 import {
   Location,
+  Profile,
   getProfileByAddress,
   setOrModifyProfile,
-  Profile,
 } from "@services/supabase";
 import { useAddress } from "@thirdweb-dev/react-native";
 import { pickImage, uploadImage } from "@utils/uploading";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
-import React, { ReactElement, Suspense, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
+import { Dimensions } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import invariant from "tiny-invariant";
 
 export default function Organization() {
@@ -140,9 +137,22 @@ export default function Organization() {
     }
   };
 
+  const insets = useSafeAreaInsets();
+
   return (
-    <KeyboardAwareScrollView>
-      <View height={"100%"} bg="$white" p="$4" gap={"$2"}>
+    <KeyboardAwareScrollView
+      style={{
+        backgroundColor: "white",
+        flex: 1,
+      }}
+    >
+      <View
+        justifyContent="space-between"
+        height={Dimensions.get("screen").height - (insets.bottom + 210)}
+        bg="$white"
+        p="$4"
+        gap={"$2"}
+      >
         <View w="$full" alignItems="center">
           <ImageUploadArea
             img={image?.uri ?? profile?.image_url}

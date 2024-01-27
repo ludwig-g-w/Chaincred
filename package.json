@@ -19,7 +19,7 @@
     "@gorhom/bottom-sheet": "^4.6.0",
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-native-community/netinfo": "9.3.10",
-    "@react-native-segmented-control/segmented-control": "^2.5.0",
+    "@react-native-segmented-control/segmented-control": "2.4.1",
     "@shopify/flash-list": "1.4.3",
     "@supabase/supabase-js": "^2.39.1",
     "@thirdweb-dev/react-native": "^0.6.3",

@@ -8,7 +8,7 @@ import { groupAttestationsByAttester } from "@utils/attestations";
 import { ProfileListItem } from "@utils/types";
 import { router } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
-import { useHomeFeedSuspenseQuery } from "../../../generated/graphql";
+import { useDiscoverListSuspenseQuery } from "../../../generated/graphql";
 
 // Dummy data for restaurants, replace with your actual data source
 const data = {
@@ -29,7 +29,7 @@ const Companies = () => {
   const { contract } = useContract(ORGANIZATION_MANAGER_ADDRESS);
 
   const address = useAddress();
-  const { data } = useHomeFeedSuspenseQuery({
+  const { data } = useDiscoverListSuspenseQuery({
     skip: !address,
     variables: {
       id: address ?? "",

@@ -1,6 +1,8 @@
 import { HStack, Text, View } from "@gluestack-ui/themed";
-import { Link, Stack } from "expo-router";
+import { Link, Stack, useLocalSearchParams } from "expo-router";
 export default () => {
+  const url = useLocalSearchParams();
+  const isMap = url.screen === "discoverMap";
   return (
     <View flex={1}>
       <View
@@ -10,17 +12,32 @@ export default () => {
         zIndex={99}
         justifyContent="center"
       >
-        <HStack borderRadius="$full" bgColor="$blue500">
+        <HStack borderRadius="$full">
           <Link href={"/discoverMap"}>
-            <View p="$2" borderBlockColor="$amber200" pr="$4">
-              <Text color="white" bold>
+            <View
+              alignItems="center"
+              borderTopLeftRadius="$full"
+              borderBottomLeftRadius="$full"
+              bg={isMap ? "$blue500" : "$backgroundLight400"}
+              p="$2"
+              pl="$4"
+            >
+              <Text color={isMap ? "white" : "$textLight100"} bold>
                 Map
               </Text>
             </View>
           </Link>
           <Link href={"/discoverList"}>
-            <View p="$2" borderBlockColor="$amber200" pr="$4">
-              <Text bold>List</Text>
+            <View
+              borderTopRightRadius="$full"
+              borderBottomRightRadius="$full"
+              bg={!isMap ? "$blue500" : "$backgroundLight400"}
+              p="$2"
+              pr="$4"
+            >
+              <Text color={!isMap ? "white" : "$textLight100"} bold>
+                List
+              </Text>
             </View>
           </Link>
         </HStack>

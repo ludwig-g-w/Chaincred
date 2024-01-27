@@ -2851,6 +2851,13 @@ export type TimestampWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type DiscoverListQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type DiscoverListQuery = { __typename?: 'Query', attestations: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }> };
+
 export type HomeFeedQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
@@ -2877,10 +2884,52 @@ export const ListAttestationFragmentDoc = gql`
   data
 }
     `;
+export const DiscoverListDocument = gql`
+    query DiscoverList($id: String!) {
+  attestations(
+    where: {recipient: {equals: $id}, AND: {schemaId: {equals: "0x82b6dfa1f89b37cffb75b5766fb10896d8fb0c196bb18b5cdbf44fef12606a96"}}}
+  ) {
+    ...ListAttestation
+  }
+}
+    ${ListAttestationFragmentDoc}`;
+
+/**
+ * __useDiscoverListQuery__
+ *
+ * To run a query within a React component, call `useDiscoverListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDiscoverListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDiscoverListQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDiscoverListQuery(baseOptions: Apollo.QueryHookOptions<DiscoverListQuery, DiscoverListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DiscoverListQuery, DiscoverListQueryVariables>(DiscoverListDocument, options);
+      }
+export function useDiscoverListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DiscoverListQuery, DiscoverListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DiscoverListQuery, DiscoverListQueryVariables>(DiscoverListDocument, options);
+        }
+export function useDiscoverListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<DiscoverListQuery, DiscoverListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<DiscoverListQuery, DiscoverListQueryVariables>(DiscoverListDocument, options);
+        }
+export type DiscoverListQueryHookResult = ReturnType<typeof useDiscoverListQuery>;
+export type DiscoverListLazyQueryHookResult = ReturnType<typeof useDiscoverListLazyQuery>;
+export type DiscoverListSuspenseQueryHookResult = ReturnType<typeof useDiscoverListSuspenseQuery>;
+export type DiscoverListQueryResult = Apollo.QueryResult<DiscoverListQuery, DiscoverListQueryVariables>;
 export const HomeFeedDocument = gql`
     query HomeFeed($id: String!) {
   attestations(
-    where: {recipient: {equals: $id}, AND: {schemaId: {equals: "0x82b6dfa1f89b37cffb75b5766fb10896d8fb0c196bb18b5cdbf44fef12606a96"}}}
+    where: {OR: [{attester: {equals: $id}}, {recipient: {equals: $id}}], AND: {OR: [{schemaId: {equals: "0x82b6dfa1f89b37cffb75b5766fb10896d8fb0c196bb18b5cdbf44fef12606a96"}}, {schemaId: {equals: "0xba299dc0f2f0caf692628b8bcb62037763e865804462c85b8adcf7ef7b8beb53"}}]}}
   ) {
     ...ListAttestation
   }
