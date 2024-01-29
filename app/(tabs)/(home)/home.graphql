@@ -1,5 +1,6 @@
 query HomeFeed($id: String!) {
   attestations(
+    orderBy: { timeCreated: asc }
     where: {
       OR: [{ attester: { equals: $id } }, { recipient: { equals: $id } }]
       AND: {

@@ -26,7 +26,7 @@ const Companies = () => {
   const { contract } = useContract(ORGANIZATION_MANAGER_ADDRESS);
 
   const address = useAddress();
-  const { data, error } = useHomeFeedSuspenseQuery({
+  const { data } = useHomeFeedSuspenseQuery({
     skip: !address,
     variables: {
       id: address ?? "",
@@ -49,8 +49,6 @@ const Companies = () => {
       ([date1], [date2]) => -date1.localeCompare(date2)
     );
   }, [data?.attestations]);
-
-  console.log(sortedAndGroupedList);
 
   return (
     <Box px="$2" flex={1} bg="$white">
