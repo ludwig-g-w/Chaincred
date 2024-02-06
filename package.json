@@ -22,6 +22,7 @@
     "@react-native-segmented-control/segmented-control": "2.4.1",
     "@shopify/flash-list": "1.4.3",
     "@supabase/supabase-js": "^2.39.1",
+    "@thirdweb-dev/react": "^4.4.5",
     "@thirdweb-dev/react-native": "^0.6.3",
     "@thirdweb-dev/react-native-compat": "^0.6.3",
     "@thirdweb-dev/sdk": "^4.0.28",
