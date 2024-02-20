@@ -29,7 +29,7 @@
     "base64-arraybuffer": "^1.0.2",
     "date-fns": "^3.3.1",
     "ethers": "^5",
-    "expo": "^50.0.0",
+    "expo": "^50.0.6",
     "expo-barcode-scanner": "~12.9.2",
     "expo-camera": "~14.0.4",
     "expo-constants": "~15.4.5",
