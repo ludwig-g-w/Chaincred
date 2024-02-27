@@ -26,6 +26,7 @@
     "@thirdweb-dev/react-native": "^0.7.5",
     "@thirdweb-dev/react-native-compat": "^0.7.5",
     "@thirdweb-dev/sdk": "^4.0.35",
+    "amazon-cognito-identity-js": "^6.3.7",
     "base64-arraybuffer": "^1.0.2",
     "date-fns": "^3.3.1",
     "ethers": "^5",

@@ -35,7 +35,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "bundler": "metro"
+      "bundler": "metro",
+      "output": "server"
     },
     "plugins": [
       "expo-router",
@@ -49,7 +50,7 @@
     ],
     "extra": {
       "router": {
-        "origin": false
+        "origin": "https://ludwigsw.dev"
       },
       "eas": {
         "projectId": "ff56839b-d376-4b6f-bbae-895cf64f49ea"

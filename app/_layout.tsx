@@ -37,6 +37,12 @@ const App = () => {
         activeChain={Sepolia}
         supportedChains={[Sepolia]}
         theme={"light"}
+        authConfig={{
+          // This domain should match the backend
+          domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || "",
+          // Pass the URL of the auth endpoints
+          authUrl: "/api/auth",
+        }}
         supportedWallets={[
           smartWallet(embeddedWallet(), conf),
           metamaskWallet(),
