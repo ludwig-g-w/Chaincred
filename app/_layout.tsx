@@ -1,3 +1,4 @@
+import "expo-dev-client";
 import "@thirdweb-dev/react-native-compat";
 import { EAS_GRAPHQL, TW_CLIENT_ID } from "@env";
 import { config } from "@gluestack-ui/config"; // O
@@ -11,11 +12,14 @@ import {
   walletConnect,
   smartWallet,
 } from "@thirdweb-dev/react-native";
-import { Stack } from "expo-router";
+import { Stack, useNavigationContainerRef } from "expo-router";
 import React from "react";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { typePolicies } from "@utils/apolloConfig";
 import { Sepolia } from "@thirdweb-dev/chains";
+import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
+import { useApolloClientDevTools } from "@dev-plugins/apollo-client";
+import * as SecureStore from "expo-secure-store";
 
 const client = new ApolloClient({
   uri: EAS_GRAPHQL,
@@ -30,6 +34,10 @@ const conf = {
 };
 
 const App = () => {
+  const navigationRef = useNavigationContainerRef();
+  useApolloClientDevTools(client);
+  useReactNavigationDevTools(navigationRef);
+
   return (
     <GluestackUIProvider config={config}>
       <ThirdwebProvider
@@ -38,6 +46,11 @@ const App = () => {
         supportedChains={[Sepolia]}
         theme={"light"}
         authConfig={{
+          secureStorage: {
+            getItem: SecureStore.getItemAsync,
+            removeItem: SecureStore.deleteItemAsync,
+            setItem: SecureStore.setItemAsync,
+          },
           // This domain should match the backend
           domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || "",
           // Pass the URL of the auth endpoints

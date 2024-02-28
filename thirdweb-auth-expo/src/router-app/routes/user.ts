@@ -9,8 +9,10 @@ import type { ThirdwebAuthContext } from "../types";
 import { ExpoRequest, ExpoResponse } from "expo-router/server";
 
 export async function GET(req: ExpoRequest, ctx: ThirdwebAuthContext) {
+  console.log("USER");
   const user = await getUser(req, ctx);
 
+  let res = ExpoResponse.json(user);
   // Importantly, make sure the user was actually logged in before refreshing
   if (user) {
     const token = getToken(req);
@@ -33,31 +35,37 @@ export async function GET(req: ExpoRequest, ctx: ThirdwebAuthContext) {
           : undefined;
         const refreshedToken = await ctx.auth.refresh(token, expirationTime);
         const refreshedPayload = ctx.auth.parseToken(refreshedToken);
-        res.setHeader("Set-Cookie", [
-          serialize(
-            `${THIRDWEB_AUTH_TOKEN_COOKIE_PREFIX}_${user.address}`,
-            refreshedToken,
-            {
-              domain: ctx.cookieOptions?.domain,
-              path: ctx.cookieOptions?.path || "/",
-              sameSite: ctx.cookieOptions?.sameSite || "none",
-              expires: new Date(refreshedPayload.payload.exp * 1000),
-              httpOnly: true,
-              secure: ctx.cookieOptions?.secure || true,
-            }
-          ),
-          serialize(THIRDWEB_AUTH_ACTIVE_ACCOUNT_COOKIE, user.address, {
-            domain: ctx.cookieOptions?.domain,
-            path: ctx.cookieOptions?.path || "/",
-            sameSite: ctx.cookieOptions?.sameSite || "none",
-            expires: new Date(refreshedPayload.payload.exp * 1000),
-            httpOnly: true,
-            secure: ctx.cookieOptions?.secure || true,
-          }),
-        ]);
+        res = new ExpoResponse(user, {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+            "Set-Cookie": JSON.stringify([
+              serialize(
+                `${THIRDWEB_AUTH_TOKEN_COOKIE_PREFIX}_${user.address}`,
+                refreshedToken,
+                {
+                  domain: ctx.cookieOptions?.domain,
+                  path: ctx.cookieOptions?.path || "/",
+                  sameSite: ctx.cookieOptions?.sameSite || "none",
+                  expires: new Date(refreshedPayload.payload.exp * 1000),
+                  httpOnly: true,
+                  secure: ctx.cookieOptions?.secure || true,
+                }
+              ),
+              serialize(THIRDWEB_AUTH_ACTIVE_ACCOUNT_COOKIE, user.address, {
+                domain: ctx.cookieOptions?.domain,
+                path: ctx.cookieOptions?.path || "/",
+                sameSite: ctx.cookieOptions?.sameSite || "none",
+                expires: new Date(refreshedPayload.payload.exp * 1000),
+                httpOnly: true,
+                secure: ctx.cookieOptions?.secure || true,
+              }),
+            ]),
+          },
+        });
       }
     }
   }
 
-  return res.status(200).json(user);
+  return res;
 }

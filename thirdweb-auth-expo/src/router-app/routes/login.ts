@@ -9,7 +9,8 @@ import { serialize } from "cookie";
 import { ExpoRequest, ExpoResponse } from "expo-router/server";
 
 export async function POST(req: ExpoRequest, ctx: ThirdwebAuthContext) {
-  const parsedPayload = LoginPayloadBodySchema.safeParse(req.body);
+  const body = await req.json();
+  const parsedPayload = LoginPayloadBodySchema.safeParse(body);
 
   // Get signed login payload from the frontend
   if (!parsedPayload.success) {
@@ -56,20 +57,17 @@ export async function POST(req: ExpoRequest, ctx: ThirdwebAuthContext) {
     token = await ctx.auth.generate(payload, generateOptions);
   } catch (err: any) {
     if (err.message) {
-      return new ExpoResponse("Please provide an address", {
+      return new ExpoResponse(err.message, {
         status: 400,
       });
-      return res.status(400).json({ error: err.message });
     } else if (typeof err === "string") {
-      return new ExpoResponse("Please provide an address", {
+      return new ExpoResponse(err, {
         status: 400,
       });
-      return res.status(400).json({ error: err });
     } else {
-      return new ExpoResponse("Please provide an address", {
+      return new ExpoResponse("Invalid login payload", {
         status: 400,
       });
-      return res.status(400).json({ error: "Invalid login payload" });
     }
   }
 

@@ -4,10 +4,8 @@ import { ExpoRequest, ExpoResponse } from "expo-router/server";
 
 export async function POST(req: ExpoRequest, ctx: ThirdwebAuthContext) {
   const body = await req.json();
-  console.log({ request: body });
 
   const parsedPayload = PayloadBodySchema.safeParse(body);
-  console.log(parsedPayload?.error);
 
   if (!parsedPayload.success) {
     return new ExpoResponse("Please provide an address", {
@@ -29,8 +27,6 @@ export async function POST(req: ExpoRequest, ctx: ThirdwebAuthContext) {
         )
       : undefined,
   });
-
-  console.log(payload);
 
   return ExpoResponse.json({
     payload,

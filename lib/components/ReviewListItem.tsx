@@ -33,17 +33,11 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
   rating,
   onPress = () => {},
 }) => {
-  const [textColor, subTextColor] = useToken("colors", [
-    "$textBase",
-    "$textSecondary",
-  ]);
-
   const formattedUserName = isAddress(userName)
     ? shortenAddress(userName)
     : userName;
 
   const [isExpanded, setIsExpanded] = useState(false);
-  console.log(rating);
 
   const emoji = ["😔", "😐", "😊", "😃", "🤩"][rating];
 
@@ -80,9 +74,7 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
           </Avatar>
           <VStack>
             <Text fontWeight="medium">{formattedUserName}</Text>
-            <Text color={subTextColor} fontSize="$sm">
-              {timeAgo}
-            </Text>
+            <Text fontSize="$sm">{timeAgo}</Text>
           </VStack>
           <Text ml="auto" size="4xl">
             {emoji}

@@ -12,10 +12,11 @@ export * from "./types";
 
 async function ThirdwebAuthRouter(
   req: ExpoRequest,
-  args: any[],
+  args: { thirdweb: string },
   ctx: ThirdwebAuthContext
 ) {
   const action = args?.thirdweb;
+  console.log(action);
 
   switch (action) {
     case "payload":
@@ -35,17 +36,20 @@ async function ThirdwebAuthRouter(
   }
 }
 
-export function ThirdwebAuth(cfg) {
+export function ThirdwebAuth<
+  TData extends Json = Json,
+  TSession extends Json = Json
+>(cfg: ThirdwebAuthConfig<TData, TSession>) {
   const ctx = {
     ...cfg,
     auth: new ThirdwebAuthSDK(cfg.wallet, cfg.domain),
   };
 
   return {
-    ThirdwebAuthHandler: function (req, mon) {
+    ThirdwebAuthHandler: function (req: ExpoRequest, mon: any) {
       return ThirdwebAuthRouter(req, mon, ctx as ThirdwebAuthContext);
     },
-    getUser: (req) => {
+    getUser: (req: ExpoRequest) => {
       return getUser(req, ctx);
     },
   };
