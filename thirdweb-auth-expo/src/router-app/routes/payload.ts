@@ -30,6 +30,8 @@ export async function POST(req: ExpoRequest, ctx: ThirdwebAuthContext) {
       : undefined,
   });
 
+  console.log(payload);
+
   return ExpoResponse.json({
     payload,
   });

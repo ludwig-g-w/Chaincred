@@ -46,7 +46,7 @@ export function ThirdwebAuth(cfg) {
       return ThirdwebAuthRouter(req, mon, ctx as ThirdwebAuthContext);
     },
     getUser: (req) => {
-      return getUser<TData, TSession>(req, ctx);
+      return getUser(req, ctx);
     },
   };
 }
