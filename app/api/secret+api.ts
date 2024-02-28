@@ -1,16 +1,16 @@
-import { getUser } from "./auth/[...thirdweb]";
+import { getUser } from "./auth/[...thirdweb]+api";
 import { ExpoRequest, ExpoResponse } from "expo-router/server";
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: ExpoRequest) => {
   const user = await getUser(req);
 
   if (!user) {
-    return res.status(401).json({
-      message: "Not authorized.",
+    return new ExpoResponse("Not authorized.", {
+      status: 401,
     });
   }
 
-  return res.status(200).json({
+  return ExpoResponse.json({
     message: `This is a secret for ${user.address}.`,
   });
 };

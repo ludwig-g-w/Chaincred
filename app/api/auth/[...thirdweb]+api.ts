@@ -1,4 +1,4 @@
-import { ThirdwebAuth } from "@thirdweb-dev/auth/next";
+import { ThirdwebAuthAppRouter as ThirdwebAuth } from "../../../thirdweb-auth-expo/src/index";
 import { PrivateKeyWallet } from "@thirdweb-dev/auth/evm";
 
 // NOTE: This users map is for demo purposes. Its used to show the power of
@@ -9,7 +9,9 @@ const users: Record<string, any> = {};
 
 export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
   domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || "",
-  wallet: new PrivateKeyWallet(process.env.THIRDWEB_AUTH_PRIVATE_KEY || ""),
+  wallet: new PrivateKeyWallet(
+    "cac51f3a1eddc7d0bc1a3a10ae24276fea5e27f9e1e4b582ff91ae1cbcbae08a" || ""
+  ),
   // NOTE: All these callbacks are optional! You can delete this section and
   // the Auth flow will still work.
   callbacks: {
@@ -48,4 +50,6 @@ export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
   },
 });
 
-export default ThirdwebAuthHandler();
+export function POST(req, mon) {
+  return ThirdwebAuthHandler(req, mon);
+}

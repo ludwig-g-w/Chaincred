@@ -6,22 +6,17 @@ import type { GenerateOptionsWithOptionalDomain } from "../../../core";
 import type { ThirdwebAuthContext } from "../types";
 import { LoginPayloadBodySchema } from "../types";
 import { serialize } from "cookie";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { ExpoRequest, ExpoResponse } from "expo-router/server";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  ctx: ThirdwebAuthContext,
-) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
-
+export async function POST(req: ExpoRequest, ctx: ThirdwebAuthContext) {
   const parsedPayload = LoginPayloadBodySchema.safeParse(req.body);
 
   // Get signed login payload from the frontend
   if (!parsedPayload.success) {
-    return res.status(400).json({ error: "Invalid login payload" });
+    return new ExpoResponse("Please provide an address", {
+      status: 400,
+    });
+    // return res.status(400).json({ error: "Invalid login payload" });
   }
 
   const payload = parsedPayload.data.payload;
@@ -61,10 +56,19 @@ export default async function handler(
     token = await ctx.auth.generate(payload, generateOptions);
   } catch (err: any) {
     if (err.message) {
+      return new ExpoResponse("Please provide an address", {
+        status: 400,
+      });
       return res.status(400).json({ error: err.message });
     } else if (typeof err === "string") {
+      return new ExpoResponse("Please provide an address", {
+        status: 400,
+      });
       return res.status(400).json({ error: err });
     } else {
+      return new ExpoResponse("Please provide an address", {
+        status: 400,
+      });
       return res.status(400).json({ error: "Invalid login payload" });
     }
   }
@@ -77,31 +81,39 @@ export default async function handler(
     payload: { exp },
   } = ctx.auth.parseToken(token);
 
-  // Securely set httpOnly cookie on request to prevent XSS on frontend
-  // And set path to / to enable thirdweb_auth_token usage on all endpoints
-  res.setHeader("Set-Cookie", [
-    serialize(
-      `${THIRDWEB_AUTH_TOKEN_COOKIE_PREFIX}_${payload.payload.address}`,
-      token,
-      {
-        domain: ctx.cookieOptions?.domain,
-        path: ctx.cookieOptions?.path || "/",
-        sameSite: ctx.cookieOptions?.sameSite || "none",
-        expires: new Date(exp * 1000),
-        httpOnly: true,
-        secure: ctx.cookieOptions?.secure || true,
-      },
-    ),
-    serialize(THIRDWEB_AUTH_ACTIVE_ACCOUNT_COOKIE, payload.payload.address, {
-      domain: ctx.cookieOptions?.domain,
-      path: ctx.cookieOptions?.path || "/",
-      sameSite: ctx.cookieOptions?.sameSite || "none",
-      expires: new Date(exp * 1000),
-      httpOnly: true,
-      secure: ctx.cookieOptions?.secure || true,
-    }),
-  ]);
+  return new ExpoResponse(JSON.stringify({ token }), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Set-Cookie": JSON.stringify([
+        serialize(
+          `${THIRDWEB_AUTH_TOKEN_COOKIE_PREFIX}_${payload.payload.address}`,
+          token,
+          {
+            domain: ctx.cookieOptions?.domain,
+            path: ctx.cookieOptions?.path || "/",
+            sameSite: ctx.cookieOptions?.sameSite || "none",
+            expires: new Date(exp * 1000),
+            httpOnly: true,
+            secure: ctx.cookieOptions?.secure || true,
+          }
+        ),
+        serialize(
+          THIRDWEB_AUTH_ACTIVE_ACCOUNT_COOKIE,
+          payload.payload.address,
+          {
+            domain: ctx.cookieOptions?.domain,
+            path: ctx.cookieOptions?.path || "/",
+            sameSite: ctx.cookieOptions?.sameSite || "none",
+            expires: new Date(exp * 1000),
+            httpOnly: true,
+            secure: ctx.cookieOptions?.secure || true,
+          }
+        ),
+      ]),
+    },
+  });
 
   // Send token in body and as cookie for frontend and backend use cases
-  return res.status(200).json({ token });
+  // return res..json({ token });
 }

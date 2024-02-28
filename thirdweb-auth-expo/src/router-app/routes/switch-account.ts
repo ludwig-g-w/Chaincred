@@ -2,24 +2,13 @@ import { serialize } from "cookie";
 import { getCookie } from "../helpers/user";
 import type { ThirdwebAuthContext } from "../types";
 import { ActiveBodySchema } from "../types";
-import type { NextApiRequest, NextApiResponse } from "next";
 import {
   THIRDWEB_AUTH_ACTIVE_ACCOUNT_COOKIE,
   THIRDWEB_AUTH_DEFAULT_TOKEN_DURATION_IN_SECONDS,
   THIRDWEB_AUTH_TOKEN_COOKIE_PREFIX,
 } from "../../../constants";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  ctx: ThirdwebAuthContext,
-) {
-  if (req.method !== "POST") {
-    return res.status(405).json({
-      error: "Invalid method. Only POST supported",
-    });
-  }
-
+export async function POST(req, ctx: ThirdwebAuthContext) {
   const parsedPayload = ActiveBodySchema.safeParse(req.body);
   if (!parsedPayload.success) {
     return res.status(400).json({ error: "Please provide an address" });
@@ -28,7 +17,7 @@ export default async function handler(
   let cookieExpiration: Date;
   const cookie = getCookie(
     req,
-    `${THIRDWEB_AUTH_TOKEN_COOKIE_PREFIX}_${parsedPayload.data.address}`,
+    `${THIRDWEB_AUTH_TOKEN_COOKIE_PREFIX}_${parsedPayload.data.address}`
   );
 
   if (cookie) {
@@ -40,12 +29,12 @@ export default async function handler(
   } else if (ctx.authOptions?.tokenDurationInSeconds) {
     // Otherwise, if we have a token duration in seconds, set it to that
     cookieExpiration = new Date(
-      Date.now() + 1000 * ctx.authOptions.tokenDurationInSeconds,
+      Date.now() + 1000 * ctx.authOptions.tokenDurationInSeconds
     );
   } else {
     // Otherwise, just default to 24 hours
     cookieExpiration = new Date(
-      Date.now() + 1000 * THIRDWEB_AUTH_DEFAULT_TOKEN_DURATION_IN_SECONDS,
+      Date.now() + 1000 * THIRDWEB_AUTH_DEFAULT_TOKEN_DURATION_IN_SECONDS
     );
   }
 

@@ -2,27 +2,19 @@ import {
   THIRDWEB_AUTH_ACTIVE_ACCOUNT_COOKIE,
   THIRDWEB_AUTH_TOKEN_COOKIE_PREFIX,
 } from "../../../constants";
-import type { Json } from "../../../core";
-import type { ThirdwebAuthContext } from "../types";
-import type { ThirdwebAuthUser } from "../../common/types";
-import type { GetServerSidePropsContext, NextApiRequest } from "next";
-import type { NextRequest } from "next/server";
+import { Json } from "../../../core";
+import { ThirdwebAuthContext, ThirdwebAuthUser } from "../types";
+import { ExpoRequest } from "expo-router/server";
 
 export function getCookie(
-  req: GetServerSidePropsContext["req"] | NextRequest | NextApiRequest,
-  cookie: string,
+  req: ExpoRequest,
+  cookie: string
 ): string | undefined {
-  if (typeof req.cookies.get === "function") {
-    return req.cookies.get(cookie)?.value;
-  }
-
-  return (req.cookies as any)[cookie];
+  return req?.cookies[cookie];
 }
 
-export function getActiveCookie(
-  req: GetServerSidePropsContext["req"] | NextRequest | NextApiRequest,
-): string | undefined {
-  if (!req.cookies) {
+export function getActiveCookie(req: ExpoRequest): string | undefined {
+  if (!req?.cookies) {
     return undefined;
   }
 
@@ -35,19 +27,20 @@ export function getActiveCookie(
   return THIRDWEB_AUTH_TOKEN_COOKIE_PREFIX;
 }
 
-export function getToken(
-  req: GetServerSidePropsContext["req"] | NextRequest | NextApiRequest,
-): string | undefined {
-  if (!!(req as NextApiRequest).headers["authorization"]) {
-    const authorizationHeader = (req as NextApiRequest).headers[
-      "authorization"
-    ]?.split(" ");
+/**
+ * @internal
+ * @param req
+ * @returns
+ */
+export function getToken(req: ExpoRequest): string | undefined {
+  if (req.headers?.authorization) {
+    const authorizationHeader = req.headers?.authorization.split(" ");
     if (authorizationHeader?.length === 2) {
       return authorizationHeader[1];
     }
   }
 
-  if (!req.cookies) {
+  if (!req?.cookies) {
     return undefined;
   }
 
@@ -61,14 +54,15 @@ export function getToken(
 
 export async function getUser<
   TData extends Json = Json,
-  TSession extends Json = Json,
+  TSession extends Json = Json
 >(
-  req: GetServerSidePropsContext["req"] | NextRequest | NextApiRequest,
-  ctx: ThirdwebAuthContext<TData, TSession>,
+  req: ExpoRequest,
+  ctx: ThirdwebAuthContext<TData, TSession>
 ): Promise<ThirdwebAuthUser<TData, TSession> | null> {
   const token = getToken(req);
 
   if (!token) {
+    console.error("Error: No auth token found");
     return null;
   }
 
@@ -82,6 +76,7 @@ export async function getUser<
       },
     });
   } catch (err) {
+    console.error(`Authenticate Error: ${(err as Error)?.message}`);
     return null;
   }
 

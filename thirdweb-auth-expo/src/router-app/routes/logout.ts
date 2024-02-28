@@ -1,19 +1,8 @@
 import { getActiveCookie, getUser } from "../helpers/user";
 import type { ThirdwebAuthContext } from "../types";
 import { serialize } from "cookie";
-import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  ctx: ThirdwebAuthContext,
-) {
-  if (req.method !== "POST") {
-    return res.status(405).json({
-      error: "Invalid method. Only POST supported",
-    });
-  }
-
+export async function POST(req: NextApiRequest, ctx: ThirdwebAuthContext) {
   const activeCookie = getActiveCookie(req);
   if (!activeCookie) {
     return res.status(400).json({
@@ -38,7 +27,7 @@ export default async function handler(
       expires: new Date(Date.now() + 5 * 1000),
       httpOnly: true,
       secure: ctx.cookieOptions?.secure || true,
-    }),
+    })
   );
 
   return res.status(200).json({ message: "Successfully logged out" });

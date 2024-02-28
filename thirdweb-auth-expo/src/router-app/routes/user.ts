@@ -6,19 +6,9 @@ import {
 } from "../../../constants";
 import { getToken, getUser } from "../helpers/user";
 import type { ThirdwebAuthContext } from "../types";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { ExpoRequest, ExpoResponse } from "expo-router/server";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  ctx: ThirdwebAuthContext,
-) {
-  if (req.method !== "GET") {
-    return res.status(405).json({
-      error: "Invalid method. Only GET supported",
-    });
-  }
-
+export async function GET(req: ExpoRequest, ctx: ThirdwebAuthContext) {
   const user = await getUser(req, ctx);
 
   // Importantly, make sure the user was actually logged in before refreshing
@@ -30,11 +20,11 @@ export default async function handler(
       const refreshDate = ctx.authOptions?.refreshIntervalInSeconds
         ? new Date(
             payload.payload.iat * 1000 +
-              ctx.authOptions.refreshIntervalInSeconds * 1000,
+              ctx.authOptions.refreshIntervalInSeconds * 1000
           )
         : new Date(
             payload.payload.iat * 1000 +
-              THIRDWEB_AUTH_DEFAULT_REFRESH_INTERVAL_IN_SECONDS * 1000,
+              THIRDWEB_AUTH_DEFAULT_REFRESH_INTERVAL_IN_SECONDS * 1000
           );
 
       if (new Date() > refreshDate) {
@@ -54,7 +44,7 @@ export default async function handler(
               expires: new Date(refreshedPayload.payload.exp * 1000),
               httpOnly: true,
               secure: ctx.cookieOptions?.secure || true,
-            },
+            }
           ),
           serialize(THIRDWEB_AUTH_ACTIVE_ACCOUNT_COOKIE, user.address, {
             domain: ctx.cookieOptions?.domain,

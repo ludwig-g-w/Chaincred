@@ -1,21 +1,18 @@
 import type { ThirdwebAuthContext } from "../types";
 import { PayloadBodySchema } from "../types";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { ExpoRequest, ExpoResponse } from "expo-router/server";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  ctx: ThirdwebAuthContext,
-) {
-  if (req.method !== "POST") {
-    return res.status(405).json({
-      error: "Invalid method. Only POST supported",
-    });
-  }
+export async function POST(req: ExpoRequest, ctx: ThirdwebAuthContext) {
+  const body = await req.json();
+  console.log({ request: body });
 
-  const parsedPayload = PayloadBodySchema.safeParse(req.body);
+  const parsedPayload = PayloadBodySchema.safeParse(body);
+  console.log(parsedPayload?.error);
+
   if (!parsedPayload.success) {
-    return res.status(400).json({ error: "Please provide an address" });
+    return new ExpoResponse("Please provide an address", {
+      status: 400,
+    });
   }
 
   // TODO: Add nonce generation + custom expiration + invalid before
@@ -28,10 +25,12 @@ export default async function handler(
     resources: ctx.authOptions?.resources,
     expirationTime: ctx.authOptions?.loginPayloadDurationInSeconds
       ? new Date(
-          Date.now() + 1000 * ctx.authOptions.loginPayloadDurationInSeconds,
+          Date.now() + 1000 * ctx.authOptions.loginPayloadDurationInSeconds
         )
       : undefined,
   });
 
-  return res.status(200).json({ payload });
+  return ExpoResponse.json({
+    payload,
+  });
 }
