@@ -7,6 +7,7 @@ import {
   useAddress,
   useContract,
   useLogin,
+  useLogout,
   useUser,
 } from "@thirdweb-dev/react-native";
 import { ProfileListItem, isAttestItem } from "@utils/types";
@@ -55,9 +56,15 @@ const Companies = () => {
   const [secret, setSecret] = useState();
   const { user, isLoggedIn } = useUser();
   const { login } = useLogin();
+  const { logout } = useLogout();
 
   const getSecret = async () => {
-    const res = await fetch("/api/secret");
+    const jwt = await login();
+    const res = await fetch("/api/secret", {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
     const data = await res.json();
     setSecret(data.message);
   };
@@ -77,7 +84,9 @@ const Companies = () => {
       </HStack>
       <VStack gap="$4">
         <Text>User: {JSON.stringify(user, undefined, 2) || "N/A"}</Text>
-        <Text>Secret: {secret}</Text>
+        <Text>
+          Secret {isLoggedIn}: {secret}
+        </Text>
       </VStack>
       <FlashList
         numColumns={1}

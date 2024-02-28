@@ -1,27 +1,25 @@
-import "expo-dev-client";
-import "@thirdweb-dev/react-native-compat";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { useApolloClientDevTools } from "@dev-plugins/apollo-client";
+import { useAsyncStorageDevTools } from "@dev-plugins/async-storage";
+import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
 import { EAS_GRAPHQL, TW_CLIENT_ID } from "@env";
 import { config } from "@gluestack-ui/config"; // O
 import { GluestackUIProvider } from "@gluestack-ui/themed";
+import { Sepolia } from "@thirdweb-dev/chains";
 import {
   ThirdwebProvider,
   embeddedWallet,
   localWallet,
   metamaskWallet,
   rainbowWallet,
-  walletConnect,
   smartWallet,
+  walletConnect,
 } from "@thirdweb-dev/react-native";
+import "@thirdweb-dev/react-native-compat";
+import { typePolicies } from "@utils/apolloConfig";
+import "expo-dev-client";
 import { Stack, useNavigationContainerRef } from "expo-router";
 import React from "react";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-import { typePolicies } from "@utils/apolloConfig";
-import { Sepolia } from "@thirdweb-dev/chains";
-import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
-import { useApolloClientDevTools } from "@dev-plugins/apollo-client";
-import * as SecureStore from "expo-secure-store";
-import { useAsyncStorageDevTools } from "@dev-plugins/async-storage";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const client = new ApolloClient({
   uri: EAS_GRAPHQL,
@@ -49,7 +47,6 @@ const App = () => {
         supportedChains={[Sepolia]}
         theme={"light"}
         authConfig={{
-          secureStorage: AsyncStorage,
           // This domain should match the backend
           domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || "",
           // Pass the URL of the auth endpoints

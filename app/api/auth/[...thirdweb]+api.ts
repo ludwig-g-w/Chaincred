@@ -32,8 +32,6 @@ export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
       return { role: ["admin"] };
     },
     onUser: async (user) => {
-      console.log({ user });
-
       // Here we can run side-effects whenever a user is fetched from the client side
       if (users[user.address]) {
         users[user.address].user_last_accessed = Date.now();
