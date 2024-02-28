@@ -92,16 +92,14 @@ const Companies = () => {
                 {format(parseISO(date), "MMMM do, yyyy")}
               </Text>
               {items.map((subItem, index) => (
-                <Box pb="$2">
+                <Box pb="$2" key={index}>
                   {isAttestItem(subItem) ? (
                     <AttestationItem
-                      key={index}
                       title={subItem.title}
                       description={subItem.description}
                     />
                   ) : (
                     <ReviewListItem
-                      key={index}
                       rating={subItem.rating}
                       comment={subItem.comment}
                     />

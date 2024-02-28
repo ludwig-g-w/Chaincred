@@ -20,6 +20,8 @@ import { Sepolia } from "@thirdweb-dev/chains";
 import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
 import { useApolloClientDevTools } from "@dev-plugins/apollo-client";
 import * as SecureStore from "expo-secure-store";
+import { useAsyncStorageDevTools } from "@dev-plugins/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const client = new ApolloClient({
   uri: EAS_GRAPHQL,
@@ -37,6 +39,7 @@ const App = () => {
   const navigationRef = useNavigationContainerRef();
   useApolloClientDevTools(client);
   useReactNavigationDevTools(navigationRef);
+  useAsyncStorageDevTools();
 
   return (
     <GluestackUIProvider config={config}>
@@ -46,11 +49,7 @@ const App = () => {
         supportedChains={[Sepolia]}
         theme={"light"}
         authConfig={{
-          secureStorage: {
-            getItem: SecureStore.getItemAsync,
-            removeItem: SecureStore.deleteItemAsync,
-            setItem: SecureStore.setItemAsync,
-          },
+          secureStorage: AsyncStorage,
           // This domain should match the backend
           domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || "",
           // Pass the URL of the auth endpoints

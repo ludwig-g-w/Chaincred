@@ -33,16 +33,18 @@ export function getActiveCookie(req: ExpoRequest): string | undefined {
  * @returns
  */
 export function getToken(req: ExpoRequest): string | undefined {
-  if (req.headers?.authorization) {
-    const authorizationHeader = req.headers?.authorization.split(" ");
+  const authHeader = req.headers.get("authorization");
+  if (authHeader) {
+    const authorizationHeader = authHeader.split(" ");
     if (authorizationHeader?.length === 2) {
       return authorizationHeader[1];
     }
   }
 
-  if (!req?.cookies) {
-    return undefined;
-  }
+  // not relevant for React Native
+  // if (!req?.cookies) {
+  //   return undefined;
+  // }
 
   const activeCookie = getActiveCookie(req);
   if (!activeCookie) {

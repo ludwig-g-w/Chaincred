@@ -16,7 +16,7 @@ async function ThirdwebAuthRouter(
   ctx: ThirdwebAuthContext
 ) {
   const action = args?.thirdweb;
-  console.log(action);
+  console.log({ action });
 
   switch (action) {
     case "payload":
