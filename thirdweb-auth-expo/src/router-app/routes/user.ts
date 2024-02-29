@@ -9,7 +9,6 @@ import type { ThirdwebAuthContext } from "../types";
 import { ExpoRequest, ExpoResponse } from "expo-router/server";
 
 export async function GET(req: ExpoRequest, ctx: ThirdwebAuthContext) {
-  console.log("USER");
   const user = await getUser(req, ctx);
 
   let res = ExpoResponse.json(user);

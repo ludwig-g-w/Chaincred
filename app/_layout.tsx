@@ -5,6 +5,7 @@ import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
 import { EAS_GRAPHQL, TW_CLIENT_ID } from "@env";
 import { config } from "@gluestack-ui/config"; // O
 import { GluestackUIProvider } from "@gluestack-ui/themed";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Sepolia } from "@thirdweb-dev/chains";
 import {
   ThirdwebProvider,
@@ -47,6 +48,7 @@ const App = () => {
         supportedChains={[Sepolia]}
         theme={"light"}
         authConfig={{
+          secureStorage: AsyncStorage,
           // This domain should match the backend
           domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || "",
           // Pass the URL of the auth endpoints

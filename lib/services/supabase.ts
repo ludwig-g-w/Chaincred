@@ -2,6 +2,7 @@ import invariant from "tiny-invariant";
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@env";
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "generated/supabase";
+import { createResource } from "@utils/index";
 
 export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -119,35 +120,4 @@ function isValidIPFS(imageUrl: string) {
     /^ipfs:\/\/.+/i.test(imageUrl) ||
     imageUrl.startsWith("https://ipfs.io/ipfs/")
   );
-}
-
-export function createResource<T>(promiseFn: () => Promise<T>) {
-  let status: "pending" | "success" | "error" = "pending";
-  let result: T | Error;
-  let suspender: Promise<void> | null = null;
-
-  const read = () => {
-    if (status === "pending") {
-      if (suspender === null) {
-        suspender = promiseFn().then(
-          (data: T) => {
-            status = "success";
-            result = data;
-          },
-          (error: Error) => {
-            status = "error";
-            result = error;
-          }
-        );
-      }
-      throw suspender;
-    } else if (status === "error") {
-      throw result;
-    } else if (status === "success") {
-      return result as T;
-    }
-    throw new Error("This should never happen.");
-  };
-
-  return { read };
 }
