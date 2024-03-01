@@ -3,7 +3,13 @@ import { AvatarImage, ChevronRightIcon } from "@gluestack-ui/themed";
 import { Avatar, Box, Center, HStack, Text } from "@gluestack-ui/themed";
 import { Profile } from "@utils/types";
 import { router } from "expo-router";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import MapView, { Callout, Marker, Region } from "react-native-maps";
 import Supercluster from "supercluster";
@@ -60,13 +66,10 @@ const Map = ({ profiles }: { profiles: Profile[] }) => {
     const newClusters = cluster.getClusters(bbox, zoom);
     setClusters(newClusters);
   }, []);
-  return (
-    <MapView
-      ref={mapRef}
-      style={styles.map}
-      onRegionChangeComplete={onRegionChange}
-    >
-      {clusters.map((feature, index) => {
+
+  const renderPoints = useMemo(
+    () =>
+      clusters.map((feature, index) => {
         const coord = {
           latitude: feature.geometry.coordinates[1],
           longitude: feature.geometry.coordinates[0],
@@ -81,7 +84,7 @@ const Map = ({ profiles }: { profiles: Profile[] }) => {
             <Marker
               key={`cluster-${index}`}
               coordinate={coord}
-              title={`Cluster of ${feature.properties?.[0]?.point_count} items`}
+              title={`Cluster of ${feature.properties?.point_count} items`}
             >
               <Box
                 aspectRatio={1}
@@ -91,9 +94,7 @@ const Map = ({ profiles }: { profiles: Profile[] }) => {
                 bgColor="$fuchsia400"
               >
                 <Center>
-                  <Text color="$white">
-                    {feature.properties[0].point_count}
-                  </Text>
+                  <Text color="$white">{feature.properties?.point_count}</Text>
                 </Center>
               </Box>
             </Marker>
@@ -114,7 +115,7 @@ const Map = ({ profiles }: { profiles: Profile[] }) => {
                 bgColor="white"
                 p="$4"
               >
-                <Avatar size={"md"} badge={true}>
+                <Avatar size={"md"}>
                   <AvatarImage
                     alt="avatar"
                     source={{
@@ -130,7 +131,16 @@ const Map = ({ profiles }: { profiles: Profile[] }) => {
             </Callout>
           </Marker>
         );
-      })}
+      }),
+    [clusters]
+  );
+  return (
+    <MapView
+      ref={mapRef}
+      style={styles.map}
+      onRegionChangeComplete={onRegionChange}
+    >
+      {renderPoints}
     </MapView>
   );
 };

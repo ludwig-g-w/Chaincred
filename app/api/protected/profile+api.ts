@@ -22,13 +22,12 @@ export const GET = async (req: ExpoRequest) => {
 
 export const POST = async (req: ExpoRequest) => {
   const user = await getUser(req);
-
-  if (!user) {
-    return new ExpoResponse("Not authorized.", {
+  const body = await req.json();
+  if (!user || user?.address !== body?.address) {
+    return new ExpoResponse("Not authorized to make changes to this user", {
       status: 401,
     });
   }
-  const body = await req.json();
   if (!body) return new ExpoResponse("object is empty", { status: 400 });
   try {
     const profile = await setOrModifyProfile(body);
