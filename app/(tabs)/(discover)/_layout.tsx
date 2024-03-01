@@ -1,8 +1,17 @@
 import { HStack, Text, View } from "@gluestack-ui/themed";
-import { Link, Stack, useLocalSearchParams } from "expo-router";
+import {
+  Link,
+  Stack,
+  useLocalSearchParams,
+  useGlobalSearchParams,
+  usePathname,
+} from "expo-router";
+
 export default () => {
-  const url = useLocalSearchParams();
-  const isMap = url.screen === "discoverMap";
+  const path = usePathname();
+
+  const isMap = path === "/discoverMap" ?? true;
+
   return (
     <View flex={1}>
       <View
@@ -11,6 +20,9 @@ export default () => {
         position="absolute"
         zIndex={99}
         justifyContent="center"
+        hardShadow="2"
+        shadowRadius="$1"
+        shadowColor="$black"
       >
         <HStack borderRadius="$full">
           <Link href={"/discoverMap"}>
@@ -46,7 +58,7 @@ export default () => {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="list"
+        initialRouteName="discoverList"
       >
         <Stack.Screen name="discoverMap" />
         <Stack.Screen name="discoverList" />

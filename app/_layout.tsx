@@ -24,6 +24,8 @@ import { typePolicies } from "@utils/apolloConfig";
 import "expo-dev-client";
 import { Stack, useNavigationContainerRef } from "expo-router";
 import React, { useEffect } from "react";
+import "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const client = new ApolloClient({
   uri: EAS_GRAPHQL,
@@ -48,32 +50,34 @@ const App = () => {
   });
 
   return (
-    <GluestackUIProvider config={config}>
-      <ThirdwebProvider
-        clientId={TW_CLIENT_ID}
-        activeChain={Sepolia}
-        supportedChains={[Sepolia]}
-        theme={"light"}
-        authConfig={{
-          secureStorage: AsyncStorage,
-          // This domain should match the backend
-          domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || "",
-          // Pass the URL of the auth endpoints
-          authUrl: "/api/auth",
-        }}
-        supportedWallets={[
-          smartWallet(embeddedWallet(), conf),
-          metamaskWallet(),
-          rainbowWallet(),
-          localWallet(),
-          walletConnect(),
-        ]}
-      >
-        <ApolloProvider client={client}>
-          <Inner />
-        </ApolloProvider>
-      </ThirdwebProvider>
-    </GluestackUIProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <GluestackUIProvider config={config}>
+        <ThirdwebProvider
+          clientId={TW_CLIENT_ID}
+          activeChain={Sepolia}
+          supportedChains={[Sepolia]}
+          theme={"light"}
+          authConfig={{
+            secureStorage: AsyncStorage,
+            // This domain should match the backend
+            domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || "",
+            // Pass the URL of the auth endpoints
+            authUrl: "/api/auth",
+          }}
+          supportedWallets={[
+            smartWallet(embeddedWallet(), conf),
+            metamaskWallet(),
+            rainbowWallet(),
+            localWallet(),
+            walletConnect(),
+          ]}
+        >
+          <ApolloProvider client={client}>
+            <Inner />
+          </ApolloProvider>
+        </ThirdwebProvider>
+      </GluestackUIProvider>
+    </GestureHandlerRootView>
   );
 };
 

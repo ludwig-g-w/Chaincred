@@ -4,6 +4,19 @@ export function shortenAddress(address: string) {
 
 export const isAddress = (s: string) => /^(0x)?[0-9a-fA-F]{40}$/.test(s);
 
+export function isValidLocationFormat(locationCoords: string) {
+  return /^-?\d+\.\d+,-?\d+\.\d+$/.test(locationCoords);
+}
+
+// Helper function to validate the IPFS URL
+export function isValidIPFS(imageUrl: string) {
+  // For the sake of example, here's a simple regex for checking if the URL starts with 'ipfs://'
+  return (
+    /^ipfs:\/\/.+/i.test(imageUrl) ||
+    imageUrl.startsWith("https://ipfs.io/ipfs/")
+  );
+}
+
 export function createResource<T>(promiseFn: () => Promise<T>) {
   let status: "pending" | "success" | "error" = "pending";
   let result: T | Error;

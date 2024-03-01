@@ -4,19 +4,13 @@ import { ThirdwebAuthAppRouter as ThirdwebAuth } from "../../../thirdweb-auth-ex
 import { setOrModifyProfile, getProfileByAddress } from "@services/db/prisma";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const users: Record<string, any> = {};
-
 export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
   domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || "",
   wallet: new PrivateKeyWallet(process.env.THIRDWEB_AUTH_PRIVATE_KEY || ""),
   // NOTE: All these callbacks are optional! You can delete this section and
   callbacks: {
-    onLogin: async (address, ...rest) => {
-      try {
-        setOrModifyProfile({ address });
-      } catch (error) {
-        console.log(error);
-      }
+    onLogin: async (address) => {
+      setOrModifyProfile({ address });
       // We can also provide any session data to store in the user's session.
       return { role: ["admin"] };
     },

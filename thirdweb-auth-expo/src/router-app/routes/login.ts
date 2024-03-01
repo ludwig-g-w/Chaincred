@@ -111,7 +111,4 @@ export async function POST(req: ExpoRequest, ctx: ThirdwebAuthContext) {
       ]),
     },
   });
-
-  // Send token in body and as cookie for frontend and backend use cases
-  // return res..json({ token });
 }

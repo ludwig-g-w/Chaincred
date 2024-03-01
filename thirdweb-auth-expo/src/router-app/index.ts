@@ -16,7 +16,6 @@ async function ThirdwebAuthRouter(
   ctx: ThirdwebAuthContext
 ) {
   const action = args?.thirdweb;
-  console.log({ action });
 
   switch (action) {
     case "payload":
@@ -46,8 +45,11 @@ export function ThirdwebAuth<
   };
 
   return {
-    ThirdwebAuthHandler: function (req: ExpoRequest, mon: any) {
-      return ThirdwebAuthRouter(req, mon, ctx as ThirdwebAuthContext);
+    ThirdwebAuthHandler: function (
+      req: ExpoRequest,
+      params: { thirdweb: string }
+    ) {
+      return ThirdwebAuthRouter(req, params, ctx as ThirdwebAuthContext);
     },
     getUser: (req: ExpoRequest) => {
       return getUser(req, ctx);

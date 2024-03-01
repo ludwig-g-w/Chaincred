@@ -10,26 +10,12 @@ import { router } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDiscoverListSuspenseQuery } from "../../../generated/graphql";
 
-// Dummy data for restaurants, replace with your actual data source
-const data = {
-  Restaurants: [{ id: 1, title: "Test 1", description: "test", count: 4 }],
-  Dishes: [
-    // ...your dishes data
-  ],
-};
-
-const Companies = () => {
-  // const [searchQuery, setSearchQuery] = useState("");
-  const [activeTab, setActiveTab] = useState("Restaurants"); // For segmented control
-  // const [sortOption, setSortOption] = useState("title"); // default sort by rating
-  // const [activeSegment, setActiveSegment] = useState(0); // Index of the active segment
-  // const [filteredData, setFilteredData] = useState(data.Restaurants);
-
+const DiscoverList = () => {
   const [profileData, setProfileData] = useState<ProfileListItem[]>([]);
   const { contract } = useContract(ORGANIZATION_MANAGER_ADDRESS);
 
   const address = useAddress();
-  const { data } = useDiscoverListSuspenseQuery({
+  const { data, error } = useDiscoverListSuspenseQuery({
     skip: !address,
     variables: {
       id: address ?? "",
@@ -73,55 +59,8 @@ const Companies = () => {
     })();
   }, [contract, attestationsByAttester]);
 
-  // const options = {
-  //   keys: ["title"],
-  //   includeScore: true,
-  // };
-
-  // const fuseRestaurants = new Fuse(data.Restaurants, options);
-  // const fuseDishes = new Fuse(data.Dishes, options);
-
-  // const handleSearch = (text: string) => {
-  //   setSearchQuery(text);
-  //   let results = [];
-  //   if (activeSegment === 0) {
-  //     // If Restaurants is selected
-  //     results = fuseRestaurants.search(text);
-  //   } else {
-  //     // If Dishes is selected
-  //     results = fuseDishes.search(text);
-  //   }
-  //   const matches = results.map((result) => result.item);
-  //   setFilteredData(matches);
-  // };
-
-  // const sortedRestaurants = useMemo(() => {
-  //   return filteredData.sort((a, b) => b[sortOption] - a[sortOption]);
-  // }, [data, sortOption]);
-
   return (
     <Box px="$2" flex={1} bg="$white">
-      {/* <SegmentedControl
-        values={["Available", "Done"]}
-        selectedIndex={activeSegment}
-        onChange={(event) => {
-          setActiveSegment(event.nativeEvent.selectedSegmentIndex);
-          setFilteredData(data[event.nativeEvent.value]);
-        }}
-      /> */}
-
-      {/* <Input borderRadius="$full" bg="white">
-        <InputSlot pl="$3">
-          <InputIcon as={SearchIcon} />
-        </InputSlot>
-        <InputField
-          placeholder="Search..."
-          type="text"
-          value={searchQuery}
-          onChangeText={handleSearch}
-        />
-      </Input> */}
-
       <Text color="$textLight600" my="$4" size="lg" bold>
         Actions Received
       </Text>
@@ -146,4 +85,4 @@ const Companies = () => {
   );
 };
 
-export default Companies;
+export default DiscoverList;
