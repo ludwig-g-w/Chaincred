@@ -1,8 +1,8 @@
 import { PrivateKeyWallet } from "@thirdweb-dev/auth/evm";
 import { ExpoRequest } from "expo-router/server";
 import { ThirdwebAuthAppRouter as ThirdwebAuth } from "../../../thirdweb-auth-expo/src/index";
-import { setOrModifyProfile } from "lib/db/prisma";
-import { getProfileByAddress } from "@services/supabase";
+import { setOrModifyProfile, getProfileByAddress } from "@services/db/prisma";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const users: Record<string, any> = {};
 
@@ -13,7 +13,7 @@ export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
   ),
   // NOTE: All these callbacks are optional! You can delete this section and
   callbacks: {
-    onLogin: async (address) => {
+    onLogin: async (address, ...rest) => {
       try {
         setOrModifyProfile({ address });
       } catch (error) {
@@ -25,9 +25,16 @@ export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
     onUser: async (user) => {
       // And we can provide any extra user data to be sent to the client
       // along with the default user object.
-      return await getProfileByAddress(user.address);
+      // let res;
+      // try {
+      //   res = await getProfileByAddress(user.address);
+      // } catch (error) {}
+      // return res;
     },
-    onLogout: async (user) => {},
+    onLogout: async (user) => {
+      const maybeKEy = AsyncStorage.getItem("auth_token_storage_key");
+      console.log({ maybeKEy });
+    },
   },
 });
 

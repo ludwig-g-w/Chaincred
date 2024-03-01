@@ -21,6 +21,6 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
-    "lib/db/importCSV.js",
+    "lib/services/db/importCSV.js",
   ]
 }

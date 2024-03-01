@@ -1,7 +1,7 @@
 import ListItem from "@components/ProfileCard";
 import { ORGANIZATION_MANAGER_ADDRESS } from "@env";
 import { Box, Text } from "@gluestack-ui/themed";
-import { getProfilesByAddresses } from "@services/supabase";
+import { _fetch } from "@services/clientApi";
 import { FlashList } from "@shopify/flash-list";
 import { useAddress, useContract } from "@thirdweb-dev/react-native";
 import { groupAttestationsByAttester } from "@utils/attestations";
@@ -44,7 +44,12 @@ const Companies = () => {
     if (!attestationsByAttester) return;
     (async function mergeProfileWithAttestations() {
       const addresses = Object.keys(attestationsByAttester);
-      const profiles = await getProfilesByAddresses(addresses);
+      const profiles = await _fetch({
+        path: "profiles",
+        params: {
+          addresses,
+        },
+      });
 
       const results: ProfileListItem[] = [];
       for (const key in attestationsByAttester) {

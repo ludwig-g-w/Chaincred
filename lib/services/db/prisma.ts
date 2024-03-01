@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { _fetch } from "@services/clientApi";
 import { createResource } from "@utils/index";
 
 const prisma = new PrismaClient();
@@ -27,10 +28,6 @@ export async function getProfileByAddress(address: string) {
     throw error; // Rethrow the error to be handled by the caller
   }
 }
-
-// Assuming createResource is defined somewhere in your project
-export const suspenseGetProfileByAddress = (address: string) =>
-  createResource(() => getProfileByAddress(address));
 
 export type Location = {
   coords?: string;
@@ -81,8 +78,6 @@ export async function getAllProfiles() {
   }
 }
 
-export const suspenseGetAllProfiles = createResource(() => getAllProfiles());
-
 export async function getProfilesByAddresses(addresses: string[]) {
   if (!addresses || addresses.length === 0) {
     return [];
@@ -99,6 +94,3 @@ export async function getProfilesByAddresses(addresses: string[]) {
     throw error; // Rethrow the error to be handled by the caller
   }
 }
-
-export const suspenseGetProfilesByAddresses = (addresses: string[]) =>
-  createResource(() => getProfilesByAddresses(addresses));

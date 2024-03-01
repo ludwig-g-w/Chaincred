@@ -1,27 +1,13 @@
 import AttestationItem from "@components/AttestationItem";
 import ReviewListItem from "@components/ReviewListItem";
 import { ORGANIZATION_MANAGER_ADDRESS } from "@env";
-import { Box, Button, HStack, Text, VStack } from "@gluestack-ui/themed";
+import { Box, Text } from "@gluestack-ui/themed";
 import { FlashList } from "@shopify/flash-list";
-import {
-  useAddress,
-  useContract,
-  useLogin,
-  useLogout,
-  useUser,
-} from "@thirdweb-dev/react-native";
+import { useAddress, useContract } from "@thirdweb-dev/react-native";
 import { ProfileListItem, isAttestItem } from "@utils/types";
 import { format, parseISO } from "date-fns";
 import React, { useMemo, useState } from "react";
 import { useHomeFeedSuspenseQuery } from "../../../generated/graphql";
-
-// Dummy data for restaurants, replace with your actual data source
-const data = {
-  Restaurants: [{ id: 1, title: "Test 1", description: "test", count: 4 }],
-  Dishes: [
-    // ...your dishes data
-  ],
-};
 
 const Companies = () => {
   const [profileData, setProfileData] = useState<ProfileListItem[]>([]);
@@ -52,42 +38,11 @@ const Companies = () => {
     );
   }, [data?.attestations]);
 
-  // TEST
-  const [secret, setSecret] = useState();
-  const { user, isLoggedIn } = useUser();
-  const { login } = useLogin();
-  const { logout } = useLogout();
-
-  const getSecret = async () => {
-    const jwt = await login();
-    const res = await fetch("/api/secret", {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    });
-    const data = await res.json();
-    setSecret(data.message);
-  };
-
   return (
     <Box px="$2" flex={1} bg="$white">
       <Text color="$textLight600" my="$4" size="lg" bold>
         All Activity
       </Text>
-      <HStack gap="$2">
-        <Button onPress={login}>
-          <Text>Login</Text>
-        </Button>
-        <Button onPress={getSecret}>
-          <Text>Get secret</Text>
-        </Button>
-      </HStack>
-      <VStack gap="$4">
-        <Text>User: {JSON.stringify(user, undefined, 2) || "N/A"}</Text>
-        <Text>
-          Secret {isLoggedIn}: {secret}
-        </Text>
-      </VStack>
       <FlashList
         numColumns={1}
         estimatedItemSize={88}

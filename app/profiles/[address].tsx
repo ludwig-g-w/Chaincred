@@ -8,7 +8,7 @@ import { useProfileSuspenseQuery } from "../../generated/graphql";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { useAddress } from "@thirdweb-dev/react-native";
 import AttestationItem from "@components/AttestationItem";
-import { getProfileByAddress } from "@services/supabase";
+import { clientGetProfileByAddress } from "@services/clientApi";
 import { Profile } from "@utils/types";
 import { shortenAddress } from "@utils/index";
 import ReviewListItem from "@components/ReviewListItem";
@@ -26,7 +26,7 @@ const ProfileScreen = () => {
   useEffect(() => {
     if (!address) return;
     (async () => {
-      const p = await getProfileByAddress(address);
+      const p = await clientGetProfileByAddress(address);
       setProfile(p);
     })();
   }, [address]);

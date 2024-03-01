@@ -77,6 +77,7 @@ export default function TabLayout() {
 
 const Header = memo(() => {
   const path = usePathname();
+
   const title = match(path)
     .with("/", () => "Home")
     .with("/profiles", () => "")

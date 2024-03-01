@@ -19,11 +19,10 @@ import {
   useToast,
 } from "@gluestack-ui/themed";
 import {
-  Location,
-  Profile,
-  getProfileByAddress,
-  setOrModifyProfile,
-} from "@services/supabase";
+  clientGetProfileByAddress,
+  clientSetOrModifyProfile,
+} from "@services/clientApi";
+import { Location, Profile } from "@services/supabase";
 import { useAddress } from "@thirdweb-dev/react-native";
 import { pickImage, uploadImage } from "@utils/uploading";
 import * as ImagePicker from "expo-image-picker";
@@ -58,7 +57,7 @@ export default function Organization() {
   useEffect(() => {
     if (!address) return;
     (async () => {
-      const p = await getProfileByAddress(address);
+      const p = await clientGetProfileByAddress(address);
       setProfile(p);
     })();
   }, [address]);
@@ -93,7 +92,7 @@ export default function Organization() {
       if (description) updateObject.description = description;
       if (location.coords) updateObject.location = location;
 
-      await setOrModifyProfile({
+      await clientSetOrModifyProfile({
         address,
         ...updateObject,
       });

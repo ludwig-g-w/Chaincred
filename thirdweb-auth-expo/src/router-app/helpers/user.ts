@@ -6,13 +6,14 @@ import { Json } from "../../../core";
 import { ThirdwebAuthContext, ThirdwebAuthUser } from "../types";
 import { ExpoRequest } from "expo-router/server";
 
+// UNUSED
 export function getCookie(
   req: ExpoRequest,
   cookie: string
 ): string | undefined {
   return req?.cookies[cookie];
 }
-
+// UNUSED
 export function getActiveCookie(req: ExpoRequest): string | undefined {
   if (!req?.cookies) {
     return undefined;

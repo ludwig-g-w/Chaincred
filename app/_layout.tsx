@@ -14,13 +14,16 @@ import {
   metamaskWallet,
   rainbowWallet,
   smartWallet,
+  useAddress,
+  useLogin,
+  useLogout,
   walletConnect,
 } from "@thirdweb-dev/react-native";
 import "@thirdweb-dev/react-native-compat";
 import { typePolicies } from "@utils/apolloConfig";
 import "expo-dev-client";
 import { Stack, useNavigationContainerRef } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 
 const client = new ApolloClient({
   uri: EAS_GRAPHQL,
@@ -38,7 +41,11 @@ const App = () => {
   const navigationRef = useNavigationContainerRef();
   useApolloClientDevTools(client);
   useReactNavigationDevTools(navigationRef);
-  useAsyncStorageDevTools();
+  useAsyncStorageDevTools({
+    errorHandler: (err) => {
+      console.log("", err);
+    },
+  });
 
   return (
     <GluestackUIProvider config={config}>
@@ -71,6 +78,18 @@ const App = () => {
 };
 
 const Inner = () => {
+  const address = useAddress();
+  const { login } = useLogin();
+  const { logout } = useLogout();
+
+  useEffect(() => {
+    if (address) {
+      login();
+    } else {
+      logout();
+    }
+  }, [address]);
+
   return (
     <Stack
       initialRouteName="(tabs)"

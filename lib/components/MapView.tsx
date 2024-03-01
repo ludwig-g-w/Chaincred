@@ -21,21 +21,23 @@ const Map = ({ profiles }: { profiles: Profile[] }) => {
 
   // Load the points into the cluster
   useEffect(() => {
-    if (!profiles.length || !mapRef.current) return;
-    const points = profiles.map((p) => {
-      const [long, lat] = p.location_coords?.split(",");
-      return {
-        type: "Feature",
-        properties: {
-          cluster: false,
-          ...profiles,
-        },
-        geometry: {
-          type: "Point",
-          coordinates: [Number(lat), Number(long)],
-        },
-      } as Supercluster.PointFeature<Supercluster.AnyProps>;
-    });
+    if (!profiles?.length || !mapRef.current) return;
+    const points = profiles
+      .filter((p) => p.location_coords?.length > 2)
+      .map((p) => {
+        const [long, lat] = p.location_coords.split(",");
+        return {
+          type: "Feature",
+          properties: {
+            cluster: false,
+            ...profiles,
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [Number(lat), Number(long)],
+          },
+        } as Supercluster.PointFeature<Supercluster.AnyProps>;
+      });
     cluster.load(points);
   }, [profiles]);
 
@@ -69,12 +71,17 @@ const Map = ({ profiles }: { profiles: Profile[] }) => {
           latitude: feature.geometry.coordinates[1],
           longitude: feature.geometry.coordinates[0],
         };
+        const longLat = `${coord.latitude},${coord.longitude}`;
+        const profile = Object.values(feature.properties).find(
+          (p) => p.location_coords === longLat
+        );
+
         if (feature.properties.cluster) {
           return (
             <Marker
               key={`cluster-${index}`}
               coordinate={coord}
-              title={`Cluster of ${feature.properties[0].point_count} items`}
+              title={`Cluster of ${feature.properties?.[0]?.point_count} items`}
             >
               <Box
                 aspectRatio={1}
@@ -93,10 +100,10 @@ const Map = ({ profiles }: { profiles: Profile[] }) => {
           );
         }
         return (
-          <Marker key={`marker-${feature.properties[0].id}`} coordinate={coord}>
+          <Marker key={`marker-${profile?.id}`} coordinate={coord}>
             <Callout
               onPress={() => {
-                router.push(`/profiles/${feature.properties[0].address}`);
+                router.push(`/profiles/${profile?.address}`);
               }}
               tooltip
             >
@@ -109,13 +116,14 @@ const Map = ({ profiles }: { profiles: Profile[] }) => {
               >
                 <Avatar size={"md"} badge={true}>
                   <AvatarImage
+                    alt="avatar"
                     source={{
-                      uri: feature.properties[0].image_url,
+                      uri: profile?.image_url,
                     }}
                   />
                 </Avatar>
 
-                <Text bold>{feature.properties[0].title}</Text>
+                <Text bold>{profile?.title}</Text>
 
                 <ChevronRightIcon size="xl" />
               </HStack>
