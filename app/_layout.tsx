@@ -60,7 +60,7 @@ const App = () => {
           authConfig={{
             secureStorage: AsyncStorage,
             // This domain should match the backend
-            domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || "",
+            domain: process.env.THIRDWEB_AUTH_DOMAIN || "",
             // Pass the URL of the auth endpoints
             authUrl: "/api/auth",
           }}

@@ -1,8 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { _fetch } from "@services/clientApi";
-import { createResource } from "@utils/index";
 
-const prisma = new PrismaClient();
+export const prisma = new PrismaClient();
 
 export type Profile = {
   // Define the Profile type according to your Prisma model

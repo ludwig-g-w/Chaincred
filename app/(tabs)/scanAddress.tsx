@@ -56,6 +56,7 @@ const ScanScreen = () => {
         render: () => <MyToast description={`ID: ${id}`} />,
       });
     } catch (error) {
+      console.log(error);
     } finally {
       setLoading(false);
     }

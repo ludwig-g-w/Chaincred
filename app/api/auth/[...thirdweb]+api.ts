@@ -5,7 +5,7 @@ import { setOrModifyProfile, getProfileByAddress } from "@services/db/prisma";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
-  domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || "",
+  domain: process.env.THIRDWEB_AUTH_DOMAIN || "",
   wallet: new PrivateKeyWallet(process.env.THIRDWEB_AUTH_PRIVATE_KEY || ""),
   // NOTE: All these callbacks are optional! You can delete this section and
   callbacks: {
