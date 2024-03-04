@@ -1,4 +1,8 @@
-import { getAllProfiles, getProfileByAddress } from "@services/db/prisma";
+import {
+  getAllProfiles,
+  getProfileByAddress,
+  getProfilesByAddresses,
+} from "@services/db/prisma";
 import { ExpoRequest, ExpoResponse } from "expo-router/server";
 import { getUser } from "../auth/[...thirdweb]+api";
 
@@ -14,7 +18,7 @@ export const GET = async (req: ExpoRequest) => {
   const addresses = searchParams.get("addresses");
 
   const profiles = addresses
-    ? await getProfileByAddress(addresses)
+    ? await getProfilesByAddresses(JSON.parse(addresses) as string[])
     : await getAllProfiles();
 
   return ExpoResponse.json(profiles);
