@@ -8,7 +8,7 @@ import {
 } from "@gluestack-ui/themed";
 import { ConnectWallet, useAddress } from "@thirdweb-dev/react-native";
 import { Redirect, Tabs, router, usePathname } from "expo-router";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { match } from "ts-pattern";
@@ -24,13 +24,15 @@ export default function TabLayout() {
   //   );
   // }
 
+  const header = useCallback(() => <Header />, []);
+
   return (
     <Box flex={1}>
       <Tabs
         initialRouteName="/scanAddress"
         screenOptions={{
           tabBarActiveTintColor: theme.config.tokens.colors.blue500,
-          header: () => <Header />,
+          header,
           tabBarStyle: {
             backgroundColor: theme.config.tokens.colors.white,
             borderTopColor: theme.config.tokens.colors.borderLight200,

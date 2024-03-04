@@ -82,18 +82,6 @@ const App = () => {
 };
 
 const Inner = () => {
-  const address = useAddress();
-  const { login } = useLogin();
-  const { logout } = useLogout();
-
-  useEffect(() => {
-    if (address) {
-      login();
-    } else {
-      logout();
-    }
-  }, [address]);
-
   return (
     <Stack
       initialRouteName="(tabs)"

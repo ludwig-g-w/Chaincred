@@ -9,6 +9,9 @@ export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
   wallet: new PrivateKeyWallet(process.env.THIRDWEB_AUTH_PRIVATE_KEY || ""),
   // NOTE: All these callbacks are optional! You can delete this section and
   callbacks: {
+    onToken: (token) => {
+      console.log(token);
+    },
     onLogin: async (address) => {
       setOrModifyProfile({ address });
       // We can also provide any session data to store in the user's session.
@@ -22,10 +25,10 @@ export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
   },
 });
 
-export function POST(req: ExpoRequest, path: string) {
+export function POST(req: ExpoRequest, path: { thirdweb: string }) {
   return ThirdwebAuthHandler(req, path);
 }
 
-export function GET(req: ExpoRequest, path: string) {
+export function GET(req: ExpoRequest, path: { thirdweb: string }) {
   return ThirdwebAuthHandler(req, path);
 }
