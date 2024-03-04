@@ -108,6 +108,7 @@ const ScanScreen = () => {
     <Box flex={1}>
       <Camera
         style={styles.camera}
+        focusDepth={0}
         onBarCodeScanned={({ type, data }) => {
           if (isValidEthereumAddress(data)) {
             setScannedAddress(data);

@@ -7,7 +7,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
   domain: process.env.THIRDWEB_AUTH_DOMAIN || "",
   wallet: new PrivateKeyWallet(process.env.THIRDWEB_AUTH_PRIVATE_KEY || ""),
-  // NOTE: All these callbacks are optional! You can delete this section and
   callbacks: {
     onToken: (token) => {
       console.log(token);
@@ -19,8 +18,8 @@ export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
     },
     onUser: async (user) => {},
     onLogout: async (user) => {
-      const maybeKEy = AsyncStorage.getItem("auth_token_storage_key");
-      console.log({ maybeKEy });
+      const maybeKey = AsyncStorage.getItem("auth_token_storage_key");
+      console.log({ maybeKey });
     },
   },
 });
