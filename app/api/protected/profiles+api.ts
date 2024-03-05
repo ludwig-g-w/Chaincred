@@ -1,8 +1,4 @@
-import {
-  getAllProfiles,
-  getProfileByAddress,
-  getProfilesByAddresses,
-} from "@services/db/prisma";
+import { getAllProfiles, getProfilesByAddresses } from "@services/db/prisma";
 import { ExpoRequest, ExpoResponse } from "expo-router/server";
 import { getUser } from "../auth/[...thirdweb]+api";
 
