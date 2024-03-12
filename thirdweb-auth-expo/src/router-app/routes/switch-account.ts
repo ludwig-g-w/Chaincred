@@ -7,8 +7,12 @@ import {
   THIRDWEB_AUTH_DEFAULT_TOKEN_DURATION_IN_SECONDS,
   THIRDWEB_AUTH_TOKEN_COOKIE_PREFIX,
 } from "../../../constants";
-
-export async function POST(req, ctx: ThirdwebAuthContext) {
+import { ExpoRequest } from "expo-router/server";
+// NOT USED
+export default async function handler(
+  req: ExpoRequest,
+  ctx: ThirdwebAuthContext
+) {
   const parsedPayload = ActiveBodySchema.safeParse(req.body);
   if (!parsedPayload.success) {
     return res.status(400).json({ error: "Please provide an address" });

@@ -8,7 +8,16 @@ import { getToken, getUser } from "../helpers/user";
 import type { ThirdwebAuthContext } from "../types";
 import { ExpoRequest, ExpoResponse } from "expo-router/server";
 
-export async function GET(req: ExpoRequest, ctx: ThirdwebAuthContext) {
+export default async function handler(
+  req: ExpoRequest,
+  ctx: ThirdwebAuthContext
+) {
+  if (req.method !== "GET") {
+    return Response.json(
+      { error: "Invalid method. Only POST supported" },
+      { status: 405 }
+    );
+  }
   const user = await getUser(req, ctx);
 
   let res = ExpoResponse.json(user);
