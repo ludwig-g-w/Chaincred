@@ -1,18 +1,18 @@
 import AttestationItem from "@components/AttestationItem";
 import ReviewListItem from "@components/ReviewListItem";
-import { ORGANIZATION_MANAGER_ADDRESS } from "@env";
+import SuspenseFallback from "@components/SuspenseFallback";
 import { Box, Text } from "@gluestack-ui/themed";
 import { FlashList } from "@shopify/flash-list";
-import { useAddress, useContract } from "@thirdweb-dev/react-native";
-import { ProfileListItem, isAttestItem } from "@utils/types";
+import { useAddress } from "@thirdweb-dev/react-native";
+import { isAttestItem } from "@utils/types";
 import { format, parseISO } from "date-fns";
-import React, { useMemo, useState } from "react";
-import { useHomeFeedSuspenseQuery } from "../../../generated/graphql";
+import React, { Suspense, useMemo } from "react";
+import {
+  ListAttestationFragment,
+  useHomeFeedSuspenseQuery,
+} from "../../../generated/graphql";
 
 const Companies = () => {
-  const [profileData, setProfileData] = useState<ProfileListItem[]>([]);
-  const { contract } = useContract(ORGANIZATION_MANAGER_ADDRESS);
-
   const address = useAddress();
   const { data } = useHomeFeedSuspenseQuery({
     skip: !address,
@@ -29,9 +29,9 @@ const Companies = () => {
         if (!acc[date]) {
           acc[date] = [];
         }
-        acc[date].push(item.data);
+        acc[date].push(item);
         return acc;
-      }, {}) ?? {};
+      }, {} as Record<string, ListAttestationFragment[]>) ?? {};
 
     return Object.entries(groups).sort(
       ([date1], [date2]) => -date1.localeCompare(date2)
@@ -43,37 +43,41 @@ const Companies = () => {
       <Text color="$textLight600" my="$4" size="lg" bold>
         All Activity
       </Text>
-      <FlashList
-        numColumns={1}
-        estimatedItemSize={88}
-        data={sortedAndGroupedList}
-        ItemSeparatorComponent={() => <Box h="$4" />}
-        renderItem={({ item }) => {
-          const [date, items] = item;
-          return (
-            <Box>
-              <Text pb="$2" size="md" bold>
-                {format(parseISO(date), "MMMM do, yyyy")}
-              </Text>
-              {items.map((subItem, index) => (
-                <Box pb="$2" key={index}>
-                  {isAttestItem(subItem) ? (
-                    <AttestationItem
-                      title={subItem.title}
-                      description={subItem.description}
-                    />
-                  ) : (
-                    <ReviewListItem
-                      rating={subItem.rating}
-                      comment={subItem.comment}
-                    />
-                  )}
-                </Box>
-              ))}
-            </Box>
-          );
-        }}
-      />
+      <Suspense fallback={<SuspenseFallback />}>
+        <FlashList
+          numColumns={1}
+          estimatedItemSize={88}
+          data={sortedAndGroupedList}
+          showsVerticalScrollIndicator={false}
+          ItemSeparatorComponent={() => <Box h="$4" />}
+          renderItem={({ item }) => {
+            const [date, items] = item;
+            return (
+              <Box>
+                <Text pb="$2" size="md" bold>
+                  {format(parseISO(date), "MMMM do, yyyy")}
+                </Text>
+                {items.map((subItem, index) => (
+                  <Box pb="$2" key={index}>
+                    {isAttestItem(subItem.data) ? (
+                      <AttestationItem
+                        title={subItem.data.title}
+                        description={subItem.data.description}
+                      />
+                    ) : (
+                      <ReviewListItem
+                        rating={subItem.data.rating}
+                        comment={subItem.data.comment}
+                        timeAgo={subItem.timeCreated}
+                      />
+                    )}
+                  </Box>
+                ))}
+              </Box>
+            );
+          }}
+        />
+      </Suspense>
     </Box>
   );
 };
