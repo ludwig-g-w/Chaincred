@@ -1,6 +1,6 @@
 import MainButton from "@components/MainButton";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { HStack, Text, VStack, Pressable } from "@gluestack-ui/themed";
+import { HStack, Pressable, Text, VStack } from "@gluestack-ui/themed";
 import {
   useAddress,
   useLogin,
@@ -17,11 +17,6 @@ export default () => {
   const { login } = useLogin();
   const { logout } = useLogout();
   const { isLoggedIn } = useUser();
-
-  console.log({
-    isLoggedIn,
-    address,
-  });
 
   return (
     <VStack p="$4" bg="$white" gap={"$2"} flex={1}>

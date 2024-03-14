@@ -52,6 +52,9 @@ export const clientGetProfilesByAddresses = (addresses: string[]) =>
     params: { addresses },
   });
 
+export const suspenseGetProfilesByAddresses = (addresses: string[]) =>
+  createResource(() => clientGetProfilesByAddresses(addresses));
+
 export const clientGetProfileByAddress = (address: string) =>
   _fetch({
     path: "profile",

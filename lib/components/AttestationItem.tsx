@@ -9,16 +9,12 @@ import { ProfileListItem } from "@utils/types";
 import { Pressable } from "react-native";
 import { isAddress, shortenAddress } from "@utils/index";
 
-type Props = Partial<ProfileListItem> & {
-  onPress: () => void;
-};
-
 const AttestationItem = ({
   title = "",
   count = 0,
   description = "",
   onPress = () => {},
-}: Props) => {
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const formattedTitle = isAddress(title) ? shortenAddress(title) : title;
 

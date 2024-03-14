@@ -53,8 +53,9 @@ const ScanScreen = () => {
       toast.show({
         duration: 3_000,
         placement: "top",
-        render: () => <MyToast description={`ID: ${id}`} />,
+        render: () => <MyToast id={id} />,
       });
+      setIsBottomSheetVisible(false);
     } catch (error) {
       console.log(error);
     } finally {
@@ -74,8 +75,9 @@ const ScanScreen = () => {
       toast.show({
         duration: 3_000,
         placement: "top",
-        render: () => <MyToast description={`ID: ${id}`} />,
+        render: () => <MyToast id={id} />,
       });
+      setIsBottomSheetVisible(false);
     } catch (error) {
     } finally {
       setLoading(false);

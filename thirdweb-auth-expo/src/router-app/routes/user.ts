@@ -43,7 +43,8 @@ export default async function handler(
           : undefined;
         const refreshedToken = await ctx.auth.refresh(token, expirationTime);
         const refreshedPayload = ctx.auth.parseToken(refreshedToken);
-        res = new ExpoResponse(user, {
+
+        res = new ExpoResponse(JSON.stringify(user), {
           status: 200,
           headers: {
             "Content-Type": "application/json",

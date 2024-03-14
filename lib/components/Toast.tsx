@@ -1,27 +1,34 @@
-import React from "react";
 import {
-  Button,
-  ButtonText,
   Toast,
-  ToastTitle,
   ToastDescription,
-  useToast,
-  Icon,
-  CloseIcon,
+  ToastTitle,
   VStack,
-  CheckIcon,
   Pressable,
-  Center,
+  Button,
+  Text,
+  HStack,
 } from "@gluestack-ui/themed";
-import { MessageCircle, AlertTriangleIcon } from "lucide-react-native";
+import React from "react";
+import Linking from "expo-linking";
 
-const MyToast = ({ description = "" }) => {
+const MyToast = ({ id }) => {
   return (
     <>
       <Toast action={"success"} variant={"solid"}>
-        <VStack space="xs">
+        <VStack alignItems="center" space="xs">
           <ToastTitle>Success</ToastTitle>
-          <ToastDescription>{description}</ToastDescription>
+          <Button
+            onPress={() => {
+              Linking.openURL(`https://sepolia.easscan.org/schema/view/${id}`);
+            }}
+            bg="$success500"
+            w="$full"
+            size="xs"
+            variant="outline"
+            rounded={"$lg"}
+          >
+            <Text color="$textLight950">Link</Text>
+          </Button>
         </VStack>
       </Toast>
     </>
