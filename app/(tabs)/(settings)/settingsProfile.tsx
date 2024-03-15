@@ -1,4 +1,3 @@
-import { useApolloClient } from "@apollo/client";
 import ImageUploadArea from "@components/ImageUploadArea";
 import MainButton from "@components/MainButton";
 import MyToast from "@components/Toast";
@@ -35,7 +34,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import invariant from "tiny-invariant";
 
 export default function Organization() {
-  const client = useApolloClient();
   const [title, setTitle] = useState("");
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset>();
   const [description, setDescription] = useState("");
@@ -103,7 +101,6 @@ export default function Organization() {
           return <MyToast description="Profile is updated!" />;
         },
       });
-      client.cache.gc();
       router.push("/settings");
       // ... the rest of the original submit function
     } catch (err) {

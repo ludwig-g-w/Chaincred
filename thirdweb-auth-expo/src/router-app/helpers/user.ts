@@ -3,7 +3,8 @@ import {
   THIRDWEB_AUTH_TOKEN_COOKIE_PREFIX,
 } from "../../../constants";
 import { Json } from "../../../core";
-import { ThirdwebAuthContext, ThirdwebAuthUser } from "../types";
+import { ThirdwebAuthContext } from "../types";
+import { ThirdwebAuthUser } from "../../common/types";
 import { ExpoRequest } from "expo-router/server";
 
 // UNUSED

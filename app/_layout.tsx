@@ -1,5 +1,3 @@
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import { useApolloClientDevTools } from "@dev-plugins/apollo-client";
 import { useAsyncStorageDevTools } from "@dev-plugins/async-storage";
 import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
 import { EAS_GRAPHQL, TW_CLIENT_ID } from "@env";
@@ -14,25 +12,14 @@ import {
   metamaskWallet,
   rainbowWallet,
   smartWallet,
-  useAddress,
-  useLogin,
-  useLogout,
   walletConnect,
 } from "@thirdweb-dev/react-native";
 import "@thirdweb-dev/react-native-compat";
-import { typePolicies } from "@utils/apolloConfig";
 import "expo-dev-client";
 import { Stack, useNavigationContainerRef } from "expo-router";
-import React, { useEffect } from "react";
+import React from "react";
 import "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-
-const client = new ApolloClient({
-  uri: EAS_GRAPHQL,
-  cache: new InMemoryCache({
-    typePolicies: typePolicies,
-  }),
-});
 
 const conf = {
   factoryAddress: "0x7675fbfd3c6aff22db02edb74773067b5e15ac0f",
@@ -41,7 +28,6 @@ const conf = {
 
 const App = () => {
   const navigationRef = useNavigationContainerRef();
-  useApolloClientDevTools(client);
   useReactNavigationDevTools(navigationRef);
   useAsyncStorageDevTools({
     errorHandler: (err) => {
@@ -72,9 +58,7 @@ const App = () => {
             walletConnect(),
           ]}
         >
-          <ApolloProvider client={client}>
-            <Inner />
-          </ApolloProvider>
+          <Inner />
         </ThirdwebProvider>
       </GluestackUIProvider>
     </GestureHandlerRootView>

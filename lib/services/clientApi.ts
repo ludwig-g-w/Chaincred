@@ -5,6 +5,7 @@ import { createResource } from "@utils/index";
 export const apiRoutes = {
   profile: "/api/protected/profile",
   profiles: "/api/protected/profiles",
+  attestations: "/api/protected/attestations",
 };
 
 export const _fetch = async ({
@@ -27,6 +28,8 @@ export const _fetch = async ({
       }
     }
   }
+
+  console.log({ queryParams });
 
   const res = await fetch(`${apiRoutes[path]}?${queryParams}`, {
     headers: {

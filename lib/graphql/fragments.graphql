@@ -1,7 +1,0 @@
-fragment ListAttestation on Attestation {
-  timeCreated
-  id
-  attester
-  recipient
-  data
-}

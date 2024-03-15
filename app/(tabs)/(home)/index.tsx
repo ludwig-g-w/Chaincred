@@ -6,37 +6,46 @@ import { FlashList } from "@shopify/flash-list";
 import { useAddress } from "@thirdweb-dev/react-native";
 import { isAttestItem } from "@utils/types";
 import { format, parseISO } from "date-fns";
-import React, { Suspense, useMemo } from "react";
-import {
-  ListAttestationFragment,
-  useHomeFeedSuspenseQuery,
-} from "../../../generated/graphql";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
+import { ListAttestationFragment } from "@generated/graphql";
+import { _fetch } from "@services/clientApi";
 
-const Companies = () => {
+const Index = () => {
   const address = useAddress();
-  const { data } = useHomeFeedSuspenseQuery({
-    skip: !address,
-    variables: {
-      id: address ?? "",
-    },
-  });
+  const [attestations, setAttestations] = useState([]);
+
+  useEffect(() => {
+    if (!address) return;
+    (async () => {
+      try {
+        const res = await _fetch({
+          path: "attestations",
+          params: {
+            recipientAddresses: [address],
+          },
+        });
+        setAttestations(res);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [address]);
 
   const sortedAndGroupedList = useMemo(() => {
-    if (!data?.attestations) return [];
     const groups =
-      data?.attestations?.reduce((acc, item) => {
+      attestations?.reduce((acc, item) => {
         const date = format(new Date(item.timeCreated * 1000), "yyyy-MM-dd");
         if (!acc[date]) {
           acc[date] = [];
         }
-        acc[date].push(item);
+        acc[date].push({ ...item, timeCreated: date });
         return acc;
       }, {} as Record<string, ListAttestationFragment[]>) ?? {};
 
     return Object.entries(groups).sort(
       ([date1], [date2]) => -date1.localeCompare(date2)
     );
-  }, [data?.attestations]);
+  }, [attestations]);
 
   return (
     <Box px="$2" flex={1} bg="$white">
@@ -82,4 +91,4 @@ const Companies = () => {
   );
 };
 
-export default Companies;
+export default Index;

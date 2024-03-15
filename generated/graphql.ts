@@ -1,5 +1,5 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import { GraphQLClient, RequestOptions } from 'graphql-request';
+import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -7,7 +7,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
-const defaultOptions = {} as const;
+type GraphQLClientRequestHeaders = RequestOptions['requestHeaders'];
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -2851,12 +2851,14 @@ export type TimestampWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type DiscoverListQueryVariables = Exact<{
+export type ListAttestationFragment = { __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string };
+
+export type AllActionsReceivedQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type DiscoverListQuery = { __typename?: 'Query', attestations: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }> };
+export type AllActionsReceivedQuery = { __typename?: 'Query', attestations: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }> };
 
 export type HomeFeedQueryVariables = Exact<{
   id: Scalars['String']['input'];
@@ -2865,15 +2867,20 @@ export type HomeFeedQueryVariables = Exact<{
 
 export type HomeFeedQuery = { __typename?: 'Query', attestations: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }> };
 
-export type ProfileQueryVariables = Exact<{
+export type ActionsAndReviewsQueryVariables = Exact<{
   userAddress: Scalars['String']['input'];
   profileAddress: Scalars['String']['input'];
 }>;
 
 
-export type ProfileQuery = { __typename?: 'Query', actions: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }>, reviews: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }> };
+export type ActionsAndReviewsQuery = { __typename?: 'Query', actions: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }>, reviews: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }> };
 
-export type ListAttestationFragment = { __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string };
+export type AttestationsQueryVariables = Exact<{
+  where: AttestationWhereInput;
+}>;
+
+
+export type AttestationsQuery = { __typename?: 'Query', attestations: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }> };
 
 export const ListAttestationFragmentDoc = gql`
     fragment ListAttestation on Attestation {
@@ -2884,8 +2891,8 @@ export const ListAttestationFragmentDoc = gql`
   data
 }
     `;
-export const DiscoverListDocument = gql`
-    query DiscoverList($id: String!) {
+export const AllActionsReceivedDocument = gql`
+    query AllActionsReceived($id: String!) {
   attestations(
     where: {recipient: {equals: $id}, AND: {schemaId: {equals: "0x82b6dfa1f89b37cffb75b5766fb10896d8fb0c196bb18b5cdbf44fef12606a96"}}}
   ) {
@@ -2893,83 +2900,18 @@ export const DiscoverListDocument = gql`
   }
 }
     ${ListAttestationFragmentDoc}`;
-
-/**
- * __useDiscoverListQuery__
- *
- * To run a query within a React component, call `useDiscoverListQuery` and pass it any options that fit your needs.
- * When your component renders, `useDiscoverListQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useDiscoverListQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useDiscoverListQuery(baseOptions: Apollo.QueryHookOptions<DiscoverListQuery, DiscoverListQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<DiscoverListQuery, DiscoverListQueryVariables>(DiscoverListDocument, options);
-      }
-export function useDiscoverListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DiscoverListQuery, DiscoverListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<DiscoverListQuery, DiscoverListQueryVariables>(DiscoverListDocument, options);
-        }
-export function useDiscoverListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<DiscoverListQuery, DiscoverListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<DiscoverListQuery, DiscoverListQueryVariables>(DiscoverListDocument, options);
-        }
-export type DiscoverListQueryHookResult = ReturnType<typeof useDiscoverListQuery>;
-export type DiscoverListLazyQueryHookResult = ReturnType<typeof useDiscoverListLazyQuery>;
-export type DiscoverListSuspenseQueryHookResult = ReturnType<typeof useDiscoverListSuspenseQuery>;
-export type DiscoverListQueryResult = Apollo.QueryResult<DiscoverListQuery, DiscoverListQueryVariables>;
 export const HomeFeedDocument = gql`
     query HomeFeed($id: String!) {
   attestations(
-    where: {OR: [{attester: {equals: $id}}, {recipient: {equals: $id}}], AND: {OR: [{schemaId: {equals: "0x82b6dfa1f89b37cffb75b5766fb10896d8fb0c196bb18b5cdbf44fef12606a96"}}, {schemaId: {equals: "0xba299dc0f2f0caf692628b8bcb62037763e865804462c85b8adcf7ef7b8beb53"}}]}}
+    orderBy: {timeCreated: asc}
+    where: {OR: [{}, {recipient: {equals: $id}}], AND: {OR: [{schemaId: {equals: "0x82b6dfa1f89b37cffb75b5766fb10896d8fb0c196bb18b5cdbf44fef12606a96"}}, {schemaId: {equals: "0xba299dc0f2f0caf692628b8bcb62037763e865804462c85b8adcf7ef7b8beb53"}}]}}
   ) {
     ...ListAttestation
   }
 }
     ${ListAttestationFragmentDoc}`;
-
-/**
- * __useHomeFeedQuery__
- *
- * To run a query within a React component, call `useHomeFeedQuery` and pass it any options that fit your needs.
- * When your component renders, `useHomeFeedQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useHomeFeedQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useHomeFeedQuery(baseOptions: Apollo.QueryHookOptions<HomeFeedQuery, HomeFeedQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<HomeFeedQuery, HomeFeedQueryVariables>(HomeFeedDocument, options);
-      }
-export function useHomeFeedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeFeedQuery, HomeFeedQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<HomeFeedQuery, HomeFeedQueryVariables>(HomeFeedDocument, options);
-        }
-export function useHomeFeedSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<HomeFeedQuery, HomeFeedQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<HomeFeedQuery, HomeFeedQueryVariables>(HomeFeedDocument, options);
-        }
-export type HomeFeedQueryHookResult = ReturnType<typeof useHomeFeedQuery>;
-export type HomeFeedLazyQueryHookResult = ReturnType<typeof useHomeFeedLazyQuery>;
-export type HomeFeedSuspenseQueryHookResult = ReturnType<typeof useHomeFeedSuspenseQuery>;
-export type HomeFeedQueryResult = Apollo.QueryResult<HomeFeedQuery, HomeFeedQueryVariables>;
-export const ProfileDocument = gql`
-    query Profile($userAddress: String!, $profileAddress: String!) {
+export const ActionsAndReviewsDocument = gql`
+    query ActionsAndReviews($userAddress: String!, $profileAddress: String!) {
   actions: attestations(
     where: {recipient: {equals: $userAddress}, AND: {schemaId: {equals: "0x82b6dfa1f89b37cffb75b5766fb10896d8fb0c196bb18b5cdbf44fef12606a96"}}}
   ) {
@@ -2982,37 +2924,33 @@ export const ProfileDocument = gql`
   }
 }
     ${ListAttestationFragmentDoc}`;
+export const AttestationsDocument = gql`
+    query Attestations($where: AttestationWhereInput!) {
+  attestations(orderBy: {timeCreated: asc}, where: $where) {
+    ...ListAttestation
+  }
+}
+    ${ListAttestationFragmentDoc}`;
 
-/**
- * __useProfileQuery__
- *
- * To run a query within a React component, call `useProfileQuery` and pass it any options that fit your needs.
- * When your component renders, `useProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useProfileQuery({
- *   variables: {
- *      userAddress: // value for 'userAddress'
- *      profileAddress: // value for 'profileAddress'
- *   },
- * });
- */
-export function useProfileQuery(baseOptions: Apollo.QueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
-      }
-export function useProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
-        }
-export function useProfileSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
-        }
-export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
-export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
-export type ProfileSuspenseQueryHookResult = ReturnType<typeof useProfileSuspenseQuery>;
-export type ProfileQueryResult = Apollo.QueryResult<ProfileQuery, ProfileQueryVariables>;
+export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string, variables?: any) => Promise<T>;
+
+
+const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType, _variables) => action();
+
+export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
+  return {
+    AllActionsReceived(variables: AllActionsReceivedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AllActionsReceivedQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<AllActionsReceivedQuery>(AllActionsReceivedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AllActionsReceived', 'query', variables);
+    },
+    HomeFeed(variables: HomeFeedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<HomeFeedQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<HomeFeedQuery>(HomeFeedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'HomeFeed', 'query', variables);
+    },
+    ActionsAndReviews(variables: ActionsAndReviewsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ActionsAndReviewsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ActionsAndReviewsQuery>(ActionsAndReviewsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ActionsAndReviews', 'query', variables);
+    },
+    Attestations(variables: AttestationsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AttestationsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<AttestationsQuery>(AttestationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Attestations', 'query', variables);
+    }
+  };
+}
+export type Sdk = ReturnType<typeof getSdk>;

@@ -27,7 +27,10 @@ export function convertJsonToObject(jsonArray: Record<string, any>[]) {
   let result = {};
   jsonArray.forEach((item) => {
     // @ts-ignore
-    result[item.name] = item.value.value;
+    result[item.name] =
+      typeof item.value.value === "bigint"
+        ? Number(item.value.value)
+        : item.value.value;
   });
   return result;
 }

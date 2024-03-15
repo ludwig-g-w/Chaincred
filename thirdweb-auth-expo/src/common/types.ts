@@ -25,7 +25,7 @@ export type ThirdwebAuthRoute =
 
 export type ThirdwebAuthUser<
   TData extends Json = Json,
-  TSession extends Json = Json,
+  TSession extends Json = Json
 > = User<TSession> & {
   data?: TData;
 };
@@ -58,5 +58,5 @@ export type ThirdwebAuthConfigShared = {
 };
 
 export type ThirdwebNextContext = {
-  params?: Record<string, string | string[]>
+  params?: Record<string, string | string[]>;
 };

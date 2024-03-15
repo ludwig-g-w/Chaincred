@@ -8,19 +8,20 @@ import { groupAttestationsByAttester } from "@utils/attestations";
 import { ProfileListItem } from "@utils/types";
 import { router } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
-import { useDiscoverListSuspenseQuery } from "../../../generated/graphql";
+
+const data = {};
 
 const DiscoverList = () => {
   const [profileData, setProfileData] = useState<ProfileListItem[]>([]);
   const { contract } = useContract(ORGANIZATION_MANAGER_ADDRESS);
 
   const address = useAddress();
-  const { data, error } = useDiscoverListSuspenseQuery({
-    skip: !address,
-    variables: {
-      id: address ?? "",
-    },
-  });
+  // const { data, error } = useDiscoverListSuspenseQuery({
+  //   skip: !address,
+  //   variables: {
+  //     id: address ?? "",
+  //   },
+  // });
 
   const attestationsByAttester = useMemo(
     () => groupAttestationsByAttester(data?.attestations),

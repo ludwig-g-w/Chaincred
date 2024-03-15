@@ -5,6 +5,9 @@
     "baseUrl": "./",
     "strict": true,
     "paths": {
+      "@generated/*": [
+        "generated/*"
+      ],
       "@services/*": [
         "lib/services/*"
       ],
