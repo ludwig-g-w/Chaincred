@@ -61,6 +61,9 @@ const Index = () => {
           ItemSeparatorComponent={() => <Box h="$4" />}
           renderItem={({ item }) => {
             const [date, items] = item;
+
+            console.log(items);
+
             return (
               <Box>
                 <Text pb="$2" size="md" bold>
@@ -75,6 +78,7 @@ const Index = () => {
                       />
                     ) : (
                       <ReviewListItem
+                        avatarUri=""
                         rating={subItem.data.rating}
                         comment={subItem.data.comment}
                         timeAgo={subItem.timeCreated}

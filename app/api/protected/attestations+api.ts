@@ -4,6 +4,7 @@ import { decodeDataReviewOrAction } from "@utils/eas";
 import { ExpoRequest, ExpoResponse } from "expo-router/server";
 import { GraphQLClient } from "graphql-request";
 import { getUser } from "../auth/[...thirdweb]+api";
+import { getProfilesByAddresses } from "@services/db/prisma";
 
 const client = new GraphQLClient(EAS_GRAPHQL);
 const sdk = getSdk(client);
@@ -28,24 +29,43 @@ export const GET = async (req: ExpoRequest) => {
       ?.split(",")
       ?.map((s) => s.trim()) ?? [];
 
-  console.log({ recipients });
-
   try {
-    const res = await sdk.Attestations({
-      where: {
-        OR: [
-          { recipient: { in: recipients } },
-          { attester: { in: attesters } },
-        ],
-        schemaId: {
-          in: [SCHEMA_ADRESS_ACTION, SCHEMA_ADRESS_REVIEW],
+    const [profiles, responseAttestations] = await Promise.all([
+      getProfilesByAddresses([...recipients, ...attesters]),
+      sdk.Attestations({
+        where: {
+          OR: [
+            { recipient: { in: recipients } },
+            { attester: { in: attesters } },
+          ],
+          schemaId: {
+            in: [SCHEMA_ADRESS_ACTION, SCHEMA_ADRESS_REVIEW],
+          },
         },
-      },
-    });
+      }),
+    ]);
 
-    return ExpoResponse.json(res.attestations.map(decodeDataReviewOrAction));
+    const formattedAttestation = responseAttestations.attestations.map(
+      (attestation) => {
+        const attestWithDecodedData = decodeDataReviewOrAction(attestation);
+        const attester = profiles.find(
+          (profile) => profile.address === attestWithDecodedData.attester
+        );
+        const recipient = profiles.find(
+          (profile) => profile.address === attestWithDecodedData.recipient
+        );
+
+        return {
+          ...attestWithDecodedData,
+          attester: attester ?? attestWithDecodedData.attester,
+          recipient: recipient ?? attestWithDecodedData.recipient,
+        };
+      }
+    );
+
+    return ExpoResponse.json(formattedAttestation);
   } catch (error) {
-    return new ExpoResponse("EAS problem", {
+    return new ExpoResponse(`EAS problem ${error}`, {
       status: 500,
     });
   }
