@@ -29,8 +29,6 @@ export const _fetch = async ({
     }
   }
 
-  console.log({ queryParams });
-
   const res = await fetch(`${apiRoutes[path]}?${queryParams}`, {
     headers: {
       Authorization: `Bearer ${jwt}`,

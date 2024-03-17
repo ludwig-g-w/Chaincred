@@ -1,14 +1,13 @@
-import AttestationItem from "@components/AttestationItem";
 import ReviewListItem from "@components/ReviewListItem";
 import SuspenseFallback from "@components/SuspenseFallback";
+import { ListAttestationFragment } from "@generated/graphql";
 import { Box, Text } from "@gluestack-ui/themed";
+import { _fetch } from "@services/clientApi";
 import { FlashList } from "@shopify/flash-list";
 import { useAddress } from "@thirdweb-dev/react-native";
-import { isAttestItem } from "@utils/types";
+import { isReviewItem } from "@utils/types";
 import { format, parseISO } from "date-fns";
 import React, { Suspense, useEffect, useMemo, useState } from "react";
-import { ListAttestationFragment } from "@generated/graphql";
-import { _fetch } from "@services/clientApi";
 
 const Index = () => {
   const address = useAddress();
@@ -20,6 +19,7 @@ const Index = () => {
         path: "attestations",
         params: {
           recipientAddresses: [address],
+          attesterAddresses: [address],
         },
       });
       setAttestations(res);
@@ -68,7 +68,7 @@ const Index = () => {
           renderItem={({ item }) => {
             const [date, items] = item;
 
-            return (
+            return isReviewItem(items[0]?.data) ? (
               <Box>
                 <Text pb="$2" size="md" bold>
                   {format(parseISO(date), "MMMM do, yyyy")}
@@ -79,27 +79,18 @@ const Index = () => {
                     (subItem?.attester?.address ?? subItem.attester);
                   return (
                     <Box pb="$2" key={index}>
-                      {isAttestItem(subItem.data) ? (
-                        <AttestationItem
-                          title={subItem.data.title}
-                          description={subItem.data.description}
-                        />
-                      ) : (
-                        <ReviewListItem
-                          userAttested={isUserAttester}
-                          userName={
-                            subItem?.attester?.title ?? subItem.attester
-                          }
-                          rating={subItem.data.rating}
-                          comment={subItem.data.comment}
-                          timeAgo={subItem.timeCreated}
-                        />
-                      )}
+                      <ReviewListItem
+                        userAttested={isUserAttester}
+                        userName={subItem?.attester?.title ?? subItem.attester}
+                        rating={subItem.data.rating}
+                        comment={subItem.data.comment}
+                        timeAgo={subItem.timeCreated}
+                      />
                     </Box>
                   );
                 })}
               </Box>
-            );
+            ) : null;
           }}
         />
       </Suspense>

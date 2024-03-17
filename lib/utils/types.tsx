@@ -5,6 +5,11 @@ export const isAttestItem = (
 ): item is AttestItem => {
   return (item as AttestItem).description !== undefined;
 };
+export const isReviewItem = (
+  item: AttestItem | ReviewItem
+): item is ReviewItem => {
+  return (item as ReviewItem).rating !== undefined;
+};
 export interface ProfileListItem {
   title: string;
   count: number;

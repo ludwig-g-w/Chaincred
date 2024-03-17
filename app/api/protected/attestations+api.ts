@@ -1,10 +1,10 @@
-import { EAS_GRAPHQL, SCHEMA_ADRESS_ACTION, SCHEMA_ADRESS_REVIEW } from "@env";
+import { EAS_GRAPHQL, SCHEMA_ADRESS_REVIEW } from "@env";
 import { getSdk } from "@generated/graphql"; // Adjust the import path according to where your generated code is
+import { getProfilesByAddresses } from "@services/db/prisma";
 import { decodeDataReviewOrAction } from "@utils/eas";
 import { ExpoRequest, ExpoResponse } from "expo-router/server";
 import { GraphQLClient } from "graphql-request";
 import { getUser } from "../auth/[...thirdweb]+api";
-import { getProfilesByAddresses } from "@services/db/prisma";
 
 const client = new GraphQLClient(EAS_GRAPHQL);
 const sdk = getSdk(client);
@@ -39,7 +39,7 @@ export const GET = async (req: ExpoRequest) => {
             { attester: { in: attesters } },
           ],
           schemaId: {
-            in: [SCHEMA_ADRESS_ACTION, SCHEMA_ADRESS_REVIEW],
+            in: [SCHEMA_ADRESS_REVIEW],
           },
         },
       }),

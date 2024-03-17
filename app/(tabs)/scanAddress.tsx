@@ -63,26 +63,26 @@ const ScanScreen = () => {
     }
   };
 
-  const handleSubmitAction = async () => {
-    invariant(attestItem, " Missing input");
-    setLoading(true);
-    try {
-      const id = await createActionAttestation({
-        address: scannedAddress,
-        signer,
-        ...attestItem,
-      });
-      toast.show({
-        duration: 3_000,
-        placement: "top",
-        render: () => <MyToast id={id} />,
-      });
-      setIsBottomSheetVisible(false);
-    } catch (error) {
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const handleSubmitAction = async () => {
+  //   invariant(attestItem, " Missing input");
+  //   setLoading(true);
+  //   try {
+  //     const id = await createActionAttestation({
+  //       address: scannedAddress,
+  //       signer,
+  //       ...attestItem,
+  //     });
+  //     toast.show({
+  //       duration: 3_000,
+  //       placement: "top",
+  //       render: () => <MyToast id={id} />,
+  //     });
+  //     setIsBottomSheetVisible(false);
+  //   } catch (error) {
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   useEffect(() => {
     (async () => {
