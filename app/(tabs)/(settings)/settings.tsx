@@ -13,11 +13,6 @@ import React from "react";
 import { match, P } from "ts-pattern";
 
 export default () => {
-  const address = useAddress();
-  const { login } = useLogin();
-  const { logout } = useLogout();
-  const { isLoggedIn } = useUser();
-
   return (
     <VStack p="$4" bg="$white" gap={"$2"} flex={1}>
       <Item
@@ -28,13 +23,6 @@ export default () => {
         title="Your Profile"
         onPress={() => router.push("/settingsProfile")}
       />
-      {match([address, isLoggedIn])
-        .with([P.string, false], () => (
-          <MainButton onPress={login}>Login</MainButton>
-        ))
-        .otherwise(() => (
-          <MainButton onPress={logout}>Logout</MainButton>
-        ))}
     </VStack>
   );
 

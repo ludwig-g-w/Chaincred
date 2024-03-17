@@ -1,15 +1,23 @@
-import { Box, Center, Text } from "@gluestack-ui/themed";
-import { ConnectWallet, useAddress } from "@thirdweb-dev/react-native";
+import MainButton from "@components/MainButton";
+import { Box, Center, Spinner, Text } from "@gluestack-ui/themed";
+import {
+  ConnectWallet,
+  useAddress,
+  useLogin,
+  useLogout,
+  useUser,
+  useConnect,
+} from "@thirdweb-dev/react-native";
 import { Redirect, useLocalSearchParams } from "expo-router";
 import React from "react";
+import { match, P } from "ts-pattern";
 
 export default () => {
-  const user = useAddress();
   const params = useLocalSearchParams<{ rUrl: string }>();
-
-  if (user) {
-    return <Redirect href={"/list"} />;
-  }
+  const address = useAddress();
+  const { login } = useLogin();
+  const { logout } = useLogout();
+  const { isLoggedIn, isLoading } = useUser();
 
   return (
     <Box flex={1}>
@@ -21,12 +29,28 @@ export default () => {
           size="2xl"
           mb={"$4"}
         >
-          Cross pollination
+          ChainCred
         </Text>
         <Text paddingHorizontal={"$10"} textAlign="center" size="lg" mb={"$4"}>
-          Cross pollination, create your interlinked rewards program
+          An app for reviewing decentralized
         </Text>
-        <ConnectWallet />
+        {match([address, isLoggedIn, isLoading])
+          .with([undefined, false, true], () => (
+            <Center gap="$4">
+              <Text bold>Loading...</Text>
+              <Spinner />
+            </Center>
+          ))
+          .with([undefined, false, false], () => <ConnectWallet />)
+          .with([P.string, false, false], () => (
+            <MainButton onPress={login}>Login</MainButton>
+          ))
+          .with([P.string, true, false], () => (
+            <Redirect href={"/(tabs)/(home)/"} />
+          ))
+          .otherwise(() => (
+            <MainButton onPress={logout}>Logout</MainButton>
+          ))}
       </Center>
     </Box>
   );

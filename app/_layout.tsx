@@ -12,12 +12,13 @@ import {
   metamaskWallet,
   rainbowWallet,
   smartWallet,
+  useUser,
   walletConnect,
 } from "@thirdweb-dev/react-native";
 import "@thirdweb-dev/react-native-compat";
 import "expo-dev-client";
-import { Stack, useNavigationContainerRef } from "expo-router";
-import React from "react";
+import { Stack, router, useNavigationContainerRef } from "expo-router";
+import React, { useEffect } from "react";
 import "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
@@ -66,6 +67,14 @@ const App = () => {
 };
 
 const Inner = () => {
+  const { isLoggedIn, isLoading } = useUser();
+
+  useEffect(() => {
+    if (!isLoading && !isLoggedIn) {
+      router.replace("/login");
+    }
+  });
+
   return (
     <Stack
       initialRouteName="(tabs)"
