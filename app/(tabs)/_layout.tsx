@@ -6,8 +6,8 @@ import {
   Text,
   useStyled,
 } from "@gluestack-ui/themed";
-import { ConnectWallet, useAddress } from "@thirdweb-dev/react-native";
-import { Redirect, Tabs, router, usePathname } from "expo-router";
+import { ConnectWallet } from "@thirdweb-dev/react-native";
+import { Tabs, router, usePathname } from "expo-router";
 import { memo, useCallback } from "react";
 import { Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,14 +15,6 @@ import { match } from "ts-pattern";
 
 export default function TabLayout() {
   const theme: { config: ICustomConfig } = useStyled();
-
-  // TODO: Put back
-  // const user = useAddress();
-  // if (!user) {
-  //   return (
-  //     <Redirect href={{ pathname: "/login", params: { rUrl: "/index" } }} />
-  //   );
-  // }
 
   const header = useCallback(() => <Header />, []);
 

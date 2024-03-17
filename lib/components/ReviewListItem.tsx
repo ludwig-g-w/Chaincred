@@ -10,6 +10,8 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
   Pressable,
+  Badge,
+  BadgeText,
 } from "@gluestack-ui/themed";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { isAddress, shortenAddress } from "@utils/index";
@@ -22,17 +24,17 @@ interface UserCommentProps {
   comment?: string;
   rating?: number;
   onPress?: () => {};
-  isReceived: boolean;
+  userAttested: boolean;
 }
 
 const ReviewListItem: React.FC<UserCommentProps> = ({
   avatarUri,
-  fallbackInitials = "A",
-  userName = "Ludwig",
-  timeAgo = "2024",
+  fallbackInitials = "A N",
+  userName = "",
+  timeAgo = "",
   comment,
   rating,
-  isReceived,
+  userAttested,
   onPress = () => {},
 }) => {
   const formattedUserName = isAddress(userName)
@@ -41,7 +43,7 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
 
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const emoji = ["😔", "😐", "😊", "😃", "🤩"][rating];
+  const emoji = ["😔", "😐", "😊", "😃", "🤩"][rating ?? 0];
 
   const handlePress = () => {
     if (!comment) return;
@@ -75,7 +77,17 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
         </Avatar>
         <VStack>
           <Text fontWeight="medium">{formattedUserName}</Text>
-          <Text fontSize="$sm">{timeAgo}</Text>
+          <HStack gap="$2">
+            <Text fontSize="$sm">{timeAgo}</Text>
+            <Badge
+              rounded="$md"
+              bg={userAttested ? "$yellow500" : "$purple500"}
+            >
+              <BadgeText bold color="$purple900">
+                {userAttested ? "Attested" : "Received"}
+              </BadgeText>
+            </Badge>
+          </HStack>
         </VStack>
         <Text ml="auto" size="4xl">
           {emoji}

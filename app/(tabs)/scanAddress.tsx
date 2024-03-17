@@ -143,10 +143,10 @@ const ScanScreen = () => {
                   {shortenAddress(scannedAddress)}
                 </Text>
               </Text>
-              <Text mb="$2" mt="$4" size="xl" bold>
+              {/* <Text mb="$2" mt="$4" size="xl" bold>
                 I want to register a:
-              </Text>
-              <SegmentedControl
+              </Text> */}
+              {/* <SegmentedControl
                 onValueChange={setSControl}
                 selectedIndex={sControl === "Action" ? 0 : 1}
                 activeFontStyle={{
@@ -165,23 +165,23 @@ const ScanScreen = () => {
                   marginBottom: 12,
                 }}
                 values={["Action", "Review"] as const}
-              />
+              /> */}
 
               {match(sControl)
-                .with("Action", () => (
-                  <>
-                    <ListOfAttestations
-                      onPressItem={(attestItem) => {
-                        setAttestItem(attestItem);
-                      }}
-                    />
-                    {attestItem && (
-                      <MainButton onPress={handleSubmitAction} {...{ loading }}>
-                        Confirm
-                      </MainButton>
-                    )}
-                  </>
-                ))
+                // .with("Action", () => (
+                //   <>
+                //     <ListOfAttestations
+                //       onPressItem={(attestItem) => {
+                //         setAttestItem(attestItem);
+                //       }}
+                //     />
+                //     {attestItem && (
+                //       <MainButton onPress={handleSubmitAction} {...{ loading }}>
+                //         Confirm
+                //       </MainButton>
+                //     )}
+                //   </>
+                // ))
                 .with("Review", () => (
                   <>
                     <ReviewComponent onRatingChange={handleRatingChange} />

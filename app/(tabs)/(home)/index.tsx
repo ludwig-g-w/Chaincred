@@ -14,20 +14,24 @@ const Index = () => {
   const address = useAddress();
   const [attestations, setAttestations] = useState([]);
 
+  const fetcher = async () => {
+    try {
+      const res = await _fetch({
+        path: "attestations",
+        params: {
+          recipientAddresses: [address],
+        },
+      });
+      setAttestations(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (!address) return;
     (async () => {
-      try {
-        const res = await _fetch({
-          path: "attestations",
-          params: {
-            recipientAddresses: [address],
-          },
-        });
-        setAttestations(res);
-      } catch (error) {
-        console.log(error);
-      }
+      await fetcher();
     })();
   }, [address]);
 
@@ -54,6 +58,8 @@ const Index = () => {
       </Text>
       <Suspense fallback={<SuspenseFallback />}>
         <FlashList
+          // TODO: Put back when tRPC
+          // onRefresh={fetcher}
           numColumns={1}
           estimatedItemSize={88}
           data={sortedAndGroupedList}
@@ -62,30 +68,36 @@ const Index = () => {
           renderItem={({ item }) => {
             const [date, items] = item;
 
-            console.log(items);
-
             return (
               <Box>
                 <Text pb="$2" size="md" bold>
                   {format(parseISO(date), "MMMM do, yyyy")}
                 </Text>
-                {items.map((subItem, index) => (
-                  <Box pb="$2" key={index}>
-                    {isAttestItem(subItem.data) ? (
-                      <AttestationItem
-                        title={subItem.data.title}
-                        description={subItem.data.description}
-                      />
-                    ) : (
-                      <ReviewListItem
-                        avatarUri=""
-                        rating={subItem.data.rating}
-                        comment={subItem.data.comment}
-                        timeAgo={subItem.timeCreated}
-                      />
-                    )}
-                  </Box>
-                ))}
+                {items.map((subItem, index) => {
+                  const isUserAttester =
+                    address ===
+                    (subItem?.attester?.address ?? subItem.attester);
+                  return (
+                    <Box pb="$2" key={index}>
+                      {isAttestItem(subItem.data) ? (
+                        <AttestationItem
+                          title={subItem.data.title}
+                          description={subItem.data.description}
+                        />
+                      ) : (
+                        <ReviewListItem
+                          userAttested={isUserAttester}
+                          userName={
+                            subItem?.attester?.title ?? subItem.attester
+                          }
+                          rating={subItem.data.rating}
+                          comment={subItem.data.comment}
+                          timeAgo={subItem.timeCreated}
+                        />
+                      )}
+                    </Box>
+                  );
+                })}
               </Box>
             );
           }}

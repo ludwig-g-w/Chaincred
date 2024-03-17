@@ -51,7 +51,7 @@ export default function Organization() {
     description: false,
     image: false,
   });
-
+  // TODO: When used with React Query and tRPC create loading state
   useEffect(() => {
     if (!address) return;
     (async () => {
@@ -189,7 +189,7 @@ export default function Organization() {
               });
             }}
             query={{
-              key: API_KEY_GOOGLE,
+              key: "AIzaSyDBx5I1YAQiApOZhhq7aAsj2_19HO4hOfM",
               language: "en",
             }}
           />

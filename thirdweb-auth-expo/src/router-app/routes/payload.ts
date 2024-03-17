@@ -22,7 +22,7 @@ export default async function handler(
     });
   }
 
-  // TODO: Add nonce generation + custom expiration + invalid before
+  // TODO-NOT_MINE: Add nonce generation + custom expiration + invalid before
   const payload = await ctx.auth.payload({
     address: parsedPayload.data.address,
     statement: ctx.authOptions?.statement,
