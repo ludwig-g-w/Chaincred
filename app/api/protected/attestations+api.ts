@@ -5,9 +5,7 @@ import { decodeDataReviewOrAction } from "@utils/eas";
 import { ExpoRequest, ExpoResponse } from "expo-router/server";
 import { GraphQLClient } from "graphql-request";
 import { getUser } from "../auth/[...thirdweb]+api";
-
-const client = new GraphQLClient(EAS_GRAPHQL);
-const sdk = getSdk(client);
+import { sdk } from "@lib/graphql/client";
 
 export const GET = async (req: ExpoRequest) => {
   const user = await getUser(req);

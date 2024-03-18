@@ -21,6 +21,12 @@ import { Stack, router, useNavigationContainerRef } from "expo-router";
 import React, { useEffect } from "react";
 import "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import TRPCProvider from "@utils/tRPCProvider";
+
+export {
+  // Catch any errors thrown by the Layout component.
+  ErrorBoundary,
+} from "expo-router";
 
 const conf = {
   factoryAddress: "0x7675fbfd3c6aff22db02edb74773067b5e15ac0f",
@@ -37,32 +43,34 @@ const App = () => {
   });
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <GluestackUIProvider config={config}>
-        <ThirdwebProvider
-          clientId={TW_CLIENT_ID}
-          activeChain={Sepolia}
-          supportedChains={[Sepolia]}
-          theme={"light"}
-          authConfig={{
-            secureStorage: AsyncStorage,
-            // This domain should match the backend
-            domain: process.env.THIRDWEB_AUTH_DOMAIN || "",
-            // Pass the URL of the auth endpoints
-            authUrl: "/api/auth",
-          }}
-          supportedWallets={[
-            smartWallet(embeddedWallet(), conf),
-            metamaskWallet(),
-            rainbowWallet(),
-            localWallet(),
-            walletConnect(),
-          ]}
-        >
-          <Inner />
-        </ThirdwebProvider>
-      </GluestackUIProvider>
-    </GestureHandlerRootView>
+    <TRPCProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <GluestackUIProvider config={config}>
+          <ThirdwebProvider
+            clientId={TW_CLIENT_ID}
+            activeChain={Sepolia}
+            supportedChains={[Sepolia]}
+            theme={"light"}
+            authConfig={{
+              secureStorage: AsyncStorage,
+              // This domain should match the backend
+              domain: process.env.THIRDWEB_AUTH_DOMAIN || "",
+              // Pass the URL of the auth endpoints
+              authUrl: "/api/auth",
+            }}
+            supportedWallets={[
+              smartWallet(embeddedWallet(), conf),
+              metamaskWallet(),
+              rainbowWallet(),
+              localWallet(),
+              walletConnect(),
+            ]}
+          >
+            <Inner />
+          </ThirdwebProvider>
+        </GluestackUIProvider>
+      </GestureHandlerRootView>
+    </TRPCProvider>
   );
 };
 
@@ -73,7 +81,13 @@ const Inner = () => {
     if (!isLoading && !isLoggedIn) {
       router.replace("/login");
     }
-  });
+  }, [isLoggedIn, isLoading]);
+
+  useEffect(() => {
+    AsyncStorage.getItem("auth_token_storage_key").then((s) => {
+      !s && router.replace("/login");
+    });
+  }, []);
 
   return (
     <Stack

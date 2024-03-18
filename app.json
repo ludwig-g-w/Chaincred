@@ -3,6 +3,9 @@
     "experiments": {
       "typedRoutes": true
     },
+    "platforms": [
+      "ios"
+    ],
     "scheme": "chaincred",
     "name": "ChainCred",
     "slug": "chaincred",

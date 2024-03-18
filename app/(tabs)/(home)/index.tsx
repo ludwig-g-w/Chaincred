@@ -2,6 +2,7 @@ import ReviewListItem from "@components/ReviewListItem";
 import SuspenseFallback from "@components/SuspenseFallback";
 import { ListAttestationFragment } from "@generated/graphql";
 import { Box, Text } from "@gluestack-ui/themed";
+import { trpc } from "@utils/trpc";
 import { _fetch } from "@services/clientApi";
 import { FlashList } from "@shopify/flash-list";
 import { useAddress } from "@thirdweb-dev/react-native";
@@ -11,29 +12,10 @@ import React, { Suspense, useEffect, useMemo, useState } from "react";
 
 const Index = () => {
   const address = useAddress();
-  const [attestations, setAttestations] = useState([]);
-
-  const fetcher = async () => {
-    try {
-      const res = await _fetch({
-        path: "attestations",
-        params: {
-          recipientAddresses: [address],
-          attesterAddresses: [address],
-        },
-      });
-      setAttestations(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    if (!address) return;
-    (async () => {
-      await fetcher();
-    })();
-  }, [address]);
+  const [attestations] = trpc.attestations.useSuspenseQuery({
+    recipients: [address ?? ""],
+    attesters: [address ?? ""],
+  });
 
   const sortedAndGroupedList = useMemo(() => {
     const groups =
@@ -77,11 +59,16 @@ const Index = () => {
                   const isUserAttester =
                     address ===
                     (subItem?.attester?.address ?? subItem.attester);
+
+                  const user = isUserAttester
+                    ? subItem.recipient
+                    : subItem.attester;
                   return (
                     <Box pb="$2" key={index}>
                       <ReviewListItem
+                        avatarUri={user?.image_url}
                         userAttested={isUserAttester}
-                        userName={subItem?.attester?.title ?? subItem.attester}
+                        userName={user?.title ?? user}
                         rating={subItem.data.rating}
                         comment={subItem.data.comment}
                         timeAgo={subItem.timeCreated}

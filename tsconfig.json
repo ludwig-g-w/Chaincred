@@ -8,6 +8,12 @@
       "@generated/*": [
         "generated/*"
       ],
+      "@lib/*": [
+        "lib/*"
+      ],
+      "@routes/*": [
+        "./app/*"
+      ],
       "@services/*": [
         "lib/services/*"
       ],
