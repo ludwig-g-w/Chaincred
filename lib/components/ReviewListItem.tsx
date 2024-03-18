@@ -74,6 +74,7 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
         <Avatar>
           <AvatarFallbackText>{fallbackInitials}</AvatarFallbackText>
           <AvatarImage
+            alt="profileImage"
             source={{
               uri: avatarUri,
             }}
