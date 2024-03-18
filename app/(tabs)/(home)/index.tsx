@@ -63,6 +63,9 @@ const Index = () => {
                   const user = isUserAttester
                     ? subItem.recipient
                     : subItem.attester;
+
+                  console.log(user.image_url);
+
                   return (
                     <Box pb="$2" key={index}>
                       <ReviewListItem

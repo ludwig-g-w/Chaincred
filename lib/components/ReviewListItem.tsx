@@ -12,6 +12,7 @@ import {
   Pressable,
   Badge,
   BadgeText,
+  AvatarImage,
 } from "@gluestack-ui/themed";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { isAddress, shortenAddress } from "@utils/index";
@@ -70,10 +71,13 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
         bgColor="$white"
         style={styleExpanded}
       >
-        <Avatar source={avatarUri ? { uri: avatarUri } : undefined}>
-          {!avatarUri && (
-            <AvatarFallbackText>{fallbackInitials}</AvatarFallbackText>
-          )}
+        <Avatar>
+          <AvatarFallbackText>{fallbackInitials}</AvatarFallbackText>
+          <AvatarImage
+            source={{
+              uri: avatarUri,
+            }}
+          />
         </Avatar>
         <VStack>
           <Text fontWeight="medium">{formattedUserName}</Text>
