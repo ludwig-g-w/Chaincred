@@ -4,6 +4,7 @@ import {
   AvatarImage,
   Badge,
   BadgeText,
+  Center,
   ChevronDownIcon,
   ChevronRightIcon,
   HStack,
@@ -73,14 +74,14 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
           <AvatarImage
             alt="profileImage"
             source={{
-              uri: avatarUri ?? "",
+              uri: avatarUri || "",
             }}
           />
         </Avatar>
         <VStack>
           <Badge rounded="$md" bg={userAttested ? "$yellow500" : "$purple500"}>
-            <BadgeText bold color="$purple900">
-              {userAttested ? "Attested to" : "Received by"}
+            <BadgeText bold color={userAttested ? "$yellow900" : "$purple900"}>
+              {userAttested ? "Given to" : "Received by"}
             </BadgeText>
           </Badge>
           <Text fontWeight="medium">{formattedUserName}</Text>

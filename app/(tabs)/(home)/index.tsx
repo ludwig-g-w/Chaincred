@@ -1,21 +1,26 @@
 import ReviewListItem from "@components/ReviewListItem";
 import SuspenseFallback from "@components/SuspenseFallback";
-import { ListAttestationFragment } from "@generated/graphql";
 import { Box, Text } from "@gluestack-ui/themed";
-import { trpc } from "@utils/trpc";
-import { _fetch } from "@services/clientApi";
 import { FlashList } from "@shopify/flash-list";
-import { useAddress } from "@thirdweb-dev/react-native";
-import { isReviewItem } from "@utils/types";
+import { skipToken } from "@tanstack/react-query";
+import { useUser } from "@thirdweb-dev/react-native";
+import { trpc } from "@utils/trpc";
+import { isReviewItem, Attestation } from "@utils/types";
 import { format, parseISO } from "date-fns";
-import React, { Suspense, useEffect, useMemo, useState } from "react";
+import React, { Suspense, useMemo } from "react";
 
 const Index = () => {
-  const address = useAddress();
-  const [attestations] = trpc.attestations.useSuspenseQuery({
-    recipients: [address ?? ""],
-    attesters: [address ?? ""],
-  });
+  const { user } = useUser();
+
+  const [attestations] = trpc.attestations.useSuspenseQuery(
+    // @ts-ignore
+    user
+      ? {
+          recipients: [user?.address],
+          attesters: [user?.address],
+        }
+      : skipToken
+  );
 
   const sortedAndGroupedList = useMemo(() => {
     const groups =
@@ -24,9 +29,10 @@ const Index = () => {
         if (!acc[date]) {
           acc[date] = [];
         }
+        // @ts-ignore
         acc[date].push({ ...item, timeCreated: date });
         return acc;
-      }, {} as Record<string, ListAttestationFragment[]>) ?? {};
+      }, {} as Record<string, Attestation[]>) ?? {};
 
     return Object.entries(groups).sort(
       ([date1], [date2]) => -date1.localeCompare(date2)
@@ -57,21 +63,18 @@ const Index = () => {
                 </Text>
                 {items.map((subItem, index) => {
                   const isUserAttester =
-                    address ===
+                    user?.address ===
                     (subItem?.attester?.address ?? subItem.attester);
 
-                  const user = isUserAttester
+                  const itemUser = isUserAttester
                     ? subItem.recipient
                     : subItem.attester;
-
-                  console.log(user.image_url);
-
                   return (
                     <Box pb="$2" key={index}>
                       <ReviewListItem
-                        avatarUri={user?.image_url}
+                        avatarUri={itemUser?.image_url}
                         userAttested={isUserAttester}
-                        userName={user?.title ?? user}
+                        userName={itemUser?.title ?? itemUser}
                         rating={subItem.data.rating}
                         comment={subItem.data.comment}
                         timeAgo={subItem.timeCreated}

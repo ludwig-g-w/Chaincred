@@ -17,7 +17,7 @@ export const appRouter = router({
       })
     )
     .query(async ({ input, ctx }) => {
-      const { attesters, recipients } = input;
+      const { attesters = [], recipients = [] } = input;
       try {
         const [profiles, responseAttestations] = await Promise.all([
           getProfilesByAddresses([...recipients, ...attesters]),
@@ -64,12 +64,7 @@ export const appRouter = router({
     .input(z.object({ address: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
       const profile = await getProfileByAddress(input.address);
-      if (!profile) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "No profile found.",
-        });
-      }
+      console.log({ profile });
       return profile;
     }),
   setOrModifyProfile: protectedProcedure

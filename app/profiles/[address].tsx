@@ -1,9 +1,10 @@
 import ReviewListItem from "@components/ReviewListItem";
-import { Box, Text, VStack } from "@gluestack-ui/themed";
+import { Box, Divider, Text, VStack } from "@gluestack-ui/themed";
 import SuspenseFallback from "@lib/components/SuspenseFallback";
 import { trpc } from "@lib/utils/trpc";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { FlashList } from "@shopify/flash-list";
+import { skipToken } from "@tanstack/react-query";
 import { shortenAddress } from "@utils/index";
 import { formatDistanceToNow } from "date-fns";
 import { Image } from "expo-image";
@@ -20,6 +21,7 @@ const ProfileScreen = () => {
   const [profile] = trpc.getProfileByAddress.useSuspenseQuery({
     address: address,
   });
+
   const [reviews] = trpc.attestations.useSuspenseQuery({
     recipients: [address],
   });
@@ -39,24 +41,21 @@ const ProfileScreen = () => {
                   width: "100%",
                   backgroundColor: "#0553",
                 }}
-                cachePolicy={"none"}
                 source={{
                   uri: profile?.image_url ?? "",
                 }}
                 contentFit="cover"
               />
-              <VStack gap={"$2"} py="$6" px="$2" flex={1}>
-                <Text bold size="2xl">
+              <VStack gap={"$2"} pt="$6" px="$2" flex={1}>
+                <Text color="$textLight950" bold size="2xl">
                   {profile?.title}
                 </Text>
                 <Text color="$purple500">{shortenAddress(address)}</Text>
                 <Text>{profile?.description}</Text>
-                {/* @ts-ignore */}
-                <SegmentedControl
-                  selectedIndex={segment === "Registered Actions" ? 0 : 1}
-                  onValueChange={setSegment}
-                  values={segmentsValues}
-                />
+                <Divider />
+                <Text bold size="xl">
+                  Reviews
+                </Text>
               </VStack>
             </>
           }

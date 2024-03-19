@@ -1,7 +1,6 @@
 import ImageUploadArea from "@components/ImageUploadArea";
 import MainButton from "@components/MainButton";
 import MyToast from "@components/Toast";
-import { API_KEY_GOOGLE } from "@env";
 import {
   CheckCircleIcon,
   EditIcon,
@@ -17,21 +16,19 @@ import {
   View,
   useToast,
 } from "@gluestack-ui/themed";
-import {
-  clientGetProfileByAddress,
-  clientSetOrModifyProfile,
-} from "@services/clientApi";
-import { Location, Profile } from "@services/supabase";
+import { trpc } from "@lib/utils/trpc";
+import { Location } from "@services/supabase";
 import { useAddress } from "@thirdweb-dev/react-native";
 import { pickImage, uploadImage } from "@utils/uploading";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { Dimensions } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import invariant from "tiny-invariant";
+import { skipToken } from "@tanstack/react-query";
 
 export default function Organization() {
   const [title, setTitle] = useState("");
@@ -42,23 +39,23 @@ export default function Organization() {
     name: undefined,
   });
   const [loading, setLoading] = useState(false);
-  const [profile, setProfile] = useState<Profile>();
-  const toast = useToast();
   const address = useAddress();
+  const [profile] = trpc.getProfileByAddress.useSuspenseQuery(
+    address
+      ? {
+          address,
+        }
+      : skipToken
+  );
+
+  const { mutateAsync } = trpc.setOrModifyProfile.useMutation({});
+  const toast = useToast();
   const [isEditing, setEditing] = useState({
     location: false,
     title: false,
     description: false,
     image: false,
   });
-  // TODO: When used with React Query and tRPC create loading state
-  useEffect(() => {
-    if (!address) return;
-    (async () => {
-      const p = await clientGetProfileByAddress(address);
-      setProfile(p);
-    })();
-  }, [address]);
 
   async function handleImageUpload() {
     try {
@@ -90,10 +87,7 @@ export default function Organization() {
       if (description) updateObject.description = description;
       if (location.coords) updateObject.location = location;
 
-      await clientSetOrModifyProfile({
-        address,
-        ...updateObject,
-      });
+      await mutateAsync({ address, ...updateObject });
 
       toast.show({
         placement: "top",

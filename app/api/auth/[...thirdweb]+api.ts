@@ -16,7 +16,9 @@ export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
       // We can also provide any session data to store in the user's session.
       return { role: ["admin"] };
     },
-    onUser: async (user) => {},
+    onUser: async (user) => {
+      return user;
+    },
     onLogout: async (user) => {
       const maybeKey = AsyncStorage.getItem("auth_token_storage_key");
       console.log({ maybeKey });
