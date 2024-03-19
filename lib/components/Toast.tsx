@@ -11,7 +11,7 @@ import React from "react";
 
 const MyToast = ({ link = "", title = "", description = "", ...rest }) => {
   return (
-    <Toast width="$full" {...rest}>
+    <Toast width="$full" flexDirection="column" {...rest}>
       <ToastTitle>{title}</ToastTitle>
       <ToastDescription>{description}</ToastDescription>
       {link && (

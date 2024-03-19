@@ -1,6 +1,6 @@
 import { useAsyncStorageDevTools } from "@dev-plugins/async-storage";
 import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
-import { EAS_GRAPHQL, TW_CLIENT_ID } from "@env";
+import { TW_CLIENT_ID } from "@env";
 import { config } from "@gluestack-ui/config"; // O
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -16,14 +16,18 @@ import {
   walletConnect,
 } from "@thirdweb-dev/react-native";
 import "@thirdweb-dev/react-native-compat";
+import TRPCProvider from "@utils/tRPCProvider";
 import "expo-dev-client";
 import { Stack, router, useNavigationContainerRef } from "expo-router";
 import React, { useEffect } from "react";
 import "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import TRPCProvider from "@utils/tRPCProvider";
 
 export { ErrorBoundary } from "expo-router";
+
+import { focusManager } from "@tanstack/react-query";
+import type { AppStateStatus } from "react-native";
+import { AppState, Platform } from "react-native";
 
 const conf = {
   factoryAddress: "0x7675fbfd3c6aff22db02edb74773067b5e15ac0f",
@@ -84,7 +88,16 @@ const Inner = () => {
     AsyncStorage.getItem("auth_token_storage_key").then((s) => {
       !s && router.replace("/login");
     });
+    const subscription = AppState.addEventListener("change", onAppStateChange);
+
+    return () => subscription.remove();
   }, []);
+
+  function onAppStateChange(status: AppStateStatus) {
+    if (Platform.OS !== "web") {
+      focusManager.setFocused(status === "active");
+    }
+  }
 
   return (
     <Stack

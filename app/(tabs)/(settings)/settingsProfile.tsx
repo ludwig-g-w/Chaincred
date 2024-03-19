@@ -17,6 +17,7 @@ import {
   useToast,
 } from "@gluestack-ui/themed";
 import SuspenseFallback from "@lib/components/SuspenseFallback";
+import { useRefreshOnFocus } from "@lib/utils/hooks";
 import { trpc } from "@lib/utils/trpc";
 import { Profile } from "@prisma/client";
 import { Location } from "@services/supabase";
@@ -25,7 +26,7 @@ import { useUser } from "@thirdweb-dev/react-native";
 import { pickImage, uploadImage } from "@utils/uploading";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
-import React, { ReactElement, Suspense, useState } from "react";
+import React, { ReactElement, Suspense, useEffect, useState } from "react";
 import { Dimensions } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -34,7 +35,6 @@ import invariant from "tiny-invariant";
 
 export default function SettingsProfile() {
   const { user } = useUser();
-
   const [title, setTitle] = useState("");
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset>();
   const [description, setDescription] = useState("");
@@ -43,15 +43,24 @@ export default function SettingsProfile() {
     name: undefined,
   });
   const [loading, setLoading] = useState(false);
-  const [fetchedProfile] = trpc.getProfileByAddress.useSuspenseQuery(
-    // @ts-ignore
-    user?.address
-      ? {
-          address: user.address,
-        }
-      : skipToken
-  );
-  const [profile, setProfile] = useState(fetchedProfile);
+  const [profile, setProfile] = useState();
+  const [fetchedProfile, { refetch }] =
+    trpc.getProfileByAddress.useSuspenseQuery(
+      // @ts-ignore
+      user?.address
+        ? {
+            address: user.address,
+          }
+        : skipToken
+    );
+
+  useEffect(() => {
+    if (!!fetchedProfile) {
+      setProfile(fetchedProfile);
+    }
+  }, [fetchedProfile]);
+
+  useRefreshOnFocus(refetch);
 
   const mutationProfile = trpc.setOrModifyProfile.useMutation();
   const toast = useToast();
@@ -92,7 +101,8 @@ export default function SettingsProfile() {
       if (description) updateObject.description = description;
       if (location.coords) updateObject.location = location;
 
-      await mutationProfile.mutate({
+      await mutationProfile.mutateAsync({
+        // @ts-ignore
         address: user.address,
         ...updateObject,
       });
@@ -133,9 +143,6 @@ export default function SettingsProfile() {
       setEditing((prev) => ({ ...prev, [fieldName]: false }));
     } catch (error) {
       console.error(`Error updating ${fieldName}`, error);
-      toast.show({
-        /* ... */
-      });
     } finally {
       setLoading(false);
     }

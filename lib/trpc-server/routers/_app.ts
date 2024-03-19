@@ -73,10 +73,12 @@ export const appRouter = router({
         title: z.string().optional(),
         imageUrl: z.string().optional(),
         description: z.string().optional(),
-        location: z.object({
-          coords: z.string().optional(),
-          name: z.string().optional(),
-        }),
+        location: z
+          .object({
+            coords: z.string().optional(),
+            name: z.string().optional(),
+          })
+          .optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
