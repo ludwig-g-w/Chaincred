@@ -1,6 +1,7 @@
 import SuspenseFallback from "@components/SuspenseFallback";
 import { Stack } from "expo-router";
 import { Suspense } from "react";
+export { ErrorBoundary } from "expo-router";
 
 export default () => {
   return (

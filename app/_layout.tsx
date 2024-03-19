@@ -23,10 +23,7 @@ import "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import TRPCProvider from "@utils/tRPCProvider";
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from "expo-router";
+export { ErrorBoundary } from "expo-router";
 
 const conf = {
   factoryAddress: "0x7675fbfd3c6aff22db02edb74773067b5e15ac0f",

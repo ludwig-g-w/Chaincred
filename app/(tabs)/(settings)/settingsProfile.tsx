@@ -16,21 +16,25 @@ import {
   View,
   useToast,
 } from "@gluestack-ui/themed";
+import SuspenseFallback from "@lib/components/SuspenseFallback";
 import { trpc } from "@lib/utils/trpc";
+import { Profile } from "@prisma/client";
 import { Location } from "@services/supabase";
-import { useAddress } from "@thirdweb-dev/react-native";
+import { skipToken } from "@tanstack/react-query";
+import { useUser } from "@thirdweb-dev/react-native";
 import { pickImage, uploadImage } from "@utils/uploading";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, Suspense, useState } from "react";
 import { Dimensions } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import invariant from "tiny-invariant";
-import { skipToken } from "@tanstack/react-query";
 
-export default function Organization() {
+export default function SettingsProfile() {
+  const { user } = useUser();
+
   const [title, setTitle] = useState("");
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset>();
   const [description, setDescription] = useState("");
@@ -39,16 +43,17 @@ export default function Organization() {
     name: undefined,
   });
   const [loading, setLoading] = useState(false);
-  const address = useAddress();
-  const [profile] = trpc.getProfileByAddress.useSuspenseQuery(
-    address
+  const [fetchedProfile] = trpc.getProfileByAddress.useSuspenseQuery(
+    // @ts-ignore
+    user?.address
       ? {
-          address,
+          address: user.address,
         }
       : skipToken
   );
+  const [profile, setProfile] = useState(fetchedProfile);
 
-  const { mutateAsync } = trpc.setOrModifyProfile.useMutation({});
+  const mutationProfile = trpc.setOrModifyProfile.useMutation();
   const toast = useToast();
   const [isEditing, setEditing] = useState({
     location: false,
@@ -69,7 +74,7 @@ export default function Organization() {
 
   async function submit() {
     try {
-      invariant(address, "No Address");
+      invariant(user?.address, "No Address");
       setLoading(true);
 
       const updateObject: {
@@ -81,13 +86,13 @@ export default function Organization() {
 
       if (title) updateObject.title = title;
       if (image?.base64) {
-        const path = await uploadImage(image.base64, address);
+        const path = await uploadImage(image.base64, user.address);
         updateObject.imageUrl = path;
       }
       if (description) updateObject.description = description;
       if (location.coords) updateObject.location = location;
 
-      await mutateAsync({ address, ...updateObject });
+      await mutationProfile.mutate({ address: user.address, ...updateObject });
 
       toast.show({
         placement: "top",
@@ -107,7 +112,7 @@ export default function Organization() {
   const handleFieldSave = async (fieldName: string) => {
     try {
       setLoading(true);
-      const updateObject = { address };
+      const updateObject = { address: user?.address } as Profile;
       if (fieldName === "title" && title) updateObject.title = title;
       if (fieldName === "description" && description)
         updateObject.description = description;
@@ -136,101 +141,103 @@ export default function Organization() {
         flex: 1,
       }}
     >
-      <View
-        justifyContent="space-between"
-        height={Dimensions.get("screen").height - (insets.bottom + 210)}
-        bg="$white"
-        p="$4"
-        gap={"$2"}
-      >
-        <View w="$full" alignItems="center">
-          <ImageUploadArea
-            img={image?.uri ?? profile?.image_url}
-            onPress={handleImageUpload}
-          />
-        </View>
-        <EditableField
-          label="Location"
-          isEditing={isEditing.location}
-          onSave={() => handleFieldSave("location")}
-          profileValue={profile?.location_name}
-          setEditing={setEditing}
+      <Suspense fallback={<SuspenseFallback />}>
+        <View
+          justifyContent="space-between"
+          height={Dimensions.get("screen").height - (insets.bottom + 210)}
+          bg="$white"
+          p="$4"
+          gap={"$2"}
         >
-          <GooglePlacesAutocomplete
-            disableScroll
-            placeholder="Where you are based?"
-            keepResultsAfterBlur
-            styles={{
-              container: {
-                flex: 0,
-                zIndex: 99,
-              },
-              listView: {
-                zIndex: 99,
-              },
-              textInput: {
-                zIndex: 99,
-                borderWidth: 2,
-                borderColor: "#eaeaea",
-                borderRadius: 20,
-              },
-            }}
-            fetchDetails
-            onPress={(data, details = null) => {
-              setLocation({
-                coords: `${details?.geometry.location.lat},${details?.geometry.location.lng}`,
-                name: details?.formatted_address,
-              });
-            }}
-            query={{
-              key: "AIzaSyDBx5I1YAQiApOZhhq7aAsj2_19HO4hOfM",
-              language: "en",
-            }}
-          />
-        </EditableField>
-
-        <EditableField
-          label="Title"
-          isEditing={isEditing.title}
-          onSave={() => handleFieldSave("title")}
-          profileValue={profile?.title}
-          setEditing={setEditing}
-        >
-          <Input
-            bg="$white"
-            borderRadius="$lg"
-            h="$12"
-            borderWidth="$1"
-            borderColor="$borderLight300"
+          <View w="$full" alignItems="center">
+            <ImageUploadArea
+              img={image?.uri ?? profile?.image_url}
+              onPress={handleImageUpload}
+            />
+          </View>
+          <EditableField
+            label="Location"
+            isEditing={isEditing.location}
+            onSave={() => handleFieldSave("location")}
+            profileValue={profile?.location_name}
+            setEditing={setEditing}
           >
-            <InputField
-              value={title}
-              onChangeText={setTitle}
-              placeholder={"Enter your name"}
+            <GooglePlacesAutocomplete
+              disableScroll
+              placeholder="Where you are based?"
+              keepResultsAfterBlur
+              styles={{
+                container: {
+                  flex: 0,
+                  zIndex: 99,
+                },
+                listView: {
+                  zIndex: 99,
+                },
+                textInput: {
+                  zIndex: 99,
+                  borderWidth: 2,
+                  borderColor: "#eaeaea",
+                  borderRadius: 20,
+                },
+              }}
+              fetchDetails
+              onPress={(data, details = null) => {
+                setLocation({
+                  coords: `${details?.geometry.location.lat},${details?.geometry.location.lng}`,
+                  name: details?.formatted_address,
+                });
+              }}
+              query={{
+                key: "AIzaSyDBx5I1YAQiApOZhhq7aAsj2_19HO4hOfM",
+                language: "en",
+              }}
             />
-          </Input>
-        </EditableField>
+          </EditableField>
 
-        <EditableField
-          label="Description"
-          isEditing={isEditing.description}
-          onSave={() => handleFieldSave("description")}
-          profileValue={profile?.description}
-          setEditing={setEditing}
-        >
-          <Textarea>
-            <TextareaInput
-              value={description}
-              onChangeText={setDescription}
-              placeholder={"Describe your yourself"}
-            />
-          </Textarea>
-        </EditableField>
+          <EditableField
+            label="Title"
+            isEditing={isEditing.title}
+            onSave={() => handleFieldSave("title")}
+            profileValue={profile?.title}
+            setEditing={setEditing}
+          >
+            <Input
+              bg="$white"
+              borderRadius="$lg"
+              h="$12"
+              borderWidth="$1"
+              borderColor="$borderLight300"
+            >
+              <InputField
+                value={title}
+                onChangeText={setTitle}
+                placeholder={"Enter your name"}
+              />
+            </Input>
+          </EditableField>
 
-        <MainButton mt="auto" loading={loading} onPress={submit}>
-          Save
-        </MainButton>
-      </View>
+          <EditableField
+            label="Description"
+            isEditing={isEditing.description}
+            onSave={() => handleFieldSave("description")}
+            profileValue={profile?.description}
+            setEditing={setEditing}
+          >
+            <Textarea>
+              <TextareaInput
+                value={description}
+                onChangeText={setDescription}
+                placeholder={"Describe your yourself"}
+              />
+            </Textarea>
+          </EditableField>
+
+          <MainButton mt="auto" loading={loading} onPress={submit}>
+            Save
+          </MainButton>
+        </View>
+      </Suspense>
     </KeyboardAwareScrollView>
   );
 }

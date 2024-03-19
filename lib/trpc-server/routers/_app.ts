@@ -64,7 +64,6 @@ export const appRouter = router({
     .input(z.object({ address: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
       const profile = await getProfileByAddress(input.address);
-      console.log({ profile });
       return profile;
     }),
   setOrModifyProfile: protectedProcedure

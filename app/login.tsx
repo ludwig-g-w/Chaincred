@@ -46,9 +46,11 @@ export default () => {
             <MainButton onPress={login}>Login</MainButton>
           ))
           .with([P.string, true, false], () => (
-            <Redirect href={"/(tabs)/(home)/"} />
+            // @ts-ignore
+            <Redirect href={params.rUrl ?? "/(tabs)/(home)/"} />
           ))
           .otherwise(() => (
+            // @ts-ignore
             <MainButton onPress={logout}>Logout</MainButton>
           ))}
       </Center>
