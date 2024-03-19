@@ -5,7 +5,6 @@ import {
   VStack,
 } from "@gluestack-ui/themed";
 import { Badge, Center, HStack, Text } from "@gluestack-ui/themed";
-import { ProfileListItem } from "@utils/types";
 import { Pressable } from "react-native";
 import { isAddress, shortenAddress } from "@utils/index";
 

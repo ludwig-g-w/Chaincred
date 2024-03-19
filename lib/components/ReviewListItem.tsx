@@ -1,27 +1,23 @@
-import React, { useState } from "react";
 import {
   Avatar,
-  Text,
-  VStack,
-  HStack,
-  Icon,
-  useToken,
   AvatarFallbackText,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  Pressable,
+  AvatarImage,
   Badge,
   BadgeText,
-  AvatarImage,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  HStack,
+  Pressable,
+  Text,
+  VStack,
 } from "@gluestack-ui/themed";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { isAddress, shortenAddress } from "@utils/index";
+import React, { useState } from "react";
 
 interface UserCommentProps {
   avatarUri?: string;
   fallbackInitials?: string;
   userName?: string;
-  timeAgo?: string;
   comment?: string;
   rating?: number;
   onPress?: () => {};
@@ -32,7 +28,6 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
   avatarUri,
   fallbackInitials = "A N",
   userName = "",
-  timeAgo = "",
   comment,
   rating,
   userAttested,
@@ -72,27 +67,23 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
         style={styleExpanded}
       >
         <Avatar>
-          <AvatarFallbackText>{fallbackInitials}</AvatarFallbackText>
+          <AvatarFallbackText>
+            {!isAddress(userName) ? userName : fallbackInitials}
+          </AvatarFallbackText>
           <AvatarImage
             alt="profileImage"
             source={{
-              uri: avatarUri,
+              uri: avatarUri ?? "",
             }}
           />
         </Avatar>
         <VStack>
+          <Badge rounded="$md" bg={userAttested ? "$yellow500" : "$purple500"}>
+            <BadgeText bold color="$purple900">
+              {userAttested ? "Attested to" : "Received by"}
+            </BadgeText>
+          </Badge>
           <Text fontWeight="medium">{formattedUserName}</Text>
-          <HStack gap="$2">
-            <Text fontSize="$sm">{timeAgo}</Text>
-            <Badge
-              rounded="$md"
-              bg={userAttested ? "$yellow500" : "$purple500"}
-            >
-              <BadgeText bold color="$purple900">
-                {userAttested ? "Attested" : "Received"}
-              </BadgeText>
-            </Badge>
-          </HStack>
         </VStack>
         <Text ml="auto" size="4xl">
           {emoji}

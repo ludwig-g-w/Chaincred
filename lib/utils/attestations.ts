@@ -1,22 +1,18 @@
 import { ListAttestationFragment } from "generated/graphql";
+import { isProfile, Attestation } from "./types";
 
-export function groupAttestationsByAttester(
-  attestations?: ListAttestationFragment[]
-) {
+export function groupAttestationsByAttester(attestations?: Attestation[]) {
   if (!attestations?.length) return;
   return attestations.reduce(
-    (
-      acc: Record<
-        ListAttestationFragment["attester"],
-        ListAttestationFragment[]
-      >,
-      attestation
-    ) => {
-      // Group by 'attester'
-      if (!acc[attestation.attester]) {
-        acc[attestation.attester] = [];
+    (acc: Record<string, Attestation[]>, attestation) => {
+      const address = isProfile(attestation.attester)
+        ? attestation.attester.address
+        : attestation.attester;
+
+      if (!acc[address]) {
+        acc[address] = [];
       }
-      acc[attestation.attester].push(attestation);
+      acc[address].push(attestation);
       return acc;
     },
     {}

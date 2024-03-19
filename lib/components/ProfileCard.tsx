@@ -1,17 +1,15 @@
-import React from "react";
 import {
-  Box,
-  Text,
   Badge,
-  Button,
   Center,
-  VStack,
-  HStack,
   ChevronRightIcon,
+  HStack,
+  Text,
+  VStack,
 } from "@gluestack-ui/themed";
-import { StyleSheet, ImageBackground, Pressable } from "react-native";
 import { ProfileListItem as ProfileListItemType } from "@utils/types";
 import { Image } from "expo-image";
+import React from "react";
+import { Pressable } from "react-native";
 import { isAddress, shortenAddress } from "../utils";
 export const height = 160;
 

@@ -1,7 +1,6 @@
 import { AvatarImage, ChevronRightIcon } from "@gluestack-ui/themed";
-
 import { Avatar, Box, Center, HStack, Text } from "@gluestack-ui/themed";
-import { Profile } from "@utils/types";
+import { Profile } from "@prisma/client";
 import { router } from "expo-router";
 import React, {
   useCallback,
@@ -13,7 +12,8 @@ import React, {
 import { Dimensions, StyleSheet } from "react-native";
 import MapView, { Callout, Marker, Region } from "react-native-maps";
 import Supercluster from "supercluster";
-const Map = ({ profiles }: { profiles: Profile[] }) => {
+
+const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
   const mapRef = useRef(null);
   const [clusters, setClusters] = useState<
     Supercluster.PointFeature<Supercluster.AnyProps>[]
@@ -29,9 +29,10 @@ const Map = ({ profiles }: { profiles: Profile[] }) => {
   useEffect(() => {
     if (!profiles?.length || !mapRef.current) return;
     const points = profiles
-      .filter((p) => p.location_coords?.length > 2)
+      .filter((p) => (p.location_coords?.length ?? 0) > 2)
       .map((p) => {
-        const [long, lat] = p.location_coords.split(",");
+        // @ts-ignore
+        const [long, lat] = p?.location_coords.split(",");
         return {
           type: "Feature",
           properties: {

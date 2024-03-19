@@ -1,9 +1,9 @@
 import Map from "@components/MapView";
-import { suspenseGetAllProfiles } from "@services/clientApi";
+import { trpc } from "@lib/utils/trpc";
 import React from "react";
 
 const DiscoverList = () => {
-  const profiles = suspenseGetAllProfiles.read();
+  const [profiles] = trpc.getProfiles.useSuspenseQuery();
 
   return <Map {...{ profiles }} />;
 };

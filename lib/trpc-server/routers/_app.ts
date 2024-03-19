@@ -1,28 +1,23 @@
 import { SCHEMA_ADRESS_REVIEW } from "@env";
 import { sdk } from "@lib/graphql/client";
-import { getProfilesByAddresses } from "@services/db/prisma";
-import { TRPCError } from "@trpc/server";
+import { getAllProfiles, getProfilesByAddresses } from "@services/db/prisma";
+import { TRPCError, inferProcedureOutput } from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { decodeDataReviewOrAction } from "@utils/eas";
 import { z } from "zod";
-import { procedure, router } from "../trpc";
+import { protectedProcedure, router } from "../trpc";
+import { getProfileByAddress, setOrModifyProfile } from "@services/db/prisma";
 
 export const appRouter = router({
-  attestations: procedure
+  attestations: protectedProcedure
     .input(
       z.object({
-        recipients: z.array(z.string()),
-        attesters: z.array(z.string()),
+        recipients: z.array(z.string()).optional(),
+        attesters: z.array(z.string()).optional(),
       })
     )
     .query(async ({ input, ctx }) => {
       const { attesters, recipients } = input;
-      if (!ctx.user) {
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-        });
-      }
-
       try {
         const [profiles, responseAttestations] = await Promise.all([
           getProfilesByAddresses([...recipients, ...attesters]),
@@ -65,10 +60,49 @@ export const appRouter = router({
         });
       }
     }),
-  profile: procedure.query(async ({ ctx }) => {
-    return "hello";
-  }),
+  getProfileByAddress: protectedProcedure
+    .input(z.object({ address: z.string().min(1) }))
+    .query(async ({ ctx, input }) => {
+      const profile = await getProfileByAddress(input.address);
+      if (!profile) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "No profile found.",
+        });
+      }
+      return profile;
+    }),
+  setOrModifyProfile: protectedProcedure
+    .input(
+      z.object({
+        address: z.string().min(10),
+        title: z.string().optional(),
+        imageUrl: z.string().optional(),
+        description: z.string().optional(),
+        location: z.object({
+          coords: z.string().optional(),
+          name: z.string().optional(),
+        }),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const profile = await setOrModifyProfile(input);
+      return profile;
+    }),
+  getProfiles: protectedProcedure
+    .input(z.array(z.string()).optional())
+    .query(async ({ ctx, input: addresses }) => {
+      const profiles = addresses
+        ? await getProfilesByAddresses(addresses)
+        : await getAllProfiles();
+
+      return profiles;
+    }),
 });
 
 export type AppRouter = typeof appRouter;
+export type Attestation = inferProcedureOutput<
+  AppRouter["attestations"]
+>[number];
+
 export { trpcNext };

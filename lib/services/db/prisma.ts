@@ -1,19 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Profile } from "@prisma/client";
 
 export const prisma = new PrismaClient();
-
-export type Profile = {
-  // Define the Profile type according to your Prisma model
-  id: number;
-  title: string;
-  image_url: string;
-  description: string;
-  location_coords: string;
-  created_at: Date;
-  updated_at: Date;
-  address: string;
-  location_name: string;
-};
 
 export async function getProfileByAddress(address: string) {
   try {
