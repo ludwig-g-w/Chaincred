@@ -1,15 +1,23 @@
-import { Button, Text, Toast, ToastTitle, VStack } from "@gluestack-ui/themed";
+import {
+  Button,
+  Text,
+  Toast,
+  ToastDescription,
+  ToastTitle,
+  VStack,
+} from "@gluestack-ui/themed";
 import Linking from "expo-linking";
 import React from "react";
 
-const MyToast = ({ id = "" }) => {
+const MyToast = ({ link = "", title = "", description = "", ...rest }) => {
   return (
-    <Toast action={"success"} variant={"solid"}>
-      <VStack flex={1} alignItems="center" space="xs">
-        <ToastTitle>Success</ToastTitle>
+    <Toast width="$full" {...rest}>
+      <ToastTitle>{title}</ToastTitle>
+      <ToastDescription>{description}</ToastDescription>
+      {link && (
         <Button
           onPress={() => {
-            Linking.openURL(`https://sepolia.easscan.org/schema/view/${id}`);
+            Linking.openURL(link);
           }}
           bg="$success500"
           w="$full"
@@ -17,13 +25,15 @@ const MyToast = ({ id = "" }) => {
           variant="outline"
           rounded={"$lg"}
         >
-          <Text overflow="hidden" color="$textLight950">
-            {id}
+          <Text overflow="hidden" color="$success950">
+            Open
           </Text>
         </Button>
-      </VStack>
+      )}
     </Toast>
   );
 };
 
 export default MyToast;
+
+// `https://sepolia.easscan.org/schema/view/${id}`

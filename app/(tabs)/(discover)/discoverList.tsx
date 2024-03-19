@@ -1,17 +1,15 @@
-import ListItem from "@components/ProfileCard";
-import { ORGANIZATION_MANAGER_ADDRESS } from "@env";
-import { Box, Text } from "@gluestack-ui/themed";
+import ListItem from "@lib/components/ProfileListItem";
+import { Box } from "@gluestack-ui/themed";
 import { trpc } from "@lib/utils/trpc";
-import { _fetch } from "@services/clientApi";
 import { FlashList } from "@shopify/flash-list";
-import { useAddress, useContract } from "@thirdweb-dev/react-native";
-import { groupAttestationsByAttester } from "@utils/attestations";
+import { useUser } from "@thirdweb-dev/react-native";
 import { router } from "expo-router";
-import React, { useEffect, useMemo, useState } from "react";
-import { Profile } from "@prisma/client";
+import React from "react";
 
 const DiscoverList = () => {
+  const { user } = useUser();
   const [profiles] = trpc.getProfiles.useSuspenseQuery();
+
   return (
     <Box px="$2" flex={1} bg="$white">
       <FlashList
@@ -23,11 +21,7 @@ const DiscoverList = () => {
         renderItem={({ item }) => (
           <ListItem
             onPress={() => router.push(`/profiles/${item.address}`)}
-            imageUrl={item.image_url}
-            count={0}
-            title={item.title}
-            description={item.description}
-            locationCoords={item.location_coords}
+            {...item}
           />
         )}
       />

@@ -1,33 +1,22 @@
-import {
-  Badge,
-  Center,
-  ChevronRightIcon,
-  HStack,
-  Text,
-  VStack,
-} from "@gluestack-ui/themed";
-import { ProfileListItem as ProfileListItemType } from "@utils/types";
+import { ChevronRightIcon, HStack, Text, VStack } from "@gluestack-ui/themed";
+import { Profile } from "@utils/types";
 import { Image } from "expo-image";
 import React from "react";
 import { Pressable } from "react-native";
 import { isAddress, shortenAddress } from "../utils";
 export const height = 160;
 
-type Props = Partial<ProfileListItemType> & {
+type Props = Profile & {
   onPress: () => void;
 };
 
-const ProfileListItem = ({
-  title = "",
-  count = 0,
-  description = "",
-  onPress,
-  imageUrl,
-  locationCoords,
-}: Props) => {
-  const formattedTitle = isAddress(title) ? shortenAddress(title) : title;
+const ProfileListItem = (props: Props) => {
+  const formattedTitle =
+    props.title && isAddress(props?.title)
+      ? shortenAddress(props.title)
+      : props.title;
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={props.onPress}>
       <HStack
         borderWidth="$1"
         borderColor="$coolGray300"
@@ -46,21 +35,11 @@ const ProfileListItem = ({
             }}
             cachePolicy={"none"}
             source={{
-              uri: imageUrl,
+              uri: props.image_url ?? "",
             }}
           />
           <VStack px="$4" py="$2" gap="$2">
             <Text bold>{formattedTitle}</Text>
-            <Badge
-              size="sm"
-              borderRadius={50}
-              variant="solid"
-              bg="$coolGray300"
-            >
-              <Center>
-                <Text>Recieved {count}</Text>
-              </Center>
-            </Badge>
           </VStack>
         </HStack>
         <ChevronRightIcon />

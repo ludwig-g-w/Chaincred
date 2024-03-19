@@ -1,4 +1,5 @@
 import { Profile } from "@prisma/client";
+export { Profile };
 export { Attestation } from "@lib/trpc-server/routers/_app";
 
 export type AttestItem = { title: string; description: string };

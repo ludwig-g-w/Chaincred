@@ -92,12 +92,21 @@ export default function SettingsProfile() {
       if (description) updateObject.description = description;
       if (location.coords) updateObject.location = location;
 
-      await mutationProfile.mutate({ address: user.address, ...updateObject });
+      await mutationProfile.mutate({
+        address: user.address,
+        ...updateObject,
+      });
 
       toast.show({
         placement: "top",
         render() {
-          return <MyToast description="Profile is updated!" />;
+          return (
+            <MyToast
+              title="Profile Updated!"
+              action="success"
+              variant="solid"
+            />
+          );
         },
       });
       router.push("/settings");
