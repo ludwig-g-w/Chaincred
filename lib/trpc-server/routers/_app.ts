@@ -23,20 +23,24 @@ export const appRouter = router({
     .query(async ({ input, ctx }) => {
       const { attesters = [], recipients = [] } = input;
       try {
-        const [profiles, responseAttestations] = await Promise.all([
-          getProfilesByAddresses([...recipients, ...attesters]),
-          sdk.Attestations({
-            where: {
-              OR: [
-                { recipient: { in: recipients } },
-                { attester: { in: attesters } },
-              ],
-              schemaId: {
-                in: [SCHEMA_ADRESS_REVIEW],
-              },
+        const responseAttestations = await sdk.Attestations({
+          where: {
+            OR: [
+              { recipient: { in: recipients } },
+              { attester: { in: attesters } },
+            ],
+            schemaId: {
+              in: [SCHEMA_ADRESS_REVIEW],
             },
-          }),
-        ]);
+          },
+        });
+        const addresses = new Set(
+          responseAttestations.attestations.flatMap((a) => [
+            a.attester,
+            a.recipient,
+          ])
+        );
+        const profiles = await getProfilesByAddresses(Array.from(addresses));
 
         const formattedAttestation = responseAttestations.attestations.map(
           (attestation) => {

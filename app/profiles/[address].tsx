@@ -26,9 +26,6 @@ const ProfileScreen = () => {
     recipients: [address],
   });
 
-  const [segment, setSegment] =
-    useState<(typeof segmentsValues)[number]>("Reviews");
-
   return (
     <Box bgColor="$white" flex={1}>
       <Suspense fallback={<SuspenseFallback />}>
@@ -65,13 +62,8 @@ const ProfileScreen = () => {
           renderItem={({ item, index }) => (
             <Box p="$2">
               <ReviewListItem
+                avatarUri={item?.attester?.image_url}
                 userName={item?.attester?.title ?? item.attester}
-                timeAgo={formatDistanceToNow(
-                  new Date(item.timeCreated * 1000),
-                  {
-                    addSuffix: true,
-                  }
-                )}
                 rating={item?.data?.rating}
                 comment={item?.data?.comment}
               />

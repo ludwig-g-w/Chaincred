@@ -12,7 +12,7 @@ function Providers({ children }: { children: React.ReactNode }) {
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: "http://localhost:8081/api/trpc",
+          url: "http://192.168.1.129:8081/api/trpc",
           async headers() {
             const jwt = await AsyncStorage.getItem("auth_token_storage_key");
             return {

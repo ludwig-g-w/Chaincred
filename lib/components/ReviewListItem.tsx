@@ -1,9 +1,14 @@
 import {
+  AddIcon,
+  ArrowRightIcon,
   Avatar,
   AvatarFallbackText,
   AvatarImage,
   Badge,
+  BadgeIcon,
   BadgeText,
+  BellIcon,
+  Box,
   Center,
   ChevronDownIcon,
   ChevronRightIcon,
@@ -79,10 +84,19 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
           />
         </Avatar>
         <VStack>
-          <Badge rounded="$md" bg={userAttested ? "$yellow500" : "$purple500"}>
+          <Badge
+            alignSelf="flex-start"
+            rounded="$md"
+            bg={userAttested ? "$yellow500" : "$purple500"}
+            gap="$2"
+          >
             <BadgeText bold color={userAttested ? "$yellow900" : "$purple900"}>
               {userAttested ? "Given to" : "Received by"}
             </BadgeText>
+            <BadgeIcon
+              color={userAttested ? "$yellow900" : "$purple900"}
+              as={BellIcon}
+            />
           </Badge>
           <Text fontWeight="medium">{formattedUserName}</Text>
         </VStack>
