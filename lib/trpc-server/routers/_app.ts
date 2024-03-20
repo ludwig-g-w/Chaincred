@@ -1,12 +1,16 @@
 import { SCHEMA_ADRESS_REVIEW } from "@env";
 import { sdk } from "@lib/graphql/client";
-import { getAllProfiles, getProfilesByAddresses } from "@services/db/prisma";
+import {
+  getAllProfiles,
+  getProfilesByAddresses,
+  getProfileByAddress,
+  setOrModifyProfile,
+} from "@lib/services/db/functions";
 import { TRPCError, inferProcedureOutput } from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { decodeDataReviewOrAction } from "@utils/eas";
 import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
-import { getProfileByAddress, setOrModifyProfile } from "@services/db/prisma";
 
 export const appRouter = router({
   attestations: protectedProcedure

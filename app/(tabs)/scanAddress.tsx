@@ -1,5 +1,3 @@
-import { Textarea, TextareaInput, useToast } from "@gluestack-ui/themed";
-import ListOfAttestations from "@components/ListOfAttestations";
 import MainButton from "@components/MainButton";
 import ReviewComponent from "@components/Rating";
 import MyToast from "@components/Toast";
@@ -7,15 +5,16 @@ import {
   Box,
   ICustomConfig,
   Text,
+  Textarea,
+  TextareaInput,
   VStack,
   useStyled,
+  useToast,
 } from "@gluestack-ui/themed";
 import BottomSheet from "@gorhom/bottom-sheet";
-import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { useSigner } from "@thirdweb-dev/react-native";
-import { createActionAttestation, createReviewAttestation } from "@utils/eas";
+import { createReviewAttestation } from "@utils/eas";
 import { shortenAddress } from "@utils/index";
-import type { AttestItem } from "@utils/types";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Camera } from "expo-camera";
 import React, { useEffect, useRef, useState } from "react";
@@ -31,7 +30,6 @@ const ScanScreen = () => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
   const [scannedAddress, setScannedAddress] = useState("");
-  const [attestItem, setAttestItem] = useState<AttestItem>();
   const [rating, setRating] = useState(0);
   const [sControl, setSControl] = useState("Review");
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
@@ -41,7 +39,21 @@ const ScanScreen = () => {
   const toast = useToast();
 
   const handleSubmitReview = async () => {
-    invariant(scannedAddress || rating || comment, " Missing input");
+    if (!signer) {
+      toast.show({
+        duration: 6_000,
+        placement: "top",
+        render: () => (
+          <MyToast
+            action="warning"
+            variant="solid"
+            title="Connect to your wallet"
+            description="Button is in the top right corner"
+          />
+        ),
+      });
+    }
+    invariant(signer || scannedAddress || rating || comment, " Missing input");
     setLoading(true);
     try {
       const id = await createReviewAttestation({
@@ -63,27 +75,6 @@ const ScanScreen = () => {
     }
   };
 
-  // const handleSubmitAction = async () => {
-  //   invariant(attestItem, " Missing input");
-  //   setLoading(true);
-  //   try {
-  //     const id = await createActionAttestation({
-  //       address: scannedAddress,
-  //       signer,
-  //       ...attestItem,
-  //     });
-  //     toast.show({
-  //       duration: 3_000,
-  //       placement: "top",
-  //       render: () => <MyToast id={id} />,
-  //     });
-  //     setIsBottomSheetVisible(false);
-  //   } catch (error) {
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -91,9 +82,8 @@ const ScanScreen = () => {
     })();
   }, []);
 
-  const handleRatingChange = (newRating) => {
+  const handleRatingChange = (newRating: number) => {
     setRating(newRating);
-    // Additional actions based on rating can be added here
   };
 
   // Ethereum address validation
@@ -143,45 +133,7 @@ const ScanScreen = () => {
                   {shortenAddress(scannedAddress)}
                 </Text>
               </Text>
-              {/* <Text mb="$2" mt="$4" size="xl" bold>
-                I want to register a:
-              </Text> */}
-              {/* <SegmentedControl
-                onValueChange={setSControl}
-                selectedIndex={sControl === "Action" ? 0 : 1}
-                activeFontStyle={{
-                  color: theme.config.tokens.colors.textLight800,
-                  fontSize: 18,
-                }}
-                fontStyle={{
-                  color: "white",
-                  fontSize: 18,
-                }}
-                style={{
-                  height: 36,
-                  backgroundColor:
-                    theme.config.tokens.colors.backgroundLight800,
-
-                  marginBottom: 12,
-                }}
-                values={["Action", "Review"] as const}
-              /> */}
-
               {match(sControl)
-                // .with("Action", () => (
-                //   <>
-                //     <ListOfAttestations
-                //       onPressItem={(attestItem) => {
-                //         setAttestItem(attestItem);
-                //       }}
-                //     />
-                //     {attestItem && (
-                //       <MainButton onPress={handleSubmitAction} {...{ loading }}>
-                //         Confirm
-                //       </MainButton>
-                //     )}
-                //   </>
-                // ))
                 .with("Review", () => (
                   <>
                     <ReviewComponent onRatingChange={handleRatingChange} />

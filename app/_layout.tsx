@@ -22,6 +22,8 @@ import { Stack, router, useNavigationContainerRef } from "expo-router";
 import React, { useEffect } from "react";
 import "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import NetInfo from "@react-native-community/netinfo";
+import { onlineManager } from "@tanstack/react-query";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -98,6 +100,12 @@ const Inner = () => {
       focusManager.setFocused(status === "active");
     }
   }
+
+  onlineManager.setEventListener((setOnline) => {
+    return NetInfo.addEventListener((state) => {
+      setOnline(!!state.isConnected);
+    });
+  });
 
   return (
     <Stack

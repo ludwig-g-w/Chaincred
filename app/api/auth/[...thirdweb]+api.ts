@@ -1,7 +1,7 @@
 import { PrivateKeyWallet } from "@thirdweb-dev/auth/evm";
 import { ExpoRequest } from "expo-router/server";
 import { ThirdwebAuthAppRouter as ThirdwebAuth } from "../../../thirdweb-auth-expo/src/index";
-import { setOrModifyProfile, getProfileByAddress } from "@services/db/prisma";
+import { setOrModifyProfile } from "@lib/services/db/functions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
@@ -13,7 +13,6 @@ export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
     },
     onLogin: async (address) => {
       setOrModifyProfile({ address });
-      // We can also provide any session data to store in the user's session.
       return { role: ["admin"] };
     },
     onUser: async (user) => {
