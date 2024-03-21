@@ -2,7 +2,7 @@ import { EAS_CONTRACT, SCHEMA_ADRESS_ACTION, SCHEMA_ADRESS_REVIEW } from "@env";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { ListAttestationFragment } from "@generated/graphql"; // Adjust the import path according to where your generated code is
 import { convertJsonToObject } from "@utils/attestations";
-
+import { ReviewItem } from "@utils/types";
 export const schemaEncoder = new SchemaEncoder(
   "string title,string description,string entityName,uint8 quantity"
 );
@@ -70,7 +70,6 @@ export async function createReviewAttestation({
 
   return await tx.wait();
 }
-
 export const decodeDataReviewOrAction = (att: ListAttestationFragment) => {
   let decodedData;
   try {
@@ -83,6 +82,6 @@ export const decodeDataReviewOrAction = (att: ListAttestationFragment) => {
   }
   return {
     ...att,
-    data: decodedData ? convertJsonToObject(decodedData) : null,
+    data: decodedData ? (convertJsonToObject(decodedData) as ReviewItem) : null,
   };
 };

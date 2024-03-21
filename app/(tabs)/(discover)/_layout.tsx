@@ -1,11 +1,5 @@
 import { HStack, Pressable, Text, View } from "@gluestack-ui/themed";
-import {
-  Link,
-  Stack,
-  useLocalSearchParams,
-  useGlobalSearchParams,
-  usePathname,
-} from "expo-router";
+import { Link, Stack, usePathname } from "expo-router";
 
 export default () => {
   const path = usePathname();

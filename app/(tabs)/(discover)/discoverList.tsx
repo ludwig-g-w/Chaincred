@@ -4,20 +4,30 @@ import { trpc } from "@lib/utils/trpc";
 import { FlashList } from "@shopify/flash-list";
 import { useUser } from "@thirdweb-dev/react-native";
 import { router } from "expo-router";
-import React from "react";
-// TODO: remove user from list
-// TODO: remove user without data
+import React, { useMemo } from "react";
+
 const DiscoverList = () => {
   const { user } = useUser();
-  const [profiles] = trpc.getProfiles.useSuspenseQuery();
+  const [profiles, { refetch, isRefetching }] =
+    trpc.getProfiles.useSuspenseQuery();
+
+  const filterProfiles = useMemo(
+    () =>
+      profiles.filter((p) => {
+        return p.address !== user?.address && !!p?.image_url?.length;
+      }),
+    [profiles]
+  );
 
   return (
     <Box px="$2" flex={1} bg="$white">
       <FlashList
         numColumns={1}
+        onRefresh={refetch}
         estimatedItemSize={88}
+        refreshing={isRefetching}
         keyExtractor={(d) => d.id.toString()}
-        data={profiles}
+        data={filterProfiles}
         ItemSeparatorComponent={() => <Box h="$2" />}
         renderItem={({ item }) => (
           <ListItem

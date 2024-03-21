@@ -1,11 +1,22 @@
 import Map from "@components/MapView";
 import { trpc } from "@lib/utils/trpc";
-import React from "react";
+import { useUser } from "@thirdweb-dev/react-native";
+import React, { useMemo } from "react";
 
 const DiscoverList = () => {
-  const [profiles] = trpc.getProfiles.useSuspenseQuery();
+  const { user } = useUser();
+  const [profiles, { refetch, isRefetching }] =
+    trpc.getProfiles.useSuspenseQuery();
 
-  return <Map {...{ profiles }} />;
+  const filterProfiles = useMemo(
+    () =>
+      profiles.filter((p) => {
+        return p.address !== user?.address && !!p?.image_url?.length;
+      }),
+    [profiles]
+  );
+
+  return <Map profiles={filterProfiles} />;
 };
 
 export default DiscoverList;

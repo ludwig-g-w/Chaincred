@@ -1,3 +1,6 @@
+import { Attestation } from "@utils/types";
+import { format } from "date-fns";
+
 export function shortenAddress(address: string) {
   return `${address.slice(0, 4)}...${address.slice(-4)}`;
 }
@@ -47,3 +50,20 @@ export function createResource<T>(promiseFn: () => Promise<T>) {
 
   return { read };
 }
+
+export const sortAndGroupByDateReviews = (attestations: Attestation[]) => {
+  const groups =
+    attestations?.reduce((acc, item) => {
+      const date = format(new Date(item.timeCreated * 1000), "yyyy-MM-dd");
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      // @ts-ignore
+      acc[date].push({ ...item, timeCreated: date });
+      return acc;
+    }, {} as Record<string, Attestation[]>) ?? {};
+
+  return Object.entries(groups).sort(
+    ([date1], [date2]) => -date1.localeCompare(date2)
+  );
+};

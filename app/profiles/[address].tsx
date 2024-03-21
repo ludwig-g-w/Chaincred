@@ -1,19 +1,16 @@
 import ReviewListItem from "@components/ReviewListItem";
 
-import { HStack, Box, Divider, Text, VStack } from "@gluestack-ui/themed";
+import { Box, Divider, HStack, Text, VStack } from "@gluestack-ui/themed";
 import SuspenseFallback from "@lib/components/SuspenseFallback";
 import { trpc } from "@lib/utils/trpc";
-import SegmentedControl from "@react-native-segmented-control/segmented-control";
+import { isReviewItem } from "@lib/utils/types";
 import { FlashList } from "@shopify/flash-list";
-import { skipToken } from "@tanstack/react-query";
-import { shortenAddress } from "@utils/index";
-import { formatDistanceToNow } from "date-fns";
+import { shortenAddress, sortAndGroupByDateReviews } from "@utils/index";
+import { format, parseISO } from "date-fns";
 import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
-import React, { Suspense, useMemo, useState } from "react";
+import React, { Suspense, useMemo } from "react";
 
-// TODO: 1. Add date
-// TODO: Add list with sections for date?
 const ProfileScreen = () => {
   const { address } = useLocalSearchParams<{ address: string }>();
   const [profile] = trpc.getProfileByAddress.useSuspenseQuery({
@@ -27,10 +24,15 @@ const ProfileScreen = () => {
   const avgScore = useMemo(
     () =>
       reviews?.reduce((prev, curr, i) => {
-        let accScore = prev + (curr?.data?.rating ?? 0);
+        let accScore = prev + (curr.data?.rating ?? 0);
         let l = i + 1;
         return l === reviews.length ? Math.round(accScore / l) : accScore;
       }, 0),
+    [reviews]
+  );
+
+  const reviewsByDate = useMemo(
+    () => sortAndGroupByDateReviews(reviews),
     [reviews]
   );
 
@@ -42,18 +44,32 @@ const ProfileScreen = () => {
             <ListHeader {...{ profile, avgScore, address }} />
           }
           estimatedItemSize={88}
-          data={reviews}
+          data={reviewsByDate}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <Box p="$2">
-              <ReviewListItem
-                avatarUri={item?.attester?.image_url}
-                userName={item?.attester?.title ?? item.attester}
-                rating={item?.data?.rating}
-                comment={item?.data?.comment}
-              />
-            </Box>
-          )}
+          renderItem={({ item }) => {
+            const [date, items] = item;
+
+            return (
+              <Box px="$2">
+                <Text pb="$2" size="md">
+                  {format(parseISO(date), "MMMM do, yyyy")}
+                </Text>
+                {items.map((subItem, index) => {
+                  return (
+                    <Box pb="$2" key={index}>
+                      <ReviewListItem
+                        avatarUri={subItem?.attester?.image_url}
+                        userName={subItem?.attester?.title ?? subItem.attester}
+                        rating={subItem.data.rating}
+                        comment={subItem.data.comment}
+                        id={subItem.id}
+                      />
+                    </Box>
+                  );
+                })}
+              </Box>
+            );
+          }}
         />
       </Suspense>
     </Box>
@@ -75,7 +91,7 @@ const ListHeader = React.memo(({ profile, address, avgScore }: any) => (
       }}
       contentFit="cover"
     />
-    <VStack gap={"$2"} pt="$6" px="$2" flex={1}>
+    <VStack gap={"$2"} pt="$6" pb="$4" px="$2" flex={1}>
       <Text color="$textLight950" bold size="2xl">
         {profile?.title}
       </Text>

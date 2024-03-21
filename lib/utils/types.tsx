@@ -11,7 +11,7 @@ export const isAttestItem = (
   return (item as AttestItem).description !== undefined;
 };
 export const isReviewItem = (
-  item: AttestItem | ReviewItem
+  item?: AttestItem | ReviewItem | null
 ): item is ReviewItem => {
   return (item as ReviewItem).rating !== undefined;
 };

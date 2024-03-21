@@ -1,6 +1,4 @@
 import {
-  AddIcon,
-  ArrowRightIcon,
   Avatar,
   AvatarFallbackText,
   AvatarImage,
@@ -8,17 +6,20 @@ import {
   BadgeIcon,
   BadgeText,
   BellIcon,
-  Box,
-  Center,
+  Button,
+  ButtonIcon,
+  ButtonText,
   ChevronDownIcon,
   ChevronRightIcon,
   HStack,
+  LinkIcon,
   Pressable,
   Text,
   VStack,
 } from "@gluestack-ui/themed";
 import { isAddress, shortenAddress } from "@utils/index";
 import React, { useState } from "react";
+import * as WebBrowser from "expo-web-browser";
 
 interface UserCommentProps {
   avatarUri?: string;
@@ -28,6 +29,7 @@ interface UserCommentProps {
   rating?: number;
   onPress?: () => {};
   userAttested: boolean;
+  id: string;
 }
 
 const ReviewListItem: React.FC<UserCommentProps> = ({
@@ -38,6 +40,7 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
   rating,
   userAttested,
   onPress = () => {},
+  id,
 }) => {
   const formattedUserName = isAddress(userName)
     ? shortenAddress(userName)
@@ -48,7 +51,6 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
   const emoji = ["😔", "😐", "😊", "😃", "🤩"][rating ?? 0];
 
   const handlePress = () => {
-    if (!comment) return;
     setIsExpanded(!isExpanded);
     onPress();
   };
@@ -88,30 +90,25 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
             alignSelf="flex-start"
             rounded="$md"
             bg={userAttested ? "$yellow500" : "$purple500"}
-            gap="$2"
+            gap="$1"
           >
-            <BadgeText bold color={userAttested ? "$yellow900" : "$purple900"}>
+            <BadgeIcon
+              color={userAttested ? "$yellow100" : "$purple100"}
+              as={BellIcon}
+              fill={userAttested ? "$yellow100" : "$purple100"}
+            />
+            <BadgeText color={userAttested ? "$yellow100" : "$purple100"}>
               {userAttested ? "Given to" : "Received by"}
             </BadgeText>
-            <BadgeIcon
-              color={userAttested ? "$yellow900" : "$purple900"}
-              as={BellIcon}
-            />
           </Badge>
           <Text fontWeight="medium">{formattedUserName}</Text>
         </VStack>
         <Text ml="auto" size="4xl">
           {emoji}
         </Text>
-        {comment ? (
-          isExpanded ? (
-            <ChevronDownIcon />
-          ) : (
-            <ChevronRightIcon />
-          )
-        ) : null}
+        {isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
       </HStack>
-      {isExpanded && comment && (
+      {isExpanded && (
         <VStack
           borderWidth="$1"
           borderColor="$coolGray300"
@@ -122,7 +119,21 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
           px="$4"
           py="$2"
         >
-          <Text>{comment}</Text>
+          <HStack alignItems="center" justifyContent="space-between">
+            <Text>{comment}</Text>
+            <Button
+              onPress={() => {
+                WebBrowser.openBrowserAsync(
+                  `https://sepolia.easscan.org/attestation/view/${id}`
+                );
+              }}
+              variant="link"
+              gap="$2"
+            >
+              <ButtonText size="sm">Check on EAS</ButtonText>
+              <ButtonIcon as={LinkIcon} />
+            </Button>
+          </HStack>
         </VStack>
       )}
     </Pressable>
