@@ -12,15 +12,16 @@ import React, { Suspense, useMemo } from "react";
 const Index = () => {
   const { user } = useUser();
 
-  const [attestations] = trpc.attestations.useSuspenseQuery(
-    // @ts-ignore
-    user
-      ? {
-          recipients: [user?.address],
-          attesters: [user?.address],
-        }
-      : skipToken
-  );
+  const [attestations, { refetch, isRefetching }] =
+    trpc.attestations.useSuspenseQuery(
+      // @ts-ignore
+      user
+        ? {
+            recipients: [user?.address],
+            attesters: [user?.address],
+          }
+        : skipToken
+    );
 
   const sortedAndGroupedList = useMemo(() => {
     const groups =
@@ -46,8 +47,8 @@ const Index = () => {
       </Text>
       <Suspense fallback={<SuspenseFallback />}>
         <FlashList
-          // TODO: Put back when tRPC
-          // onRefresh={fetcher}
+          onRefresh={refetch}
+          refreshing={isRefetching}
           numColumns={1}
           estimatedItemSize={88}
           data={sortedAndGroupedList}
