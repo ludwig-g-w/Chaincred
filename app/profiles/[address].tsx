@@ -1,5 +1,6 @@
 import ReviewListItem from "@components/ReviewListItem";
-import { Box, Divider, Text, VStack } from "@gluestack-ui/themed";
+
+import { HStack, Box, Divider, Text, VStack } from "@gluestack-ui/themed";
 import SuspenseFallback from "@lib/components/SuspenseFallback";
 import { trpc } from "@lib/utils/trpc";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
@@ -9,12 +10,13 @@ import { shortenAddress } from "@utils/index";
 import { formatDistanceToNow } from "date-fns";
 import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useMemo, useState } from "react";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from "expo-router";
-
+// TODO: 1. Add date
+// TODO: Add list with sections for date?
 const segmentsValues = ["Registered Actions", "Reviews"] as const;
 const ProfileScreen = () => {
   const { address } = useLocalSearchParams<{ address: string }>();
@@ -25,6 +27,16 @@ const ProfileScreen = () => {
   const [reviews] = trpc.attestations.useSuspenseQuery({
     recipients: [address],
   });
+
+  const avgScore = useMemo(
+    () =>
+      reviews?.reduce((prev, curr, i) => {
+        let accScore = prev + (curr?.data?.rating ?? 0);
+        let l = i + 1;
+        return l === reviews.length ? Math.round(accScore / l) : accScore;
+      }, 0),
+    [reviews]
+  );
 
   return (
     <Box bgColor="$white" flex={1}>
@@ -53,6 +65,22 @@ const ProfileScreen = () => {
                 <Text bold size="xl">
                   Reviews
                 </Text>
+
+                <Text size="lg">Avg score</Text>
+                <Box
+                  alignSelf="flex-start"
+                  padding="$2"
+                  rounded="$full"
+                  borderColor="$purple500"
+                  bg="$purple200"
+                  aspectRatio="1"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Text size="2xl">
+                    {["😔", "😐", "😊", "😃", "🤩"][avgScore]}
+                  </Text>
+                </Box>
               </VStack>
             </>
           }

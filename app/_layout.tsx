@@ -1,7 +1,7 @@
 import { useAsyncStorageDevTools } from "@dev-plugins/async-storage";
 import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
 import { TW_CLIENT_ID } from "@env";
-import { config } from "@gluestack-ui/config"; // O
+import { config } from "@gluestack-ui/config";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Sepolia } from "@thirdweb-dev/chains";
@@ -36,6 +36,20 @@ const conf = {
   gasless: true,
 };
 
+const tConfig = {
+  secureStorage: AsyncStorage,
+  // This domain should match the backend
+  domain: process.env.THIRDWEB_AUTH_DOMAIN || "",
+  // Pass the URL of the auth endpoints
+  authUrl: "/api/auth",
+};
+const wallets = [
+  smartWallet(embeddedWallet(), conf),
+  metamaskWallet(),
+  rainbowWallet(),
+  localWallet(),
+  walletConnect(),
+];
 const App = () => {
   const navigationRef = useNavigationContainerRef();
   useReactNavigationDevTools(navigationRef);
@@ -54,20 +68,8 @@ const App = () => {
             activeChain={Sepolia}
             supportedChains={[Sepolia]}
             theme={"light"}
-            authConfig={{
-              secureStorage: AsyncStorage,
-              // This domain should match the backend
-              domain: process.env.THIRDWEB_AUTH_DOMAIN || "",
-              // Pass the URL of the auth endpoints
-              authUrl: "/api/auth",
-            }}
-            supportedWallets={[
-              smartWallet(embeddedWallet(), conf),
-              metamaskWallet(),
-              rainbowWallet(),
-              localWallet(),
-              walletConnect(),
-            ]}
+            authConfig={tConfig}
+            supportedWallets={wallets}
           >
             <Inner />
           </ThirdwebProvider>

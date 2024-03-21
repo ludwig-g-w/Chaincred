@@ -5,7 +5,8 @@ import { FlashList } from "@shopify/flash-list";
 import { useUser } from "@thirdweb-dev/react-native";
 import { router } from "expo-router";
 import React from "react";
-
+// TODO: remove user from list
+// TODO: remove user without data
 const DiscoverList = () => {
   const { user } = useUser();
   const [profiles] = trpc.getProfiles.useSuspenseQuery();

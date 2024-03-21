@@ -8,9 +8,7 @@ export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
   domain: process.env.THIRDWEB_AUTH_DOMAIN || "",
   wallet: new PrivateKeyWallet(process.env.THIRDWEB_AUTH_PRIVATE_KEY || ""),
   callbacks: {
-    onToken: (token) => {
-      console.log(token);
-    },
+    onToken: (token) => {},
     onLogin: async (address) => {
       setOrModifyProfile({ address });
       return { role: ["admin"] };
@@ -18,10 +16,7 @@ export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
     onUser: async (user) => {
       return user;
     },
-    onLogout: async (user) => {
-      const maybeKey = AsyncStorage.getItem("auth_token_storage_key");
-      console.log({ maybeKey });
-    },
+    onLogout: async (user) => {},
   },
 });
 

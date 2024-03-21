@@ -8,7 +8,6 @@ import { DevToolsBubble } from "react-native-react-query-devtools";
 function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
-    // @ts-ignore works well
     trpc.createClient({
       links: [
         httpBatchLink({
@@ -28,7 +27,7 @@ function Providers({ children }: { children: React.ReactNode }) {
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         {children}
-        <DevToolsBubble />
+        {/* <DevToolsBubble /> */}
       </QueryClientProvider>
     </trpc.Provider>
   );

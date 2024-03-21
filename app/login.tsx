@@ -41,9 +41,11 @@ export default () => {
               <Spinner />
             </Center>
           ))
-          .with([undefined, false, false], () => <ConnectWallet />)
+          .with([undefined, false, false], () => (
+            <ConnectWallet buttonTitle="Connect to your Web3 wallet" />
+          ))
           .with([P.string, false, false], () => (
-            <MainButton onPress={login}>Login</MainButton>
+            <MainButton onPress={login}>Sign in/Create account</MainButton>
           ))
           .with([P.string, true, false], () => (
             // @ts-ignore
