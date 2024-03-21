@@ -1,4 +1,9 @@
-import { Button, ButtonSpinner, IButtonProps } from "@gluestack-ui/themed";
+import {
+  Button,
+  ButtonSpinner,
+  ButtonText,
+  IButtonProps,
+} from "@gluestack-ui/themed";
 
 import { Text } from "@gluestack-ui/themed";
 import React from "react";
@@ -13,13 +18,13 @@ const MainButton = ({ loading, children, ...rest }: Props) => {
     <Button
       {...rest}
       disabled={loading}
-      rounded="$2xl"
+      rounded="$full"
       h="$16"
       bg={loading ? "$blue200" : "$blue500"}
     >
-      <Text color="$white" bold size="lg">
+      <ButtonText color="$white" bold size="lg">
         {children}
-      </Text>
+      </ButtonText>
       {loading && (
         <ButtonSpinner color="$white" right="$4" position="absolute" />
       )}

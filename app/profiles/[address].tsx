@@ -51,7 +51,7 @@ const ProfileScreen = () => {
 
             return (
               <Box px="$2">
-                <Text pb="$2" size="md">
+                <Text pb="$2" size="lg">
                   {format(parseISO(date), "MMMM do, yyyy")}
                 </Text>
                 {items.map((subItem, index) => {
