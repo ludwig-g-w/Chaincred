@@ -1,6 +1,6 @@
 import ReviewListItem from "@components/ReviewListItem";
 import SuspenseFallback from "@components/SuspenseFallback";
-import { Box, Text } from "@gluestack-ui/themed";
+import { Box, Center, Text } from "@gluestack-ui/themed";
 import { FlashList } from "@shopify/flash-list";
 import { skipToken } from "@tanstack/react-query";
 import { useUser } from "@thirdweb-dev/react-native";
@@ -54,6 +54,18 @@ const Index = () => {
           data={sortedAndGroupedList}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <Box h="$4" />}
+          ListEmptyComponent={
+            <Box
+              h="$11"
+              justifyContent="center"
+              alignItems="center"
+              rounded="$md"
+            >
+              <Text underline size="3xl" bold>
+                No Activity
+              </Text>
+            </Box>
+          }
           renderItem={({ item }) => {
             const [date, items] = item;
 
