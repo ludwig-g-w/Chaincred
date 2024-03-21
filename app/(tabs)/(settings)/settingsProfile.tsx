@@ -248,11 +248,10 @@ export default function SettingsProfile() {
               />
             </Textarea>
           </EditableField>
-
-          <MainButton mt="auto" loading={loading} onPress={submit}>
-            Save
-          </MainButton>
         </View>
+        <MainButton mx="$2" mt="auto" loading={loading} onPress={submit}>
+          Save changes
+        </MainButton>
       </Suspense>
     </KeyboardAwareScrollView>
   );

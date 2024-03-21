@@ -1,4 +1,4 @@
-import { HStack, Text, View } from "@gluestack-ui/themed";
+import { HStack, Pressable, Text, View } from "@gluestack-ui/themed";
 import {
   Link,
   Stack,
@@ -20,13 +20,16 @@ export default () => {
         position="absolute"
         zIndex={99}
         justifyContent="center"
-        hardShadow="2"
-        shadowRadius="$1"
-        shadowColor="$black"
       >
-        <HStack borderRadius="$full">
-          <Link href={"/discoverMap"}>
-            <View
+        <HStack
+          hardShadow="2"
+          shadowRadius="$1"
+          shadowColor="$black"
+          borderRadius="$full"
+          bg="$backgroundLight400"
+        >
+          <Link asChild href={"/discoverMap"}>
+            <Pressable
               alignItems="center"
               borderTopLeftRadius="$full"
               borderBottomLeftRadius="$full"
@@ -37,10 +40,10 @@ export default () => {
               <Text color={isMap ? "white" : "$textLight100"} bold>
                 Map
               </Text>
-            </View>
+            </Pressable>
           </Link>
-          <Link href={"/discoverList"}>
-            <View
+          <Link asChild href={"/discoverList"}>
+            <Pressable
               borderTopRightRadius="$full"
               borderBottomRightRadius="$full"
               bg={!isMap ? "$blue500" : "$backgroundLight400"}
@@ -50,7 +53,7 @@ export default () => {
               <Text color={!isMap ? "white" : "$textLight100"} bold>
                 List
               </Text>
-            </View>
+            </Pressable>
           </Link>
         </HStack>
       </View>

@@ -25,8 +25,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import NetInfo from "@react-native-community/netinfo";
 import { onlineManager } from "@tanstack/react-query";
 
-export { ErrorBoundary } from "expo-router";
-
 import { focusManager } from "@tanstack/react-query";
 import type { AppStateStatus } from "react-native";
 import { AppState, Platform } from "react-native";
