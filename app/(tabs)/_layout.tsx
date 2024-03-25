@@ -24,7 +24,7 @@ export default function TabLayout() {
         initialRouteName="/scanAddress"
         screenOptions={{
           tabBarActiveTintColor: theme.config.tokens.colors.blue500,
-          header,
+          header: () => null,
           tabBarStyle: {
             backgroundColor: theme.config.tokens.colors.white,
             borderTopColor: theme.config.tokens.colors.borderLight200,
@@ -68,57 +68,6 @@ export default function TabLayout() {
     </Box>
   );
 }
-
-const Header = memo(() => {
-  const path = usePathname();
-
-  const title = match(path)
-    .with("/", () => "Home")
-    .with("/profiles", () => "")
-    .with("/scanAddress", () => "Scan")
-    .with("/settingsProfile", () => "Your Profile")
-    .with("/manageAttestations", () => "Your Actions")
-    .with("/discoverMap", () => "Discover")
-    .with("/discoverList", () => "Discover")
-    .otherwise(
-      (path) => `${path.toLocaleUpperCase().slice(1, 2)}${path.slice(2, 13)}`
-    );
-
-  return (
-    <Box bg="white" pb="$4">
-      <SafeAreaView />
-      <Box
-        w={"$full"}
-        px="$2"
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Box alignItems="center" flexDirection="row">
-          {!!router.canGoBack() && (
-            <Pressable
-              style={{
-                opacity: router.canGoBack() ? 1 : 0,
-              }}
-              onPress={() => {
-                if (router.canGoBack()) {
-                  router.back();
-                }
-              }}
-            >
-              <ChevronLeftIcon size="xl" />
-            </Pressable>
-          )}
-          <Text bold size="xl">
-            {title}
-          </Text>
-        </Box>
-
-        <ConnectWallet />
-      </Box>
-    </Box>
-  );
-});
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];

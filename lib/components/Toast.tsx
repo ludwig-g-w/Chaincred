@@ -1,33 +1,25 @@
 import {
   Button,
-  Text,
+  ButtonIcon,
+  ButtonText,
+  LinkIcon,
   Toast,
   ToastDescription,
   ToastTitle,
-  VStack,
 } from "@gluestack-ui/themed";
-import Linking from "expo-linking";
+import * as WebBrowser from "expo-web-browser";
+
 import React from "react";
 
-const MyToast = ({ link = "", title = "", description = "", ...rest }) => {
+const MyToast = ({ title = "", description = "", ...rest }) => {
   return (
     <Toast width="$full" flexDirection="column" {...rest}>
       <ToastTitle>{title}</ToastTitle>
       <ToastDescription>{description}</ToastDescription>
-      {link && (
-        <Button
-          onPress={() => {
-            Linking.openURL(link);
-          }}
-          bg="$success500"
-          w="$full"
-          size="xs"
-          variant="outline"
-          rounded={"$lg"}
-        >
-          <Text overflow="hidden" color="$success950">
-            Open
-          </Text>
+      {rest?.onPress && (
+        <Button onPress={rest.onPress} variant="link" gap="$2">
+          <ButtonText size="sm">Check on EAS</ButtonText>
+          <ButtonIcon as={LinkIcon} />
         </Button>
       )}
     </Toast>

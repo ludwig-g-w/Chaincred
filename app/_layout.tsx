@@ -4,6 +4,8 @@ import { TW_CLIENT_ID } from "@env";
 import { config } from "@gluestack-ui/config";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import NetInfo from "@react-native-community/netinfo";
+import { onlineManager } from "@tanstack/react-query";
 import { Sepolia } from "@thirdweb-dev/chains";
 import {
   ThirdwebProvider,
@@ -12,6 +14,7 @@ import {
   metamaskWallet,
   rainbowWallet,
   smartWallet,
+  useAddress,
   useUser,
   walletConnect,
 } from "@thirdweb-dev/react-native";
@@ -22,12 +25,18 @@ import { Stack, router, useNavigationContainerRef } from "expo-router";
 import React, { useEffect } from "react";
 import "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import NetInfo from "@react-native-community/netinfo";
-import { onlineManager } from "@tanstack/react-query";
 
 import { focusManager } from "@tanstack/react-query";
 import type { AppStateStatus } from "react-native";
 import { AppState, Platform } from "react-native";
+
+import { Box, ChevronLeftIcon, Text } from "@gluestack-ui/themed";
+import { ConnectWallet } from "@thirdweb-dev/react-native";
+import { usePathname } from "expo-router";
+import { memo, useCallback } from "react";
+import { Pressable } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { match } from "ts-pattern";
 
 const conf = {
   factoryAddress: "0x7675fbfd3c6aff22db02edb74773067b5e15ac0f",
@@ -78,13 +87,22 @@ const App = () => {
 };
 
 const Inner = () => {
-  const { isLoggedIn, isLoading } = useUser();
+  const { isLoggedIn, isLoading, user } = useUser();
+  const address = useAddress();
 
   useEffect(() => {
     if (!isLoading && !isLoggedIn) {
       router.replace("/login");
     }
   }, [isLoggedIn, isLoading]);
+
+  useEffect(() => {
+    if (!address || !user?.address) return;
+
+    if (address !== user.address) {
+      router.replace("/wrongAccount");
+    }
+  }, [address, user]);
 
   useEffect(() => {
     AsyncStorage.getItem("auth_token_storage_key").then((s) => {
@@ -107,29 +125,27 @@ const Inner = () => {
     });
   });
 
+  const header = useCallback(() => <Header />, []);
+
   return (
     <Stack
       initialRouteName="(tabs)"
       screenOptions={{
-        header: () => null,
+        header,
       }}
     >
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="login" />
       <Stack.Screen
         options={{
+          header: () => null,
           presentation: "modal",
         }}
-        name="createAttestation"
+        name="wrongAccount"
       />
       <Stack.Screen
         options={{
-          presentation: "modal",
-        }}
-        name="confirmAttest"
-      />
-      <Stack.Screen
-        options={{
+          header: () => null,
           presentation: "modal",
         }}
         name="profiles/[address]"
@@ -137,5 +153,56 @@ const Inner = () => {
     </Stack>
   );
 };
+
+const Header = memo(() => {
+  const path = usePathname();
+
+  const title = match(path)
+    .with("/", () => "Home")
+    .with("/profiles", () => "")
+    .with("/scanAddress", () => "Scan")
+    .with("/settingsProfile", () => "Your Profile")
+    .with("/manageAttestations", () => "Your Actions")
+    .with("/discoverMap", () => "Discover")
+    .with("/discoverList", () => "Discover")
+    .otherwise(
+      (path) => `${path.toLocaleUpperCase().slice(1, 2)}${path.slice(2, 13)}`
+    );
+
+  return (
+    <Box bg="white" pb="$4">
+      <SafeAreaView />
+      <Box
+        w={"$full"}
+        px="$2"
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Box alignItems="center" flexDirection="row">
+          {!!router.canGoBack() && (
+            <Pressable
+              style={{
+                opacity: router.canGoBack() ? 1 : 0,
+              }}
+              onPress={() => {
+                if (router.canGoBack()) {
+                  router.back();
+                }
+              }}
+            >
+              <ChevronLeftIcon size="xl" />
+            </Pressable>
+          )}
+          <Text bold size="xl">
+            {title}
+          </Text>
+        </Box>
+
+        <ConnectWallet />
+      </Box>
+    </Box>
+  );
+});
 
 export default App;

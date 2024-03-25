@@ -22,6 +22,7 @@ import { StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import invariant from "tiny-invariant";
 import { match } from "ts-pattern";
+import * as WebBrowser from "expo-web-browser";
 
 const ScanScreen = () => {
   const theme: {
@@ -65,10 +66,35 @@ const ScanScreen = () => {
       toast.show({
         duration: 3_000,
         placement: "top",
-        render: () => <MyToast id={id} />,
+        render: () => (
+          <MyToast
+            onPress={() => {
+              WebBrowser.openBrowserAsync(
+                `https://sepolia.easscan.org/attestation/view/${id}`
+              );
+            }}
+            action="success"
+            variant="solid"
+            title="Review sent!"
+            description="check it on EAS here"
+            id={id}
+          />
+        ),
       });
       setIsBottomSheetVisible(false);
     } catch (error) {
+      toast.show({
+        duration: 10_000,
+        placement: "top",
+        render: () => (
+          <MyToast
+            action="error"
+            variant="solid"
+            title="Error occurred!"
+            description="Make sure you have some funds on your account"
+          />
+        ),
+      });
       console.log(error);
     } finally {
       setLoading(false);

@@ -32,7 +32,7 @@ const ProfileScreen = () => {
   );
 
   const reviewsByDate = useMemo(
-    () => sortAndGroupByDateReviews(reviews),
+    () => sortAndGroupByDateReviews(reviews as ReviewListItem[]),
     [reviews]
   );
 

@@ -158,13 +158,7 @@ export default function SettingsProfile() {
       }}
     >
       <Suspense fallback={<SuspenseFallback />}>
-        <View
-          justifyContent="space-between"
-          height={Dimensions.get("screen").height - (insets.bottom + 210)}
-          bg="$white"
-          p="$4"
-          gap={"$2"}
-        >
+        <View bg="$white" p="$4" gap={"$2"}>
           <View w="$full" alignItems="center">
             <ImageUploadArea
               img={image?.uri ?? profile?.image_url}
@@ -248,10 +242,10 @@ export default function SettingsProfile() {
               />
             </Textarea>
           </EditableField>
+          <MainButton mt="auto" loading={loading} onPress={submit}>
+            Save changes
+          </MainButton>
         </View>
-        <MainButton mx="$2" mt="auto" loading={loading} onPress={submit}>
-          Save changes
-        </MainButton>
       </Suspense>
     </KeyboardAwareScrollView>
   );
