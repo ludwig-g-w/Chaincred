@@ -1,8 +1,7 @@
+import { setOrModifyProfile } from "@lib/services/db/functions";
 import { PrivateKeyWallet } from "@thirdweb-dev/auth/evm";
 import { ExpoRequest } from "expo-router/server";
 import { ThirdwebAuthAppRouter as ThirdwebAuth } from "../../../thirdweb-auth-expo/src/index";
-import { setOrModifyProfile } from "@lib/services/db/functions";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
   domain: process.env.THIRDWEB_AUTH_DOMAIN || "",

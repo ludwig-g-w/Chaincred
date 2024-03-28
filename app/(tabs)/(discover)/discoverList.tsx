@@ -8,16 +8,16 @@ import React, { useMemo } from "react";
 
 const DiscoverList = () => {
   const { user } = useUser();
-  const [profiles, { refetch, isRefetching }] =
-    trpc.getProfiles.useSuspenseQuery();
-
-  const filterProfiles = useMemo(
-    () =>
-      profiles.filter((p) => {
-        return p.address !== user?.address && !!p?.image_url?.length;
-      }),
-    [profiles]
-  );
+  const [profiles, { refetch, isRefetching }] = trpc.profiles.useSuspenseQuery({
+    where: {
+      image_url: {
+        startsWith: "https://",
+      },
+      address: {
+        notIn: [user?.address ?? ""],
+      },
+    },
+  });
 
   return (
     <Box px="$2" flex={1} bg="$white">
@@ -27,7 +27,7 @@ const DiscoverList = () => {
         estimatedItemSize={88}
         refreshing={isRefetching}
         keyExtractor={(d) => d.id.toString()}
-        data={filterProfiles}
+        data={profiles}
         ItemSeparatorComponent={() => <Box h="$2" />}
         renderItem={({ item }) => (
           <ListItem

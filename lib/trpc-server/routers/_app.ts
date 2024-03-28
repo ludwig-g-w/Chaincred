@@ -11,6 +11,8 @@ import * as trpcNext from "@trpc/server/adapters/next";
 import { decodeDataReviewOrAction } from "@utils/eas";
 import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
+import prisma from "@lib/services/db/prismaClient";
+import { FindManyProfileInput } from "./zod";
 
 export const appRouter = router({
   attestations: protectedProcedure
@@ -101,6 +103,11 @@ export const appRouter = router({
         : await getAllProfiles();
 
       return profiles;
+    }),
+  profiles: protectedProcedure
+    .input(FindManyProfileInput)
+    .query(async ({ input }) => {
+      return await prisma.profile.findMany(input);
     }),
 });
 
