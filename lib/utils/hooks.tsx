@@ -1,5 +1,6 @@
 import { useFocusEffect } from "expo-router";
 import React from "react";
+import { NotifyOnChangeProps } from "@tanstack/query-core";
 
 export function useRefreshOnFocus<T>(refetch: () => Promise<T>) {
   const firstTimeRef = React.useRef(true);
@@ -15,8 +16,6 @@ export function useRefreshOnFocus<T>(refetch: () => Promise<T>) {
     }, [refetch])
   );
 }
-
-import { NotifyOnChangeProps } from "@tanstack/query-core";
 
 export function useFocusNotifyOnChangeProps(
   notifyOnChangeProps?: NotifyOnChangeProps

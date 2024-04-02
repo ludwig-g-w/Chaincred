@@ -1,0 +1,19 @@
+# flow.yaml
+
+appId: com.ludwigw.chaincred
+---
+- launchApp
+- tapOn:
+    point: 94%,43%
+- tapOn: Connect to your Web3 wallet
+- tapOn: Continue as guest
+- tapOn: Sign in/Create account
+- assertVisible: No Activity
+- tapOn: Discover, tab, 2 of 4
+- assertVisible: Discover
+- tapOn: Map
+- assertVisible: Discover
+- tapOn: Grenoble
+- tapOn: Settings, tab, 4 of 4
+- tapOn: Your Profile 
+- assertVisible: Save changes
