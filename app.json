@@ -61,7 +61,7 @@
     ],
     "extra": {
       "router": {
-        "origin": "https://ludwigsw.dev"
+        "origin": "https://chaincred-gaidraalu-lsw-1s-projects.vercel.app/"
       },
       "eas": {
         "projectId": "ff56839b-d376-4b6f-bbae-895cf64f49ea"
