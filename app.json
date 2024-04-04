@@ -4,7 +4,8 @@
       "typedRoutes": true
     },
     "platforms": [
-      "ios"
+      "ios",
+      "web"
     ],
     "scheme": "chaincred",
     "name": "ChainCred",

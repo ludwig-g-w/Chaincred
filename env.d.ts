@@ -9,4 +9,6 @@ declare module "@env" {
   export const ORGANIZATION_MANAGER_ADDRESS: string;
   export const SUPABASE_URL: string;
   export const SUPABASE_ANON_KEY: string;
+  export const PUBLIC_SERVER_URL: string;
+  export const THIRDWEB_AUTH_DOMAIN: string;
 }

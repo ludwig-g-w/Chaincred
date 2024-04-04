@@ -6,11 +6,10 @@ import {
   useLogin,
   useLogout,
   useUser,
-  useConnect,
 } from "@thirdweb-dev/react-native";
 import { Redirect, useLocalSearchParams } from "expo-router";
 import React from "react";
-import { match, P } from "ts-pattern";
+import { P, match } from "ts-pattern";
 
 export default () => {
   const params = useLocalSearchParams<{ rUrl: string }>();

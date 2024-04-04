@@ -1,22 +1,9 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {
-  Box,
-  ChevronLeftIcon,
-  ICustomConfig,
-  Text,
-  useStyled,
-} from "@gluestack-ui/themed";
-import { ConnectWallet } from "@thirdweb-dev/react-native";
-import { Tabs, router, usePathname } from "expo-router";
-import { memo, useCallback } from "react";
-import { Pressable } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { match } from "ts-pattern";
+import { Box, ICustomConfig, useStyled } from "@gluestack-ui/themed";
+import { Tabs } from "expo-router";
 
 export default function TabLayout() {
   const theme: { config: ICustomConfig } = useStyled();
-
-  const header = useCallback(() => <Header />, []);
 
   return (
     <Box flex={1}>

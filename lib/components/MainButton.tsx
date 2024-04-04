@@ -5,7 +5,6 @@ import {
   IButtonProps,
 } from "@gluestack-ui/themed";
 
-import { Text } from "@gluestack-ui/themed";
 import React from "react";
 
 type Props = {

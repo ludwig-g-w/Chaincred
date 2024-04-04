@@ -2,12 +2,10 @@ import { Button, ButtonText, Center, Text, View } from "@gluestack-ui/themed";
 import {
   ConnectWallet,
   useAddress,
-  useLogin,
   useLogout,
   useUser,
 } from "@thirdweb-dev/react-native";
-import "@thirdweb-dev/react-native-compat";
-import "expo-dev-client";
+
 import { router } from "expo-router";
 import React, { useEffect } from "react";
 import "react-native-gesture-handler";
@@ -15,7 +13,7 @@ import "react-native-gesture-handler";
 const WrongAccount = () => {
   const address = useAddress();
   const { logout } = useLogout();
-  const { isLoggedIn, isLoading, user } = useUser();
+  const { user } = useUser();
 
   useEffect(() => {
     if (!address || !user?.address) return;

@@ -10,7 +10,8 @@ import {
   signLoginPayload,
   verifyLoginPayload,
 } from "./functions/login";
-import type { GenericAuthWallet } from "@thirdweb-dev/wallets";
+
+type GenericAuthWallet = any;
 import { Json, User } from "./schema/common";
 import {
   LoginOptionsWithOptionalDomain,
@@ -38,7 +39,7 @@ export class ThirdwebAuth {
   }
 
   public async payload(
-    options?: LoginOptionsWithOptionalDomain,
+    options?: LoginOptionsWithOptionalDomain
   ): Promise<LoginPayloadData> {
     return buildLoginPayload({
       wallet: this.wallet,
@@ -47,13 +48,13 @@ export class ThirdwebAuth {
   }
 
   public async loginWithPayload(
-    payload: LoginPayloadData,
+    payload: LoginPayloadData
   ): Promise<LoginPayload> {
     return signLoginPayload({ wallet: this.wallet, payload });
   }
 
   public async login(
-    options?: LoginOptionsWithOptionalDomain,
+    options?: LoginOptionsWithOptionalDomain
   ): Promise<LoginPayload> {
     return buildAndSignLoginPayload({
       wallet: this.wallet,
@@ -63,7 +64,7 @@ export class ThirdwebAuth {
 
   public async verify(
     payload: LoginPayload,
-    options?: VerifyOptionsWithOptionalDomain,
+    options?: VerifyOptionsWithOptionalDomain
   ): Promise<string> {
     return verifyLoginPayload({
       wallet: this.wallet,
@@ -74,7 +75,7 @@ export class ThirdwebAuth {
 
   public async generate(
     payload: LoginPayload,
-    options?: GenerateOptionsWithOptionalDomain,
+    options?: GenerateOptionsWithOptionalDomain
   ): Promise<string> {
     return generateJWT({
       wallet: this.wallet,
@@ -93,7 +94,7 @@ export class ThirdwebAuth {
 
   public async authenticate<TSession extends Json = Json>(
     jwt: string,
-    options?: AuthenticateOptionsWithOptionalDomain,
+    options?: AuthenticateOptionsWithOptionalDomain
   ): Promise<User<TSession>> {
     return authenticateJWT({
       wallet: this.wallet,
@@ -107,7 +108,7 @@ export class ThirdwebAuth {
   }
 
   private formatOptions<TOptions extends { domain?: string }>(
-    options?: TOptions,
+    options?: TOptions
   ): Omit<TOptions, "domain"> & { domain: string } {
     return options
       ? { ...options, domain: options?.domain || this.domain }

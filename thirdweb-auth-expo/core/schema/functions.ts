@@ -1,4 +1,4 @@
-import { GenericAuthWallet } from "@thirdweb-dev/wallets";
+type GenericAuthWallet = any;
 import { LoginOptions, LoginPayload, LoginPayloadData } from "./login";
 import { VerifyOptions } from "./verify";
 import {

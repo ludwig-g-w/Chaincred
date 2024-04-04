@@ -31,5 +31,6 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "lib/services/db/importCSV.js",
+    "api/index.js",
   ]
 }

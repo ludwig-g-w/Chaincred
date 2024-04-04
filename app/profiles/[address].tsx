@@ -3,7 +3,6 @@ import ReviewListItem from "@components/ReviewListItem";
 import { Box, Divider, HStack, Text, VStack } from "@gluestack-ui/themed";
 import SuspenseFallback from "@lib/components/SuspenseFallback";
 import { trpc } from "@lib/utils/trpc";
-import { isReviewItem } from "@lib/utils/types";
 import { FlashList } from "@shopify/flash-list";
 import { shortenAddress, sortAndGroupByDateReviews } from "@utils/index";
 import { format, parseISO } from "date-fns";

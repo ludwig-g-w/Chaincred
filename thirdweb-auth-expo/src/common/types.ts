@@ -1,4 +1,4 @@
-import type { GenericAuthWallet } from "@thirdweb-dev/wallets";
+type GenericAuthWallet = any;
 import { z } from "zod";
 
 import { Json, LoginPayloadOutputSchema, User } from "../../core";
