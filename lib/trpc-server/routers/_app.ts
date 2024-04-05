@@ -1,4 +1,3 @@
-import { SCHEMA_ADRESS_REVIEW } from "@env";
 import { sdk } from "@lib/graphql/client";
 import {
   getAllProfiles,
@@ -32,7 +31,7 @@ export const appRouter = router({
               { attester: { in: attesters } },
             ],
             schemaId: {
-              in: [SCHEMA_ADRESS_REVIEW],
+              in: [process.env.EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW],
             },
           },
         });

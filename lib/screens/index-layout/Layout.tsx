@@ -1,6 +1,5 @@
 import { useAsyncStorageDevTools } from "@dev-plugins/async-storage";
 import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
-import { THIRDWEB_AUTH_DOMAIN, TW_CLIENT_ID } from "@env";
 import { config } from "@gluestack-ui/config";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -46,7 +45,7 @@ const conf = {
 const tConfig = {
   secureStorage: AsyncStorage,
   // This domain should match the backend
-  domain: THIRDWEB_AUTH_DOMAIN || "",
+  domain: process.env.EXPO_PUBLIC_SERVER_URL || "",
   // Pass the URL of the auth endpoints
   authUrl: "/api/auth",
 };
@@ -71,7 +70,7 @@ const App = () => {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <GluestackUIProvider config={config}>
           <ThirdwebProvider
-            clientId={TW_CLIENT_ID}
+            clientId={process.env.EXPO_PUBLIC_TW_CLIENT_ID}
             activeChain={Sepolia}
             supportedChains={[Sepolia]}
             theme={"light"}

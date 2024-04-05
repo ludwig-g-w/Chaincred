@@ -1,4 +1,3 @@
-import { EAS_CONTRACT, SCHEMA_ADRESS_ACTION, SCHEMA_ADRESS_REVIEW } from "@env";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { ListAttestationFragment } from "@generated/graphql"; // Adjust the import path according to where your generated code is
 import { convertJsonToObject } from "@utils/attestations";
@@ -13,7 +12,7 @@ export async function createActionAttestation({
   description,
   address,
 }) {
-  const eas = new EAS(EAS_CONTRACT);
+  const eas = new EAS(process.env.EXPO_PUBLIC_EAS_CONTRACT);
   // Signer must be an ethers-like signer.
   await eas.connect(signer as any);
   // Initialize SchemaEncoder with the schema string
@@ -30,7 +29,7 @@ export async function createActionAttestation({
   ]);
 
   const tx = await eas.attest({
-    schema: SCHEMA_ADRESS_ACTION,
+    schema: process.env.EXPO_PUBLIC_SCHEMA_ADRESS_ACTION,
     data: {
       recipient: address,
       expirationTime: 0 as any,
@@ -50,7 +49,7 @@ export async function createReviewAttestation({
   comment = "",
   address = "",
 }) {
-  const eas = new EAS(EAS_CONTRACT);
+  const eas = new EAS(process.env.EXPO_PUBLIC_EAS_CONTRACT);
   await eas.connect(signer);
 
   const encodedData = schemaEncoderReview.encodeData([
@@ -59,7 +58,7 @@ export async function createReviewAttestation({
   ]);
 
   const tx = await eas.attest({
-    schema: SCHEMA_ADRESS_REVIEW,
+    schema: process.env.EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW,
     data: {
       recipient: address,
       expirationTime: 0 as any,

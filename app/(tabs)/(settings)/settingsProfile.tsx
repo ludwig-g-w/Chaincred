@@ -199,7 +199,7 @@ export default function SettingsProfile() {
                 });
               }}
               query={{
-                key: "AIzaSyDBx5I1YAQiApOZhhq7aAsj2_19HO4hOfM",
+                key: process.env.EXPO_PUBLIC_API_KEY_GOOGLE,
                 language: "en",
               }}
             />

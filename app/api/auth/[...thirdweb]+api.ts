@@ -4,7 +4,7 @@ import { ExpoRequest } from "expo-router/server";
 import { ThirdwebAuthAppRouter as ThirdwebAuth } from "../../../thirdweb-auth-expo/src/index";
 
 export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
-  domain: process.env.THIRDWEB_AUTH_DOMAIN || "",
+  domain: process.env.EXPO_PUBLIC_SERVER_URL || "",
   wallet: new PrivateKeyWallet(process.env.THIRDWEB_AUTH_PRIVATE_KEY || ""),
   callbacks: {
     onToken: (token) => {},

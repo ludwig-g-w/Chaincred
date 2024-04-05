@@ -4,7 +4,6 @@ import { httpBatchLink } from "@trpc/client";
 import React, { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DevToolsBubble } from "react-native-react-query-devtools";
-import { PUBLIC_SERVER_URL } from "@env";
 
 function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
@@ -12,7 +11,7 @@ function Providers({ children }: { children: React.ReactNode }) {
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: PUBLIC_SERVER_URL,
+          url: process.env.EXPO_PUBLIC_SERVER_URL,
           async headers() {
             const jwt = await AsyncStorage.getItem("auth_token_storage_key");
             return {
@@ -28,7 +27,7 @@ function Providers({ children }: { children: React.ReactNode }) {
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         {children}
-        {/* <DevToolsBubble /> */}
+        <DevToolsBubble />
       </QueryClientProvider>
     </trpc.Provider>
   );
