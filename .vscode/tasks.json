@@ -1,0 +1,31 @@
+{
+    "version": "2.0.0",
+    "inputs": [
+        {
+            "type": "promptString",
+            "id": "componentName",
+            "description": "Name your component",
+            "default": "NewComponent"
+        }
+    ],
+    "tasks": [
+        {
+            "label": "Organize Code Files",
+            "type": "shell",
+            "command": "scripts/split_code.sh",
+            "args": [
+                "\"${file}\"", // Add escape characters directly here if paths might contain special characters
+                "${input:componentName}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new",
+                "clear": true
+            }
+        }
+    ]
+}
