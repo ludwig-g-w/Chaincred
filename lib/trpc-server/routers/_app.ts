@@ -106,7 +106,11 @@ export const appRouter = router({
   profiles: protectedProcedure
     .input(FindManyProfileInput)
     .query(async ({ input }) => {
-      return await prisma.profile.findMany(input);
+      try {
+        return await prisma.profile.findMany(input);
+      } catch (error) {
+        console.log(error);
+      }
     }),
 });
 

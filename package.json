@@ -11,7 +11,10 @@
     "vercel-build": "expo export -p web",
     "gen:graphql": "graphql-codegen --config codegen.yml",
     "gen:supabase": "npx supabase gen types typescript --project-id 'chsysageacyldeosgdmc' --schema public > generated/supabase.ts",
-    "db:populate": "node ./lib/services/db/importCSV.js ./lib/services/db/profiles_rows.csv"
+    "db:populate": "node ./lib/services/db/importCSV.js ./lib/services/db/profiles_rows.csv",
+    "prisma:migrate": "npx dotenv-cli -e .env.development prisma migrate dev",
+    "prisma:studio": "npx dotenv-cli -e .env.development prisma studio",
+    "prisma:generate": "npx dotenv-cli -e .env.development prisma generate"
   },
   "dependencies": {
     "@dev-plugins/async-storage": "^0.0.1",
