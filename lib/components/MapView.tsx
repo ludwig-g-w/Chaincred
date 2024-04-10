@@ -45,7 +45,9 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
           },
         } as Supercluster.PointFeature<Supercluster.AnyProps>;
       });
-    cluster.load(points);
+    if (points.length) {
+      cluster.load(points);
+    }
   }, [profiles]);
 
   // Function to estimate the zoom level based on latitude delta
@@ -64,8 +66,10 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
       // eastLng - max lng
       region.latitude + region.latitudeDelta / 2, // northLat - max lat
     ] as [number, number, number, number];
-    const newClusters = cluster.getClusters(bbox, zoom);
-    setClusters(newClusters);
+    try {
+      const newClusters = cluster.getClusters(bbox, zoom);
+      setClusters(newClusters);
+    } catch (error) {}
   }, []);
 
   const renderPoints = useMemo(

@@ -107,9 +107,11 @@ export const appRouter = router({
     .input(FindManyProfileInput)
     .query(async ({ input }) => {
       try {
-        return await prisma.profile.findMany(input);
+        const res = await prisma.profile.findMany(input);
+        return res ?? [];
       } catch (error) {
         console.log(error);
+        return [];
       }
     }),
 });
