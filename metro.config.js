@@ -15,18 +15,18 @@ config.transformer.getTransformOptions = async () => ({
   },
 });
 
-config.resolver.resolveRequest = (context, moduleName, platform) => {
-  if (
-    moduleName.startsWith("@thirdweb-dev/react-native") &&
-    platform === "web"
-  ) {
-    return {
-      filePath: `${__dirname}/node_modules/@thirdweb-dev/react/dist/thirdweb-dev-react.cjs.js`,
-      type: "sourceFile",
-    };
-  }
+// config.resolver.resolveRequest = (context, moduleName, platform) => {
+//   if (
+//     moduleName.startsWith("@thirdweb-dev/react-native") &&
+//     platform === "web"
+//   ) {
+//     return {
+//       filePath: `${__dirname}/node_modules/@thirdweb-dev/react/dist/thirdweb-dev-react.cjs.js`,
+//       type: "sourceFile",
+//     };
+//   }
 
-  return context.resolveRequest(context, moduleName, platform);
-};
+//   return context.resolveRequest(context, moduleName, platform);
+// };
 
 module.exports = config;

@@ -37,3 +37,4 @@ expo-env.d.ts
 dist/
 web-build/
 .vercel
+output.txt
