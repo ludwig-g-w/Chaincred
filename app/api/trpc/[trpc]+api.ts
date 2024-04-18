@@ -8,9 +8,7 @@ export async function GET(req: ExpoRequest) {
     endpoint: "/api/trpc",
     req: req as unknown as Request,
     router: appRouter,
-    onError: (err) => {
-      console.log(err);
-    },
+    onError: (err) => {},
     // @ts-ignore
     createContext,
   });
@@ -22,7 +20,7 @@ export async function POST(req: ExpoRequest) {
     req: req as unknown as Request,
     router: appRouter,
     onError: (err) => {
-      console.log(err);
+      console.log(JSON.stringify(err));
     },
     // @ts-ignore
     createContext,

@@ -10,11 +10,12 @@
     "build:web": "scripts/web_build.sh",
     "build": "scripts/web_build.sh",
     "gen:graphql": "graphql-codegen --config codegen.yml",
-    "gen:supabase": "npx supabase gen types typescript --project-id 'chsysageacyldeosgdmc' --schema public > generated/supabase.ts",
+    "gen:supabase": "bunx supabase gen types typescript --project-id 'chsysageacyldeosgdmc' --schema public > generated/supabase.ts",
     "db:populate": "node lib/services/db/importCSV.js lib/services/db/profiles_rows.csv",
-    "prisma:migrate": "npx dotenv-cli -e .env.development.local prisma migrate dev",
-    "prisma:studio": "npx dotenv-cli -e .env.development.local prisma studio",
-    "prisma:generate": "npx dotenv-cli -e .env.development.local prisma generate"
+    "prisma:migrate": "bunx dotenv-cli -e .env.development.local prisma migrate dev",
+    "prisma:studio:dev": "bunx dotenv-cli -e .env.development.local prisma studio",
+    "prisma:studio:prod": "bunx dotenv-cli -e .env.production.local prisma studio",
+    "prisma:generate": "bunx dotenv-cli -e .env.development.local prisma generate"
   },
   "dependencies": {
     "@dev-plugins/async-storage": "^0.0.1",
