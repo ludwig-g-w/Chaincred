@@ -29,6 +29,7 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="chaincred"/>
         <data android:scheme="com.ludwigw.chaincred"/>
+        <data android:scheme="exp+chaincred"/>
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>
