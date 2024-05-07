@@ -2853,28 +2853,6 @@ export type TimestampWhereUniqueInput = {
 
 export type ListAttestationFragment = { __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string };
 
-export type AllActionsReceivedQueryVariables = Exact<{
-  id: Scalars['String']['input'];
-}>;
-
-
-export type AllActionsReceivedQuery = { __typename?: 'Query', attestations: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }> };
-
-export type HomeFeedQueryVariables = Exact<{
-  id: Scalars['String']['input'];
-}>;
-
-
-export type HomeFeedQuery = { __typename?: 'Query', attestations: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }> };
-
-export type ActionsAndReviewsQueryVariables = Exact<{
-  userAddress: Scalars['String']['input'];
-  profileAddress: Scalars['String']['input'];
-}>;
-
-
-export type ActionsAndReviewsQuery = { __typename?: 'Query', actions: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }>, reviews: Array<{ __typename?: 'Attestation', timeCreated: number, id: string, attester: string, recipient: string, data: string }> };
-
 export type AttestationsQueryVariables = Exact<{
   where: AttestationWhereInput;
 }>;
@@ -2891,39 +2869,6 @@ export const ListAttestationFragmentDoc = gql`
   data
 }
     `;
-export const AllActionsReceivedDocument = gql`
-    query AllActionsReceived($id: String!) {
-  attestations(
-    where: {recipient: {equals: $id}, AND: {schemaId: {equals: "0x82b6dfa1f89b37cffb75b5766fb10896d8fb0c196bb18b5cdbf44fef12606a96"}}}
-  ) {
-    ...ListAttestation
-  }
-}
-    ${ListAttestationFragmentDoc}`;
-export const HomeFeedDocument = gql`
-    query HomeFeed($id: String!) {
-  attestations(
-    orderBy: {timeCreated: asc}
-    where: {OR: [{}, {recipient: {equals: $id}}], AND: {OR: [{schemaId: {equals: "0x82b6dfa1f89b37cffb75b5766fb10896d8fb0c196bb18b5cdbf44fef12606a96"}}, {schemaId: {equals: "0xba299dc0f2f0caf692628b8bcb62037763e865804462c85b8adcf7ef7b8beb53"}}]}}
-  ) {
-    ...ListAttestation
-  }
-}
-    ${ListAttestationFragmentDoc}`;
-export const ActionsAndReviewsDocument = gql`
-    query ActionsAndReviews($userAddress: String!, $profileAddress: String!) {
-  actions: attestations(
-    where: {recipient: {equals: $userAddress}, AND: {schemaId: {equals: "0x82b6dfa1f89b37cffb75b5766fb10896d8fb0c196bb18b5cdbf44fef12606a96"}}}
-  ) {
-    ...ListAttestation
-  }
-  reviews: attestations(
-    where: {recipient: {equals: $profileAddress}, AND: {schemaId: {equals: "0xba299dc0f2f0caf692628b8bcb62037763e865804462c85b8adcf7ef7b8beb53"}}}
-  ) {
-    ...ListAttestation
-  }
-}
-    ${ListAttestationFragmentDoc}`;
 export const AttestationsDocument = gql`
     query Attestations($where: AttestationWhereInput!) {
   attestations(orderBy: {timeCreated: asc}, where: $where) {
@@ -2939,15 +2884,6 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    AllActionsReceived(variables: AllActionsReceivedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AllActionsReceivedQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<AllActionsReceivedQuery>(AllActionsReceivedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AllActionsReceived', 'query', variables);
-    },
-    HomeFeed(variables: HomeFeedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<HomeFeedQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<HomeFeedQuery>(HomeFeedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'HomeFeed', 'query', variables);
-    },
-    ActionsAndReviews(variables: ActionsAndReviewsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ActionsAndReviewsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ActionsAndReviewsQuery>(ActionsAndReviewsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ActionsAndReviews', 'query', variables);
-    },
     Attestations(variables: AttestationsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AttestationsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<AttestationsQuery>(AttestationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Attestations', 'query', variables);
     }

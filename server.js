@@ -6,6 +6,7 @@ const { createRequestHandler } = require("@expo/server/adapter/express");
 const express = require("express");
 const compression = require("compression");
 const morgan = require("morgan");
+const cors = require("cors");
 
 const CLIENT_BUILD_DIR = path.join(process.cwd(), "dist/client");
 const SERVER_BUILD_DIR = path.join(process.cwd(), "dist/server");
@@ -13,6 +14,7 @@ const SERVER_BUILD_DIR = path.join(process.cwd(), "dist/server");
 const app = express();
 
 app.use(compression());
+app.use(cors());
 
 // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
 app.disable("x-powered-by");

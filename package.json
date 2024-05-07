@@ -15,7 +15,9 @@
     "prisma:migrate": "bunx dotenv-cli -e .env.development.local prisma migrate dev",
     "prisma:studio:dev": "bunx dotenv-cli -e .env.development.local prisma studio",
     "prisma:studio:prod": "bunx dotenv-cli -e .env.production.local prisma studio",
-    "prisma:generate": "bunx dotenv-cli -e .env.development.local prisma generate"
+    "prisma:generate": "bunx dotenv-cli -e .env.development.local prisma generate",
+    "prisma:generate:prod": "bunx dotenv-cli -e .env.production.local prisma generate",
+    "build:docker": "bun prisma:generate:prod && bunx dotenv-cli -e .env.production.local prisma migrate deploy && bun run build"
   },
   "dependencies": {
     "@dev-plugins/async-storage": "^0.0.1",
@@ -41,6 +43,7 @@
     "@vercel/postgres": "^0.7.2",
     "amazon-cognito-identity-js": "^6.3.7",
     "base64-arraybuffer": "^1.0.2",
+    "cors": "^2.8.5",
     "date-fns": "^3.3.1",
     "ethers": "^5",
     "expo": "~50.0.15",
