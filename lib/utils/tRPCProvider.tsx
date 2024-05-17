@@ -11,7 +11,7 @@ function Providers({ children }: { children: React.ReactNode }) {
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: `${process.env.EXPO_PUBLIC_SERVER_URl}/api/trpc`,
+          url: `${process.env.EXPO_PUBLIC_SERVER_URL}/api/trpc`,
           async headers() {
             const jwt = await AsyncStorage.getItem("auth_token_storage_key");
             return {
@@ -27,7 +27,7 @@ function Providers({ children }: { children: React.ReactNode }) {
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         {children}
-        <DevToolsBubble />
+        {process.env.NODE_ENV !== "production" ? <DevToolsBubble /> : null}
       </QueryClientProvider>
     </trpc.Provider>
   );

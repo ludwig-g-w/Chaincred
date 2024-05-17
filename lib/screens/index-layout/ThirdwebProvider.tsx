@@ -2,11 +2,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Sepolia } from "@thirdweb-dev/chains";
 import {
   ThirdwebProvider,
-  embeddedWallet,
   localWallet,
   metamaskWallet,
   rainbowWallet,
-  smartWallet,
   walletConnect,
 } from "@thirdweb-dev/react-native";
 import React from "react";
@@ -21,10 +19,11 @@ const tConfig = {
   // This domain should match the backend
   domain: process.env.EXPO_PUBLIC_SERVER_URL || "",
   // Pass the URL of the auth endpoints
-  authUrl: "/api/auth",
+  authUrl: `${process.env.EXPO_PUBLIC_SERVER_URL}/api/auth`,
 };
 const wallets = [
-  smartWallet(embeddedWallet(), conf),
+  // TODO: is dependent on react-native-quick-crypto which I was not able to install without ios build crashing, maybe try to reinstate when new version?
+  // smartWallet(embeddedWallet(), conf),
   metamaskWallet(),
   rainbowWallet(),
   localWallet(),

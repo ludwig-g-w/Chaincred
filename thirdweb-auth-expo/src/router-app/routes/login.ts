@@ -6,12 +6,8 @@ import type { GenerateOptionsWithOptionalDomain } from "../../../core";
 import type { ThirdwebAuthContext } from "../types";
 import { LoginPayloadBodySchema } from "../types";
 import { serialize } from "cookie";
-import { ExpoRequest, ExpoResponse } from "expo-router/server";
 
-export default async function handler(
-  req: ExpoRequest,
-  ctx: ThirdwebAuthContext
-) {
+export default async function handler(req: Request, ctx: ThirdwebAuthContext) {
   if (req.method !== "POST") {
     return Response.json(
       { error: "Invalid method. Only POST supported" },
@@ -23,7 +19,7 @@ export default async function handler(
 
   // Get signed login payload from the frontend
   if (!parsedPayload.success) {
-    return new ExpoResponse("Please provide an address", {
+    return new Response("Please provide an address", {
       status: 400,
     });
     // return res.status(400).json({ error: "Invalid login payload" });
@@ -66,15 +62,15 @@ export default async function handler(
     token = await ctx.auth.generate(payload, generateOptions);
   } catch (err: any) {
     if (err.message) {
-      return new ExpoResponse(err.message, {
+      return new Response(err.message, {
         status: 400,
       });
     } else if (typeof err === "string") {
-      return new ExpoResponse(err, {
+      return new Response(err, {
         status: 400,
       });
     } else {
-      return new ExpoResponse("Invalid login payload", {
+      return new Response("Invalid login payload", {
         status: 400,
       });
     }
@@ -88,7 +84,7 @@ export default async function handler(
     payload: { exp },
   } = ctx.auth.parseToken(token);
 
-  return new ExpoResponse(JSON.stringify({ token }), {
+  return new Response(JSON.stringify({ token }), {
     status: 200,
     headers: {
       "Content-Type": "application/json",

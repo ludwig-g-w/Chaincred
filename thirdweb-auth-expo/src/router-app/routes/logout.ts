@@ -1,11 +1,7 @@
-import { ExpoRequest, ExpoResponse } from "expo-router/server";
 import { getToken, getUser } from "../helpers/user";
 import type { ThirdwebAuthContext } from "../types";
 
-export default async function handler(
-  req: ExpoRequest,
-  ctx: ThirdwebAuthContext
-) {
+export default async function handler(req: Request, ctx: ThirdwebAuthContext) {
   if (req.method !== "POST") {
     return Response.json(
       { error: "Invalid method. Only POST supported" },
@@ -14,7 +10,7 @@ export default async function handler(
   }
   const token = getToken(req);
   if (!token) {
-    return new ExpoResponse("No logged in user to logout", {
+    return new Response("No logged in user to logout", {
       status: 400,
     });
   }
@@ -26,5 +22,5 @@ export default async function handler(
     }
   }
 
-  return ExpoResponse.json({ message: "Successfully logged out" });
+  return Response.json({ message: "Successfully logged out" });
 }

@@ -15,8 +15,8 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import { useSigner } from "@thirdweb-dev/react-native";
 import { createReviewAttestation } from "@utils/eas";
 import { shortenAddress } from "@utils/index";
-import { BarCodeScanner } from "expo-barcode-scanner";
-import { Camera } from "expo-camera";
+
+import { CameraView, Camera } from "expo-camera";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -124,10 +124,9 @@ const ScanScreen = () => {
   }
   return (
     <Box flex={1}>
-      <Camera
+      <CameraView
         style={styles.camera}
-        focusDepth={0}
-        onBarCodeScanned={({ type, data }) => {
+        onBarcodeScanned={({ type, data }) => {
           if (isValidEthereumAddress(data)) {
             setScannedAddress(data);
             setIsBottomSheetVisible(true);
@@ -136,9 +135,10 @@ const ScanScreen = () => {
             console.log("Scanned data is not a valid Ethereum address");
           }
         }}
-        barCodeScannerSettings={{
-          barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+        barcodeScannerSettings={{
+          barcodeTypes: ["qr"],
         }}
+        autofocus="on"
       />
       {isBottomSheetVisible && (
         <BottomSheet

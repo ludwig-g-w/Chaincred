@@ -1,11 +1,7 @@
 import type { ThirdwebAuthContext } from "../types";
 import { PayloadBodySchema } from "../types";
-import { ExpoRequest, ExpoResponse } from "expo-router/server";
 
-export default async function handler(
-  req: ExpoRequest,
-  ctx: ThirdwebAuthContext
-) {
+export default async function handler(req: Request, ctx: ThirdwebAuthContext) {
   if (req.method !== "POST") {
     return Response.json(
       { error: "Invalid method. Only POST supported" },
@@ -17,7 +13,7 @@ export default async function handler(
   const parsedPayload = PayloadBodySchema.safeParse(body);
 
   if (!parsedPayload.success) {
-    return new ExpoResponse("Please provide an address", {
+    return new Response("Please provide an address", {
       status: 400,
     });
   }
@@ -37,7 +33,7 @@ export default async function handler(
       : undefined,
   });
 
-  return ExpoResponse.json({
+  return Response.json({
     payload,
   });
 }

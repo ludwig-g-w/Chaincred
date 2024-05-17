@@ -6,12 +6,11 @@ import logoutHandler from "./routes/logout";
 import userHandler from "./routes/user";
 // import switchAccountHandler from "./routes/switch-account";
 import { ThirdwebAuthConfig, ThirdwebAuthContext } from "./types";
-import { ExpoRequest, ExpoResponse } from "expo-router/server";
 
 export * from "./types";
 
 async function ThirdwebAuthRouter(
-  req: ExpoRequest,
+  req: Request,
   args: { thirdweb: string },
   ctx: ThirdwebAuthContext
 ) {
@@ -29,7 +28,7 @@ async function ThirdwebAuthRouter(
     // case "switch-account":
     //   return await switchAccountHandler(req, ctx);
     default:
-      return ExpoResponse.json({
+      return Response.json({
         message: "Invalid route for authentication.",
       });
   }
@@ -45,13 +44,10 @@ export function ThirdwebAuth<
   };
 
   return {
-    ThirdwebAuthHandler: function (
-      req: ExpoRequest,
-      params: { thirdweb: string }
-    ) {
+    ThirdwebAuthHandler: function (req: Request, params: { thirdweb: string }) {
       return ThirdwebAuthRouter(req, params, ctx as ThirdwebAuthContext);
     },
-    getUser: (req: ExpoRequest) => {
+    getUser: (req: Request) => {
       return getUser(req, ctx);
     },
   };

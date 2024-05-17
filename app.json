@@ -61,7 +61,7 @@
     ],
     "extra": {
       "router": {
-        "origin": "http://localhost:3000/"
+        "origin": "http://192.168.1.129:3000"
       },
       "eas": {
         "projectId": "ff56839b-d376-4b6f-bbae-895cf64f49ea"

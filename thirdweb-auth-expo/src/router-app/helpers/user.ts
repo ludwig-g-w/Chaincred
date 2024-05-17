@@ -5,17 +5,13 @@ import {
 import { Json } from "../../../core";
 import { ThirdwebAuthContext } from "../types";
 import { ThirdwebAuthUser } from "../../common/types";
-import { ExpoRequest } from "expo-router/server";
 
 // UNUSED
-export function getCookie(
-  req: ExpoRequest,
-  cookie: string
-): string | undefined {
+export function getCookie(req: Request, cookie: string): string | undefined {
   return req?.cookies[cookie];
 }
 // UNUSED
-export function getActiveCookie(req: ExpoRequest): string | undefined {
+export function getActiveCookie(req: Request): string | undefined {
   if (!req?.cookies) {
     return undefined;
   }
@@ -34,7 +30,7 @@ export function getActiveCookie(req: ExpoRequest): string | undefined {
  * @param req
  * @returns
  */
-export function getToken(req: ExpoRequest): string | undefined {
+export function getToken(req: Request): string | undefined {
   const authHeader = req.headers.get("authorization");
   if (authHeader) {
     const authorizationHeader = authHeader.split(" ");
@@ -60,7 +56,7 @@ export async function getUser<
   TData extends Json = Json,
   TSession extends Json = Json
 >(
-  req: ExpoRequest,
+  req: Request,
   ctx: ThirdwebAuthContext<TData, TSession>
 ): Promise<ThirdwebAuthUser<TData, TSession> | null> {
   const token = getToken(req);

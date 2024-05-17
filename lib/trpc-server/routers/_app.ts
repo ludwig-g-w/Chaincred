@@ -6,7 +6,6 @@ import {
   setOrModifyProfile,
 } from "@lib/services/db/functions";
 import { TRPCError, inferProcedureOutput } from "@trpc/server";
-import * as trpcNext from "@trpc/server/adapters/next";
 import { decodeDataReviewOrAction } from "@utils/eas";
 import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
@@ -120,5 +119,3 @@ export type AppRouter = typeof appRouter;
 export type Attestation = inferProcedureOutput<
   AppRouter["attestations"]
 >[number];
-
-export { trpcNext };

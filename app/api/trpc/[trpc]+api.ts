@@ -1,9 +1,8 @@
 import { createContext } from "@lib/trpc-server/context";
 import { appRouter } from "@lib/trpc-server/routers/_app";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
-import { ExpoRequest } from "expo-router/server";
 
-export async function GET(req: ExpoRequest) {
+export async function GET(req: Request) {
   return fetchRequestHandler({
     endpoint: "/api/trpc",
     req: req as unknown as Request,
@@ -14,7 +13,7 @@ export async function GET(req: ExpoRequest) {
   });
 }
 
-export async function POST(req: ExpoRequest) {
+export async function POST(req: Request) {
   return fetchRequestHandler({
     endpoint: "/api/trpc",
     req: req as unknown as Request,

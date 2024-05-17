@@ -6,12 +6,8 @@ import {
 } from "../../../constants";
 import { getToken, getUser } from "../helpers/user";
 import type { ThirdwebAuthContext } from "../types";
-import { ExpoRequest, ExpoResponse } from "expo-router/server";
 
-export default async function handler(
-  req: ExpoRequest,
-  ctx: ThirdwebAuthContext
-) {
+export default async function handler(req: Request, ctx: ThirdwebAuthContext) {
   if (req.method !== "GET") {
     return Response.json(
       { error: "Invalid method. Only POST supported" },
@@ -20,7 +16,7 @@ export default async function handler(
   }
   const user = await getUser(req, ctx);
 
-  let res = ExpoResponse.json(user);
+  let res = Response.json(user);
   // Importantly, make sure the user was actually logged in before refreshing
   if (user) {
     const token = getToken(req);
@@ -44,7 +40,7 @@ export default async function handler(
         const refreshedToken = await ctx.auth.refresh(token, expirationTime);
         const refreshedPayload = ctx.auth.parseToken(refreshedToken);
 
-        res = new ExpoResponse(JSON.stringify(user), {
+        res = new Response(JSON.stringify(user), {
           status: 200,
           headers: {
             "Content-Type": "application/json",

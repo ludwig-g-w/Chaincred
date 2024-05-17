@@ -91,6 +91,7 @@ const Index = () => {
                         rating={subItem.data.rating}
                         comment={subItem.data.comment}
                         timeAgo={subItem.timeCreated}
+                        id={subItem.id}
                       />
                     </Box>
                   );

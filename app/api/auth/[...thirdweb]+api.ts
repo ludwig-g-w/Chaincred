@@ -1,11 +1,13 @@
 import { setOrModifyProfile } from "@lib/services/db/functions";
 import { PrivateKeyWallet } from "@thirdweb-dev/auth/evm";
-import { ExpoRequest } from "expo-router/server";
+
 import { ThirdwebAuthAppRouter as ThirdwebAuth } from "../../../thirdweb-auth-expo/src/index";
 
 export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
   domain: process.env.EXPO_PUBLIC_SERVER_URL || "",
-  wallet: new PrivateKeyWallet(process.env.THIRDWEB_AUTH_PRIVATE_KEY || ""),
+  wallet: new PrivateKeyWallet(
+    process.env.EXPO_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY
+  ),
   callbacks: {
     onToken: (token) => {},
     onLogin: async (address) => {
@@ -19,10 +21,10 @@ export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
   },
 });
 
-export function POST(req: ExpoRequest, path: { thirdweb: string }) {
+export function POST(req: Request, path: { thirdweb: string }) {
   return ThirdwebAuthHandler(req, path);
 }
 
-export function GET(req: ExpoRequest, path: { thirdweb: string }) {
+export function GET(req: Request, path: { thirdweb: string }) {
   return ThirdwebAuthHandler(req, path);
 }
