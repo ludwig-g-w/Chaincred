@@ -1,4 +1,4 @@
-// Learn more https://docs.expo.io/guides/customizing-metro
+const { withNativeWind } = require("nativewind/metro");
 const { getDefaultConfig } = require("expo/metro-config");
 
 const extraNodeModules = require("node-libs-browser");
@@ -29,4 +29,4 @@ config.transformer.getTransformOptions = async () => ({
 //   return context.resolveRequest(context, moduleName, platform);
 // };
 
-module.exports = config;
+module.exports = withNativeWind(config, { input: "./global.css" });

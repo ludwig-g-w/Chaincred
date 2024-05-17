@@ -1,6 +1,6 @@
 import ReviewListItem from "@components/ReviewListItem";
 import SuspenseFallback from "@components/SuspenseFallback";
-import { Box, Center, Text } from "@gluestack-ui/themed";
+import { Box, Center, Text, View } from "@gluestack-ui/themed";
 import { FlashList } from "@shopify/flash-list";
 import { skipToken } from "@tanstack/react-query";
 import { useUser } from "@thirdweb-dev/react-native";
@@ -41,7 +41,7 @@ const Index = () => {
   }, [attestations]);
 
   return (
-    <Box px="$2" flex={1} bg="$white">
+    <View className="bg-white" px="$2" flex={1}>
       <Text color="$textLight600" my="$4" size="lg" bold>
         All Activity
       </Text>
@@ -101,7 +101,7 @@ const Index = () => {
           }}
         />
       </Suspense>
-    </Box>
+    </View>
   );
 };
 

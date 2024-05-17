@@ -1,6 +1,7 @@
 import "@thirdweb-dev/react-native-compat";
 import "expo-dev-client";
 import "react-native-gesture-handler";
+import "../../../global.css";
 import { useAsyncStorageDevTools } from "@dev-plugins/async-storage";
 import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
 import { config } from "@gluestack-ui/config";
