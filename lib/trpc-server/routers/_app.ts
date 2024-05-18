@@ -11,6 +11,7 @@ import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
 import prisma from "@lib/services/db/prismaClient";
 import { FindManyProfileInput } from "./zod";
+import { EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW } from "@env";
 
 export const appRouter = router({
   attestations: protectedProcedure
@@ -30,7 +31,7 @@ export const appRouter = router({
               { attester: { in: attesters } },
             ],
             schemaId: {
-              in: [process.env.EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW],
+              in: [EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW],
             },
           },
         });

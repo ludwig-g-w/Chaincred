@@ -1,13 +1,14 @@
 import { setOrModifyProfile } from "@lib/services/db/functions";
 import { PrivateKeyWallet } from "@thirdweb-dev/auth/evm";
-
+import {
+  EXPO_PUBLIC_SERVER_URL,
+  EXPO_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY,
+} from "@env";
 import { ThirdwebAuthAppRouter as ThirdwebAuth } from "../../../thirdweb-auth-expo/src/index";
 
 export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
-  domain: process.env.EXPO_PUBLIC_SERVER_URL || "",
-  wallet: new PrivateKeyWallet(
-    process.env.EXPO_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY
-  ),
+  domain: EXPO_PUBLIC_SERVER_URL || "",
+  wallet: new PrivateKeyWallet(EXPO_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY),
   callbacks: {
     onToken: (token) => {},
     onLogin: async (address) => {

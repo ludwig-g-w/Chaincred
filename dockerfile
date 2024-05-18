@@ -3,6 +3,9 @@ FROM node
 
 RUN npm install -g bun
 
+# Install necessary build tools
+RUN apt-get update && apt-get install -y python3 make g++ 
+
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
@@ -13,11 +16,12 @@ COPY package.json bun.lockb ./
 
 # Install any needed packages specified in package.json
 RUN bun i
-# If you use yarn, replace the above line with:
-# RUN yarn install
-
 # Bundle the app source inside the Docker image
 COPY . .
+
+# Concatenate .env and .env.production.local into .env
+RUN cat .env.production.local >> .env
+
 ENV NODE_ENV=production
 # Make port 3000 available to the world outside this container
 EXPOSE 3000
