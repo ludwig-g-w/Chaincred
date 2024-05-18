@@ -1,5 +1,5 @@
 # Use an official Node runtime as a parent image
-FROM node
+FROM node:lts
 
 RUN npm install -g bun
 
@@ -12,10 +12,9 @@ WORKDIR /usr/src/app
 # Copy package.json and package-lock.json (or yarn.lock) into the working directory
 COPY package.json bun.lockb ./
 # If you use yarn, replace the above line with:
-# COPY package.json yarn.lock ./
 
 # Install any needed packages specified in package.json
-RUN bun i
+RUN bun install -f
 # Bundle the app source inside the Docker image
 COPY . .
 
