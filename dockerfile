@@ -14,7 +14,7 @@ COPY package.json bun.lockb ./
 # If you use yarn, replace the above line with:
 
 # Install any needed packages specified in package.json
-RUN bun install -f
+RUN bun install --no-cache
 # Bundle the app source inside the Docker image
 COPY . .
 
