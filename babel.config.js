@@ -9,7 +9,6 @@ module.exports = function (api) {
       "react-native-reanimated/plugin",
       "@babel/plugin-transform-flow-strip-types",
       ["@babel/plugin-transform-private-methods", { loose: true }],
-      "module:react-native-dotenv",
     ],
   };
 };

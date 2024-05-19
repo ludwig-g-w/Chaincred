@@ -11,7 +11,9 @@ import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
 import prisma from "@lib/services/db/prismaClient";
 import { FindManyProfileInput } from "./zod";
-import { EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW } from "@env";
+// TODO: ENV VAR move to .env when it works on server
+const EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW =
+  "0xba299dc0f2f0caf692628b8bcb62037763e865804462c85b8adcf7ef7b8beb53";
 
 export const appRouter = router({
   attestations: protectedProcedure
