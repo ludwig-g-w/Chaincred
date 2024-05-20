@@ -8,19 +8,39 @@ import {
   Text,
   VStack,
 } from "@gluestack-ui/themed";
+import { Switch } from "@lib/components/ui/switch";
+import { useColorScheme } from "@lib/useColorScheme";
 import { useLogout } from "@thirdweb-dev/react-native";
 import * as Application from "expo-application";
 import { router } from "expo-router";
 import React from "react";
+import { View } from "react-native";
 
 export default () => {
   const { logout } = useLogout();
+  const { setColorScheme, isDarkColorScheme } = useColorScheme();
   return (
     <VStack p="$4" bg="$white" gap={"$2"} flex={1}>
-      <Item
-        title="Your Profile"
-        onPress={() => router.push("/settingsProfile")}
-      />
+      <View>
+        <Item
+          title="Your Profile"
+          onPress={() => router.push("/settingsProfile")}
+        />
+
+        <HStack
+          borderBottomColor="$trueGray700"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Text>Switch Theme</Text>
+          <Switch
+            checked={isDarkColorScheme}
+            onCheckedChange={() =>
+              setColorScheme(isDarkColorScheme ? "light" : "dark")
+            }
+          />
+        </HStack>
+      </View>
       <Box mt="auto" alignItems="center">
         <Button
           rounded="$full"

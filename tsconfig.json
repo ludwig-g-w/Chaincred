@@ -22,6 +22,9 @@
       ],
       "@components/*": [
         "lib/components/*"
+      ],
+      "~/*": [
+        "*"
       ]
     },
   },
@@ -32,5 +35,6 @@
     "expo-env.d.ts",
     "lib/services/db/importCSV.js",
     "api/index.js",
+    "lib/useColorScheme.tx",
   ]
 }

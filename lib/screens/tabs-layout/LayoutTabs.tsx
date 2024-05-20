@@ -1,58 +1,55 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Box, ICustomConfig, useStyled } from "@gluestack-ui/themed";
+import { NAV_THEME } from "@lib/constants";
+import { useColorScheme } from "@lib/useColorScheme";
 import { Tabs } from "expo-router";
 
 export default function TabLayout() {
-  const theme: { config: ICustomConfig } = useStyled();
+  const { isDarkColorScheme } = useColorScheme();
+
+  const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
 
   return (
-    <Box flex={1}>
-      <Tabs
-        initialRouteName="/scanAddress"
-        screenOptions={{
-          tabBarActiveTintColor: theme.config.tokens.colors.blue500,
-          header: () => null,
-          tabBarStyle: {
-            backgroundColor: theme.config.tokens.colors.white,
-            borderTopColor: theme.config.tokens.colors.borderLight200,
-          },
+    <Tabs
+      initialRouteName="/scanAddress"
+      screenOptions={{
+        tabBarActiveTintColor: theme.primary,
+        header: () => null,
+        tabBarStyle: {
+          backgroundColor: theme.background,
+          borderTopColor: theme.border,
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="(home)"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
-      >
-        <Tabs.Screen
-          name="(home)"
-          options={{
-            title: "Home",
-            tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-          }}
-        />
+      />
 
-        <Tabs.Screen
-          name="(discover)"
-          options={{
-            title: "Discover",
-            tabBarIcon: ({ color }) => (
-              <TabBarIcon name="search" color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="scanAddress"
-          options={{
-            title: "Scan",
-            tabBarIcon: ({ color }) => (
-              <TabBarIcon name="camera" color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="(settings)"
-          options={{
-            title: "Settings",
-            tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
-          }}
-        />
-      </Tabs>
-    </Box>
+      <Tabs.Screen
+        name="(discover)"
+        options={{
+          title: "Discover",
+          tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="scanAddress"
+        options={{
+          title: "Scan",
+          tabBarIcon: ({ color }) => <TabBarIcon name="camera" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="(settings)"
+        options={{
+          title: "Settings",
+          tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
+        }}
+      />
+    </Tabs>
   );
 }
 

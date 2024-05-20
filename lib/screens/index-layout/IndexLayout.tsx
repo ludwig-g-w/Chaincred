@@ -5,11 +5,12 @@ import "../../../global.css";
 import { useAsyncStorageDevTools } from "@dev-plugins/async-storage";
 import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
 import { config } from "@gluestack-ui/config";
+import { StatusBar } from "expo-status-bar";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import NetInfo from "@react-native-community/netinfo";
 import { onlineManager } from "@tanstack/react-query";
 import TRPCProvider from "@utils/tRPCProvider";
-import { Stack, useNavigationContainerRef } from "expo-router";
+import { SplashScreen, Stack, useNavigationContainerRef } from "expo-router";
 import React, { StrictMode } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
@@ -18,6 +19,10 @@ import { useCallback } from "react";
 import Header from "./Header";
 import MyThirdwebProvider from "./ThirdwebProvider";
 import { useRedirectAuth } from "./useRedirectAuth";
+import { useSelectColorScheme } from "@lib/utils/hooks";
+import { useColorScheme } from "@lib/useColorScheme";
+
+SplashScreen.preventAutoHideAsync();
 
 const App = () => {
   const navigationRef = useNavigationContainerRef();
@@ -46,7 +51,11 @@ const App = () => {
 };
 
 const Inner = () => {
+  useSelectColorScheme();
   useRedirectAuth();
+
+  const { isDarkColorScheme } = useColorScheme();
+
   onlineManager.setEventListener((setOnline) => {
     return NetInfo.addEventListener((state) => {
       setOnline(!!state.isConnected);
@@ -56,29 +65,32 @@ const Inner = () => {
   const header = useCallback(() => <Header />, []);
 
   return (
-    <Stack
-      initialRouteName="(tabs)"
-      screenOptions={{
-        header,
-      }}
-    >
-      <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="login" />
-      <Stack.Screen
-        options={{
-          header: () => null,
-          presentation: "modal",
+    <>
+      <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+      <Stack
+        initialRouteName="(tabs)"
+        screenOptions={{
+          header,
         }}
-        name="wrongAccount"
-      />
-      <Stack.Screen
-        options={{
-          header: () => null,
-          presentation: "modal",
-        }}
-        name="profiles/[address]"
-      />
-    </Stack>
+      >
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="login" />
+        <Stack.Screen
+          options={{
+            header: () => null,
+            presentation: "modal",
+          }}
+          name="wrongAccount"
+        />
+        <Stack.Screen
+          options={{
+            header: () => null,
+            presentation: "modal",
+          }}
+          name="profiles/[address]"
+        />
+      </Stack>
+    </>
   );
 };
 

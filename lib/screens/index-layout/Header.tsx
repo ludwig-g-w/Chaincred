@@ -1,16 +1,13 @@
-import "@thirdweb-dev/react-native-compat";
-import "expo-dev-client";
 import { router } from "expo-router";
 import React from "react";
-import "react-native-gesture-handler";
-
-import { Box, ChevronLeftIcon, Text } from "@gluestack-ui/themed";
+import { Box, ChevronLeftIcon, Text, Theme } from "@gluestack-ui/themed";
 import { ConnectWallet } from "@thirdweb-dev/react-native";
 import { usePathname } from "expo-router";
 import { memo } from "react";
-import { Pressable } from "react-native";
+import { Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { match } from "ts-pattern";
+import { NAV_THEME } from "@lib/constants";
 
 const Header = memo(() => {
   const path = usePathname();
@@ -28,7 +25,7 @@ const Header = memo(() => {
     );
 
   return (
-    <Box bg="white" pb="$4">
+    <View className="bg-background ">
       <SafeAreaView />
       <Box
         w={"$full"}
@@ -59,7 +56,7 @@ const Header = memo(() => {
 
         <ConnectWallet />
       </Box>
-    </Box>
+    </View>
   );
 });
 

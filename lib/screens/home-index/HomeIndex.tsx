@@ -1,11 +1,19 @@
 import ReviewListItem from "@components/ReviewListItem";
 import SuspenseFallback from "@components/SuspenseFallback";
-import { Box, Center, Text, View } from "@gluestack-ui/themed";
+import { Box, Text, View } from "@gluestack-ui/themed";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@lib/components/ui/card";
 import { FlashList } from "@shopify/flash-list";
 import { skipToken } from "@tanstack/react-query";
 import { useUser } from "@thirdweb-dev/react-native";
 import { trpc } from "@utils/trpc";
-import { isReviewItem, Attestation } from "@utils/types";
+import { Attestation, isReviewItem } from "@utils/types";
 import { format, parseISO } from "date-fns";
 import React, { Suspense, useMemo } from "react";
 
@@ -41,7 +49,7 @@ const Index = () => {
   }, [attestations]);
 
   return (
-    <View className="bg-background" px="$2" flex={1}>
+    <View className="bg-background px-2 flex-1">
       <Text color="$textLight600" my="$4" size="lg" bold>
         All Activity
       </Text>
@@ -55,9 +63,18 @@ const Index = () => {
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <Box h="$4" />}
           ListEmptyComponent={
-            <View className="aspect-square rounded-md bg-foreground items-center justify-center">
-              <Text className="color-white">Start here</Text>
-            </View>
+            <Card className="w-full bg-card ring-4">
+              <CardHeader>
+                <CardTitle>Card Title</CardTitle>
+                <CardDescription>Card Description</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Text>Card Content</Text>
+              </CardContent>
+              <CardFooter>
+                <Text>Card Footer</Text>
+              </CardFooter>
+            </Card>
           }
           renderItem={({ item }) => {
             const [date, items] = item;
