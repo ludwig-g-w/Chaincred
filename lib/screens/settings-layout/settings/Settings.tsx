@@ -20,7 +20,7 @@ export default () => {
   const { logout } = useLogout();
   const { setColorScheme, isDarkColorScheme } = useColorScheme();
   return (
-    <VStack p="$4" bg="$white" gap={"$2"} flex={1}>
+    <View className="bg-background px-2 flex-1">
       <View>
         <Item
           title="Your Profile"
@@ -60,7 +60,7 @@ export default () => {
           build: {Application.nativeBuildVersion}{" "}
         </Text>
       </Box>
-    </VStack>
+    </View>
   );
 
   function Item({ title = "", onPress = () => {} }) {

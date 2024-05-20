@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import React from "react";
-import { Box, ChevronLeftIcon, Text, Theme } from "@gluestack-ui/themed";
+import { Box, ChevronLeftIcon, Text } from "@gluestack-ui/themed";
 import { ConnectWallet } from "@thirdweb-dev/react-native";
 import { usePathname } from "expo-router";
 import { memo } from "react";
@@ -8,9 +8,16 @@ import { Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { match } from "ts-pattern";
 import { NAV_THEME } from "@lib/constants";
+import {
+  _lightTheme,
+  _darkTheme,
+} from "@thirdweb-dev/react-native/dist/evm/styles/theme";
+import { useColorScheme } from "@lib/useColorScheme";
 
 const Header = memo(() => {
+  const { isDarkColorScheme } = useColorScheme();
   const path = usePathname();
+  const tTheme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
 
   const title = match(path)
     .with("/", () => "Home")
@@ -24,8 +31,10 @@ const Header = memo(() => {
       (path) => `${path.toLocaleUpperCase().slice(1, 2)}${path.slice(2, 13)}`
     );
 
+  const theme = isDarkColorScheme ? _darkTheme : _lightTheme;
+
   return (
-    <View className="bg-background ">
+    <View className="bg-background py-2">
       <SafeAreaView />
       <Box
         w={"$full"}
@@ -54,7 +63,15 @@ const Header = memo(() => {
           </Text>
         </Box>
 
-        <ConnectWallet />
+        <ConnectWallet
+          theme={{
+            ...theme,
+            colors: {
+              ...theme.colors,
+              buttonBackgroundColor: tTheme.background,
+            },
+          }}
+        />
       </Box>
     </View>
   );

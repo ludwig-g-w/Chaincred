@@ -73,7 +73,7 @@
     --radius: 0.5rem;
   }
 
-  .dark {
+  .dark:root {
     --background: 270 50% 1%;
     --foreground: 270 23% 100%;
     --muted: 30 36% 7%;

@@ -21,7 +21,6 @@ import { useRefreshOnFocus } from "@lib/utils/hooks";
 import { trpc } from "@lib/utils/trpc";
 import { Profile } from "@prisma/client";
 import { Location } from "@services/supabase";
-import { skipToken } from "@tanstack/react-query";
 import { useUser } from "@thirdweb-dev/react-native";
 import { pickImage, uploadImage } from "@utils/uploading";
 import * as ImagePicker from "expo-image-picker";
@@ -146,14 +145,9 @@ export default function SettingsProfile() {
   const insets = useSafeAreaInsets();
 
   return (
-    <KeyboardAwareScrollView
-      style={{
-        backgroundColor: "white",
-        flex: 1,
-      }}
-    >
+    <KeyboardAwareScrollView className="bg-background flex-1">
       <Suspense fallback={<SuspenseFallback />}>
-        <View bg="$white" p="$4" gap={"$2"}>
+        <View p="$4" gap={"$2"}>
           <View w="$full" alignItems="center">
             <ImageUploadArea
               img={image?.uri ?? profile?.image_url}
@@ -272,8 +266,8 @@ const EditableField = ({
             <FormControl flex={1}>{children}</FormControl>
 
             <Pressable
-              aspectRatio={1}
               onPress={onSave}
+              aspectRatio={1}
               w="$8"
               bg="$green500"
               rounded="$full"
