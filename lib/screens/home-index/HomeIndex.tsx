@@ -41,7 +41,7 @@ const Index = () => {
   }, [attestations]);
 
   return (
-    <View className="bg-white" px="$2" flex={1}>
+    <View className="bg-background" px="$2" flex={1}>
       <Text color="$textLight600" my="$4" size="lg" bold>
         All Activity
       </Text>
@@ -55,16 +55,9 @@ const Index = () => {
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <Box h="$4" />}
           ListEmptyComponent={
-            <Box
-              h="$11"
-              justifyContent="center"
-              alignItems="center"
-              rounded="$md"
-            >
-              <Text underline size="3xl" bold>
-                No Activity
-              </Text>
-            </Box>
+            <View className="aspect-square rounded-md bg-foreground items-center justify-center">
+              <Text className="color-white">Start here</Text>
+            </View>
           }
           renderItem={({ item }) => {
             const [date, items] = item;

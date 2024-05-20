@@ -4,7 +4,6 @@ import { Image } from "expo-image";
 import React from "react";
 import { Pressable } from "react-native";
 import { isAddress, shortenAddress } from "../utils";
-export const height = 160;
 
 type Props = Profile & {
   onPress: () => void;
@@ -33,7 +32,6 @@ const ProfileListItem = (props: Props) => {
               aspectRatio: 1,
               borderRadius: 100,
             }}
-            cachePolicy={"none"}
             source={{
               uri: props.image_url ?? "",
             }}

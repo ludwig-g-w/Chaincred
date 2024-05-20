@@ -10,7 +10,7 @@ import NetInfo from "@react-native-community/netinfo";
 import { onlineManager } from "@tanstack/react-query";
 import TRPCProvider from "@utils/tRPCProvider";
 import { Stack, useNavigationContainerRef } from "expo-router";
-import React from "react";
+import React, { StrictMode } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import MyErrorBoundary from "@lib/components/ErrorBoudary";
@@ -29,17 +29,19 @@ const App = () => {
   });
 
   return (
-    <MyErrorBoundary>
-      <TRPCProvider>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <GluestackUIProvider config={config}>
-            <MyThirdwebProvider>
-              <Inner />
-            </MyThirdwebProvider>
-          </GluestackUIProvider>
-        </GestureHandlerRootView>
-      </TRPCProvider>
-    </MyErrorBoundary>
+    <StrictMode>
+      <MyErrorBoundary>
+        <TRPCProvider>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <GluestackUIProvider config={config}>
+              <MyThirdwebProvider>
+                <Inner />
+              </MyThirdwebProvider>
+            </GluestackUIProvider>
+          </GestureHandlerRootView>
+        </TRPCProvider>
+      </MyErrorBoundary>
+    </StrictMode>
   );
 };
 
