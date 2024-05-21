@@ -15,7 +15,7 @@ import * as Application from "expo-application";
 import { router } from "expo-router";
 import React from "react";
 import { View } from "react-native";
-
+import * as Typo from "@lib/components/ui/typography";
 export default () => {
   const { logout } = useLogout();
   const { setColorScheme, isDarkColorScheme } = useColorScheme();
@@ -32,7 +32,7 @@ export default () => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Text>Switch Theme</Text>
+          <Typo.H4>Dark theme</Typo.H4>
           <Switch
             checked={isDarkColorScheme}
             onCheckedChange={() =>
@@ -71,7 +71,7 @@ export default () => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Text>{title}</Text>
+          <Typo.H4>{title}</Typo.H4>
           <FontAwesome name="chevron-right" />
         </HStack>
       </Pressable>

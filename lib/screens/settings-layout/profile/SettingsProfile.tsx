@@ -9,13 +9,11 @@ import {
   HStack,
   Input,
   InputField,
-  Pressable,
-  Text,
   Textarea,
   TextareaInput,
-  View,
   useToast,
 } from "@gluestack-ui/themed";
+import { Pressable, Text, View } from "react-native";
 import SuspenseFallback from "@lib/components/SuspenseFallback";
 import { useRefreshOnFocus } from "@lib/utils/hooks";
 import { trpc } from "@lib/utils/trpc";
@@ -30,6 +28,12 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import invariant from "tiny-invariant";
+import * as Typo from "@lib/components/ui/typography";
+import { SymbolView } from "expo-symbols";
+import { Label } from "@lib/components/ui/label";
+import { NAV_THEME } from "@lib/constants";
+import { useColorScheme } from "@lib/useColorScheme";
+import { cssInterop } from "nativewind";
 
 export default function SettingsProfile() {
   const { user } = useUser();
@@ -47,7 +51,8 @@ export default function SettingsProfile() {
       address: user?.address ?? "",
     },
   });
-
+  const { isDarkColorScheme } = useColorScheme();
+  const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
   useEffect(() => {
     if (!!fetchedProfile?.[0]) {
       setProfile(fetchedProfile[0]);
@@ -145,98 +150,102 @@ export default function SettingsProfile() {
   const insets = useSafeAreaInsets();
 
   return (
-    <KeyboardAwareScrollView className="bg-background flex-1">
-      <Suspense fallback={<SuspenseFallback />}>
-        <View p="$4" gap={"$2"}>
-          <View w="$full" alignItems="center">
-            <ImageUploadArea
-              img={image?.uri ?? profile?.image_url}
-              onPress={handleImageUpload}
-            />
-          </View>
-          <EditableField
-            label="Location"
-            isEditing={isEditing.location}
-            onSave={() => handleFieldSave("location")}
-            profileValue={profile?.location_name}
-            setEditing={setEditing}
-          >
-            <GooglePlacesAutocomplete
-              disableScroll
-              placeholder="Where you are based?"
-              keepResultsAfterBlur
-              styles={{
-                container: {
-                  flex: 0,
-                  zIndex: 99,
-                },
-                listView: {
-                  zIndex: 99,
-                },
-                textInput: {
-                  zIndex: 99,
-                  borderWidth: 2,
-                  borderColor: "#eaeaea",
-                  borderRadius: 20,
-                },
-              }}
-              fetchDetails
-              onPress={(data, details = null) => {
-                setLocation({
-                  coords: `${details?.geometry.location.lat},${details?.geometry.location.lng}`,
-                  name: details?.formatted_address,
-                });
-              }}
-              query={{
-                key: process.env.EXPO_PUBLIC_API_KEY_GOOGLE,
-                language: "en",
-              }}
-            />
-          </EditableField>
-
-          <EditableField
-            label="Title"
-            isEditing={isEditing.title}
-            onSave={() => handleFieldSave("title")}
-            profileValue={profile?.title}
-            setEditing={setEditing}
-          >
-            <Input
-              bg="$white"
-              borderRadius="$lg"
-              h="$12"
-              borderWidth="$1"
-              borderColor="$borderLight300"
+    <>
+      <KeyboardAwareScrollView className="bg-background flex-1 p-2 ">
+        <Suspense fallback={<SuspenseFallback />}>
+          <View className="gap-2 p-4">
+            <View className="w-full items-center">
+              <ImageUploadArea
+                img={image?.uri ?? profile?.image_url}
+                onPress={handleImageUpload}
+              />
+            </View>
+            <EditableField
+              label="Location"
+              isEditing={isEditing.location}
+              onSave={() => handleFieldSave("location")}
+              profileValue={profile?.location_name}
+              setEditing={setEditing}
             >
-              <InputField
-                value={title}
-                onChangeText={setTitle}
-                placeholder={"Enter your name"}
+              <GooglePlacesAutocomplete
+                disableScroll
+                placeholder="Where you are based?"
+                keepResultsAfterBlur
+                styles={{
+                  container: {
+                    flex: 0,
+                    zIndex: 99,
+                  },
+                  listView: {
+                    zIndex: 99,
+                  },
+                  textInput: {
+                    zIndex: 99,
+                    borderWidth: 2,
+                    borderColor: "#eaeaea",
+                    borderRadius: 20,
+                  },
+                }}
+                fetchDetails
+                onPress={(data, details = null) => {
+                  setLocation({
+                    coords: `${details?.geometry.location.lat},${details?.geometry.location.lng}`,
+                    name: details?.formatted_address,
+                  });
+                }}
+                query={{
+                  key: process.env.EXPO_PUBLIC_API_KEY_GOOGLE,
+                  language: "en",
+                }}
               />
-            </Input>
-          </EditableField>
+            </EditableField>
 
-          <EditableField
-            label="Description"
-            isEditing={isEditing.description}
-            onSave={() => handleFieldSave("description")}
-            profileValue={profile?.description}
-            setEditing={setEditing}
-          >
-            <Textarea>
-              <TextareaInput
-                value={description}
-                onChangeText={setDescription}
-                placeholder={"Describe your yourself"}
-              />
-            </Textarea>
-          </EditableField>
-          <MainButton mt="auto" loading={loading} onPress={submit}>
-            Save changes
-          </MainButton>
-        </View>
-      </Suspense>
-    </KeyboardAwareScrollView>
+            <EditableField
+              label="Title"
+              isEditing={isEditing.title}
+              onSave={() => handleFieldSave("title")}
+              profileValue={profile?.title}
+              setEditing={setEditing}
+            >
+              <Input
+                bg="$white"
+                borderRadius="$lg"
+                h="$12"
+                borderWidth="$1"
+                borderColor="$borderLight300"
+              >
+                <InputField
+                  value={title}
+                  onChangeText={setTitle}
+                  placeholder={"Enter your name"}
+                />
+              </Input>
+            </EditableField>
+
+            <EditableField
+              label="Description"
+              isEditing={isEditing.description}
+              onSave={() => handleFieldSave("description")}
+              profileValue={profile?.description}
+              setEditing={setEditing}
+            >
+              <Textarea>
+                <TextareaInput
+                  value={description}
+                  onChangeText={setDescription}
+                  placeholder={"Describe your yourself"}
+                />
+              </Textarea>
+            </EditableField>
+          </View>
+        </Suspense>
+      </KeyboardAwareScrollView>
+      <View className="absolute bottom-4 w-full px-2">
+        <MainButton loading={loading} onPress={submit}>
+          Save changes
+        </MainButton>
+      </View>
+    </>
   );
 }
 
@@ -257,41 +266,42 @@ const EditableField = ({
   setEditing,
   children,
 }: EditableFieldProps) => {
+  const { isDarkColorScheme } = useColorScheme();
+  const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
   return (
     <>
-      <FormControlLabelText>{label}</FormControlLabelText>
-      <HStack gap={"$2"} justifyContent="space-between">
+      <Label nativeID="asdsa">{label}</Label>
+      <HStack
+        width={"$full"}
+        justifyContent="space-between"
+        alignItems="center"
+      >
         {isEditing ? (
           <>
             <FormControl flex={1}>{children}</FormControl>
-
-            <Pressable
-              onPress={onSave}
-              aspectRatio={1}
-              w="$8"
-              bg="$green500"
-              rounded="$full"
-              mt="$1.5"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <CheckCircleIcon size="sm" color="white" />
+            <Pressable onPress={onSave}>
+              <TailwindSymbolView
+                className="w-5 aspect-square color-primary"
+                name="checkmark.circle"
+                type="hierarchical"
+                tintColor={theme.primary}
+              />
             </Pressable>
           </>
         ) : (
           <>
-            <Text flex={1}>{profileValue || `No ${label.toLowerCase()}`}</Text>
+            <Typo.Lead>{profileValue || `No ${label.toLowerCase()}`}</Typo.Lead>
             <Pressable
               onPress={() =>
                 setEditing((prev) => ({ ...prev, [label.toLowerCase()]: true }))
               }
-              aspectRatio={1}
-              w="$8"
-              p="$2"
-              bg="$blue500"
-              rounded="$full"
             >
-              <EditIcon size="sm" color="white" />
+              <TailwindSymbolView
+                name="pencil.circle"
+                type="hierarchical"
+                tintColor={theme.primary}
+                className="w-5 aspect-square color-primary"
+              />
             </Pressable>
           </>
         )}
@@ -299,3 +309,9 @@ const EditableField = ({
     </>
   );
 };
+
+const TailwindSymbolView = cssInterop(SymbolView, {
+  className: {
+    target: "style",
+  },
+});
