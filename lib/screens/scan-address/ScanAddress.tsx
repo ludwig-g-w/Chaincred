@@ -119,14 +119,14 @@ const ScanScreen = () => {
   if (hasPermission === null) {
     return (
       <View className="flex-1 items-center justify-center bg-background">
-        <Typo.H3>Requesting for camera permission</Typo.H3>;
+        <Typo.H3>Requesting for camera permission</Typo.H3>
       </View>
     );
   }
   if (hasPermission === false) {
     return (
       <View className="flex-1 items-center justify-center bg-background">
-        <Typo.H3>No access to camera</Typo.H3>;
+        <Typo.H3>No access to camera</Typo.H3>
       </View>
     );
   }

@@ -1,56 +1,47 @@
-import { HStack, Pressable, Text, View } from "@gluestack-ui/themed";
+import React from "react";
+import { View, Pressable, Text } from "react-native";
 import { Link, Stack, usePathname } from "expo-router";
+import * as Typo from "@lib/components/ui/typography";
 
-export default () => {
+export default function App() {
   const path = usePathname();
-
   const isMap = path === "/discoverMap" ?? true;
 
   return (
-    <View flex={1}>
-      <View
-        right="$4"
-        bottom="$4"
-        position="absolute"
-        zIndex={99}
-        justifyContent="center"
-      >
-        <HStack
-          hardShadow="2"
-          shadowRadius="$1"
-          shadowColor="$black"
-          borderRadius="$full"
-          bg="$backgroundLight400"
-        >
-          <Link asChild href={"/discoverMap"}>
-            <Pressable
-              alignItems="center"
-              borderTopLeftRadius="$full"
-              borderBottomLeftRadius="$full"
-              bg={isMap ? "$blue500" : "$backgroundLight400"}
-              p="$2"
-              pl="$4"
+    <View className="flex-1">
+      <View className="w-full flex-row bg-background pb-2">
+        <Link href="/discoverMap" asChild>
+          <Pressable
+            className={`flex items-center rounded-l-full w-24 px-4 py-2 ${
+              isMap ? "bg-accent" : "bg-gray-300"
+            }`}
+          >
+            <Typo.Muted
+              className={`font-bold ${
+                isMap ? "text-accent-foreground" : "text-gray-800"
+              }`}
             >
-              <Text color={isMap ? "white" : "$textLight100"} bold>
-                Map
-              </Text>
-            </Pressable>
-          </Link>
-          <Link asChild href={"/discoverList"}>
-            <Pressable
-              borderTopRightRadius="$full"
-              borderBottomRightRadius="$full"
-              bg={!isMap ? "$blue500" : "$backgroundLight400"}
-              p="$2"
-              pr="$4"
+              Map
+            </Typo.Muted>
+          </Pressable>
+        </Link>
+        <Link href="/discoverList" asChild>
+          <Pressable
+            className={`flex items-center rounded-r-full px-4 py-2 w-24 ${
+              !isMap ? "bg-accent" : "bg-gray-300"
+            }`}
+          >
+            <Typo.Muted
+              className={`font-bold ${
+                !isMap ? "text-accent-foreground" : "text-gray-800"
+              }`}
             >
-              <Text color={!isMap ? "white" : "$textLight100"} bold>
-                List
-              </Text>
-            </Pressable>
-          </Link>
-        </HStack>
+              List
+            </Typo.Muted>
+          </Pressable>
+        </Link>
       </View>
+
       <Stack
         screenOptions={{
           headerShown: false,
@@ -62,4 +53,4 @@ export default () => {
       </Stack>
     </View>
   );
-};
+}

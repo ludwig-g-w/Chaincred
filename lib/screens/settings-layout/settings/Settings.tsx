@@ -1,5 +1,6 @@
-import { Box, Button, ButtonText, HStack, Text } from "@gluestack-ui/themed";
+import { HStack } from "@gluestack-ui/themed";
 import { NWSymbolView } from "@lib/components/nativeWindInterop";
+import { Button } from "@lib/components/ui/button";
 import { Switch } from "@lib/components/ui/switch";
 import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME } from "@lib/constants";
@@ -29,29 +30,22 @@ export default () => {
           />
         </Item>
       </View>
-      <Box mt="auto" alignItems="center">
+      <View className="mt-auto items-center">
         <Button
-          rounded="$full"
           variant="outline"
+          className="rounded-full w-[70%] border-secondary overflow-visible"
           //   @ts-ignore
           onPress={logout}
-          borderColor="$backgroundLight500"
-          bg="$backgroundLight200"
-          w="70%"
         >
-          <ButtonText color="$backgroundLight900">Logout</ButtonText>
+          <Typo.Lead className="color-secondary pb-4">Logout</Typo.Lead>
         </Button>
-        <Text color="$textLight500">
-          Version: {Application.nativeApplicationVersion}
-        </Text>
-        <Text color="$textLight500">
-          build: {Application.nativeBuildVersion}{" "}
-        </Text>
-      </Box>
+        <Typo.Muted>Version: {Application.nativeApplicationVersion}</Typo.Muted>
+        <Typo.Small>build: {Application.nativeBuildVersion} </Typo.Small>
+      </View>
     </View>
   );
 
-  function Item({ title = "", onPress = () => {}, children = null }) {
+  function Item({ title = "", onPress = () => {}, children = null as any }) {
     return (
       <Pressable
         className="px-2 py-4 border-b-hairline border-secondary"
