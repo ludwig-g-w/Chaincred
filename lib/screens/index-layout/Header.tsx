@@ -13,6 +13,7 @@ import {
   _darkTheme,
 } from "@thirdweb-dev/react-native/dist/evm/styles/theme";
 import { useColorScheme } from "@lib/useColorScheme";
+import * as Typo from "@lib/components/ui/typography";
 
 const Header = memo(() => {
   const { isDarkColorScheme } = useColorScheme();
@@ -58,9 +59,7 @@ const Header = memo(() => {
               <ChevronLeftIcon size="xl" />
             </Pressable>
           )}
-          <Text bold size="xl">
-            {title}
-          </Text>
+          <Typo.H2 className="font-extrabold">{title}</Typo.H2>
         </Box>
 
         <ConnectWallet

@@ -1,20 +1,15 @@
 import ImageUploadArea from "@components/ImageUploadArea";
 import MainButton from "@components/MainButton";
 import MyToast from "@components/Toast";
-import {
-  CheckCircleIcon,
-  EditIcon,
-  FormControl,
-  FormControlLabelText,
-  HStack,
-  Input,
-  InputField,
-  Textarea,
-  TextareaInput,
-  useToast,
-} from "@gluestack-ui/themed";
-import { Pressable, Text, View } from "react-native";
+import { FormControl, HStack, useToast } from "@gluestack-ui/themed";
 import SuspenseFallback from "@lib/components/SuspenseFallback";
+import { NWSymbolView } from "@lib/components/nativeWindInterop";
+import { Input } from "@lib/components/ui/input";
+import { Label } from "@lib/components/ui/label";
+import { Textarea } from "@lib/components/ui/textarea";
+import * as Typo from "@lib/components/ui/typography";
+import { NAV_THEME } from "@lib/constants";
+import { useColorScheme } from "@lib/useColorScheme";
 import { useRefreshOnFocus } from "@lib/utils/hooks";
 import { trpc } from "@lib/utils/trpc";
 import { Profile } from "@prisma/client";
@@ -23,17 +18,14 @@ import { useUser } from "@thirdweb-dev/react-native";
 import { pickImage, uploadImage } from "@utils/uploading";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
+import { SymbolView } from "expo-symbols";
+import { cssInterop } from "nativewind";
 import React, { ReactElement, Suspense, useEffect, useState } from "react";
+import { Pressable, View } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import invariant from "tiny-invariant";
-import * as Typo from "@lib/components/ui/typography";
-import { SymbolView } from "expo-symbols";
-import { Label } from "@lib/components/ui/label";
-import { NAV_THEME } from "@lib/constants";
-import { useColorScheme } from "@lib/useColorScheme";
-import { cssInterop } from "nativewind";
 
 export default function SettingsProfile() {
   const { user } = useUser();
@@ -45,7 +37,7 @@ export default function SettingsProfile() {
     name: undefined,
   });
   const [loading, setLoading] = useState(false);
-  const [profile, setProfile] = useState();
+  const [profile, setProfile] = useState<Profile>();
   const [fetchedProfile, { refetch }] = trpc.profiles.useSuspenseQuery({
     where: {
       address: user?.address ?? "",
@@ -55,7 +47,7 @@ export default function SettingsProfile() {
   const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
   useEffect(() => {
     if (!!fetchedProfile?.[0]) {
-      setProfile(fetchedProfile[0]);
+      setProfile(fetchedProfile[0] as unknown as Profile);
     }
   }, [fetchedProfile]);
 
@@ -136,7 +128,7 @@ export default function SettingsProfile() {
         updateObject.description = description;
       if (fieldName === "location" && location.name) {
         updateObject.location_name = location.name;
-        updateObject.location_coords = location.coords;
+        updateObject.location_coords = location.coords ?? null;
       }
       setProfile((prev) => ({ ...prev, ...updateObject }));
       setEditing((prev) => ({ ...prev, [fieldName]: false }));
@@ -147,7 +139,7 @@ export default function SettingsProfile() {
     }
   };
 
-  const insets = useSafeAreaInsets();
+  // const insets = useSafeAreaInsets();
 
   return (
     <>
@@ -156,7 +148,7 @@ export default function SettingsProfile() {
           <View className="gap-2 p-4">
             <View className="w-full items-center">
               <ImageUploadArea
-                img={image?.uri ?? profile?.image_url}
+                img={image?.uri ?? profile?.image_url ?? ""}
                 onPress={handleImageUpload}
               />
             </View>
@@ -173,7 +165,6 @@ export default function SettingsProfile() {
                 keepResultsAfterBlur
                 styles={{
                   container: {
-                    flex: 0,
                     zIndex: 99,
                   },
                   listView: {
@@ -208,18 +199,11 @@ export default function SettingsProfile() {
               setEditing={setEditing}
             >
               <Input
-                bg="$white"
-                borderRadius="$lg"
-                h="$12"
-                borderWidth="$1"
-                borderColor="$borderLight300"
-              >
-                <InputField
-                  value={title}
-                  onChangeText={setTitle}
-                  placeholder={"Enter your name"}
-                />
-              </Input>
+                className="border-secondary focus:border-2"
+                value={title}
+                onChangeText={setTitle}
+                placeholder={"Enter your name"}
+              />
             </EditableField>
 
             <EditableField
@@ -229,13 +213,12 @@ export default function SettingsProfile() {
               profileValue={profile?.description}
               setEditing={setEditing}
             >
-              <Textarea>
-                <TextareaInput
-                  value={description}
-                  onChangeText={setDescription}
-                  placeholder={"Describe your yourself"}
-                />
-              </Textarea>
+              <Textarea
+                className="border-secondary focus:border-2"
+                value={description}
+                onChangeText={setDescription}
+                placeholder={"Describe your yourself"}
+              />
             </EditableField>
           </View>
         </Suspense>
@@ -252,8 +235,8 @@ export default function SettingsProfile() {
 type EditableFieldProps = {
   label: string;
   isEditing: boolean;
-  onSave: Function;
-  profileValue?: string;
+  onSave: () => void;
+  profileValue?: string | null;
   setEditing: Function;
   children: ReactElement;
 };
@@ -271,20 +254,16 @@ const EditableField = ({
   return (
     <>
       <Label nativeID="asdsa">{label}</Label>
-      <HStack
-        width={"$full"}
-        justifyContent="space-between"
-        alignItems="center"
-      >
+      <View className="flex-row w-full justify-between items-center min-h-12 gap-4">
         {isEditing ? (
           <>
-            <FormControl flex={1}>{children}</FormControl>
+            <View flex={1}>{children}</View>
             <Pressable onPress={onSave}>
-              <TailwindSymbolView
-                className="w-5 aspect-square color-primary"
+              <NWSymbolView
+                className="w-8 aspect-square"
                 name="checkmark.circle"
                 type="hierarchical"
-                tintColor={theme.primary}
+                tintColor={theme.secondary}
               />
             </Pressable>
           </>
@@ -293,25 +272,22 @@ const EditableField = ({
             <Typo.Lead>{profileValue || `No ${label.toLowerCase()}`}</Typo.Lead>
             <Pressable
               onPress={() =>
-                setEditing((prev) => ({ ...prev, [label.toLowerCase()]: true }))
+                setEditing((prev: any) => ({
+                  ...prev,
+                  [label.toLowerCase()]: true,
+                }))
               }
             >
-              <TailwindSymbolView
+              <NWSymbolView
                 name="pencil.circle"
                 type="hierarchical"
-                tintColor={theme.primary}
-                className="w-5 aspect-square color-primary"
+                tintColor={theme.secondary}
+                className="w-8 aspect-square "
               />
             </Pressable>
           </>
         )}
-      </HStack>
+      </View>
     </>
   );
 };
-
-const TailwindSymbolView = cssInterop(SymbolView, {
-  className: {
-    target: "style",
-  },
-});

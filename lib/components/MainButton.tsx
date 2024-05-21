@@ -10,7 +10,11 @@ type Props = {
 
 const MainButton = ({ loading, children, ...rest }: Props) => {
   return (
-    <Button className={`rounded-full h-16 `} {...rest} disabled={loading}>
+    <Button
+      className={`rounded-full h-16 items-center justify-center active:scale-90 transition-all`}
+      {...rest}
+      disabled={loading}
+    >
       <Typo.Large className="color-primary-foreground">{children}</Typo.Large>
       {loading && (
         <ButtonSpinner color="$white" right="$4" position="absolute" />
