@@ -1,45 +1,33 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {
-  Box,
-  Button,
-  ButtonText,
-  HStack,
-  Pressable,
-  Text,
-  VStack,
-} from "@gluestack-ui/themed";
+import { Box, Button, ButtonText, HStack, Text } from "@gluestack-ui/themed";
+import { NWSymbolView } from "@lib/components/nativeWindInterop";
 import { Switch } from "@lib/components/ui/switch";
+import * as Typo from "@lib/components/ui/typography";
+import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
 import { useLogout } from "@thirdweb-dev/react-native";
 import * as Application from "expo-application";
 import { router } from "expo-router";
 import React from "react";
-import { View } from "react-native";
-import * as Typo from "@lib/components/ui/typography";
+import { Pressable, View } from "react-native";
 export default () => {
   const { logout } = useLogout();
   const { setColorScheme, isDarkColorScheme } = useColorScheme();
+  const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
   return (
-    <View className="bg-background px-2 flex-1">
+    <View className="bg-background flex-1">
       <View>
         <Item
           title="Your Profile"
           onPress={() => router.push("/settingsProfile")}
         />
-
-        <HStack
-          borderBottomColor="$trueGray700"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Typo.H4>Dark theme</Typo.H4>
+        <Item title="Dark Theme">
           <Switch
             checked={isDarkColorScheme}
             onCheckedChange={() =>
               setColorScheme(isDarkColorScheme ? "light" : "dark")
             }
           />
-        </HStack>
+        </Item>
       </View>
       <Box mt="auto" alignItems="center">
         <Button
@@ -63,16 +51,24 @@ export default () => {
     </View>
   );
 
-  function Item({ title = "", onPress = () => {} }) {
+  function Item({ title = "", onPress = () => {}, children = null }) {
     return (
-      <Pressable py="$4" onPress={onPress}>
+      <Pressable
+        className="px-2 py-4 border-b-hairline border-secondary"
+        onPress={onPress}
+      >
         <HStack
           borderBottomColor="$trueGray700"
           justifyContent="space-between"
           alignItems="center"
         >
           <Typo.H4>{title}</Typo.H4>
-          <FontAwesome name="chevron-right" />
+          {children ?? (
+            <NWSymbolView
+              tintColor={theme.secondary}
+              name="chevron.right.circle.fill"
+            />
+          )}
         </HStack>
       </Pressable>
     );

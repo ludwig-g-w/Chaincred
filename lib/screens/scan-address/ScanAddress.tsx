@@ -18,12 +18,12 @@ import { shortenAddress } from "@utils/index";
 
 import { CameraView, Camera } from "expo-camera";
 import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import invariant from "tiny-invariant";
 import { match } from "ts-pattern";
 import * as WebBrowser from "expo-web-browser";
-
+import * as Typo from "@lib/components/ui/typography";
 const ScanScreen = () => {
   const theme: {
     config: ICustomConfig;
@@ -117,10 +117,18 @@ const ScanScreen = () => {
     return /^(0x)?[0-9a-fA-F]{40}$/.test(address);
   };
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return (
+      <View className="flex-1 items-center justify-center bg-background">
+        <Typo.H3>Requesting for camera permission</Typo.H3>;
+      </View>
+    );
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return (
+      <View className="flex-1 items-center justify-center bg-background">
+        <Typo.H3>No access to camera</Typo.H3>;
+      </View>
+    );
   }
   return (
     <Box flex={1}>

@@ -1,4 +1,5 @@
 import ListItem from "@lib/components/ProfileListItem";
+import { View } from "react-native";
 import { Box } from "@gluestack-ui/themed";
 import { trpc } from "@lib/utils/trpc";
 import { FlashList } from "@shopify/flash-list";
@@ -20,7 +21,7 @@ const DiscoverList = () => {
   });
 
   return (
-    <Box px="$2" flex={1} bg="$white">
+    <View className="flex-1 bg-background">
       <FlashList
         numColumns={1}
         onRefresh={refetch}
@@ -36,7 +37,7 @@ const DiscoverList = () => {
           />
         )}
       />
-    </Box>
+    </View>
   );
 };
 
