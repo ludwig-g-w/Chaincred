@@ -4,28 +4,26 @@ import {
   ButtonText,
   LinkIcon,
   Toast,
-  ToastDescription,
-  ToastTitle,
 } from "@gluestack-ui/themed";
-import * as WebBrowser from "expo-web-browser";
 
 import React from "react";
+import { Card, CardDescription, CardHeader } from "./ui/card";
 
 const MyToast = ({ title = "", description = "", ...rest }) => {
   return (
-    <Toast width="$full" flexDirection="column" {...rest}>
-      <ToastTitle>{title}</ToastTitle>
-      <ToastDescription>{description}</ToastDescription>
-      {rest?.onPress && (
+    <Card className="w-full p-4" {...rest}>
+      <CardHeader>
+        {/* <CardHeader>{title}</CardHeader>
+        <CardDescription>{description}</CardDescription> */}
+      </CardHeader>
+      {/* {rest?.onPress && (
         <Button onPress={rest.onPress} variant="link" gap="$2">
-          <ButtonText size="sm">Check on EAS</ButtonText>
-          <ButtonIcon as={LinkIcon} />
+        <ButtonText size="sm">Check on EAS</ButtonText>
+        <ButtonIcon as={LinkIcon} />
         </Button>
-      )}
-    </Toast>
+      )} */}
+    </Card>
   );
 };
 
 export default MyToast;
-
-// `https://sepolia.easscan.org/schema/view/${id}`

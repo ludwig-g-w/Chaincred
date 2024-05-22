@@ -9,7 +9,8 @@ import { format, parseISO } from "date-fns";
 import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
 import React, { Suspense, useMemo } from "react";
-
+import { View } from "react-native";
+import * as Typo from "@lib/components/ui/typography";
 const ProfileScreen = () => {
   const { address } = useLocalSearchParams<{ address: string }>();
   const [profile] = trpc.getProfileByAddress.useSuspenseQuery({
@@ -36,7 +37,7 @@ const ProfileScreen = () => {
   );
 
   return (
-    <Box bgColor="$white" flex={1}>
+    <View className="bg-background flex-1">
       <Suspense fallback={<SuspenseFallback />}>
         <FlashList
           ListHeaderComponent={
@@ -71,7 +72,7 @@ const ProfileScreen = () => {
           }}
         />
       </Suspense>
-    </Box>
+    </View>
   );
 };
 
@@ -91,33 +92,18 @@ const ListHeader = React.memo(({ profile, address, avgScore }: any) => (
       contentFit="cover"
     />
     <VStack gap={"$2"} pt="$6" pb="$4" px="$2" flex={1}>
-      <Text color="$textLight950" bold size="2xl">
-        {profile?.title}
-      </Text>
-      <Text color="$purple500">{shortenAddress(address)}</Text>
-      <Text>{profile?.description}</Text>
+      <Typo.H2>{profile?.title}</Typo.H2>
+      <Typo.P className="color-secondary">{shortenAddress(address)}</Typo.P>
+      <Typo.Large>{profile?.description}</Typo.Large>
       <Divider />
-      <Text bold size="xl">
-        Reviews
-      </Text>
+      <Typo.H4>Reviews</Typo.H4>
       <HStack alignItems="center" gap="$4">
-        <Box
-          padding="$2"
-          rounded="$full"
-          borderColor="$purple500"
-          borderWidth="$1"
-          bg="$purple200"
-          aspectRatio="1"
-          alignItems="center"
-          justifyContent="center"
-        >
+        <View className="p-2 rounded-full border-secondary border-1 bg-secondary aspect-square items-center justify-center">
           <Text size="2xl">
             {avgScore ? ["😔", "😐", "😊", "😃", "🤩"][avgScore] : "🤷‍♂️"}
           </Text>
-        </Box>
-        <Text underline size="lg">
-          Avg score
-        </Text>
+        </View>
+        <Typo.P>Avg score</Typo.P>
       </HStack>
     </VStack>
   </>

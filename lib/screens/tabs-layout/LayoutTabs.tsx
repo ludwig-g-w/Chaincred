@@ -12,7 +12,7 @@ export default function TabLayout() {
     <Tabs
       initialRouteName="/scanAddress"
       screenOptions={{
-        tabBarActiveTintColor: theme.primary,
+        tabBarActiveTintColor: theme.secondary,
         header: () => null,
         tabBarStyle: {
           backgroundColor: theme.background,

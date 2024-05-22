@@ -1,6 +1,7 @@
 import ReviewListItem from "@components/ReviewListItem";
 import SuspenseFallback from "@components/SuspenseFallback";
 import { Box, Text, View } from "@gluestack-ui/themed";
+import { NWSymbolView } from "@lib/components/nativeWindInterop";
 import {
   Card,
   CardContent,
@@ -9,6 +10,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@lib/components/ui/card";
+import { NAV_THEME } from "@lib/constants";
+import { useColorScheme } from "@lib/useColorScheme";
 import { FlashList } from "@shopify/flash-list";
 import { skipToken } from "@tanstack/react-query";
 import { useUser } from "@thirdweb-dev/react-native";
@@ -19,6 +22,8 @@ import React, { Suspense, useMemo } from "react";
 
 const Index = () => {
   const { user } = useUser();
+  const { isDarkColorScheme } = useColorScheme();
+  const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
 
   const [attestations, { refetch, isRefetching }] =
     trpc.attestations.useSuspenseQuery(
@@ -63,17 +68,23 @@ const Index = () => {
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <Box h="$4" />}
           ListEmptyComponent={
-            <Card className="w-full bg-card ring-4">
+            <Card className="w-full bg-secondary  flex-row justify-between items-center">
               <CardHeader>
-                <CardTitle>Card Title</CardTitle>
-                <CardDescription>Card Description</CardDescription>
+                <CardTitle className="color-secondary-foreground">
+                  Get started here!
+                </CardTitle>
+                <CardDescription className="color-secondary-foreground">
+                  We will show you want you can do!
+                </CardDescription>
               </CardHeader>
-              <CardContent>
-                <Text>Card Content</Text>
-              </CardContent>
-              <CardFooter>
-                <Text>Card Footer</Text>
-              </CardFooter>
+              <CardHeader className="">
+                <View className="animate-bounce">
+                  <NWSymbolView
+                    tintColor={theme.border}
+                    name="chevron.right.circle.fill"
+                  />
+                </View>
+              </CardHeader>
             </Card>
           }
           renderItem={({ item }) => {
