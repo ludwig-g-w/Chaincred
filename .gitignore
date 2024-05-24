@@ -38,3 +38,5 @@ dist/
 web-build/
 .vercel
 output.txt
+ChainCred.app
+build-*.tar.gz
