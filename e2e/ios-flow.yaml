@@ -3,9 +3,7 @@
 appId: com.ludwigw.chaincred
 ---
 - launchApp
-- tapOn:
-    point: 94%,43%
-- tapOn: Connect to your Web3 wallet
+- tapOn: Connect Wallet
 - tapOn: Continue as guest
 - tapOn: Sign in/Create account
 - assertVisible: No Activity
