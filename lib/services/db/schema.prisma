@@ -1,0 +1,26 @@
+generator client {
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "rhel-openssl-3.0.x"]
+    output        = "./generated/client"
+}
+
+datasource db {
+    provider  = "postgresql"
+    // Uses connection pooling
+    url       = env("POSTGRES_PRISMA_URL")
+    // Uses direct connection, ⚠️ make sure to keep this to `POSTGRES_URL_NON_POOLING`
+    // or you'll have dangling databases from migrationsa
+    directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Profile {
+    id              Int       @id @default(autoincrement())
+    title           String?
+    image_url       String?
+    description     String?
+    location_coords String?
+    created_at      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+    updated_at      DateTime? @updatedAt @map("updated_at") @db.Timestamptz
+    address         String    @unique
+    location_name   String?
+}

@@ -117,5 +117,8 @@
   "private": true,
   "engines": {
     "node": ">=16"
+  },
+  "prisma": {
+    "schema": "lib/services/db/schema.prisma"
   }
 }
