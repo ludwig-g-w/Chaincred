@@ -1,7 +1,7 @@
 import ImageUploadArea from "@components/ImageUploadArea";
 import MainButton from "@components/MainButton";
 import MyToast from "@components/Toast";
-import { FormControl, HStack, useToast } from "@gluestack-ui/themed";
+import { useToast } from "@gluestack-ui/themed";
 import SuspenseFallback from "@lib/components/SuspenseFallback";
 import { NWSymbolView } from "@lib/components/nativeWindInterop";
 import { Input } from "@lib/components/ui/input";
@@ -18,13 +18,10 @@ import { useUser } from "@thirdweb-dev/react-native";
 import { pickImage, uploadImage } from "@utils/uploading";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
-import { SymbolView } from "expo-symbols";
-import { cssInterop } from "nativewind";
 import React, { ReactElement, Suspense, useEffect, useState } from "react";
 import { Pressable, View } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import invariant from "tiny-invariant";
 
 export default function SettingsProfile() {
@@ -63,6 +60,8 @@ export default function SettingsProfile() {
   });
 
   async function handleImageUpload() {
+    console.log("asdsa");
+
     try {
       const image = await pickImage();
       invariant(image, "no image choosen");
@@ -263,7 +262,7 @@ const EditableField = ({
                 className="w-8 aspect-square"
                 name="checkmark.circle"
                 type="hierarchical"
-                tintColor={theme.secondary}
+                tintColor={theme.primary}
               />
             </Pressable>
           </>

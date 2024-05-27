@@ -17,10 +17,10 @@ export const NAV_THEME = {
     border: hslToHex(147, 10, 93), // border
     card: hslToHex(147, 41, 97), // card
     notification: hslToHex(0, 88, 30), // destructive
-    primary: hslToHex(147, 72, 85), // primary
+    primary: hslToHex(147, 72, 55), // primary
     text: hslToHex(147, 74, 4), // foreground
-    secondary: hslToHex(267, 72, 85),
-    accent: hslToHex(27, 72, 85),
+    secondary: hslToHex(267, 72, 55),
+    accent: hslToHex(27, 72, 55),
   },
   dark: {
     background: hslToHex(147, 59, 0), // background

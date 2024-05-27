@@ -68,6 +68,7 @@ const Header = memo(() => {
             colors: {
               ...theme.colors,
               buttonBackgroundColor: tTheme.background,
+              buttonTextColor: tTheme.text,
             },
           }}
         />

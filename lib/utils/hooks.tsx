@@ -4,6 +4,7 @@ import { NotifyOnChangeProps } from "@tanstack/query-core";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Platform } from "react-native";
 import { useColorScheme } from "@lib/useColorScheme";
+import * as DevClient from "expo-dev-client";
 
 export function useRefreshOnFocus<T>(refetch: () => Promise<T>) {
   const firstTimeRef = React.useRef(true);
@@ -55,6 +56,8 @@ export const useSelectColorScheme = () => {
 
   React.useEffect(() => {
     (async () => {
+      DevClient.DevMenu.hideMenu();
+      DevClient.DevMenu.closeMenu();
       const theme = await AsyncStorage.getItem("theme");
       if (Platform.OS === "web") {
         // Adds the background color to the html element to prevent white background on overscroll.
