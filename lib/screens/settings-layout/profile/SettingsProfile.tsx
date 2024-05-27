@@ -99,6 +99,7 @@ export default function SettingsProfile() {
 
       toast.show({
         placement: "top",
+        duration: 60_000,
         render() {
           return (
             <MyToast
