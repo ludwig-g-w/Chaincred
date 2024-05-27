@@ -12,7 +12,6 @@
     },
     "preview": {
       "ios": {
-        "simulator": true,
         "buildConfiguration": "Release"
       },
       "distribution": "internal",
