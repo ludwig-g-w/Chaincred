@@ -18,9 +18,6 @@ RUN bun install --no-cache
 # Bundle the app source inside the Docker image
 COPY . .
 
-# Concatenate .env and .env.production.local into .env
-RUN cat .env.production.local >> .env
-
 ENV NODE_ENV=production
 # Make port 3000 available to the world outside this container
 EXPOSE 3000
