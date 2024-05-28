@@ -23,6 +23,10 @@ import { useSelectColorScheme } from "@lib/utils/hooks";
 import { useColorScheme } from "@lib/useColorScheme";
 
 SplashScreen.preventAutoHideAsync();
+console.log({
+  EXPO_PUBLIC_SERVER_URL: process.env.EXPO_PUBLIC_SERVER_URL,
+  POSTGRES_PRISMA_URL: process.env.POSTGRES_PRISMA_URL,
+});
 
 const App = () => {
   const navigationRef = useNavigationContainerRef();
