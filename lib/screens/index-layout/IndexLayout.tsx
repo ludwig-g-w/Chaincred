@@ -26,6 +26,7 @@ SplashScreen.preventAutoHideAsync();
 console.log({
   EXPO_PUBLIC_SERVER_URL: process.env.EXPO_PUBLIC_SERVER_URL,
   POSTGRES_PRISMA_URL: process.env.POSTGRES_PRISMA_URL,
+  ENV: process.env.NODE_ENV,
 });
 
 const App = () => {

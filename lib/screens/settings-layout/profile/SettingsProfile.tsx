@@ -60,8 +60,6 @@ export default function SettingsProfile() {
   });
 
   async function handleImageUpload() {
-    console.log("asdsa");
-
     try {
       const image = await pickImage();
       invariant(image, "no image choosen");

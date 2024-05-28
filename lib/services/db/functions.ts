@@ -1,4 +1,4 @@
-import prisma from "@prisma/client";
+import prisma from "./prismaClient";
 
 export async function getProfileByAddress(address: string) {
   try {

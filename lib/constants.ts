@@ -33,5 +33,3 @@ export const NAV_THEME = {
     accent: hslToHex(27, 72, 85),
   },
 };
-
-console.log(NAV_THEME);
