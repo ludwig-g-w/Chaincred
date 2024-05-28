@@ -5,7 +5,8 @@
     },
     "platforms": [
       "ios",
-      "web"
+      "web",
+      "android"
     ],
     "scheme": "chaincred",
     "name": "ChainCred",

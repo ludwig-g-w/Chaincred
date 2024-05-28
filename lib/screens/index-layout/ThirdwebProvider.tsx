@@ -17,9 +17,9 @@ const conf = {
 const tConfig = {
   secureStorage: AsyncStorage,
   // This domain should match the backend
-  domain: process.env.EXPO_PUBLIC_SERVER_URL || "",
+  domain: "http://45.91.169.221:3000",
   // Pass the URL of the auth endpoints
-  authUrl: `${process.env.EXPO_PUBLIC_SERVER_URL}/api/auth`,
+  authUrl: `${"http://45.91.169.221:3000"}/api/auth`,
 };
 const wallets = [
   // TODO: is dependent on react-native-quick-crypto which I was not able to install without ios build crashing, maybe try to reinstate when new version?

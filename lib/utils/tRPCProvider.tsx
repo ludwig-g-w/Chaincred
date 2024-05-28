@@ -11,7 +11,7 @@ function Providers({ children }: { children: React.ReactNode }) {
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: `${process.env.EXPO_PUBLIC_SERVER_URL}/api/trpc`,
+          url: `${"http://45.91.169.221:3000"}/api/trpc`,
           async headers() {
             const jwt = await AsyncStorage.getItem("auth_token_storage_key");
             return {

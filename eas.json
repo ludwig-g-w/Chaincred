@@ -8,16 +8,20 @@
         "simulator": true
       },
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "channel": "development"
     },
     "preview": {
       "ios": {
         "buildConfiguration": "Release"
       },
       "distribution": "internal",
-      "developmentClient": false
+      "developmentClient": false,
+      "channel": "preview"
     },
-    "production": {}
+    "production": {
+      "channel": "production"
+    }
   },
   "submit": {
     "production": {}
