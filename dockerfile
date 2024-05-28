@@ -4,7 +4,7 @@ FROM node:lts
 RUN npm install -g bun
 
 # Install necessary build tools
-RUN apt-get update && apt-get install -y python3 make g++ 
+RUN apt-get update && apt-get install -y python3 build-essential make g++ 
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -19,7 +19,7 @@ RUN bun install --no-cache
 COPY . .
 
 # Concatenate .env and .env.production.local into .env
-# RUN cat .env.production.local >> .env
+RUN cat .env.production.local >> .env
 
 ENV NODE_ENV=production
 # Make port 3000 available to the world outside this container
