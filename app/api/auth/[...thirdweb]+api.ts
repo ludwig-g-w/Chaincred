@@ -8,7 +8,7 @@ const EXPO_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY =
 const EXPO_PUBLIC_SERVER_URL = "http://http://45.91.169.221:3000";
 
 export const { ThirdwebAuthHandler, getUser } = ThirdwebAuth({
-  domain: EXPO_PUBLIC_SERVER_URL || "",
+  domain: process.env.EXPO_PUBLIC_SERVER_URL || "",
   wallet: new PrivateKeyWallet(EXPO_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY),
   callbacks: {
     onToken: (token) => {},
