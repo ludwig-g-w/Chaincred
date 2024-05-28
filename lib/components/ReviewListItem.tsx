@@ -14,13 +14,13 @@ import {
   HStack,
   LinkIcon,
   Pressable,
-  Text,
   VStack,
 } from "@gluestack-ui/themed";
 import { isAddress, shortenAddress } from "@utils/index";
 import React, { useState } from "react";
 import * as WebBrowser from "expo-web-browser";
-
+import { View } from "react-native";
+import * as Typo from "@lib/components/ui/typography";
 interface UserCommentProps {
   avatarUri?: string;
   fallbackInitials?: string;
@@ -63,15 +63,8 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
 
   return (
     <Pressable onPress={handlePress}>
-      <HStack
-        gap="$2"
-        borderWidth="$1"
-        borderColor="$coolGray300"
-        justifyContent="space-between"
-        p="$2"
-        alignItems="center"
-        rounded={"$xl"}
-        bgColor="$white"
+      <View
+        className="flex-row gap-2 border border-border justify-between p-2 items-center rounded-xl bg-card"
         style={styleExpanded}
       >
         <Avatar>
@@ -101,26 +94,15 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
               {userAttested ? "Given to" : "Received by"}
             </BadgeText>
           </Badge>
-          <Text fontWeight="medium">{formattedUserName}</Text>
+          <Typo.P>{formattedUserName}</Typo.P>
         </VStack>
-        <Text ml="auto" size="4xl">
-          {emoji}
-        </Text>
+        <Typo.H1 className="ml-auto">{emoji}</Typo.H1>
         {isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
-      </HStack>
+      </View>
       {isExpanded && (
-        <VStack
-          borderWidth="$1"
-          borderColor="$coolGray300"
-          borderTopEndRadius={0}
-          borderTopStartRadius={0}
-          rounded={"$xl"}
-          bg="$blueGray100"
-          px="$4"
-          py="$2"
-        >
+        <View className="border border-border bg-muted px-4 rounded-xl rounded-t-none">
           <HStack alignItems="center" justifyContent="space-between">
-            <Text>{comment}</Text>
+            <Typo.P>{comment}</Typo.P>
             <Button
               onPress={() => {
                 WebBrowser.openBrowserAsync(
@@ -134,7 +116,7 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
               <ButtonIcon as={LinkIcon} />
             </Button>
           </HStack>
-        </VStack>
+        </View>
       )}
     </Pressable>
   );

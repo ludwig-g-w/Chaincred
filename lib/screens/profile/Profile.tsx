@@ -51,9 +51,9 @@ const ProfileScreen = () => {
 
             return (
               <Box px="$2">
-                <Text pb="$2" size="lg">
+                <Typo.H4 pb="$2" size="lg">
                   {format(parseISO(date), "MMMM do, yyyy")}
-                </Text>
+                </Typo.H4>
                 {items.map((subItem, index) => {
                   return (
                     <Box pb="$2" key={index}>
@@ -99,9 +99,9 @@ const ListHeader = React.memo(({ profile, address, avgScore }: any) => (
       <Typo.H4>Reviews</Typo.H4>
       <HStack alignItems="center" gap="$4">
         <View className="p-2 rounded-full border-secondary border-1 bg-secondary aspect-square items-center justify-center">
-          <Text size="2xl">
+          <Typo.H3 className="b-2">
             {avgScore ? ["😔", "😐", "😊", "😃", "🤩"][avgScore] : "🤷‍♂️"}
-          </Text>
+          </Typo.H3>
         </View>
         <Typo.P>Avg score</Typo.P>
       </HStack>
