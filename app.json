@@ -25,7 +25,19 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ludwigw.chaincred"
+      "bundleIdentifier": "com.ludwigw.chaincred",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true,
+          "NSExceptionDomains": {
+            "45.91.169.221": {
+              "NSIncludesSubdomains": true,
+              "NSAllowsArbitraryLoads": true,
+              "NSAllowsArbitraryLoadsInWebContent": true
+            }
+          }
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {
