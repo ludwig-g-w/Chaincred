@@ -14,7 +14,7 @@ import { useRefreshOnFocus } from "@lib/utils/hooks";
 import { trpc } from "@lib/utils/trpc";
 import { Profile } from "@prisma/client";
 import { Location } from "@services/supabase";
-import { useUser } from "@thirdweb-dev/react-native";
+import { useActiveAccount } from "thirdweb/react";
 import { pickImage, uploadImage } from "@utils/uploading";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
@@ -25,7 +25,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import invariant from "tiny-invariant";
 
 export default function SettingsProfile() {
-  const { user } = useUser();
+  const user = useActiveAccount();
   const [title, setTitle] = useState("");
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset>();
   const [description, setDescription] = useState("");

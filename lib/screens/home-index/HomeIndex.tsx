@@ -14,14 +14,14 @@ import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
 import { FlashList } from "@shopify/flash-list";
 import { skipToken } from "@tanstack/react-query";
-import { useUser } from "@thirdweb-dev/react-native";
+import { useActiveAccount } from "thirdweb/react";
 import { trpc } from "@utils/trpc";
 import { Attestation, isReviewItem } from "@utils/types";
 import { format, parseISO } from "date-fns";
 import React, { Suspense, useMemo } from "react";
 
 const Index = () => {
-  const { user } = useUser();
+  const user = useActiveAccount();
   const { isDarkColorScheme } = useColorScheme();
   const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
 

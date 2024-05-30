@@ -1,14 +1,14 @@
-import ListItem from "@lib/components/ProfileListItem";
-import { View } from "react-native";
 import { Box } from "@gluestack-ui/themed";
+import ListItem from "@lib/components/ProfileListItem";
 import { trpc } from "@lib/utils/trpc";
 import { FlashList } from "@shopify/flash-list";
-import { useUser } from "@thirdweb-dev/react-native";
 import { router } from "expo-router";
-import React, { useMemo } from "react";
+import React from "react";
+import { View } from "react-native";
+import { useActiveAccount } from "thirdweb/react";
 
 const DiscoverList = () => {
-  const { user } = useUser();
+  const user = useActiveAccount();
   const [profiles, { refetch, isRefetching }] = trpc.profiles.useSuspenseQuery({
     where: {
       image_url: {

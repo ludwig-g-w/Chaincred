@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import React from "react";
 import { Box, ChevronLeftIcon, Text } from "@gluestack-ui/themed";
+// TODO: make new connect wallet
 import { ConnectWallet } from "@thirdweb-dev/react-native";
 import { usePathname } from "expo-router";
 import { memo } from "react";

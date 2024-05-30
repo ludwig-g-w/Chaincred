@@ -1,10 +1,10 @@
 import Map from "@components/MapView";
 import { trpc } from "@lib/utils/trpc";
-import { useUser } from "@thirdweb-dev/react-native";
+import { useActiveAccount } from "thirdweb/react";
 import React from "react";
 
 const DiscoverList = () => {
-  const { user } = useUser();
+  const user = useActiveAccount();
   const [profiles] = trpc.profiles.useSuspenseQuery({
     where: {
       address: {

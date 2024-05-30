@@ -1,13 +1,18 @@
+import { thirdwebAuth } from "@lib/services/thirdwebAuth";
+import { getToken } from "@routes/api/auth/isLoggedIn+api";
 import * as trpcNext from "@trpc/server/adapters/next";
-import { getUser } from "@routes/api/auth/[...thirdweb]+api";
 
 export async function createContext({
   req,
   res,
 }: trpcNext.CreateNextContextOptions) {
-  const user = await getUser(req);
-  return {
-    user,
-  };
+  const jwt = getToken(req);
+  if (!jwt) {
+    return false;
+  }
+
+  const authResult = await thirdwebAuth.verifyJWT({ jwt });
+
+  return authResult.valid;
 }
 export type Context = Awaited<ReturnType<typeof createContext>>;
