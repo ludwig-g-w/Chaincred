@@ -12,8 +12,16 @@
       "channel": "development"
     },
     "preview": {
+      "env": {
+        "EXPO_PUBLIC_TW_CLIENT_ID": "2a5cfa99684b609b52537ac800c3f619",
+        "EXPO_PUBLIC_API_KEY_GOOGLE": "AIzaSyDBx5I1YAQiApOZhhq7aAsj2_19HO4hOfM",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://chsysageacyldeosgdmc.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNoc3lzYWdlYWN5bGRlb3NnZG1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDMyNDI5MzgsImV4cCI6MjAxODgxODkzOH0.e1uHinerr2DmYu3uL_oj9DKgxeF2_UuPYxHY5duqevQ",
+        "EXPO_PUBLIC_SERVER_URL": "https://gtfol.xyz"
+      },
       "ios": {
-        "buildConfiguration": "Release"
+        "buildConfiguration": "Release",
+        "simulator": false
       },
       "distribution": "internal",
       "developmentClient": false,
