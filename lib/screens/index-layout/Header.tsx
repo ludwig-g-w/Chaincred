@@ -6,7 +6,7 @@ import { usePathname } from "expo-router";
 import { memo } from "react";
 import { Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { match } from "ts-pattern";
+import { match, P } from "ts-pattern";
 import { NAV_THEME } from "@lib/constants";
 import {
   _lightTheme,
@@ -28,6 +28,7 @@ const Header = memo(() => {
     .with("/manageAttestations", () => "Your Actions")
     .with("/discoverMap", () => "Discover")
     .with("/discoverList", () => "Discover")
+
     .otherwise(
       (path) => `${path.toLocaleUpperCase().slice(1, 2)}${path.slice(2, 13)}`
     );
