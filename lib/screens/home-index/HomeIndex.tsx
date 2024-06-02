@@ -18,11 +18,14 @@ import { useActiveAccount } from "thirdweb/react";
 import { trpc } from "@utils/trpc";
 import { Attestation, isReviewItem } from "@utils/types";
 import { format, parseISO } from "date-fns";
+import { useRouter } from "expo-router";
 import React, { Suspense, useMemo } from "react";
+import { Pressable } from "react-native";
 
 const Index = () => {
   const user = useActiveAccount();
   const { isDarkColorScheme } = useColorScheme();
+  const router = useRouter();
   const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
 
   const [attestations, { refetch, isRefetching }] =
@@ -68,24 +71,26 @@ const Index = () => {
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <Box h="$4" />}
           ListEmptyComponent={
-            <Card className="w-full bg-secondary  flex-row justify-between items-center">
-              <CardHeader>
-                <CardTitle className="color-secondary-foreground">
-                  Get started here!
-                </CardTitle>
-                <CardDescription className="color-secondary-foreground">
-                  We will show you want you can do!
-                </CardDescription>
-              </CardHeader>
-              <CardHeader className="">
-                <View className="animate-bounce">
-                  <NWSymbolView
-                    tintColor={theme.border}
-                    name="chevron.right.circle.fill"
-                  />
-                </View>
-              </CardHeader>
-            </Card>
+            <Pressable onPress={() => router.navigate("/gettingStarted")}>
+              <Card className="w-full bg-secondary  flex-row justify-between items-center">
+                <CardHeader>
+                  <CardTitle className="color-secondary-foreground">
+                    Get started here!
+                  </CardTitle>
+                  <CardDescription className="color-secondary-foreground">
+                    We will show you want you can do!
+                  </CardDescription>
+                </CardHeader>
+                <CardHeader className="">
+                  <View className="animate-bounce">
+                    <NWSymbolView
+                      tintColor={theme.border}
+                      name="chevron.right.circle.fill"
+                    />
+                  </View>
+                </CardHeader>
+              </Card>
+            </Pressable>
           }
           renderItem={({ item }) => {
             const [date, items] = item;

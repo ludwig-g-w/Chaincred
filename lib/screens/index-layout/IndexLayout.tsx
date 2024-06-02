@@ -78,7 +78,12 @@ const Inner = () => {
         }}
       >
         <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="login" />
+        <Stack.Screen
+          options={{
+            header: () => null,
+          }}
+          name="login"
+        />
         <Stack.Screen
           options={{
             header: () => null,
@@ -92,6 +97,13 @@ const Inner = () => {
             presentation: "modal",
           }}
           name="profiles/[address]"
+        />
+        <Stack.Screen
+          options={{
+            header: () => null,
+            presentation: "modal",
+          }}
+          name="gettingStarted"
         />
       </Stack>
     </>

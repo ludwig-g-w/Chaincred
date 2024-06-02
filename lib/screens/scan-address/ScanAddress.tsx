@@ -3,12 +3,9 @@ import ReviewComponent from "@components/Rating";
 import MyToast from "@components/Toast";
 import {
   Box,
-  ICustomConfig,
-  Text,
   Textarea,
   TextareaInput,
   VStack,
-  useStyled,
   useToast,
 } from "@gluestack-ui/themed";
 import BottomSheet from "@gorhom/bottom-sheet";
@@ -16,18 +13,20 @@ import { useSigner } from "@thirdweb-dev/react-native";
 import { createReviewAttestation } from "@utils/eas";
 import { shortenAddress } from "@utils/index";
 
-import { CameraView, Camera } from "expo-camera";
+import * as Typo from "@lib/components/ui/typography";
+import { NAV_THEME } from "@lib/constants";
+import { useColorScheme } from "@lib/useColorScheme";
+import { Camera, CameraView } from "expo-camera";
+import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import invariant from "tiny-invariant";
 import { match } from "ts-pattern";
-import * as WebBrowser from "expo-web-browser";
-import * as Typo from "@lib/components/ui/typography";
+
 const ScanScreen = () => {
-  const theme: {
-    config: ICustomConfig;
-  } = useStyled();
+  const { isDarkColorScheme } = useColorScheme();
+  const tTheme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
   const [scannedAddress, setScannedAddress] = useState("");
@@ -151,7 +150,7 @@ const ScanScreen = () => {
       {isBottomSheetVisible && (
         <BottomSheet
           backgroundStyle={{
-            backgroundColor: theme.config.tokens.colors.white,
+            backgroundColor: tTheme.background,
           }}
           ref={bottomSheetRef}
           keyboardBehavior="extend"
@@ -161,12 +160,12 @@ const ScanScreen = () => {
         >
           <KeyboardAwareScrollView>
             <VStack p="$4">
-              <Text size="lg">
+              <Typo.P>
                 Scanned Ethereum Address:
-                <Text size="xl" bold color="$purple600">
+                <Typo.Large className="color-secondary">
                   {shortenAddress(scannedAddress)}
-                </Text>
-              </Text>
+                </Typo.Large>
+              </Typo.P>
               {match(sControl)
                 .with("Review", () => (
                   <>

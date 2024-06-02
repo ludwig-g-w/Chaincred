@@ -15,15 +15,15 @@ import Supercluster from "supercluster";
 
 const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
   const mapRef = useRef(null);
+  const clusterRef = useRef(
+    new Supercluster({
+      radius: 40,
+      maxZoom: 16,
+    })
+  );
   const [clusters, setClusters] = useState<
     Supercluster.PointFeature<Supercluster.AnyProps>[]
   >([]);
-
-  // Initialize the supercluster
-  const cluster = new Supercluster({
-    radius: 40,
-    maxZoom: 16,
-  });
 
   // Load the points into the cluster
   useEffect(() => {
@@ -31,22 +31,21 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
     const points = profiles
       .filter((p) => (p.location_coords?.length ?? 0) > 2)
       .map((p) => {
-        // @ts-ignore
-        const [long, lat] = p?.location_coords.split(",");
+        const [lat, long] = p?.location_coords.split(",");
         return {
           type: "Feature",
           properties: {
             cluster: false,
-            ...profiles,
+            ...p,
           },
           geometry: {
             type: "Point",
-            coordinates: [Number(lat), Number(long)],
+            coordinates: [Number(long), Number(lat)],
           },
         } as Supercluster.PointFeature<Supercluster.AnyProps>;
       });
     if (points.length) {
-      cluster.load(points);
+      clusterRef.current.load(points);
     }
   }, [profiles]);
 
@@ -55,21 +54,22 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
     const angle = latitudeDelta;
     return Math.round(Math.log(360 / angle) / Math.LN2);
   };
+
   const onRegionChange = useCallback((region: Region) => {
     const zoom = getZoomLevel(region.latitudeDelta);
     const bbox = [
       region.longitude - region.longitudeDelta / 2,
-      // westLng - min lng
       region.latitude - region.latitudeDelta / 2,
-      // southLat - min lat
       region.longitude + region.longitudeDelta / 2,
-      // eastLng - max lng
-      region.latitude + region.latitudeDelta / 2, // northLat - max lat
+      region.latitude + region.latitudeDelta / 2,
     ] as [number, number, number, number];
+
     try {
-      const newClusters = cluster.getClusters(bbox, zoom);
+      const newClusters = clusterRef.current.getClusters(bbox, zoom);
       setClusters(newClusters);
-    } catch (error) {}
+    } catch (error) {
+      console.warn(error);
+    }
   }, []);
 
   const renderPoints = useMemo(
@@ -79,9 +79,8 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
           latitude: feature.geometry.coordinates[1],
           longitude: feature.geometry.coordinates[0],
         };
-        const longLat = `${coord.latitude},${coord.longitude}`;
-        const profile = Object.values(feature.properties).find(
-          (p) => p.location_coords === longLat
+        const profile = profiles.find(
+          (p) => p.location_coords === `${coord.latitude},${coord.longitude}`
         );
 
         if (feature.properties.cluster) {
@@ -128,9 +127,7 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
                     }}
                   />
                 </Avatar>
-
                 <Text bold>{profile?.title}</Text>
-
                 <ChevronRightIcon size="xl" />
               </HStack>
             </Callout>
@@ -139,6 +136,7 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
       }),
     [clusters]
   );
+
   return (
     <MapView
       ref={mapRef}
@@ -149,10 +147,12 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
     </MapView>
   );
 };
+
 const styles = StyleSheet.create({
   map: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
 });
+
 export default Map;

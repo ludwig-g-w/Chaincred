@@ -1,7 +1,8 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { NWSymbolView } from "@lib/components/nativeWindInterop";
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
 import { Tabs } from "expo-router";
+import { Pressable, View } from "react-native";
 
 export default function TabLayout() {
   const { isDarkColorScheme } = useColorScheme();
@@ -24,7 +25,14 @@ export default function TabLayout() {
         name="(home)"
         options={{
           title: "Home",
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <NWSymbolView
+              className="aspect-square, w-8"
+              name="house.fill"
+              tintColor={color}
+              type="hierarchical"
+            />
+          ),
         }}
       />
 
@@ -32,30 +40,41 @@ export default function TabLayout() {
         name="(discover)"
         options={{
           title: "Discover",
-          tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <NWSymbolView
+              className="aspect-square, w-8"
+              name="binoculars.fill"
+              tintColor={color}
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="scanAddress"
         options={{
           title: "Scan",
-          tabBarIcon: ({ color }) => <TabBarIcon name="camera" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <NWSymbolView
+              className="aspect-square, w-8"
+              name="camera.fill"
+              tintColor={color}
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="(settings)"
         options={{
           title: "Settings",
-          tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <NWSymbolView
+              className="aspect-square, w-8"
+              name="gearshape.fill"
+              tintColor={color}
+            />
+          ),
         }}
       />
     </Tabs>
   );
-}
-
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }
