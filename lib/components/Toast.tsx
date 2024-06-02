@@ -5,7 +5,7 @@ import * as Typo from "@lib/components/ui/typography";
 
 const MyToast = ({ title = "", description = "", ...rest }) => {
   return (
-    <Card className="bg-secondary" {...rest}>
+    <Card className="bg-secondary rounded-full px-4 py-2" {...rest}>
       <CardHeader>
         <Typo.H4 className="color-secondary-foreground">{title}</Typo.H4>
         {description && (
