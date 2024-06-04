@@ -8,18 +8,26 @@ ChainCred is a decentralized review & loyalty app that allows users to verify th
 
 ## Features
 
-- User authentication using thirdweb's Authentication SDK
+- User authentication using thirdweb's Authentication SDK, SIWE (Sign In With Ethereum) and EIP-4361 (EIP-4361 Signature)
 - Scan a QR code to send a review
 - See your review score
-- Verification of user identity using their Ethereum address
+- see where users are on the map
+- Create profile
+- Dark theme
 - Integration with thirdweb's React Native SDK for blockchain interactions
 - Use of thirdweb's EAS SDK for attestation verification
 - Support for multiple attestation types (e.g., action, review)
-- Easy integration with thirdweb's EAS SDK for attestation verification
 
 ## Getting Started
 
 To get started with ChainCred, follow these steps:
+
+### Prerequisites
+
+- Node.js v18.x
+- Bun v1.x
+- macOS app only works on iOS atm
+- postgres database
 
 1. Clone the repository to your local machine:
 
@@ -56,7 +64,7 @@ bun install
 5. Run the app:
 
    ```
-   yarn start
+   bun ios
    ```
 
 6. Open the app on your device or emulator.
