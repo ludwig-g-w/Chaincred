@@ -6,6 +6,18 @@
 
 ChainCred is a decentralized review & loyalty app that allows users to verify their identity using their Ethereum address. It uses thirdweb's React Native SDK to interact with the blockchain and thirdweb's Authentication SDK to handle user authentication.
 
+## Tools
+
+- [thirdweb](https://www.thirdweb.com/)
+- [EAS](https://attest.org/)
+- [Supabase](https://supabase.com/)
+- [nativewind](https://nativewind.dev/)
+- [Gluestack](https://gluestack.io/)
+- [React Native](https://reactnative.dev/)
+- [Expo](https://expo.dev/)
+- [tRPC](https://trpc.io/)
+- [Prisma](https://prisma.io/)
+
 ## Features
 
 - User authentication using thirdweb's Authentication SDK, SIWE (Sign In With Ethereum) and EIP-4361 (EIP-4361 Signature)
@@ -26,7 +38,7 @@ To get started with ChainCred, follow these steps:
 
 - Node.js v18.x
 - Bun v1.x
-- macOS app only works on iOS atm
+- macOS, project only works on iOS atm
 - postgres database
 
 1. Clone the repository to your local machine:
