@@ -1,57 +1,70 @@
-# React Native + thirdweb + TypeScript Starter Template
+# ChainCred
 
-Got questions? Jump into our [Discord](https://discord.gg/thirdweb) to speak with us directly.
+ChainCred is a decentralized review & loyalty app that allows users to verify their identity using their Ethereum address. It uses thirdweb's React Native SDK to interact with the blockchain and thirdweb's Authentication SDK to handle user authentication.
+
+## Features
+
+- User authentication using thirdweb's Authentication SDK
+- Scan a QR code to send a review
+- See your review score
+- Verification of user identity using their Ethereum address
+- Integration with thirdweb's React Native SDK for blockchain interactions
+- Use of thirdweb's EAS SDK for attestation verification
+- Support for multiple attestation types (e.g., action, review)
+- Easy integration with thirdweb's EAS SDK for attestation verification
 
 ## Getting Started
 
-Create a project using this example:
+To get started with ChainCred, follow these steps:
+
+1. Clone the repository to your local machine:
 
 ```bash
-npx thirdweb create --template react-native-typescript-starter
+git clone https://github.com/ludwigw/chaincred.git
 ```
 
-Install dependencies:
+2. Install the dependencies:
 
 ```bash
-yarn install # or npm install
+bun install
 ```
 
-If you are developing on iOS, you will need to install the pods:
+3. Set up your environment variables:  
+   Create a `.env` file in the root directory of the project and add the following variables:
 
-```bash
-cd ios && pod install
-```
+   ```
+   EXPO_PUBLIC_TW_CLIENT_ID=<your-thirdweb-client-id>
+   EXPO_PUBLIC_EAS_CONTRACT=<your-eas-contract-address>
+   EXPO_PUBLIC_SCHEMA_ADRESS_ACTION=<your-schema-address-action>
+   EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW=<your-schema-address-review>
+   EXPO_PUBLIC_EAS_SCHEMA_REGISTRY=<your-eas-schema-registry-address>
+   EXPO_PUBLIC_EAS_GRAPHQL=<your-eas-graphql-endpoint>
+   EXPO_PUBLIC_API_KEY_GOOGLE=<your-google-api-key>
+   EXPO_PUBLIC_ORGANIZATION_MANAGER_ADDRESS=<your-organization-manager-address>
+   EXPO_PUBLIC_SUPABASE_URL=<your-supabase-url>
+   EXPO_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY=<your-thirdweb-auth-private-key>
+   EXPO_PUBLIC_SUPABASE_ANON_KEY=<your-supabase-anon-key>
+   EXPO_PUBLIC_SERVER_URL=<your-server-url>
+   ```
 
-## Get a clientId
+4.
 
-You can [get your clientId](https://thirdweb.com/dashboard/settings/api-keys) from our Dashboard and set it in the `.env` file.
+5. Run the app:
 
-Please, make sure to add your app's `bundleId` in the Allowed Bundle IDs list. Here's more info on [how to get your app's bundleId](https://portal.thirdweb.com/api-keys#how-to-get-my-bundleid)
+   ```
+   yarn start
+   ```
 
-## Running the app
+6. Open the app on your device or emulator.
 
-Android:
+## Contributing
 
-```
-yarn android
-```
+We welcome contributions to ChainCred! If you have any ideas or suggestions for how to improve the app, please open an issue or submit a pull request on our GitHub repository.
 
-iOS:
+## License
 
-```
-yarn ios
-```
+ChainCred is licensed under the Apache License 2.0.
 
-## Learn More
+## Contact
 
-To learn more about thirdweb and React Native, take a look at the following resources:
-
-- [thirdweb Portal](https://portal.thirdweb.com) - check our guides and development resources.
-- [thirdweb SDK](https://portal.thirdweb.com/sdk) - check our guides and development resources.
-- [React Native Documentation](https://reactnative.dev/) - learn about React Native features and API.
-
-You can check out [the thirdweb GitHub organization](https://github.com/thirdweb-dev) - your feedback and contributions are welcome!
-
-## Join our Discord!
-
-For any questions, suggestions, join our discord at [https://discord.gg/thirdweb](https://discord.gg/thirdweb).
+If you have any questions or comments, please reach out to us at [ludwigw@hey.com](mailto:ludwigw@hey.com).
