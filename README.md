@@ -4,7 +4,12 @@
 
 # ChainCred
 
-ChainCred is a decentralized review & loyalty app that allows users to verify their identity using their Ethereum address. It uses thirdweb's React Native SDK to interact with the blockchain and thirdweb's Authentication SDK to handle user authentication.
+ChainCred is a decentralized review & loyalty app that allows users to verify their identity using their Ethereum address. It uses thirdweb's React Native SDK to interact
+with the blockchain and thirdweb's Authentication SDK to handle user authentication.
+
+## Demo
+
+![Demo](./demo.gif)
 
 ## Tools
 
@@ -69,6 +74,8 @@ bun install
    EXPO_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY=<your-thirdweb-auth-private-key>
    EXPO_PUBLIC_SUPABASE_ANON_KEY=<your-supabase-anon-key>
    EXPO_PUBLIC_SERVER_URL=<your-server-url>
+   EXPO_PUBLIC_POSTGRES_PRISMA_URL=<your-postgres-url>
+   EXPO_PUBLIC_POSTGRES_URL_NON_POOLING=<your-postgres-url>
    ```
 
 4. run docker-compose up
