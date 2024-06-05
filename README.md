@@ -8,10 +8,10 @@ ChainCred is a decentralized review & loyalty app that allows users to verify th
 
 ## Tools
 
-- [thirdweb](https://www.thirdweb.com/)
+- [Thirdweb](https://www.thirdweb.com/)
 - [EAS](https://attest.org/)
 - [Supabase](https://supabase.com/)
-- [nativewind](https://nativewind.dev/)
+- [Nativewind](https://nativewind.dev/)
 - [Gluestack](https://gluestack.io/)
 - [React Native](https://reactnative.dev/)
 - [Expo](https://expo.dev/)
@@ -38,8 +38,8 @@ To get started with ChainCred, follow these steps:
 
 - Node.js v18.x
 - Bun v1.x
-- macOS, project only works on iOS atm
-- postgres database
+- MacOS, project only works on iOS atm
+- Docker
 
 1. Clone the repository to your local machine:
 
@@ -54,7 +54,7 @@ bun install
 ```
 
 3. Set up your environment variables:  
-   Create a `.env` file in the root directory of the project and add the following variables:
+   Create a `.env.production.local` or file in the root directory of the project and add the following variables:
 
    ```
    EXPO_PUBLIC_TW_CLIENT_ID=<your-thirdweb-client-id>
@@ -71,15 +71,13 @@ bun install
    EXPO_PUBLIC_SERVER_URL=<your-server-url>
    ```
 
-4.
+4. run docker-compose up
 
 5. Run the app:
 
    ```
    bun ios
    ```
-
-6. Open the app on your device or emulator.
 
 ## Contributing
 
