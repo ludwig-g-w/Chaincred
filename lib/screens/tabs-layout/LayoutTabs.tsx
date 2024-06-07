@@ -2,7 +2,6 @@ import { NWSymbolView } from "@lib/components/nativeWindInterop";
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
 import { Tabs } from "expo-router";
-import { Pressable, View } from "react-native";
 
 export default function TabLayout() {
   const { isDarkColorScheme } = useColorScheme();
@@ -11,7 +10,7 @@ export default function TabLayout() {
 
   return (
     <Tabs
-      initialRouteName="/scanAddress"
+      initialRouteName="(home)"
       screenOptions={{
         tabBarActiveTintColor: theme.secondary,
         header: () => null,

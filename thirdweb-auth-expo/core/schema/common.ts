@@ -7,7 +7,7 @@ export type Json = Literal | { [key: string]: Json } | Json[];
 
 export const JsonSchema: z.ZodType<Json> = z.lazy(
   () => z.union([literalSchema, z.array(JsonSchema), z.record(JsonSchema)]),
-  { invalid_type_error: "Provided value was not valid JSON" },
+  { invalid_type_error: "Provided value was not valid JSON" }
 );
 
 export const AddressSchema = z.string().refine(
@@ -16,7 +16,7 @@ export const AddressSchema = z.string().refine(
     return {
       message: `${out} is not a valid address`,
     };
-  },
+  }
 );
 
 export const RawDateSchema = z.date().transform((i) => {
