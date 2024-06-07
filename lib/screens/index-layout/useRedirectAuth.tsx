@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useAddress, useUser } from "@thirdweb-dev/react-native";
+import { useActiveAccount, useAutoConnect } from "thirdweb/react";
 import { router } from "expo-router";
 import { useEffect } from "react";
 import { focusManager } from "@tanstack/react-query";
@@ -7,7 +7,9 @@ import type { AppStateStatus } from "react-native";
 import { AppState, Platform } from "react-native";
 
 export const useRedirectAuth = () => {
-  const { isLoggedIn, isLoading, user } = useUser();
+  const user = useActiveAccount();
+  const { isLoading, isl } = useAutoConnect();
+
   const address = useAddress();
   useEffect(() => {
     if (!isLoading && !isLoggedIn) {

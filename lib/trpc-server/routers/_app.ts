@@ -1,21 +1,58 @@
 import { sdk } from "@lib/graphql/client";
 import {
   getAllProfiles,
-  getProfilesByAddresses,
   getProfileByAddress,
+  getProfilesByAddresses,
   setOrModifyProfile,
 } from "@lib/services/db/functions";
+import prisma from "@lib/services/db/prismaClient";
+import { thirdwebAuth } from "@lib/services/thirdwebAuth";
 import { TRPCError, inferProcedureOutput } from "@trpc/server";
 import { decodeDataReviewOrAction } from "@utils/eas";
+import { VerifyLoginPayloadParams } from "thirdweb/auth";
 import { z } from "zod";
-import { protectedProcedure, router } from "../trpc";
-import prisma from "@lib/services/db/prismaClient";
+import { openProcedure, protectedProcedure, router } from "../trpc";
 import { FindManyProfileInput } from "./zod";
 // TODO: ENV VAR move to .env when it works on server
 const EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW =
   "0xba299dc0f2f0caf692628b8bcb62037763e865804462c85b8adcf7ef7b8beb53";
 
 export const appRouter = router({
+  verifyLoginPayload: openProcedure
+    .input(z.unknown())
+    .mutation(async ({ input }) => {
+      const payload: VerifyLoginPayloadParams =
+        input as VerifyLoginPayloadParams;
+      const verifiedPayload = await thirdwebAuth.verifyPayload(payload);
+
+      if (verifiedPayload.valid) {
+        const jwt = await thirdwebAuth.generateJWT({
+          payload: verifiedPayload.payload,
+        });
+        return jwt;
+      }
+
+      return new TRPCError({
+        code: "UNAUTHORIZED",
+      });
+    }),
+  login: openProcedure
+    .input(
+      z.object({
+        address: z.string(),
+        chainId: z.string(),
+      })
+    )
+    .query(async ({ input: { address, chainId } }) => {
+      if (!address) {
+        Error;
+      }
+
+      return await thirdwebAuth.generatePayload({
+        address,
+        chainId: chainId ? parseInt(chainId) : undefined,
+      });
+    }),
   attestations: protectedProcedure
     .input(
       z.object({
