@@ -31,6 +31,37 @@ export default function LoginScreen() {
     <View className="flex-1 justify-center items-center gap-4 bg-background">
       <Typo.H1 className="color-primary">ChainCred</Typo.H1>
       <Typo.Lead>An app for reviewing decentralized</Typo.Lead>
+      {/* {match([address, isLoggedIn, isLoading])
+        .with([undefined, false, true], () => (
+          <View className="items-center justify-center gap-4">
+            <Typo.Large>Loading...</Typo.Large>
+            <Spinner />
+          </View>
+        ))
+        .with([undefined, false, false], () => (
+          <ConnectWallet
+            theme={{
+              ...theme,
+              colors: {
+                ...theme.colors,
+                buttonBackgroundColor: tTheme.background,
+                buttonTextColor: tTheme.text,
+              },
+            }}
+            buttonTitle="Connect to your Web3 wallet"
+          />
+        ))
+        .with([P.string, false, false], () => (
+          <MainButton onPress={login}>Sign in/Create account</MainButton>
+        ))
+        .with([P.string, true, false], () => (
+          // @ts-ignore
+          <Redirect href={params.rUrl ?? "/(tabs)/(home)/"} />
+        ))
+        .otherwise(() => (
+          // @ts-ignore
+          <MainButton onPress={logout}>Logout</MainButton>
+        ))} */}
     </View>
   );
 }

@@ -5,13 +5,16 @@ import { Switch } from "@lib/components/ui/switch";
 import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
-import { useLogout } from "@thirdweb-dev/react-native";
 import * as Application from "expo-application";
 import { router } from "expo-router";
 import React from "react";
 import { Pressable, View } from "react-native";
 export default () => {
-  const { logout } = useLogout();
+  const logout = async () => {
+    // TODO: make logout function
+    // await thirdwebAuth.logout();
+    // router.replace("/");
+  };
   const { setColorScheme, isDarkColorScheme } = useColorScheme();
   const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
   return (

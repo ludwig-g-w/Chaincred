@@ -1,19 +1,20 @@
 import { Button, ButtonText, Center, Text, View } from "@gluestack-ui/themed";
-import {
-  ConnectWallet,
-  useAddress,
-  useLogout,
-  useUser,
-} from "@thirdweb-dev/react-native";
+// import {
+//   ConnectWallet,
+//   useAddress,
+//   useLogout,
+//   useUser,
+// } from "@thirdweb-dev/react-native";
 
 import { router } from "expo-router";
 import React, { useEffect } from "react";
 import "react-native-gesture-handler";
+import { useActiveAccount } from "thirdweb/react";
 
 const WrongAccount = () => {
-  const address = useAddress();
-  const { logout } = useLogout();
-  const { user } = useUser();
+  const account = useActiveAccount();
+  const address = account?.address;
+  const user = account;
 
   useEffect(() => {
     if (!address || !user?.address) return;
@@ -43,7 +44,7 @@ const WrongAccount = () => {
         >
           <ButtonText color="$backgroundLight900">Logout</ButtonText>
         </Button>
-        <ConnectWallet buttonTitle="Switch account here" />
+        {/* <ConnectWallet buttonTitle="Switch account here" /> */}
       </Center>
     </View>
   );

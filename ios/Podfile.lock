@@ -1601,7 +1601,7 @@ PODS:
     - React-logger (= 0.74.1)
     - React-perflogger (= 0.74.1)
     - React-utils (= 0.74.1)
-  - RNAWSCognito (6.3.12):
+  - RNAWSCognito (6.3.13):
     - React-Core
   - RNCAsyncStorage (1.23.1):
     - React-Core
@@ -2112,7 +2112,7 @@ SPEC CHECKSUMS:
   React-runtimescheduler: e2152ed146b6a35c07386fc2ac4827b27e6aad12
   React-utils: 3285151c9d1e3a28a9586571fc81d521678c196d
   ReactCommon: f42444e384d82ab89184aed5d6f3142748b54768
-  RNAWSCognito: fe0c870c7cd9970a2efefc075b3f2d75eac913c7
+  RNAWSCognito: cb58fd45efe752ea69a806d5e2afe840000e9c20
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNFlashList: b521ebdd7f9352673817f1d98e8bdc0c8cf8545b
   RNGestureHandler: 2282cfbcf86c360d29f44ace393203afd5c6cff7

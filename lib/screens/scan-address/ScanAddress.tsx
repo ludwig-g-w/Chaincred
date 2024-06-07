@@ -9,7 +9,7 @@ import {
   useToast,
 } from "@gluestack-ui/themed";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { useSigner } from "@thirdweb-dev/react-native";
+import { useActiveAccount } from "thirdweb/react";
 import { createReviewAttestation } from "@utils/eas";
 import { shortenAddress } from "@utils/index";
 
@@ -35,11 +35,11 @@ const ScanScreen = () => {
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
   const [comment, setComment] = useState("");
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const signer = useSigner();
+  const account = useActiveAccount();
   const toast = useToast();
 
   const handleSubmitReview = async () => {
-    if (!signer) {
+    if (!account) {
       toast.show({
         duration: 6_000,
         placement: "top",
@@ -53,14 +53,14 @@ const ScanScreen = () => {
         ),
       });
     }
-    invariant(signer || scannedAddress || rating || comment, " Missing input");
+    invariant(account || scannedAddress || rating || comment, " Missing input");
     setLoading(true);
     try {
       const id = await createReviewAttestation({
         address: scannedAddress,
         rating,
         comment,
-        signer,
+        signer: account,
       });
       toast.show({
         duration: 3_000,
