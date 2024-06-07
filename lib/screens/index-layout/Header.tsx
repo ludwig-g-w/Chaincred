@@ -14,6 +14,7 @@ import {
 } from "@thirdweb-dev/react-native/dist/evm/styles/theme";
 import { useColorScheme } from "@lib/useColorScheme";
 import * as Typo from "@lib/components/ui/typography";
+import ConnectWalletV5 from "@lib/components/connect-modal-v5";
 
 const Header = memo(() => {
   const { isDarkColorScheme } = useColorScheme();
@@ -62,17 +63,7 @@ const Header = memo(() => {
           )}
           <Typo.H2 className="font-extrabold">{title}</Typo.H2>
         </Box>
-
-        <ConnectWallet
-          theme={{
-            ...theme,
-            colors: {
-              ...theme.colors,
-              buttonBackgroundColor: tTheme.background,
-              buttonTextColor: tTheme.text,
-            },
-          }}
-        />
+        <ConnectWalletV5 />
       </Box>
     </View>
   );

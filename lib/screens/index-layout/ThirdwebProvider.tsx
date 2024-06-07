@@ -8,6 +8,7 @@ import {
   walletConnect,
 } from "@thirdweb-dev/react-native";
 import React from "react";
+import { ThirdwebProvider as ThirdwebProviderV5 } from "thirdweb/react";
 
 const conf = {
   factoryAddress: "0x7675fbfd3c6aff22db02edb74773067b5e15ac0f",
@@ -39,7 +40,7 @@ const MyThirdwebProvider = ({ children }: any) => (
     authConfig={tConfig}
     supportedWallets={wallets}
   >
-    {children}
+    <ThirdwebProviderV5>{children}</ThirdwebProviderV5>
   </ThirdwebProvider>
 );
 
