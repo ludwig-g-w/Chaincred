@@ -1,5 +1,3 @@
-import MainButton from "@components/MainButton";
-import { Spinner } from "@gluestack-ui/themed";
 import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
@@ -10,14 +8,11 @@ import { useColorScheme } from "@lib/useColorScheme";
 //   useLogout,
 //   useUser,
 // } from "@thirdweb-dev/react-native";
-// import {
-//   _darkTheme,
-//   _lightTheme,
-// } from "@thirdweb-dev/react-native/dist/evm/styles/theme";
-import { Redirect, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import React from "react";
 import { View } from "react-native";
-import { P, match } from "ts-pattern";
+import { match } from "ts-pattern";
+import ConnectWallet from "@lib/components/connect-modal-v5";
 
 export default function LoginScreen() {
   const { isDarkColorScheme } = useColorScheme();
@@ -31,6 +26,7 @@ export default function LoginScreen() {
     <View className="flex-1 justify-center items-center gap-4 bg-background">
       <Typo.H1 className="color-primary">ChainCred</Typo.H1>
       <Typo.Lead>An app for reviewing decentralized</Typo.Lead>
+      <ConnectWallet />
       {/* {match([address, isLoggedIn, isLoading])
         .with([undefined, false, true], () => (
           <View className="items-center justify-center gap-4">

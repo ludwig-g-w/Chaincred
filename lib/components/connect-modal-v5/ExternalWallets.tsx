@@ -2,11 +2,10 @@ import { ActivityIndicator, Image, Pressable, View } from "react-native";
 
 import { useConnect } from "thirdweb/react";
 
-import { thirdwebClient } from "@lib/services/thirdweb";
-
 import { useEffect, useState } from "react";
 
 import * as Typo from "@lib/components/ui/typography";
+import { thirdwebClient, chain } from "@lib/services/thirdwebAuth";
 import { Wallet, getWalletInfo } from "thirdweb/wallets";
 
 export function ConnectExternalWallet(wallet: Wallet) {
@@ -30,6 +29,7 @@ export function ConnectExternalWallet(wallet: Wallet) {
     await connect(async () => {
       await wallet.connect({
         client: thirdwebClient,
+        chain,
       });
       return wallet;
     });
@@ -38,7 +38,7 @@ export function ConnectExternalWallet(wallet: Wallet) {
   return (
     walletImage &&
     walletName && (
-      <View className="flex-row items-center justify-center">
+      <View className="flex-row gap-2 items-center justify-center min-w-[100]">
         {isConnecting && !error ? (
           <ActivityIndicator style={{ width: 60, height: 60 }} />
         ) : (

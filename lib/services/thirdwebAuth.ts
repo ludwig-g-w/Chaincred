@@ -1,9 +1,12 @@
 import { createThirdwebClient } from "thirdweb";
 import { createAuth } from "thirdweb/auth";
+import { sepolia } from "thirdweb/chains";
 import { privateKeyToAccount } from "thirdweb/wallets";
 
+export const chain = sepolia;
+
 export const thirdwebClient = createThirdwebClient({
-  secretKey: process.env.EXPO_PUBLIC_TW_CLIENT_ID,
+  clientId: process.env.EXPO_PUBLIC_TW_CLIENT_ID,
 });
 
 export const thirdwebAuth = createAuth({

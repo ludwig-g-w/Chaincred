@@ -13,14 +13,16 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import MyErrorBoundary from "@lib/components/ErrorBoudary";
 import { useCallback } from "react";
 import Header from "./Header";
-import MyThirdwebProvider from "./ThirdwebProvider";
+
 import { useRedirectAuth } from "./useRedirectAuth";
 import { useSelectColorScheme } from "@lib/utils/hooks";
 import { useColorScheme } from "@lib/useColorScheme";
+import { ThirdwebProvider } from "thirdweb/react";
 
 SplashScreen.preventAutoHideAsync();
 console.log({
   EXPO_PUBLIC_SERVER_URL: process.env.EXPO_PUBLIC_SERVER_URL,
+  TW: process.env.EXPO_PUBLIC_TW_CLIENT_ID,
   ENV: process.env.NODE_ENV,
 });
 
@@ -39,9 +41,9 @@ const App = () => {
         <TRPCProvider>
           <GestureHandlerRootView style={{ flex: 1 }}>
             <GluestackUIProvider config={config}>
-              <MyThirdwebProvider>
+              <ThirdwebProvider>
                 <Inner />
-              </MyThirdwebProvider>
+              </ThirdwebProvider>
             </GluestackUIProvider>
           </GestureHandlerRootView>
         </TRPCProvider>

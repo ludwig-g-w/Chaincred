@@ -1,8 +1,8 @@
 import React from "react";
-import { ThirdwebProvider as ThirdwebProviderV5 } from "thirdweb/react";
+import { ThirdwebProvider } from "thirdweb/react";
 
 const MyThirdwebProvider = ({ children }: any) => (
-  <ThirdwebProviderV5>{children}</ThirdwebProviderV5>
+  <ThirdwebProvider>{children}</ThirdwebProvider>
 );
 
 export default MyThirdwebProvider;

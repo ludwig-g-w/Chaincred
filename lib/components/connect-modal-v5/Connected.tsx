@@ -1,169 +1,152 @@
-import {
-  ActivityIndicator,
-  Image,
-  Pressable,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  View,
-} from "react-native";
-
+import { Text, View } from "react-native";
+import { thirdwebClient as client } from "@lib/services/thirdwebAuth";
 import {
   useActiveAccount,
-  useConnect,
-  useDisconnect,
   useActiveWallet,
-  useAutoConnect,
-  useWalletBalance,
   useConnectedWallets,
+  useDisconnect,
   useSetActiveWallet,
+  useWalletBalance,
 } from "thirdweb/react";
-import {
-  getUserEmail,
-  inAppWallet,
-  preAuthenticate,
-} from "thirdweb/wallets/in-app";
-import { sepolia } from "thirdweb/chains";
 import { shortenAddress } from "thirdweb/utils";
-
+import { getUserEmail } from "thirdweb/wallets/in-app";
 import { useEffect, useState } from "react";
-
-import {
-  InAppWalletSocialAuth,
-  Wallet,
-  createWallet,
-  getWalletInfo,
-} from "thirdweb/wallets";
-import { Button } from "../ui/button";
 import * as Typo from "@lib/components/ui/typography";
+import { Wallet } from "thirdweb/wallets";
+import { Button } from "../ui/button";
 import { ConnectExternalWallet } from "./ExternalWallets";
 
-// function ConnectedSection() {
-//   const { disconnect } = useDisconnect();
-//   const account = useActiveAccount();
-//   const activeWallet = useActiveWallet();
-//   const setActive = useSetActiveWallet();
-//   const connectedWallets = useConnectedWallets();
-//   const balanceQuery = useWalletBalance({
-//     address: account?.address,
-//     chain: activeWallet?.getChain(),
-//     client,
-//   });
-//   const [email, setEmail] = useState("");
-//   useEffect(() => {
-//     const fetchEmail = async () => {
-//       if (activeWallet?.id === "inApp") {
-//         try {
-//           const email = await getUserEmail({
-//             client,
-//           });
-//           if (email) {
-//             setEmail(email);
-//           }
-//         } catch (e) {
-//           // no email
-//         }
-//       } else {
-//         setEmail("");
-//       }
-//     };
-//     fetchEmail();
-//   }, [account]);
+export default function ConnectedSection({
+  externalWallets,
+}: {
+  externalWallets: Wallet[];
+}) {
+  const { disconnect } = useDisconnect();
+  const account = useActiveAccount();
+  const activeWallet = useActiveWallet();
+  const setActive = useSetActiveWallet();
+  const connectedWallets = useConnectedWallets();
+  const balanceQuery = useWalletBalance({
+    address: account?.address,
+    chain: activeWallet?.getChain(),
+    client,
+  });
+  const [email, setEmail] = useState("");
+  useEffect(() => {
+    const fetchEmail = async () => {
+      if (activeWallet?.id === "inApp") {
+        try {
+          const email = await getUserEmail({
+            client,
+          });
+          if (email) {
+            setEmail(email);
+          }
+        } catch (e) {
+          // no email
+        }
+      } else {
+        setEmail("");
+      }
+    };
+    fetchEmail();
+  }, [account]);
 
-//   const switchWallet = async () => {
-//     const activeIndex = connectedWallets.findIndex(
-//       (w) => w.id === activeWallet?.id
-//     );
-//     const nextWallet =
-//       connectedWallets[(activeIndex + 1) % connectedWallets.length];
-//     if (nextWallet) {
-//       await setActive(nextWallet);
-//     }
-//   };
+  const switchWallet = async () => {
+    const activeIndex = connectedWallets.findIndex(
+      (w) => w.id === activeWallet?.id
+    );
+    const nextWallet =
+      connectedWallets[(activeIndex + 1) % connectedWallets.length];
+    if (nextWallet) {
+      await setActive(nextWallet);
+    }
+  };
 
-//   return (
-//     <>
-//       {account ? (
-//         <>
-//           <Text>Connected Wallets: </Text>
-//           <View style={{ gap: 2 }}>
-//             {connectedWallets.map((w, i) => (
-//               <Text key={w.id + i} type="defaultSemiBold">
-//                 - {w.id} {w.id === activeWallet?.id ? "✅" : ""}
-//               </Text>
-//             ))}
-//           </View>
-//           <View style={{ height: 12 }} />
-//           {email && activeWallet?.id === "inApp" && (
-//             <Text>
-//               Email: <Typo.Large>{email}</Typo.Large>
-//             </Text>
-//           )}
-//           <Text>
-//             Address:{" "}
-//             <Typo.Large>
-//               {shortenAddress(account.address)}
-//             </Typo.Large>
-//           </Text>
-//           <Text>
-//             Chain:{" "}
-//             <Typo.Large>
-//               {activeWallet?.getChain()?.name || "Unknown"}
-//             </Typo.Large>
-//           </Text>
-//           <Text>
-//             Balance:{" "}
-//             {balanceQuery.data && (
-//               <Typo.Large>
-//                 {`${balanceQuery.data?.displayValue.slice(0, 8)} ${
-//                   balanceQuery.data?.symbol
-//                 }`}
-//               </Typo.Large>
-//             )}
-//           </Text>
-//           <View style={{ height: 12 }} />
-//           {connectedWallets.length > 1 && (
-//             <Button
-//               variant="secondary"
-//               title="Switch Wallet"
-//               onPress={switchWallet}
-//             />
-//           )}
-//           <Button
-//             title="Sign message"
-//             variant="secondary"
-//             onPress={async () => {
-//               if (account) {
-//                 account.signMessage({ message: "hello world" });
-//               }
-//             }}
-//           />
-//           <Button
-//             title="Disconnect"
-//             variant="secondary"
-//             onPress={async () => {
-//               if (activeWallet) {
-//                 disconnect(activeWallet);
-//               }
-//             }}
-//           />
-//           <View style={{ height: 12 }} />
-//           <Typo.Large>Connect another wallet</Typo.Large>
-//           <View style={styles.rowContainer}>
-//             {externalWallets
-//               .filter(
-//                 (w) => !connectedWallets.map((cw) => cw.id).includes(w.id)
-//               )
-//               .map((w, i) => (
-//                 <ConnectExternalWallet key={w.id + i} {...w} />
-//               ))}
-//           </View>
-//         </>
-//       ) : (
-//         <>
-//           <Text>Connect to mint an NFT.</Text>
-//         </>
-//       )}
-//     </>
-//   );
-// }
+  return (
+    <>
+      {account ? (
+        <>
+          <View className="gap-2 p-2">
+            <Typo.Lead>Connected Wallets: </Typo.Lead>
+            <View style={{ gap: 2 }}>
+              {connectedWallets.map((w, i) => (
+                <Typo.Large key={w.id + i}>
+                  - {w.id} {w.id === activeWallet?.id ? "✅" : ""}
+                </Typo.Large>
+              ))}
+            </View>
+            {email && activeWallet?.id === "inApp" && (
+              <Typo.Lead>
+                Email: <Typo.Large>{email}</Typo.Large>
+              </Typo.Lead>
+            )}
+            <Typo.Lead>
+              Address:{" "}
+              <Typo.Large>{shortenAddress(account.address)}</Typo.Large>
+            </Typo.Lead>
+            <Typo.Lead>
+              Chain:{" "}
+              <Typo.Large>
+                {activeWallet?.getChain()?.name || "Unknown"}
+              </Typo.Large>
+            </Typo.Lead>
+            <Typo.Lead>
+              Balance:{" "}
+              {balanceQuery.data && (
+                <Typo.Large>
+                  {`${balanceQuery.data?.displayValue.slice(0, 8)} ${
+                    balanceQuery.data?.symbol
+                  }`}
+                </Typo.Large>
+              )}
+            </Typo.Lead>
+          </View>
+          <View className="flex-row gap-x-4 gap-y-4 flex-wrap items-center py-6 ">
+            {connectedWallets.length > 1 && (
+              <Button variant="secondary" onPress={switchWallet}>
+                <Typo.Large>Switch Wallet</Typo.Large>
+              </Button>
+            )}
+            <Button
+              variant="outline"
+              onPress={async () => {
+                if (account) {
+                  account.signMessage({ message: "hello world" });
+                }
+              }}
+            >
+              <Typo.Large>Sign message</Typo.Large>
+            </Button>
+            <Button
+              variant="destructive"
+              onPress={async () => {
+                if (activeWallet) {
+                  disconnect(activeWallet);
+                }
+              }}
+            >
+              <Typo.Large className="color-destructive-foreground">
+                Disconnect
+              </Typo.Large>
+            </Button>
+          </View>
+          <Typo.H3 className="pb-4">Connect another wallet</Typo.H3>
+          <View className="flex-row gap-x-4 gap-y-4 flex-wrap ">
+            {externalWallets
+              .filter(
+                (w) => !connectedWallets.map((cw) => cw.id).includes(w.id)
+              )
+              .map((w, i) => (
+                <ConnectExternalWallet key={w.id + i} {...w} />
+              ))}
+          </View>
+        </>
+      ) : (
+        <>
+          <Text>Connect to mint an NFT.</Text>
+        </>
+      )}
+    </>
+  );
+}
