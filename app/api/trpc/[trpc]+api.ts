@@ -7,7 +7,9 @@ export async function GET(req: Request) {
     endpoint: "/api/trpc",
     req: req as unknown as Request,
     router: appRouter,
-    onError: (err) => {},
+    onError: (err) => {
+      console.log(JSON.stringify(err));
+    },
     // @ts-ignore
     createContext,
   });

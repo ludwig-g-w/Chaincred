@@ -38,7 +38,7 @@ export function ConnectExternalWallet(wallet: Wallet) {
   return (
     walletImage &&
     walletName && (
-      <View className="flex-row gap-2 items-center justify-center min-w-[100]">
+      <View className="flex-row gap-2 items-center justify-center min-w-[88]">
         {isConnecting && !error ? (
           <ActivityIndicator style={{ width: 60, height: 60 }} />
         ) : (
@@ -46,7 +46,7 @@ export function ConnectExternalWallet(wallet: Wallet) {
             <Pressable onPress={connectExternalWallet} disabled={isConnecting}>
               <Image
                 source={{ uri: walletImage ?? "" }}
-                style={{ width: 60, height: 60, borderRadius: 6 }}
+                style={{ width: 48, height: 48, borderRadius: 6 }}
               />
             </Pressable>
             <Typo.Large style={{ fontSize: 11 }}>

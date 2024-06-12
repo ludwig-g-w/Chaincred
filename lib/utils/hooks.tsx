@@ -52,7 +52,6 @@ export function useFocusNotifyOnChangeProps(
 export const useSelectColorScheme = () => {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
-  console.log(colorScheme);
 
   React.useEffect(() => {
     (async () => {
@@ -70,8 +69,6 @@ export const useSelectColorScheme = () => {
       }
       const colorTheme = theme === "dark" ? "dark" : "light";
       if (colorTheme !== colorScheme) {
-        console.log(colorScheme);
-
         setColorScheme(colorTheme);
 
         setIsColorSchemeLoaded(true);

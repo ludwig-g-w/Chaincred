@@ -1,36 +1,15 @@
-import {
-  ActivityIndicator,
-  Image,
-  Pressable,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image } from "expo-image";
+import { ActivityIndicator, Pressable, View } from "react-native";
 
 import { useConnect } from "thirdweb/react";
-import { inAppWallet, preAuthenticate } from "thirdweb/wallets/in-app";
-
-import { useState } from "react";
+import { inAppWallet } from "thirdweb/wallets/in-app";
 
 import { chain, thirdwebClient as client } from "@lib/services/thirdwebAuth";
 import { InAppWalletSocialAuth } from "thirdweb/wallets";
-import { InputWithButton } from "../InputWithButton";
 
-const oAuthOptions: InAppWalletSocialAuth[] = ["google", "facebook", "apple"];
-
-export default function ConnectInAppWallet() {
-  return (
-    <>
-      <View className="flex-row items-center justify-center min-w-[100]  rounded-md border border-border bg-card">
-        {oAuthOptions.map((auth) => (
-          <ConnectWithSocial key={auth} auth={auth} />
-        ))}
-      </View>
-      <ConnectWithPhoneNumber />
-    </>
-  );
-}
-
-function ConnectWithSocial(props: { auth: InAppWalletSocialAuth }) {
+export default function ConnectWithSocial(props: {
+  auth: InAppWalletSocialAuth;
+}) {
   const { connect, isConnecting } = useConnect();
   const strategy = props.auth;
   const connectInAppWallet = async () => {
@@ -44,7 +23,7 @@ function ConnectWithSocial(props: { auth: InAppWalletSocialAuth }) {
       await wallet.connect({
         client,
         strategy,
-        redirectUrl: "com.thirdweb.demo://",
+        redirectUrl: "com.ludwigw.chaincred://",
       });
       return wallet;
     });
@@ -63,6 +42,8 @@ function ConnectWithSocial(props: { auth: InAppWalletSocialAuth }) {
           <Image
             source={getSocialIcon(strategy)}
             style={{
+              backgroundColor: "black",
+              borderRadius: 100,
               width: 38,
               height: 38,
             }}
@@ -70,71 +51,6 @@ function ConnectWithSocial(props: { auth: InAppWalletSocialAuth }) {
         </Pressable>
       )}
     </View>
-  );
-}
-
-function ConnectWithPhoneNumber() {
-  const [screen, setScreen] = useState<"phone" | "code">("phone");
-  const [sendingOtp, setSendingOtp] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [verificationCode, setVerificationCode] = useState("");
-  const { connect, isConnecting } = useConnect();
-
-  const sendSmsCode = async () => {
-    if (!phoneNumber) return;
-    setSendingOtp(true);
-    await preAuthenticate({
-      client,
-      strategy: "phone",
-      phoneNumber,
-    });
-    setSendingOtp(false);
-    setScreen("code");
-  };
-
-  const connectInAppWallet = async () => {
-    if (!verificationCode || !phoneNumber) return;
-    await connect(async () => {
-      const wallet = inAppWallet({
-        smartAccount: {
-          chain,
-          sponsorGas: true,
-        },
-      });
-      await wallet.connect({
-        client,
-        strategy: "phone",
-        phoneNumber,
-        verificationCode,
-      });
-      return wallet;
-    });
-  };
-
-  if (screen === "phone") {
-    return (
-      <InputWithButton
-        placeholder="Enter phone number"
-        onChangeText={setPhoneNumber}
-        value={phoneNumber}
-        keyboardType="phone-pad"
-        onSubmit={sendSmsCode}
-        isSubmitting={sendingOtp}
-      />
-    );
-  }
-
-  return (
-    <>
-      <InputWithButton
-        placeholder="Enter verification code"
-        onChangeText={setVerificationCode}
-        value={verificationCode}
-        keyboardType="numeric"
-        onSubmit={connectInAppWallet}
-        isSubmitting={isConnecting}
-      />
-    </>
   );
 }
 

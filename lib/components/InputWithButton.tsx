@@ -19,8 +19,7 @@ export function InputWithButton(props: ThemedInputProps) {
   return (
     <View className="flex flex-row items-center gap-2 rounded-md ">
       <Input
-        placeholderTextColor="text-muted-foreground"
-        className="flex-1 flex-row gap-2 p-3 text-lg leading-[1.25] border border-border text-foreground"
+        className="flex-1 flex-row gap-2 p-4 text-lg border border-border text-foreground rounded-lg"
         value={val}
         onChangeText={setVal}
         {...props}
@@ -28,16 +27,15 @@ export function InputWithButton(props: ThemedInputProps) {
       {onSubmit && (
         <Button
           variant="outline"
-          size="default"
           onPress={() => onSubmit(val)}
-          disabled={isSubmitting}
-          className="p-3"
+          className="p-4 active:scale-90 transition-all"
         >
           {isSubmitting ? (
             <ActivityIndicator size={32} />
           ) : (
             <NWSymbolView
-              name="chevron.right"
+              size={22}
+              name="chevron.right.circle"
               tintColor={NAV_THEME["light"].text}
             />
           )}

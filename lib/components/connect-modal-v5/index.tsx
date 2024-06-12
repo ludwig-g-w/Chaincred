@@ -1,27 +1,30 @@
 import { View } from "react-native";
 
-import { sepolia } from "thirdweb/chains";
 import { useActiveWallet, useAutoConnect } from "thirdweb/react";
 import { inAppWallet } from "thirdweb/wallets/in-app";
 
-import { Spinner } from "@gluestack-ui/themed";
+import { InAppWalletSocialAuth } from "thirdweb/wallets";
 import BottomSheet from "@gorhom/bottom-sheet";
 import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME } from "@lib/constants";
-import { thirdwebClient, chain } from "@lib/services/thirdwebAuth";
+import { chain, thirdwebClient } from "@lib/services/thirdwebAuth";
 import { useColorScheme } from "@lib/useColorScheme";
 import { useRef, useState } from "react";
 import { createWallet } from "thirdweb/wallets";
+import MainButton from "../MainButton";
 import { NWBottomSheet } from "../nativeWindInterop";
-import { Button } from "../ui/button";
 import ConnectedSection from "./Connected";
 import { ConnectExternalWallet } from "./ExternalWallets";
-import ConnectInAppWallet from "./ConnectWithSocial";
-import MainButton from "../MainButton";
+import ConnectWithPhoneNumber from "./ConnectWithPhoneNumber";
+import ConnectWithSocial from "./ConnectWithSocial";
 
 const wallets = [
   inAppWallet({
+    auth: {
+      options: ["google", "facebook", "apple"],
+    },
     smartAccount: {
+      factoryAddress: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
       chain,
       sponsorGas: true,
     },
@@ -33,6 +36,8 @@ const wallets = [
   createWallet("app.backpack"),
   createWallet("com.bitcoin"),
 ];
+
+const oAuthOptions: InAppWalletSocialAuth[] = ["google", "facebook", "apple"];
 const externalWallets = wallets.slice(1);
 
 export default function ConnectButtonModal() {
@@ -47,6 +52,7 @@ export default function ConnectButtonModal() {
   });
 
   const autoConnecting = autoConnect.isLoading;
+  console.log(autoConnecting);
 
   const openModal = () => {
     setOpen(true);
@@ -55,16 +61,13 @@ export default function ConnectButtonModal() {
 
   return (
     <>
-      <MainButton onPress={openModal}>
-        {autoConnecting ? (
-          <Spinner />
-        ) : (
-          <Typo.Large>Connect to wallet</Typo.Large>
-        )}
+      <MainButton onPress={openModal} loading={autoConnecting}>
+        Connect to wallet
       </MainButton>
       {open && (
         <NWBottomSheet
-          className="bg-primary"
+          // @ts-ignore className is ok
+          className="bg-card"
           ref={bottomSheetRef}
           keyboardBehavior="extend"
           snapPoints={["60%"]}
@@ -77,7 +80,12 @@ export default function ConnectButtonModal() {
             ) : (
               <View style={{ gap: 16 }}>
                 <Typo.Large>In-app wallet</Typo.Large>
-                <ConnectInAppWallet />
+                <View className="w-full gap-2 flex-row rounded-md">
+                  {oAuthOptions.map((auth) => (
+                    <ConnectWithSocial key={auth} auth={auth} />
+                  ))}
+                </View>
+                <ConnectWithPhoneNumber />
                 <View style={{ height: 12 }} />
                 <Typo.Large>External wallet</Typo.Large>
                 <View className="flex-row gap-x-4 gap-y-4 flex-wrap ">
