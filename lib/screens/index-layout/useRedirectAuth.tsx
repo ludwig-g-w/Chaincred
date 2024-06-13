@@ -4,27 +4,27 @@ import { router } from "expo-router";
 import { useEffect } from "react";
 import type { AppStateStatus } from "react-native";
 import { AppState, Platform } from "react-native";
-import { useActiveAccount } from "thirdweb/react";
+import {
+  useActiveAccount,
+  useActiveWalletConnectionStatus,
+} from "thirdweb/react";
 
 export const useRedirectAuth = () => {
-  const user = useActiveAccount();
-  const isLoading = false;
-  const isLoggedIn = false;
-
-  const address = "";
+  const status = useActiveWalletConnectionStatus();
   useEffect(() => {
-    if (!isLoading && !isLoggedIn) {
+    if (status !== "connected") {
       router.replace("/login");
     }
-  }, [isLoggedIn, isLoading]);
+  }, [status]);
 
-  useEffect(() => {
-    if (!address || !user?.address) return;
+  // TODO: find a way to get the SIWE address to match with the user address
+  // useEffect(() => {
+  //   if (!user?.address) return;
 
-    if (address !== user.address) {
-      router.replace("/wrongAccount");
-    }
-  }, [address, user]);
+  //   if (user.address !== user.address) {
+  //     router.replace("/wrongAccount");
+  //   }
+  // }, [address, user]);
 
   function onAppStateChange(status: AppStateStatus) {
     if (Platform.OS !== "web") {

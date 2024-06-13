@@ -4,7 +4,11 @@ import { ActivityIndicator, Pressable, View } from "react-native";
 import { useConnect } from "thirdweb/react";
 import { inAppWallet } from "thirdweb/wallets/in-app";
 
-import { chain, thirdwebClient as client } from "@lib/services/thirdwebAuth";
+import {
+  chain,
+  thirdwebClient as client,
+  wallets,
+} from "@lib/services/thirdwebClient";
 import { InAppWalletSocialAuth } from "thirdweb/wallets";
 
 export default function ConnectWithSocial(props: {
@@ -14,12 +18,8 @@ export default function ConnectWithSocial(props: {
   const strategy = props.auth;
   const connectInAppWallet = async () => {
     await connect(async () => {
-      const wallet = inAppWallet({
-        smartAccount: {
-          chain,
-          sponsorGas: true,
-        },
-      });
+      const wallet = wallets[0];
+
       await wallet.connect({
         client,
         strategy,

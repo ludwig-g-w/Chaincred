@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./index.js",
   "scripts": {
-    "start": "EXPO_USE_FAST_RESOLVER=1 npx expo --dev-client",
+    "start": "EXPO_UNSTABLE_ATLAS=true EXPO_USE_FAST_RESOLVER=1 npx expo --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
@@ -96,6 +96,8 @@
     "@babel/core": "^7.20.0",
     "@babel/plugin-transform-flow-strip-types": "^7.22.5",
     "@babel/plugin-transform-private-methods": "^7.22.5",
+    "@dev-plugins/async-storage": "^0.0.1",
+    "@dev-plugins/react-navigation": "^0.0.5",
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/fragment-matcher": "^5.0.0",
     "@graphql-codegen/introspection": "^4.0.0",
@@ -107,13 +109,12 @@
     "babel-plugin-module-resolver": "^5.0.0",
     "compression": "^1.7.4",
     "csv-parser": "^3.0.0",
+    "expo-atlas": "^0.3.0",
     "express": "^4.19.2",
     "morgan": "^1.10.0",
     "react-native-react-query-devtools": "^1.1.0",
     "supabase": "^1.131.4",
-    "typescript": "~5.3.3",
-    "@dev-plugins/async-storage": "^0.0.1",
-    "@dev-plugins/react-navigation": "^0.0.5"
+    "typescript": "~5.3.3"
   },
   "private": true,
   "engines": {

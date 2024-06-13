@@ -3,7 +3,7 @@ import { inAppWallet, preAuthenticate } from "thirdweb/wallets/in-app";
 
 import { useState } from "react";
 
-import { chain, thirdwebClient as client } from "@lib/services/thirdwebAuth";
+import { chain, thirdwebClient as client } from "@lib/services/thirdwebClient";
 import { InputWithButton } from "../InputWithButton";
 import { match } from "ts-pattern";
 

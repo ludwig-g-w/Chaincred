@@ -1,5 +1,5 @@
 import { thirdwebAuth } from "@lib/services/thirdwebAuth";
-import { VerifyLoginPayloadParams, signLoginPayload } from "thirdweb/auth";
+import { VerifyLoginPayloadParams } from "thirdweb/auth";
 
 export async function POST(req: Request) {
   const payload: VerifyLoginPayloadParams = await req.json();

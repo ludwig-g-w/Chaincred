@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { thirdwebClient as client } from "@lib/services/thirdwebAuth";
+import { thirdwebClient as client } from "@lib/services/thirdwebClient";
 import {
   useActiveAccount,
   useActiveWallet,

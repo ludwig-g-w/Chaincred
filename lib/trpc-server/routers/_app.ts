@@ -18,40 +18,56 @@ const EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW =
   "0xba299dc0f2f0caf692628b8bcb62037763e865804462c85b8adcf7ef7b8beb53";
 
 export const appRouter = router({
+  isLoggedIn: protectedProcedure.input(z.string()).query(async ({ input }) => {
+    const authResult = await thirdwebAuth.verifyJWT({ jwt: input });
+    return authResult.valid;
+  }),
   verifyLoginPayload: openProcedure
     .input(z.unknown())
     .mutation(async ({ input }) => {
-      const payload: VerifyLoginPayloadParams =
-        input as VerifyLoginPayloadParams;
-      const verifiedPayload = await thirdwebAuth.verifyPayload(payload);
+      try {
+        const payload: VerifyLoginPayloadParams =
+          input as VerifyLoginPayloadParams;
+        const verifiedPayload = await thirdwebAuth.verifyPayload(payload);
 
-      if (verifiedPayload.valid) {
-        const jwt = await thirdwebAuth.generateJWT({
-          payload: verifiedPayload.payload,
+        if (verifiedPayload.valid) {
+          const jwt = await thirdwebAuth.generateJWT({
+            payload: verifiedPayload.payload,
+          });
+          return jwt;
+        }
+
+        new TRPCError({
+          code: "UNAUTHORIZED",
         });
-        return jwt;
+      } catch (error) {
+        console.log(error);
+        new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: JSON.stringify(error),
+        });
       }
-
-      return new TRPCError({
-        code: "UNAUTHORIZED",
-      });
     }),
   login: openProcedure
     .input(
       z.object({
         address: z.string(),
-        chainId: z.string(),
+        chainId: z.number().optional(),
       })
     )
-    .query(async ({ input: { address, chainId } }) => {
-      if (!address) {
-        Error;
+    .mutation(async ({ input: { address, chainId } }) => {
+      try {
+        return await thirdwebAuth.generatePayload({
+          address,
+          chainId,
+        });
+      } catch (error) {
+        console.log(error);
+        new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: JSON.stringify(error),
+        });
       }
-
-      return await thirdwebAuth.generatePayload({
-        address,
-        chainId: chainId ? parseInt(chainId) : undefined,
-      });
     }),
   attestations: protectedProcedure
     .input(

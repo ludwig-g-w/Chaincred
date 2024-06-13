@@ -5,7 +5,7 @@ import { useConnect } from "thirdweb/react";
 import { useEffect, useState } from "react";
 
 import * as Typo from "@lib/components/ui/typography";
-import { thirdwebClient, chain } from "@lib/services/thirdwebAuth";
+import { thirdwebClient, chain } from "@lib/services/thirdwebClient";
 import { Wallet, getWalletInfo } from "thirdweb/wallets";
 
 export function ConnectExternalWallet(wallet: Wallet) {

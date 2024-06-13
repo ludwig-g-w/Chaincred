@@ -1,41 +1,18 @@
-import { View } from "react-native";
-
-import { useActiveWallet, useAutoConnect } from "thirdweb/react";
-import { inAppWallet } from "thirdweb/wallets/in-app";
-
-import { InAppWalletSocialAuth } from "thirdweb/wallets";
 import BottomSheet from "@gorhom/bottom-sheet";
 import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME } from "@lib/constants";
-import { chain, thirdwebClient } from "@lib/services/thirdwebAuth";
+import { thirdwebClient, wallets } from "@lib/services/thirdwebClient";
 import { useColorScheme } from "@lib/useColorScheme";
 import { useRef, useState } from "react";
-import { createWallet } from "thirdweb/wallets";
+import { View } from "react-native";
+import { useActiveWallet, useAutoConnect } from "thirdweb/react";
+import { InAppWalletSocialAuth } from "thirdweb/wallets";
 import MainButton from "../MainButton";
 import { NWBottomSheet } from "../nativeWindInterop";
-import ConnectedSection from "./Connected";
-import { ConnectExternalWallet } from "./ExternalWallets";
 import ConnectWithPhoneNumber from "./ConnectWithPhoneNumber";
 import ConnectWithSocial from "./ConnectWithSocial";
-
-const wallets = [
-  inAppWallet({
-    auth: {
-      options: ["google", "facebook", "apple"],
-    },
-    smartAccount: {
-      factoryAddress: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-      chain,
-      sponsorGas: true,
-    },
-  }),
-  createWallet("io.metamask"),
-  createWallet("com.coinbase.wallet"),
-  createWallet("me.rainbow"),
-  createWallet("com.trustwallet.app"),
-  createWallet("app.backpack"),
-  createWallet("com.bitcoin"),
-];
+import ConnectedSection from "./Connected";
+import { ConnectExternalWallet } from "./ExternalWallets";
 
 const oAuthOptions: InAppWalletSocialAuth[] = ["google", "facebook", "apple"];
 const externalWallets = wallets.slice(1);
