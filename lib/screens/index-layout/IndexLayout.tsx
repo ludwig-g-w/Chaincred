@@ -70,7 +70,7 @@ const Inner = () => {
     <>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <Stack
-        initialRouteName="(tabs)/(home)/"
+        initialRouteName="login"
         screenOptions={{
           header,
         }}

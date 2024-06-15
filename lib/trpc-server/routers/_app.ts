@@ -18,17 +18,18 @@ const EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW =
   "0xba299dc0f2f0caf692628b8bcb62037763e865804462c85b8adcf7ef7b8beb53";
 
 export const appRouter = router({
-  isLoggedIn: protectedProcedure.input(z.string()).query(async ({ input }) => {
-    const authResult = await thirdwebAuth.verifyJWT({ jwt: input });
-    return authResult.valid;
-  }),
+  // isLoggedIn: protectedProcedure.input(z.string()).query(async ({ input }) => {
+  //   const authResult = await thirdwebAuth.verifyJWT({ jwt: input });
+  //   return authResult.valid;
+  // }),
   verifyLoginPayload: openProcedure
     .input(z.unknown())
     .mutation(async ({ input }) => {
       try {
-        const payload: VerifyLoginPayloadParams =
-          input as VerifyLoginPayloadParams;
+        const payload = input as VerifyLoginPayloadParams;
+        console.log(payload);
         const verifiedPayload = await thirdwebAuth.verifyPayload(payload);
+        console.log({ verifiedPayload });
 
         if (verifiedPayload.valid) {
           const jwt = await thirdwebAuth.generateJWT({

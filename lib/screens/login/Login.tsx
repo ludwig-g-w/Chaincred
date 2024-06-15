@@ -37,9 +37,9 @@ export default function LoginScreen() {
     })();
   }, []);
 
-  const { data: isLoggedIn = false } = trpc.isLoggedIn.useQuery(
-    jwt ? jwt : skipToken
-  );
+  // const { data: isLoggedIn = false } = trpc.isLoggedIn.useQuery(
+  //   jwt ? jwt : skipToken
+  // );
 
   const { mutateAsync: initLogin } = trpc.login.useMutation();
   const { mutateAsync: verifyLoginPayload } =
@@ -48,39 +48,39 @@ export default function LoginScreen() {
   const login = async () => {
     if (!account?.address) return;
 
-    const loginPayload = await initLogin({
-      address: account?.address,
-      chainId: wallet?.getChain()?.id,
-    });
+    try {
+      const loginPayload = await initLogin({
+        address: account?.address,
+        chainId: wallet?.getChain()?.id,
+      });
+      console.log({ loginPayload });
 
-    const signature = await signLoginPayload({
-      payload: loginPayload,
-      account: account,
-    });
-    const jwt = await verifyLoginPayload({
-      payload: loginPayload,
-      signature,
-    });
-    if (jwt) {
-      await AsyncStorage.setItem("auth_token_storage_key", jwt);
-      console.log("JWT: ", jwt);
+      const signature = await signLoginPayload({
+        payload: loginPayload!,
+        account: account,
+      });
+
+      console.log({ signature });
+      const jwt = await verifyLoginPayload(signature);
+      console.log({ jwt });
+      if (jwt) {
+        await AsyncStorage.setItem("auth_token_storage_key", jwt);
+        console.log("JWT: ", jwt);
+      }
+    } catch (error) {
+      console.log({ error });
     }
   };
 
   const logout = () => {
     AsyncStorage.removeItem("auth_token_storage_key");
   };
-  console.log({
-    address: account?.address,
-    isLoggedIn,
-    isLoading,
-  });
 
   return (
     <View className="flex-1 justify-center items-center gap-4 bg-background">
       <Typo.H1 className="color-primary">ChainCred</Typo.H1>
       <Typo.Lead>An app for reviewing decentralized</Typo.Lead>
-      {match([account?.address, isLoggedIn, isLoading])
+      {match([account?.address, false, isLoading])
         .with([undefined, false, true], () => (
           <View className="items-center justify-center gap-4">
             <Typo.Large>Loading...</Typo.Large>

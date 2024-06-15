@@ -87,7 +87,7 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss": "^3.4.4",
     "tailwindcss-animate": "^1.0.7",
-    "thirdweb": "^5.29.0",
+    "thirdweb": "^5.29.3-nightly-c94bcd574aa4eaf2bd76ab8b6379302de4731ed4-20240615050020",
     "tiny-invariant": "^1.3.1",
     "ts-pattern": "^5.0.5",
     "zod": "^3.23.8"
