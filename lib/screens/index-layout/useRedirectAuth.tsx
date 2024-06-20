@@ -1,3 +1,4 @@
+import { trpc } from "@lib/utils/trpc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { focusManager } from "@tanstack/react-query";
 import { router } from "expo-router";
@@ -11,20 +12,25 @@ import {
 
 export const useRedirectAuth = () => {
   const status = useActiveWalletConnectionStatus();
+
   useEffect(() => {
-    if (status !== "connected") {
-      router.replace("/login");
-    }
+    (async () => {
+      const jwt = await AsyncStorage.getItem("auth_token_storage_key");
+      if (status !== "connected" || !jwt) {
+        router.replace("/login");
+      }
+    })();
   }, [status]);
 
-  // TODO: find a way to get the SIWE address to match with the user address
   // useEffect(() => {
-  //   if (!user?.address) return;
+  //   console.log(siwe);
 
-  //   if (user.address !== user.address) {
+  //   if (!siwe) return;
+
+  //   if (siwe.sub !== connectedAccount?.address) {
   //     router.replace("/wrongAccount");
   //   }
-  // }, [address, user]);
+  // }, [siwe, connectedAccount]);
 
   function onAppStateChange(status: AppStateStatus) {
     if (Platform.OS !== "web") {

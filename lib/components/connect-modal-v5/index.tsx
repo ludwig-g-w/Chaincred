@@ -3,10 +3,18 @@ import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME } from "@lib/constants";
 import { thirdwebClient, wallets } from "@lib/services/thirdwebClient";
 import { useColorScheme } from "@lib/useColorScheme";
-import { useRef, useState } from "react";
-import { View } from "react-native";
-import { useActiveWallet, useAutoConnect } from "thirdweb/react";
+import { trpc } from "@lib/utils/trpc";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useRef, useState } from "react";
+import { ScrollView, View } from "react-native";
+import { signLoginPayload } from "thirdweb/auth";
+import {
+  useActiveAccount,
+  useActiveWallet,
+  useAutoConnect,
+} from "thirdweb/react";
 import { InAppWalletSocialAuth } from "thirdweb/wallets";
+import { P, match } from "ts-pattern";
 import MainButton from "../MainButton";
 import { NWBottomSheet } from "../nativeWindInterop";
 import ConnectWithPhoneNumber from "./ConnectWithPhoneNumber";
@@ -22,25 +30,79 @@ export default function ConnectButtonModal() {
   const tTheme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
   const bottomSheetRef = useRef<BottomSheet>(null);
   const wallet = useActiveWallet();
+  const account = useActiveAccount();
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [jwt, setJwt] = useState<string | null>();
   const autoConnect = useAutoConnect({
     client: thirdwebClient,
     wallets,
   });
 
-  const autoConnecting = autoConnect.isLoading;
-  console.log(autoConnecting);
+  const combinedLoading = autoConnect.isLoading || loading;
 
   const openModal = () => {
     setOpen(true);
     bottomSheetRef.current?.expand();
   };
+  const { mutateAsync: initLogin } = trpc.login.useMutation();
+  const { mutateAsync: verifyLoginPayload } =
+    trpc.verifyLoginPayload.useMutation();
+
+  useEffect(() => {
+    console.log({ address: account?.address, jwt });
+
+    (async () => {
+      const _jwt = await AsyncStorage.getItem("auth_token_storage_key");
+      setJwt(_jwt);
+      if (!account?.address) return;
+      setLoading(true);
+      try {
+        const loginPayload = await initLogin({
+          address: account?.address,
+          chainId: wallet?.getChain()?.id,
+        });
+
+        const signature = await signLoginPayload({
+          payload: loginPayload!,
+          account: account,
+        });
+
+        const jwt = await verifyLoginPayload(signature);
+        if (jwt) {
+          await AsyncStorage.setItem("auth_token_storage_key", jwt);
+          setJwt(jwt);
+        }
+      } catch (error) {
+        console.log({ error });
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [account?.address]);
+
+  const logout = () => {
+    AsyncStorage.removeItem("auth_token_storage_key");
+    wallet?.disconnect();
+  };
 
   return (
     <>
-      <MainButton onPress={openModal} loading={autoConnecting}>
-        Connect to wallet
-      </MainButton>
+      {match([account?.address, jwt, combinedLoading])
+        .with([P.string, P.string, false], () => (
+          <MainButton variant="outline" onPress={logout}>
+            Sign out
+          </MainButton>
+        ))
+        .with([P.any, P.any, false], () => (
+          <MainButton onPress={openModal}>Sign in</MainButton>
+        ))
+        .with([P.any, P.any, true], () => (
+          <MainButton loading={combinedLoading}>Loading</MainButton>
+        ))
+        .otherwise(() => (
+          <MainButton loading={combinedLoading}>Loading</MainButton>
+        ))}
       {open && (
         <NWBottomSheet
           // @ts-ignore className is ok
@@ -51,7 +113,7 @@ export default function ConnectButtonModal() {
           enablePanDownToClose={true}
           onClose={() => setOpen(false)}
         >
-          <View className="flex-1 bg-card flex-wrap px-2">
+          <ScrollView className="flex-1 bg-card flex-wrap px-2">
             {wallet ? (
               <>{<ConnectedSection externalWallets={externalWallets} />}</>
             ) : (
@@ -72,7 +134,7 @@ export default function ConnectButtonModal() {
                 </View>
               </View>
             )}
-          </View>
+          </ScrollView>
         </NWBottomSheet>
       )}
     </>

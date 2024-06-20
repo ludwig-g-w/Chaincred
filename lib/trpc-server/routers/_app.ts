@@ -18,6 +18,9 @@ const EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW =
   "0xba299dc0f2f0caf692628b8bcb62037763e865804462c85b8adcf7ef7b8beb53";
 
 export const appRouter = router({
+  siweUser: protectedProcedure.query(async ({ ctx }) => {
+    return ctx?.auth?.parsedJWT;
+  }),
   isLoggedIn: openProcedure.input(z.string()).query(async ({ input }) => {
     const authResult = await thirdwebAuth.verifyJWT({ jwt: input });
     return authResult.valid;

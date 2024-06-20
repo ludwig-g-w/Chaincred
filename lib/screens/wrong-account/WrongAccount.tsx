@@ -1,11 +1,4 @@
 import { Button, ButtonText, Center, Text, View } from "@gluestack-ui/themed";
-// import {
-//   ConnectWallet,
-//   useAddress,
-//   useLogout,
-//   useUser,
-// } from "@thirdweb-dev/react-native";
-
 import { router } from "expo-router";
 import React, { useEffect } from "react";
 import "react-native-gesture-handler";
@@ -37,7 +30,7 @@ const WrongAccount = () => {
           rounded="$full"
           variant="outline"
           // @ts-ignore
-          onPress={logout}
+          // onPress={logout}
           borderColor="$backgroundLight500"
           bg="$backgroundLight200"
           w="70%"

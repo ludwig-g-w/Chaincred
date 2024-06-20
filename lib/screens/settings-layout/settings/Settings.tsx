@@ -1,9 +1,11 @@
 import { HStack } from "@gluestack-ui/themed";
+import ConnectButtonModal from "@lib/components/connect-modal-v5";
 import { NWSymbolView } from "@lib/components/nativeWindInterop";
 import { Button } from "@lib/components/ui/button";
 import { Switch } from "@lib/components/ui/switch";
 import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME } from "@lib/constants";
+
 import { useColorScheme } from "@lib/useColorScheme";
 import * as Application from "expo-application";
 import { router } from "expo-router";
@@ -34,14 +36,7 @@ export default () => {
         </Item>
       </View>
       <View className="mt-auto items-center">
-        <Button
-          variant="outline"
-          className="rounded-full w-[70%] border-secondary overflow-visible"
-          //   @ts-ignore
-          onPress={logout}
-        >
-          <Typo.Lead className="color-secondary pb-4">Logout</Typo.Lead>
-        </Button>
+        <ConnectButtonModal />
         <Typo.Muted>Version: {Application.nativeApplicationVersion}</Typo.Muted>
         <Typo.Small>build: {Application.nativeBuildVersion} </Typo.Small>
       </View>

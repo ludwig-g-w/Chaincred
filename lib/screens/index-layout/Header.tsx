@@ -10,6 +10,7 @@ import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
 import * as Typo from "@lib/components/ui/typography";
 import ConnectWalletV5 from "@lib/components/connect-modal-v5";
+import { NWSymbolView } from "@lib/components/nativeWindInterop";
 
 const Header = memo(() => {
   const { isDarkColorScheme } = useColorScheme();
@@ -24,22 +25,17 @@ const Header = memo(() => {
     .with("/manageAttestations", () => "Your Actions")
     .with("/discoverMap", () => "Discover")
     .with("/discoverList", () => "Discover")
+    .with("/gettingStarted", () => "Home")
 
     .otherwise(
       (path) => `${path.toLocaleUpperCase().slice(1, 2)}${path.slice(2, 13)}`
     );
 
   return (
-    <View className="bg-background py-2">
+    <View className="bg-background py-2  overflow-visible">
       <SafeAreaView />
-      <Box
-        w={"$full"}
-        px="$2"
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Box alignItems="center" flexDirection="row">
+      <View className="w-full px-2 flex-row items-center justify-between">
+        <View className="gap-4 flex-row items-center justify-center">
           {!!router.canGoBack() && (
             <Pressable
               style={{
@@ -51,13 +47,16 @@ const Header = memo(() => {
                 }
               }}
             >
-              <ChevronLeftIcon size="xl" />
+              <NWSymbolView
+                className="h-[20] aspect-square"
+                name="chevron.compact.left"
+                tintColor={tTheme.text}
+              />
             </Pressable>
           )}
-          <Typo.H2 className="font-extrabold">{title}</Typo.H2>
-        </Box>
-        <ConnectWalletV5 />
-      </Box>
+          <Typo.H2 className="font-extrabold p-0 m-0">{title}</Typo.H2>
+        </View>
+      </View>
     </View>
   );
 });

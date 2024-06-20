@@ -1,23 +1,27 @@
-import React from "react";
-import { Button, ButtonProps } from "./ui/button";
 import * as Typo from "@lib/components/ui/typography";
-import { ButtonSpinner } from "@gluestack-ui/themed";
+import React from "react";
+import { NWSymbolView } from "./nativeWindInterop";
+import { Button, ButtonProps } from "./ui/button";
+import { View } from "react-native";
+import { NAV_THEME } from "@lib/constants";
 
 type Props = {
   loading?: boolean;
   children: string;
 } & ButtonProps;
 
-const MainButton = ({ loading, children, ...rest }: Props) => {
+const MainButton = ({ loading = false, children, ...rest }: Props) => {
   return (
     <Button
-      className={`rounded-full h-16 items-center justify-center active:scale-90 transition-all`}
+      className={`flex-row gap-4 rounded-full h-16 items-center justify-center active:scale-90 transition-all`}
       {...rest}
       disabled={loading}
     >
-      <Typo.Large className="color-primary-foreground">{children}</Typo.Large>
+      <Typo.Large>{children}</Typo.Large>
       {loading && (
-        <ButtonSpinner color="$white" right="$4" position="absolute" />
+        <View className="origin-center animate-spin">
+          <NWSymbolView name="gobackward" tintColor={NAV_THEME["dark"].text} />
+        </View>
       )}
     </Button>
   );

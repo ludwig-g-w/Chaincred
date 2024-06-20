@@ -15,6 +15,7 @@ import * as Typo from "@lib/components/ui/typography";
 import { Wallet } from "thirdweb/wallets";
 import { Button } from "../ui/button";
 import { ConnectExternalWallet } from "./ExternalWallets";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ConnectedSection({
   externalWallets,
@@ -109,20 +110,11 @@ export default function ConnectedSection({
               </Button>
             )}
             <Button
-              variant="outline"
-              onPress={async () => {
-                if (account) {
-                  account.signMessage({ message: "hello world" });
-                }
-              }}
-            >
-              <Typo.Large>Sign message</Typo.Large>
-            </Button>
-            <Button
               variant="destructive"
               onPress={async () => {
                 if (activeWallet) {
                   disconnect(activeWallet);
+                  AsyncStorage.removeItem("auth_token_storage_key");
                 }
               }}
             >

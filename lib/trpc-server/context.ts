@@ -16,7 +16,7 @@ export async function createContext({
   res,
 }: trpcNext.CreateNextContextOptions) {
   try {
-    const jwt = getToken(req);
+    const jwt = getToken(req) ?? "";
     const authResult = await thirdwebAuth.verifyJWT({ jwt });
     return authResult;
   } catch (error) {

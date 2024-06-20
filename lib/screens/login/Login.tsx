@@ -9,7 +9,7 @@ import { useColorScheme } from "@lib/useColorScheme";
 import { trpc } from "@lib/utils/trpc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { skipToken } from "@tanstack/react-query";
-import { Redirect, useLocalSearchParams } from "expo-router";
+import { Redirect, router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { signLoginPayload } from "thirdweb/auth";
@@ -36,12 +36,18 @@ export default function LoginScreen() {
   useEffect(() => {
     (async () => {
       const jwt = await AsyncStorage.getItem("auth_token_storage_key");
+      refetch();
       setJwt(jwt);
     })();
   }, []);
 
-  const { data: isLoggedIn = false, error: isLoggedInError } =
-    trpc.isLoggedIn.useQuery(jwt ?? skipToken);
+  const { data: isLoggedIn, refetch } = trpc.isLoggedIn.useQuery(jwt);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.replace("/(tabs)/(home)/");
+    }
+  }, [isLoggedIn]);
 
   const { mutateAsync: initLogin } = trpc.login.useMutation();
   const { mutateAsync: verifyLoginPayload } =
@@ -78,30 +84,7 @@ export default function LoginScreen() {
     <View className="flex-1 justify-center items-center gap-4 bg-background">
       <Typo.H1 className="color-primary">ChainCred</Typo.H1>
       <Typo.Lead>An app for reviewing decentralized</Typo.Lead>
-      {match([account?.address, isLoggedIn, isLoading])
-        .with([undefined, false, true], () => (
-          <View className="items-center justify-center gap-4">
-            <Typo.Large>Loading...</Typo.Large>
-            <Spinner />
-          </View>
-        ))
-        .with([undefined, false, false], () => <ConnectWallet />)
-        .with([P.string, false, false], () => (
-          <>
-            <MainButton onPress={login}>Sign in/Create account</MainButton>
-            <Button onPress={() => wallet?.disconnect()} variant="outline">
-              <Typo.Large>Disconnect</Typo.Large>
-            </Button>
-          </>
-        ))
-        .with([P.string, true, false], () => (
-          // @ts-ignore
-          <Redirect href={params.rUrl ?? "/(tabs)/(home)/"} />
-        ))
-        .otherwise(() => (
-          // @ts-ignore
-          <MainButton onPress={logout}>Logout</MainButton>
-        ))}
+      <ConnectWallet />
     </View>
   );
 }
