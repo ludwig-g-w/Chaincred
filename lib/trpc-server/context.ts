@@ -17,15 +17,10 @@ export async function createContext({
 }: trpcNext.CreateNextContextOptions) {
   try {
     const jwt = getToken(req);
-    if (!jwt) {
-      return false;
-    }
-
     const authResult = await thirdwebAuth.verifyJWT({ jwt });
-
-    return authResult.valid;
+    return authResult;
   } catch (error) {
-    console.log(error);
+    return { valid: false };
   }
 }
 export type Context = Awaited<ReturnType<typeof createContext>>;

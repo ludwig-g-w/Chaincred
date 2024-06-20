@@ -1,10 +1,15 @@
 "use server";
 import { createAuth } from "thirdweb/auth";
 import { privateKeyToAccount } from "thirdweb/wallets";
-import { thirdwebClient } from "./thirdwebClient";
+import { createThirdwebClient } from "thirdweb";
+
+const secretKey = process.env.THIRDWEB_SECRET_KEY!;
+
+export const thirdwebClient = createThirdwebClient({ secretKey });
 
 export const thirdwebAuth = createAuth({
   domain: process.env.EXPO_PUBLIC_SERVER_URL || "",
+  client: thirdwebClient,
 
   adminAccount: privateKeyToAccount({
     client: thirdwebClient,
