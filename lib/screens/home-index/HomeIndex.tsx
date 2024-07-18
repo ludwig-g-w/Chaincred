@@ -24,20 +24,16 @@ import { Pressable } from "react-native";
 
 const Index = () => {
   const user = useActiveAccount();
+
   const { isDarkColorScheme } = useColorScheme();
   const router = useRouter();
   const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
 
   const [attestations, { refetch, isRefetching }] =
-    trpc.attestations.useSuspenseQuery(
-      // @ts-ignore
-      user
-        ? {
-            recipients: [user?.address],
-            attesters: [user?.address],
-          }
-        : skipToken
-    );
+    trpc.attestations.useSuspenseQuery({
+      recipients: [user?.address ?? ""],
+      attesters: [user?.address ?? ""],
+    });
 
   const sortedAndGroupedList = useMemo(() => {
     const groups =

@@ -13,18 +13,24 @@ import { VerifyLoginPayloadParams } from "thirdweb/auth";
 import { z } from "zod";
 import { openProcedure, protectedProcedure, router } from "../trpc";
 import { FindManyProfileInput } from "./zod";
+import { generate } from "@graphql-codegen/cli";
 // TODO: ENV VAR move to .env when it works on server
 const EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW =
   "0xba299dc0f2f0caf692628b8bcb62037763e865804462c85b8adcf7ef7b8beb53";
 
 export const appRouter = router({
-  siweUser: protectedProcedure.query(async ({ ctx }) => {
-    return ctx?.auth?.parsedJWT;
-  }),
   isLoggedIn: openProcedure.input(z.string()).query(async ({ input }) => {
     const authResult = await thirdwebAuth.verifyJWT({ jwt: input });
     return authResult.valid;
   }),
+  generatePayload: openProcedure
+    .input(z.object({ address: z.string() }))
+    .mutation(async ({ input }) => {
+      const payload = await thirdwebAuth.generatePayload({
+        address: input.address,
+      });
+      return payload;
+    }),
   verifyLoginPayload: openProcedure
     .input(z.unknown())
     .mutation(async ({ input }) => {
@@ -48,27 +54,7 @@ export const appRouter = router({
         });
       }
     }),
-  login: openProcedure
-    .input(
-      z.object({
-        address: z.string(),
-        chainId: z.number().optional(),
-      })
-    )
-    .mutation(async ({ input: { address, chainId } }) => {
-      try {
-        return await thirdwebAuth.generatePayload({
-          address,
-          chainId,
-        });
-      } catch (error) {
-        console.log(error);
-        new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: JSON.stringify(error),
-        });
-      }
-    }),
+
   attestations: protectedProcedure
     .input(
       z.object({
@@ -77,6 +63,10 @@ export const appRouter = router({
       })
     )
     .query(async ({ input, ctx }) => {
+      if (!input.recipients?.length && !input.attesters?.length) {
+        return [];
+      }
+
       const { attesters = [], recipients = [] } = input;
       try {
         const responseAttestations = await sdk.Attestations({

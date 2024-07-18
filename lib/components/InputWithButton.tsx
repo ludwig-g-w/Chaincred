@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, Platform } from "react-native";
 import { View } from "react-native";
+import { Entypo } from "@expo/vector-icons";
 
 import { Input } from "@lib/components/ui/input";
 import { Button } from "@lib/components/ui/button";
@@ -32,6 +33,12 @@ export function InputWithButton(props: ThemedInputProps) {
         >
           {isSubmitting ? (
             <ActivityIndicator size={32} />
+          ) : Platform.OS === "android" ? (
+            <Entypo
+              name="chevron-right"
+              size={22}
+              color={NAV_THEME["light"].text}
+            />
           ) : (
             <NWSymbolView
               size={22}
