@@ -33,3 +33,5 @@ export const NAV_THEME = {
     accent: hslToHex(27, 72, 85),
   },
 };
+
+export const STORAGE_AUTH_KEY = "auth_token_storage_key";

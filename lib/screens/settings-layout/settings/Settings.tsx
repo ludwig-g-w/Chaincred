@@ -3,7 +3,7 @@ import { NWSymbolView } from "@lib/components/nativeWindInterop";
 import { Button } from "@lib/components/ui/button";
 import { Switch } from "@lib/components/ui/switch";
 import * as Typo from "@lib/components/ui/typography";
-import { NAV_THEME } from "@lib/constants";
+import { NAV_THEME, STORAGE_AUTH_KEY } from "@lib/constants";
 import {
   chain,
   connectConfig,
@@ -23,7 +23,7 @@ export default () => {
   const activeWallet = useActiveWallet();
   const { disconnect } = useDisconnect();
   const logout = async () => {
-    await AsyncStorage.removeItem("auth_token_storage_key");
+    await AsyncStorage.removeItem(STORAGE_AUTH_KEY);
     await activeWallet?.disconnect();
     router.replace("/login");
   };
@@ -51,9 +51,7 @@ export default () => {
             <Typo.Large>Sign out</Typo.Large>
           </Button>
           <ConnectButton
-            client={thirdwebClient}
-            wallets={wallets}
-            chain={chain}
+            {...connectConfig}
             onDisconnect={() => {
               console.log("disconnect");
               logout();

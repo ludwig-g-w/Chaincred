@@ -1,7 +1,10 @@
-import ConnectWallet from "@lib/components/connect-modal-v5";
 import * as Typo from "@lib/components/ui/typography";
-import { NAV_THEME } from "@lib/constants";
-import { thirdwebClient, wallets } from "@lib/services/thirdwebClient";
+import { NAV_THEME, STORAGE_AUTH_KEY } from "@lib/constants";
+import {
+  connectConfig,
+  thirdwebClient,
+  wallets,
+} from "@lib/services/thirdwebClient";
 import { useColorScheme } from "@lib/useColorScheme";
 import { trpc } from "@lib/utils/trpc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -22,7 +25,7 @@ export default function LoginScreen() {
   const { mutateAsync: generatePayload } = trpc.generatePayload.useMutation();
 
   const logout = () => {
-    AsyncStorage.removeItem("auth_token_storage_key");
+    AsyncStorage.removeItem(STORAGE_AUTH_KEY);
   };
 
   return (
@@ -30,12 +33,12 @@ export default function LoginScreen() {
       <Typo.H1 className="color-primary">ChainCred</Typo.H1>
       <Typo.Lead>An app for reviewing decentralized</Typo.Lead>
       <ConnectButton
-        client={thirdwebClient}
-        wallets={wallets}
+        {...connectConfig}
+        chains={[sepolia]}
         chain={sepolia}
         auth={{
           isLoggedIn: async () => {
-            const jwt = await AsyncStorage.getItem("auth_token_storage_key");
+            const jwt = await AsyncStorage.getItem(STORAGE_AUTH_KEY);
             if (!jwt) return false;
             const isLoggedIn = await utils.isLoggedIn.fetch(jwt);
             return isLoggedIn;
@@ -44,7 +47,7 @@ export default function LoginScreen() {
             const jwt = await verifyLoginPayload(params);
             console.log("jwt", jwt);
             if (jwt) {
-              await AsyncStorage.setItem("auth_token_storage_key", jwt);
+              await AsyncStorage.setItem(STORAGE_AUTH_KEY, jwt);
               router.replace("/(tabs)/(home)/");
             }
           },

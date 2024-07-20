@@ -1,3 +1,4 @@
+import { STORAGE_AUTH_KEY } from "@lib/constants";
 import {
   connectConfig,
   thirdwebClient,
@@ -25,7 +26,7 @@ export const useRedirectAuth = () => {
   // useEffect(() => {
   //   (async () => {
   //     if (status === "connected") {
-  //       const jwt = await AsyncStorage.getItem("auth_token_storage_key");
+  //       const jwt = await AsyncStorage.getItem(STORAGE_AUTH_KEY);
   //       if (jwt) {
   //         const isLoggedIn = await utils.isLoggedIn.fetch(jwt);
   //         if (isLoggedIn) {
@@ -34,7 +35,7 @@ export const useRedirectAuth = () => {
   //       }
   //     }
   //     if (status === "disconnected") {
-  //       await AsyncStorage.removeItem("auth_token_storage_key");
+  //       await AsyncStorage.removeItem(STORAGE_AUTH_KEY);
   //       router.replace("/login");
   //     }
   //   })();
@@ -57,7 +58,7 @@ export const useRedirectAuth = () => {
   }
 
   useEffect(() => {
-    AsyncStorage.getItem("auth_token_storage_key").then((s) => {
+    AsyncStorage.getItem(STORAGE_AUTH_KEY).then((s) => {
       if (!s) {
         console.log("not logged in redirecting to login");
         router.replace("/login");

@@ -16,6 +16,7 @@ import { Wallet } from "thirdweb/wallets";
 import { Button } from "../ui/button";
 import { ConnectExternalWallet } from "./ExternalWallets";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { STORAGE_AUTH_KEY } from "@lib/constants";
 
 export default function ConnectedSection({
   externalWallets,
@@ -114,7 +115,7 @@ export default function ConnectedSection({
               onPress={async () => {
                 if (activeWallet) {
                   disconnect(activeWallet);
-                  AsyncStorage.removeItem("auth_token_storage_key");
+                  AsyncStorage.removeItem(STORAGE_AUTH_KEY);
                 }
               }}
             >

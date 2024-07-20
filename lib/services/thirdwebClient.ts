@@ -27,7 +27,8 @@ export const wallets = [
 export const connectConfig = {
   client: thirdwebClient,
   wallets: wallets,
-  chain,
+  chain: sepolia,
+  chains: [sepolia],
   // accountAbstraction: {
   //   factoryAddress: "0x7675fbfd3c6aff22db02edb74773067b5e15ac0f",
   //   sponsorGas: true,

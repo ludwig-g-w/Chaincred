@@ -1,6 +1,6 @@
 import BottomSheet from "@gorhom/bottom-sheet";
 import * as Typo from "@lib/components/ui/typography";
-import { NAV_THEME } from "@lib/constants";
+import { NAV_THEME, STORAGE_AUTH_KEY } from "@lib/constants";
 import { thirdwebClient, wallets } from "@lib/services/thirdwebClient";
 import { useColorScheme } from "@lib/useColorScheme";
 import { trpc } from "@lib/utils/trpc";
@@ -53,7 +53,7 @@ export default function ConnectButtonModal() {
     console.log({ address: account?.address, jwt });
 
     (async () => {
-      const _jwt = await AsyncStorage.getItem("auth_token_storage_key");
+      const _jwt = await AsyncStorage.getItem(STORAGE_AUTH_KEY);
       setJwt(_jwt);
       if (!account?.address) return;
       setLoading(true);
@@ -70,7 +70,7 @@ export default function ConnectButtonModal() {
 
         const jwt = await verifyLoginPayload(signature);
         if (jwt) {
-          await AsyncStorage.setItem("auth_token_storage_key", jwt);
+          await AsyncStorage.setItem(STORAGE_AUTH_KEY, jwt);
           setJwt(jwt);
         }
       } catch (error) {
@@ -82,7 +82,7 @@ export default function ConnectButtonModal() {
   }, [account?.address]);
 
   const logout = () => {
-    AsyncStorage.removeItem("auth_token_storage_key");
+    AsyncStorage.removeItem(STORAGE_AUTH_KEY);
     wallet?.disconnect();
   };
 

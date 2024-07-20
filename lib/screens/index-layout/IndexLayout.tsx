@@ -18,6 +18,9 @@ import { useRedirectAuth } from "./useRedirectAuth";
 import { useSelectColorScheme } from "@lib/utils/hooks";
 import { useColorScheme } from "@lib/useColorScheme";
 import { ThirdwebProvider } from "thirdweb/react";
+import { match } from "ts-pattern";
+import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { STORAGE_AUTH_KEY } from "@lib/constants";
 
 SplashScreen.preventAutoHideAsync();
 console.log({
