@@ -15,7 +15,7 @@ import * as Typo from "@lib/components/ui/typography";
 import { Wallet } from "thirdweb/wallets";
 import { Button } from "../ui/button";
 import { ConnectExternalWallet } from "./ExternalWallets";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { storage } from "@lib/services/storage.client";
 import { STORAGE_AUTH_KEY } from "@lib/constants";
 
 export default function ConnectedSection({
@@ -115,7 +115,7 @@ export default function ConnectedSection({
               onPress={async () => {
                 if (activeWallet) {
                   disconnect(activeWallet);
-                  AsyncStorage.removeItem(STORAGE_AUTH_KEY);
+                  storage.delete(STORAGE_AUTH_KEY);
                 }
               }}
             >

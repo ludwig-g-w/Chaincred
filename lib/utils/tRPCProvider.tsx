@@ -1,5 +1,5 @@
 import { STORAGE_AUTH_KEY } from "@lib/constants";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { storage } from "@lib/services/storage.client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { trpc } from "@utils/trpc";
@@ -14,7 +14,7 @@ function Providers({ children }: { children: React.ReactNode }) {
         httpBatchLink({
           url: `${process.env.EXPO_PUBLIC_SERVER_URL}/api/trpc`,
           async headers() {
-            const jwt = await AsyncStorage.getItem(STORAGE_AUTH_KEY);
+            const jwt = storage.getString(STORAGE_AUTH_KEY);
             return {
               Authorization: `Bearer ${jwt}`,
             };

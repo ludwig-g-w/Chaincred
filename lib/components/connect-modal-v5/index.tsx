@@ -4,7 +4,7 @@ import { NAV_THEME, STORAGE_AUTH_KEY } from "@lib/constants";
 import { thirdwebClient, wallets } from "@lib/services/thirdwebClient";
 import { useColorScheme } from "@lib/useColorScheme";
 import { trpc } from "@lib/utils/trpc";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { storage } from "@lib/services/storage.client";
 import { useEffect, useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { signLoginPayload } from "thirdweb/auth";
@@ -25,6 +25,7 @@ import { ConnectExternalWallet } from "./ExternalWallets";
 const oAuthOptions: InAppWalletSocialAuth[] = ["google", "facebook", "apple"];
 const externalWallets = wallets.slice(1);
 
+// NOT IN USE
 export default function ConnectButtonModal() {
   const { isDarkColorScheme } = useColorScheme();
   const tTheme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
@@ -45,7 +46,7 @@ export default function ConnectButtonModal() {
     setOpen(true);
     bottomSheetRef.current?.expand();
   };
-  const { mutateAsync: initLogin } = trpc.login.useMutation();
+  // const { mutateAsync: initLogin } = trpc.login.useMutation();
   const { mutateAsync: verifyLoginPayload } =
     trpc.verifyLoginPayload.useMutation();
 
@@ -53,7 +54,7 @@ export default function ConnectButtonModal() {
     console.log({ address: account?.address, jwt });
 
     (async () => {
-      const _jwt = await AsyncStorage.getItem(STORAGE_AUTH_KEY);
+      const _jwt = storage.getString(STORAGE_AUTH_KEY);
       setJwt(_jwt);
       if (!account?.address) return;
       setLoading(true);
@@ -70,7 +71,7 @@ export default function ConnectButtonModal() {
 
         const jwt = await verifyLoginPayload(signature);
         if (jwt) {
-          await AsyncStorage.setItem(STORAGE_AUTH_KEY, jwt);
+          storage.set(STORAGE_AUTH_KEY, jwt);
           setJwt(jwt);
         }
       } catch (error) {
@@ -82,7 +83,7 @@ export default function ConnectButtonModal() {
   }, [account?.address]);
 
   const logout = () => {
-    AsyncStorage.removeItem(STORAGE_AUTH_KEY);
+    storage.delete(STORAGE_AUTH_KEY);
     wallet?.disconnect();
   };
 

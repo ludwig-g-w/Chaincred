@@ -7,7 +7,7 @@ import {
 } from "@lib/services/thirdwebClient";
 import { useColorScheme } from "@lib/useColorScheme";
 import { trpc } from "@lib/utils/trpc";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { storage } from "@lib/services/storage.client";
 import { router, useLocalSearchParams } from "expo-router";
 import React from "react";
 import { View } from "react-native";
@@ -25,7 +25,7 @@ export default function LoginScreen() {
   const { mutateAsync: generatePayload } = trpc.generatePayload.useMutation();
 
   const logout = () => {
-    AsyncStorage.removeItem(STORAGE_AUTH_KEY);
+    storage.delete(STORAGE_AUTH_KEY);
   };
 
   return (
@@ -38,7 +38,7 @@ export default function LoginScreen() {
         chain={sepolia}
         auth={{
           isLoggedIn: async () => {
-            const jwt = await AsyncStorage.getItem(STORAGE_AUTH_KEY);
+            const jwt = storage.getString(STORAGE_AUTH_KEY);
             if (!jwt) return false;
             const isLoggedIn = await utils.isLoggedIn.fetch(jwt);
             return isLoggedIn;
@@ -47,7 +47,7 @@ export default function LoginScreen() {
             const jwt = await verifyLoginPayload(params);
             console.log("jwt", jwt);
             if (jwt) {
-              await AsyncStorage.setItem(STORAGE_AUTH_KEY, jwt);
+              storage.set(STORAGE_AUTH_KEY, jwt);
               router.replace("/(tabs)/(home)/");
             }
           },

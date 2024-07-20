@@ -1,4 +1,3 @@
-import { useAsyncStorageDevTools } from "@dev-plugins/async-storage";
 import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
 import { config } from "@gluestack-ui/config";
 import { StatusBar } from "expo-status-bar";
@@ -19,7 +18,7 @@ import { useSelectColorScheme } from "@lib/utils/hooks";
 import { useColorScheme } from "@lib/useColorScheme";
 import { ThirdwebProvider } from "thirdweb/react";
 import { match } from "ts-pattern";
-import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+
 import { STORAGE_AUTH_KEY } from "@lib/constants";
 
 SplashScreen.preventAutoHideAsync();
@@ -32,11 +31,6 @@ console.log({
 const App = () => {
   const navigationRef = useNavigationContainerRef();
   useReactNavigationDevTools(navigationRef);
-  useAsyncStorageDevTools({
-    errorHandler: (err) => {
-      console.log("", err);
-    },
-  });
 
   return (
     <StrictMode>

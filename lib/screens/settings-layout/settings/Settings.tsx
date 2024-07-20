@@ -12,7 +12,7 @@ import {
 } from "@lib/services/thirdwebClient";
 
 import { useColorScheme } from "@lib/useColorScheme";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { storage } from "@lib/services/storage.client";
 import * as Application from "expo-application";
 import { router } from "expo-router";
 import React from "react";
@@ -23,7 +23,7 @@ export default () => {
   const activeWallet = useActiveWallet();
   const { disconnect } = useDisconnect();
   const logout = async () => {
-    await AsyncStorage.removeItem(STORAGE_AUTH_KEY);
+    await storage.delete(STORAGE_AUTH_KEY);
     await activeWallet?.disconnect();
     router.replace("/login");
   };

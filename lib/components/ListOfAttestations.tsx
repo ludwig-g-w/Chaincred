@@ -1,6 +1,6 @@
 import { Box, Pressable, Text } from "@gluestack-ui/themed";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { storage } from "@lib/services/storage.client";
 import { FlashList } from "@shopify/flash-list";
 import type { AttestItem } from "@utils/types";
 import { useFocusEffect } from "expo-router";
@@ -16,15 +16,6 @@ type Props = {
 
 const ListOfAttestations: React.FC<Props> = (props) => {
   const [list, setList] = useState<AttestItem[]>([]);
-
-  useFocusEffect(() => {
-    (async () => {
-      const list = JSON.parse(
-        (await AsyncStorage.getItem("listOfAttestations")) ?? "[]"
-      );
-      setList(list);
-    })();
-  });
 
   return (
     <FlashList

@@ -1,8 +1,9 @@
-import { ErrorBoundary } from "react-error-boundary";
-import { ScrollView, View } from "react-native";
 import * as Typo from "@lib/components/ui/typography";
+import { storage } from "@lib/services/storage.client";
+import { ErrorBoundary } from "react-error-boundary";
+import { View } from "react-native";
 import { Button } from "./ui/button";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { STORAGE_AUTH_KEY } from "@lib/constants";
 
 const MyErrorBoundary = ({ children }) => {
@@ -10,7 +11,7 @@ const MyErrorBoundary = ({ children }) => {
     <ErrorBoundary
       onError={(error) => {
         if (error.message === "UNAUTHORIZED") {
-          AsyncStorage.removeItem(STORAGE_AUTH_KEY);
+          storage.delete(STORAGE_AUTH_KEY);
         }
       }}
       FallbackComponent={({ error, resetErrorBoundary }) => (
