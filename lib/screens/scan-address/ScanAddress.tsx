@@ -67,15 +67,9 @@ const ScanScreen = () => {
         placement: "top",
         render: () => (
           <MyToast
-            onPress={() => {
-              WebBrowser.openBrowserAsync(
-                `https://sepolia.easscan.org/attestation/view/${id}`
-              );
-            }}
             action="success"
             variant="solid"
             title="Review sent!"
-            description="check it on EAS here"
             id={id}
           />
         ),
@@ -83,7 +77,7 @@ const ScanScreen = () => {
       setIsBottomSheetVisible(false);
     } catch (error) {
       toast.show({
-        duration: 10_000,
+        duration: 3_000,
         placement: "top",
         render: () => (
           <MyToast

@@ -1,12 +1,15 @@
-import React from "react";
-import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Button } from "./ui/button";
 import * as Typo from "@lib/components/ui/typography";
+import React from "react";
+import { Button } from "./ui/button";
+import { Card, CardHeader } from "./ui/card";
 
 const MyToast = ({ title = "", description = "", ...rest }) => {
   return (
-    <Card className="bg-secondary rounded-full px-4 py-2" {...rest}>
-      <CardHeader>
+    <Card
+      className="bg-secondary flex-row gap-2 items-center justify-center p-2"
+      {...rest}
+    >
+      <CardHeader className="p-0">
         <Typo.H4 className="color-secondary-foreground">{title}</Typo.H4>
         {description && (
           <Typo.Lead className="color-secondary-foreground">
@@ -16,7 +19,7 @@ const MyToast = ({ title = "", description = "", ...rest }) => {
       </CardHeader>
       {rest?.onPress && (
         <Button variant="link" onPress={rest.onPress}>
-          <Typo.Large>Check on EAS</Typo.Large>
+          <Typo.Large>Link</Typo.Large>
         </Button>
       )}
     </Card>
