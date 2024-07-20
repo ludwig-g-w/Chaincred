@@ -1,27 +1,28 @@
 import { STORAGE_AUTH_KEY } from "@lib/constants";
 import { storage } from "@lib/services/storage.client";
-import { focusManager } from "@tanstack/react-query";
+import { router } from "expo-router";
 import { useEffect } from "react";
-import type { AppStateStatus } from "react-native";
-import { AppState, Platform } from "react-native";
 
 export const useRedirectAuth = () => {
-  let jwt = storage.getString(STORAGE_AUTH_KEY);
-
-  function checkJwtOnStateChange(status: AppStateStatus) {
-    if (Platform.OS !== "web") {
-      jwt = storage.getString(STORAGE_AUTH_KEY);
-      focusManager.setFocused(status === "active");
-    }
-  }
-
   useEffect(() => {
-    const subscription = AppState.addEventListener(
-      "change",
-      checkJwtOnStateChange
-    );
+    let jwt = storage.getString(STORAGE_AUTH_KEY);
+    const subscription = storage.addOnValueChangedListener((key) => {
+      console.log("useRedirectAuth");
+      if (key === STORAGE_AUTH_KEY) {
+        jwt = storage.getString(STORAGE_AUTH_KEY);
+        if (jwt) {
+          router.push("homeIndex");
+        } else {
+          router.push("/index");
+        }
+      }
+    });
+
+    if (jwt) {
+      router.push("homeIndex");
+    } else {
+      router.push("/index");
+    }
     return () => subscription.remove();
   }, []);
-
-  return jwt;
 };

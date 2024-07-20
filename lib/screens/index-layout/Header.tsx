@@ -18,7 +18,7 @@ const Header = memo(() => {
   const tTheme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
 
   const title = match(path)
-    .with("/", () => "Home")
+    .with("/homeIndex", () => "Home")
     .with("/profiles", () => "")
     .with("/scanAddress", () => "Scan")
     .with("/settingsProfile", () => "Your Profile")

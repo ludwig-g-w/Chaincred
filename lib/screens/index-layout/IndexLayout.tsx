@@ -51,7 +51,7 @@ const Inner = () => {
   useReactNavigationDevTools(navigationRef);
   useAutoConnect(connectConfig);
   useSelectColorScheme();
-  const jwt = useRedirectAuth();
+  useRedirectAuth();
 
   const { isDarkColorScheme } = useColorScheme();
 
@@ -62,38 +62,23 @@ const Inner = () => {
   });
 
   const header = useCallback(() => <Header />, []);
-  console.log({ jwt });
-  if (!jwt) {
-    return (
-      <>
-        <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-        <Stack
-          initialRouteName="login"
-          screenOptions={{
-            header,
-          }}
-        >
-          <Stack.Screen
-            options={{
-              header: () => null,
-            }}
-            name="login"
-          />
-        </Stack>
-      </>
-    );
-  }
+
   return (
     <>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <Stack
-        initialRouteName="(tabs)"
+        initialRouteName="index"
         screenOptions={{
           header,
         }}
       >
+        <Stack.Screen
+          options={{
+            header: () => null,
+          }}
+          name="index"
+        />
         <Stack.Screen name="(tabs)" />
-
         <Stack.Screen
           options={{
             header: () => null,

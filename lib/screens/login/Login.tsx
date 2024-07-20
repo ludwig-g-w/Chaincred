@@ -33,9 +33,15 @@ export default function LoginScreen() {
       <Typo.H1 className="color-primary">ChainCred</Typo.H1>
       <Typo.Lead>An app for reviewing decentralized</Typo.Lead>
       <ConnectButton
-        {...connectConfig}
-        chains={[sepolia]}
+        client={thirdwebClient}
+        wallets={wallets}
         chain={sepolia}
+        chains={[sepolia]}
+        appMetadata={{
+          name: "ChainCred",
+          logoUrl: "assets/icon.png",
+          url: "gtfol.xyz",
+        }}
         auth={{
           isLoggedIn: async () => {
             const jwt = storage.getString(STORAGE_AUTH_KEY);
@@ -48,6 +54,7 @@ export default function LoginScreen() {
             console.log("jwt", jwt);
             if (jwt) {
               storage.set(STORAGE_AUTH_KEY, jwt);
+              router.push("/(tabs)/(home)/");
             }
           },
           getLoginPayload: async (payload) => generatePayload(payload),

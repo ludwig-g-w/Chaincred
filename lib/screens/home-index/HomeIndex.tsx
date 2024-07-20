@@ -4,23 +4,20 @@ import { Box, Text, View } from "@gluestack-ui/themed";
 import { NWSymbolView } from "@lib/components/nativeWindInterop";
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@lib/components/ui/card";
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
 import { FlashList } from "@shopify/flash-list";
-import { skipToken } from "@tanstack/react-query";
-import { useActiveAccount } from "thirdweb/react";
 import { trpc } from "@utils/trpc";
 import { Attestation, isReviewItem } from "@utils/types";
 import { format, parseISO } from "date-fns";
 import { useRouter } from "expo-router";
 import React, { Suspense, useMemo } from "react";
 import { Pressable } from "react-native";
+import { useActiveAccount } from "thirdweb/react";
 
 const Index = () => {
   const user = useActiveAccount();
