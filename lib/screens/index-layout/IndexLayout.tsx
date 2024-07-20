@@ -1,25 +1,25 @@
 import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
 import { config } from "@gluestack-ui/config";
-import { StatusBar } from "expo-status-bar";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import NetInfo from "@react-native-community/netinfo";
 import { onlineManager } from "@tanstack/react-query";
 import TRPCProvider from "@utils/tRPCProvider";
 import { SplashScreen, Stack, useNavigationContainerRef } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import React, { StrictMode } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useAutoConnect } from "thirdweb/react";
 
 import MyErrorBoundary from "@lib/components/ErrorBoudary";
 import { useCallback } from "react";
 import Header from "./Header";
 
-import { useRedirectAuth } from "./useRedirectAuth";
-import { useSelectColorScheme } from "@lib/utils/hooks";
 import { useColorScheme } from "@lib/useColorScheme";
+import { useSelectColorScheme } from "@lib/utils/hooks";
 import { ThirdwebProvider } from "thirdweb/react";
-import { match } from "ts-pattern";
+import { useRedirectAuth } from "./useRedirectAuth";
 
-import { STORAGE_AUTH_KEY } from "@lib/constants";
+import { connectConfig } from "@lib/services/thirdwebClient";
 
 SplashScreen.preventAutoHideAsync();
 console.log({
@@ -29,9 +29,6 @@ console.log({
 });
 
 const App = () => {
-  const navigationRef = useNavigationContainerRef();
-  useReactNavigationDevTools(navigationRef);
-
   return (
     <StrictMode>
       <MyErrorBoundary>
@@ -50,8 +47,11 @@ const App = () => {
 };
 
 const Inner = () => {
+  const navigationRef = useNavigationContainerRef();
+  useReactNavigationDevTools(navigationRef);
+  useAutoConnect(connectConfig);
   useSelectColorScheme();
-  useRedirectAuth();
+  const jwt = useRedirectAuth();
 
   const { isDarkColorScheme } = useColorScheme();
 
@@ -62,23 +62,38 @@ const Inner = () => {
   });
 
   const header = useCallback(() => <Header />, []);
-
+  console.log({ jwt });
+  if (!jwt) {
+    return (
+      <>
+        <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+        <Stack
+          initialRouteName="login"
+          screenOptions={{
+            header,
+          }}
+        >
+          <Stack.Screen
+            options={{
+              header: () => null,
+            }}
+            name="login"
+          />
+        </Stack>
+      </>
+    );
+  }
   return (
     <>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <Stack
-        initialRouteName="login"
+        initialRouteName="(tabs)"
         screenOptions={{
           header,
         }}
       >
         <Stack.Screen name="(tabs)" />
-        <Stack.Screen
-          options={{
-            header: () => null,
-          }}
-          name="login"
-        />
+
         <Stack.Screen
           options={{
             header: () => null,

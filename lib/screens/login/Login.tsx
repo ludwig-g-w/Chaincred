@@ -48,7 +48,6 @@ export default function LoginScreen() {
             console.log("jwt", jwt);
             if (jwt) {
               storage.set(STORAGE_AUTH_KEY, jwt);
-              router.replace("/(tabs)/(home)/");
             }
           },
           getLoginPayload: async (payload) => generatePayload(payload),

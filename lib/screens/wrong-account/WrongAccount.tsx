@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import React, { useEffect } from "react";
 import "react-native-gesture-handler";
 import { useActiveAccount } from "thirdweb/react";
-
+// not used
 const WrongAccount = () => {
   const account = useActiveAccount();
   const address = account?.address;

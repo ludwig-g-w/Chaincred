@@ -21,11 +21,9 @@ import { ConnectButton, useActiveWallet, useDisconnect } from "thirdweb/react";
 
 export default () => {
   const activeWallet = useActiveWallet();
-  const { disconnect } = useDisconnect();
   const logout = async () => {
     await storage.delete(STORAGE_AUTH_KEY);
     await activeWallet?.disconnect();
-    router.replace("/login");
   };
   const { setColorScheme, isDarkColorScheme } = useColorScheme();
   const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
