@@ -1,28 +1,26 @@
-import ImageUploadArea from "@components/ImageUploadArea";
 import MainButton from "@components/MainButton";
 import MyToast from "@components/Toast";
 import { useToast } from "@gluestack-ui/themed";
 import SuspenseFallback from "@lib/components/SuspenseFallback";
-import { NWSymbolView } from "@lib/components/nativeWindInterop";
 import { Input } from "@lib/components/ui/input";
-import { Label } from "@lib/components/ui/label";
 import { Textarea } from "@lib/components/ui/textarea";
-import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
 import { useRefreshOnFocus } from "@lib/utils/hooks";
 import { trpc } from "@lib/utils/trpc";
 import { Profile } from "@prisma/client";
 import { Location } from "@services/supabase";
-import { useActiveAccount } from "thirdweb/react";
 import { pickImage, uploadImage } from "@utils/uploading";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
-import React, { ReactElement, Suspense, useEffect, useState } from "react";
-import { Pressable, View } from "react-native";
+import React, { Suspense, useEffect, useState } from "react";
+import { View } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useActiveAccount } from "thirdweb/react";
 import invariant from "tiny-invariant";
+import { EditableField } from "./EditableField";
+import ImageUploadArea from "./ImageUploadArea";
 
 export default function SettingsProfile() {
   const user = useActiveAccount();
@@ -161,20 +159,6 @@ export default function SettingsProfile() {
                 disableScroll
                 placeholder="Where you are based?"
                 keepResultsAfterBlur
-                styles={{
-                  container: {
-                    zIndex: 99,
-                  },
-                  listView: {
-                    zIndex: 99,
-                  },
-                  textInput: {
-                    zIndex: 99,
-                    borderWidth: 2,
-                    borderColor: "#eaeaea",
-                    borderRadius: 20,
-                  },
-                }}
                 fetchDetails
                 onPress={(data, details = null) => {
                   setLocation({
@@ -229,63 +213,3 @@ export default function SettingsProfile() {
     </>
   );
 }
-
-type EditableFieldProps = {
-  label: string;
-  isEditing: boolean;
-  onSave: () => void;
-  profileValue?: string | null;
-  setEditing: Function;
-  children: ReactElement;
-};
-
-const EditableField = ({
-  label,
-  isEditing,
-  onSave,
-  profileValue,
-  setEditing,
-  children,
-}: EditableFieldProps) => {
-  const { isDarkColorScheme } = useColorScheme();
-  const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
-  return (
-    <>
-      <Label nativeID="asdsa">{label}</Label>
-      <View className="flex-row w-full justify-between items-center min-h-12 gap-4">
-        {isEditing ? (
-          <>
-            <View flex={1}>{children}</View>
-            <Pressable onPress={onSave}>
-              <NWSymbolView
-                className="w-8 aspect-square"
-                name="checkmark.circle"
-                type="hierarchical"
-                tintColor={theme.primary}
-              />
-            </Pressable>
-          </>
-        ) : (
-          <>
-            <Typo.Lead>{profileValue || `No ${label.toLowerCase()}`}</Typo.Lead>
-            <Pressable
-              onPress={() =>
-                setEditing((prev: any) => ({
-                  ...prev,
-                  [label.toLowerCase()]: true,
-                }))
-              }
-            >
-              <NWSymbolView
-                name="pencil.circle"
-                type="hierarchical"
-                tintColor={theme.secondary}
-                className="w-8 aspect-square "
-              />
-            </Pressable>
-          </>
-        )}
-      </View>
-    </>
-  );
-};

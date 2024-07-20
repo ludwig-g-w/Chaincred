@@ -17,13 +17,20 @@ import * as Application from "expo-application";
 import { router } from "expo-router";
 import React from "react";
 import { Pressable, View } from "react-native";
-import { ConnectButton, useActiveWallet, useDisconnect } from "thirdweb/react";
+import {
+  ConnectButton,
+  useActiveAccount,
+  useActiveWallet,
+  useDisconnect,
+} from "thirdweb/react";
 
 export default () => {
   const activeWallet = useActiveWallet();
+  const { disconnect } = useDisconnect();
   const logout = async () => {
     await storage.delete(STORAGE_AUTH_KEY);
     await activeWallet?.disconnect();
+    await disconnect(activeWallet?.id);
   };
   const { setColorScheme, isDarkColorScheme } = useColorScheme();
   const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];

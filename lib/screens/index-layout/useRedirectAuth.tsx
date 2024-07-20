@@ -11,17 +11,15 @@ export const useRedirectAuth = () => {
       if (key === STORAGE_AUTH_KEY) {
         jwt = storage.getString(STORAGE_AUTH_KEY);
         if (jwt) {
-          router.push("homeIndex");
+          router.replace("/homeIndex");
         } else {
-          router.push("/index");
+          router.replace("/");
         }
       }
     });
 
     if (jwt) {
-      router.push("homeIndex");
-    } else {
-      router.push("/index");
+      router.replace("/homeIndex");
     }
     return () => subscription.remove();
   }, []);

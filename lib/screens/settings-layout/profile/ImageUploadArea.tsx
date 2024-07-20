@@ -1,6 +1,6 @@
 import { View, Pressable } from "react-native";
 import { Image } from "expo-image";
-import { NWSymbolView } from "./nativeWindInterop";
+import { NWSymbolView } from "@lib/components/nativeWindInterop";
 import * as Typo from "@lib/components/ui/typography";
 import { useColorScheme } from "@lib/useColorScheme";
 import { NAV_THEME } from "@lib/constants";
@@ -34,9 +34,7 @@ export default function ImageUploadArea({
               tintColor={theme.secondary}
               className="h-12 aspect-square"
             />
-            <Typo.Large className="text-center mt-4">
-              Click and select image
-            </Typo.Large>
+            <Typo.Large className="text-center mt-4">Select image</Typo.Large>
           </View>
         )}
       </View>
