@@ -1,11 +1,16 @@
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { ListAttestationFragment } from "@generated/graphql"; // Adjust the import path according to where your generated code is
 import { convertJsonToObject } from "@utils/attestations";
+import { ethers6Adapter } from "thirdweb/adapters/ethers6";
 import { ReviewItem } from "@utils/types";
+import { Account } from "thirdweb/wallets";
+import { thirdwebClient } from "@lib/services/thirdwebClient";
+import { sepolia } from "thirdweb/chains";
 export const schemaEncoder = new SchemaEncoder(
   "string title,string description,string entityName,uint8 quantity"
 );
 
+// Not in use
 export async function createActionAttestation({
   signer,
   title,
@@ -44,13 +49,19 @@ export const schemaEncoderReview = new SchemaEncoder(
   "uint8 rating,string comment"
 );
 export async function createReviewAttestation({
-  signer,
-  rating = 0,
-  comment = "",
-  address = "",
+  account,
+  rating,
+  comment,
+  address,
+}: {
+  account: Account;
+  rating?: number;
+  comment?: string;
+  address?: string;
 }) {
   const eas = new EAS(process.env.EXPO_PUBLIC_EAS_CONTRACT);
-  await eas.connect(signer);
+
+  await eas.connect(account);
 
   const encodedData = schemaEncoderReview.encodeData([
     { name: "rating", value: rating, type: "uint8" },
@@ -67,7 +78,7 @@ export async function createReviewAttestation({
     },
   });
 
-  return await tx.wait();
+  return tx;
 }
 export const decodeDataReviewOrAction = (att: ListAttestationFragment) => {
   let decodedData;

@@ -30,8 +30,8 @@ const ScanScreen = () => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
   const [scannedAddress, setScannedAddress] = useState("");
-  const [rating, setRating] = useState(0);
-  const [sControl, setSControl] = useState("Review");
+  const [rating, setRating] = useState();
+
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
   const [comment, setComment] = useState("");
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -56,12 +56,13 @@ const ScanScreen = () => {
     invariant(account || scannedAddress || rating || comment, " Missing input");
     setLoading(true);
     try {
-      const id = await createReviewAttestation({
+      const tx = await createReviewAttestation({
         address: scannedAddress,
         rating,
         comment,
-        signer: account,
+        account: account,
       });
+      const id = await tx.wait();
       toast.show({
         duration: 3_000,
         placement: "top",
@@ -84,13 +85,16 @@ const ScanScreen = () => {
             action="error"
             variant="solid"
             title="Error occurred!"
-            description="Make sure you have some funds on your account"
+            description={error?.message}
           />
         ),
       });
       console.log(error);
     } finally {
       setLoading(false);
+      setIsBottomSheetVisible(false);
+      setScannedAddress("");
+      setRating(undefined);
     }
   };
 
@@ -152,33 +156,26 @@ const ScanScreen = () => {
           enablePanDownToClose={true}
           onClose={() => setIsBottomSheetVisible(false)}
         >
-          <KeyboardAwareScrollView>
-            <VStack p="$4">
-              <Typo.P>
-                Scanned Ethereum Address:
-                <Typo.Large className="color-secondary">
-                  {shortenAddress(scannedAddress)}
-                </Typo.Large>
-              </Typo.P>
-              {match(sControl)
-                .with("Review", () => (
-                  <>
-                    <ReviewComponent onRatingChange={handleRatingChange} />
-                    <Textarea p="$1" my="$4" rounded="$lg" bg="$blueGray100">
-                      <TextareaInput
-                        onChangeText={setComment}
-                        returnKeyType="default"
-                        placeholder="Make a comment..."
-                      />
-                    </Textarea>
+          <KeyboardAwareScrollView style={{ paddingHorizontal: 16, flex: 1 }}>
+            <Typo.Muted className="mb-4">
+              Scanned Ethereum Address:{" "}
+              <Typo.Large className="color-primary">
+                {shortenAddress(scannedAddress)}
+              </Typo.Large>
+            </Typo.Muted>
 
-                    <MainButton onPress={handleSubmitReview} {...{ loading }}>
-                      Confirm
-                    </MainButton>
-                  </>
-                ))
-                .run()}
-            </VStack>
+            <ReviewComponent onRatingChange={handleRatingChange} />
+            <Textarea p="$1" my="$4" rounded="$lg" bg="$blueGray100">
+              <TextareaInput
+                onChangeText={setComment}
+                returnKeyType="default"
+                placeholder="Make a comment..."
+              />
+            </Textarea>
+
+            <MainButton onPress={handleSubmitReview} {...{ loading }}>
+              Send review to EAS
+            </MainButton>
           </KeyboardAwareScrollView>
         </BottomSheet>
       )}

@@ -13,24 +13,24 @@ function hslToHex(h, s, l) {
 
 export const NAV_THEME = {
   light: {
-    background: hslToHex(147, 41, 98), // background
-    border: hslToHex(147, 10, 93), // border
-    card: hslToHex(147, 41, 97), // card
-    notification: hslToHex(0, 88, 30), // destructive
-    primary: hslToHex(147, 72, 55), // primary
-    text: hslToHex(147, 74, 4), // foreground
-    secondary: hslToHex(267, 72, 55),
-    accent: hslToHex(27, 72, 55),
+    background: hslToHex(0, 0, 100), // background
+    border: hslToHex(20, 5.9, 90), // border
+    card: hslToHex(0, 0, 100), // card
+    notification: hslToHex(0, 84.2, 60.2), // destructive
+    primary: hslToHex(47.9, 95.8, 53.1), // primary
+    text: hslToHex(20, 14.3, 4.1), // foreground
+    secondary: hslToHex(60, 4.8, 95.9), // secondary
+    accent: hslToHex(60, 4.8, 95.9), // accent
   },
   dark: {
-    background: hslToHex(147, 59, 0), // background
-    border: hslToHex(147, 10, 10), // border
-    card: hslToHex(0, 0, 1), // card
-    notification: hslToHex(0, 88, 59), // destructive
-    primary: hslToHex(147, 72, 85), // primary
-    text: hslToHex(147, 26, 98), // foreground
-    secondary: hslToHex(267, 72, 85),
-    accent: hslToHex(27, 72, 85),
+    background: hslToHex(20, 14.3, 4.1), // background
+    border: hslToHex(12, 6.5, 15.1), // border
+    card: hslToHex(20, 14.3, 4.1), // card
+    notification: hslToHex(0, 62.8, 30.6), // destructive
+    primary: hslToHex(47.9, 95.8, 53.1), // primary
+    text: hslToHex(60, 9.1, 97.8), // foreground
+    secondary: hslToHex(12, 6.5, 15.1), // secondary
+    accent: hslToHex(12, 6.5, 15.1), // accent
   },
 };
 

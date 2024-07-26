@@ -5,6 +5,7 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
+import * as Typo from "@lib/components/ui/typography";
 
 const ReviewComponent = ({ onRatingChange }) => {
   const [rating, setRating] = useState(0);
@@ -23,26 +24,29 @@ const ReviewComponent = ({ onRatingChange }) => {
   const emojis = ["😔", "😐", "😊", "😃", "🤩"];
 
   return (
-    <View style={{ flexDirection: "row" }}>
-      {emojis.map((emoji, index) => {
-        const animatedStyle = useAnimatedStyle(() => {
-          return {
-            transform: [{ scale: scaleAnimations[index].value }],
-            color: rating - 1 === index ? "#ffcc00" : "black",
-          };
-        });
+    <>
+      <Typo.H4>How was your experience?</Typo.H4>
+      <View style={{ flexDirection: "row" }}>
+        {emojis.map((emoji, index) => {
+          const animatedStyle = useAnimatedStyle(() => {
+            return {
+              transform: [{ scale: scaleAnimations[index].value }],
+              color: rating - 1 === index ? "#ffcc00" : "black",
+            };
+          });
 
-        return (
-          <Pressable key={index} onPress={() => handlePress(index)}>
-            <Animated.Text
-              style={[{ fontSize: 40, marginHorizontal: 5 }, animatedStyle]}
-            >
-              {emoji}
-            </Animated.Text>
-          </Pressable>
-        );
-      })}
-    </View>
+          return (
+            <Pressable key={index} onPress={() => handlePress(index)}>
+              <Animated.Text
+                style={[{ fontSize: 40, marginHorizontal: 5 }, animatedStyle]}
+              >
+                {emoji}
+              </Animated.Text>
+            </Pressable>
+          );
+        })}
+      </View>
+    </>
   );
 };
 

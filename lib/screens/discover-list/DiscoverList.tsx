@@ -29,6 +29,7 @@ const DiscoverList = () => {
         refreshing={isRefetching}
         keyExtractor={(d) => d.id.toString()}
         data={profiles}
+        style={{ flex: 1 }}
         ItemSeparatorComponent={() => <Box h="$2" />}
         renderItem={({ item }) => (
           <ListItem

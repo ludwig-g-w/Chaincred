@@ -181,7 +181,7 @@ export default function SettingsProfile() {
               setEditing={setEditing}
             >
               <Input
-                className="border-secondary focus:border-2"
+                className="border-primary focus:border-2"
                 value={title}
                 onChangeText={setTitle}
                 placeholder={"Enter your name"}

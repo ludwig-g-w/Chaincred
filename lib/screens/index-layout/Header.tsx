@@ -26,7 +26,6 @@ const Header = memo(() => {
     .with("/discoverMap", () => "Discover")
     .with("/discoverList", () => "Discover")
     .with("/gettingStarted", () => "Home")
-
     .otherwise(
       (path) => `${path.toLocaleUpperCase().slice(1, 2)}${path.slice(2, 13)}`
     );
@@ -35,27 +34,27 @@ const Header = memo(() => {
     <View className="bg-background py-2  overflow-visible">
       <SafeAreaView />
       <View className="w-full px-2 flex-row items-center justify-between">
-        <View className="gap-4 flex-row items-center justify-center">
-          {!!router.canGoBack() && (
-            <Pressable
-              style={{
-                opacity: router.canGoBack() ? 1 : 0,
-              }}
-              onPress={() => {
-                if (router.canGoBack()) {
-                  router.back();
-                }
-              }}
-            >
+        <Pressable
+          onPress={() => {
+            if (router.canGoBack()) {
+              router.back();
+            }
+          }}
+        >
+          <View className="gap-4 flex-row items-center justify-center">
+            {!!router.canGoBack() && (
               <NWSymbolView
+                style={{
+                  opacity: router.canGoBack() ? 1 : 0,
+                }}
                 className="h-[20] aspect-square"
                 name="chevron.compact.left"
                 tintColor={tTheme.text}
               />
-            </Pressable>
-          )}
-          <Typo.H2 className="font-extrabold p-0 m-0">{title}</Typo.H2>
-        </View>
+            )}
+            <Typo.H2 className="font-extrabold p-0 m-0">{title}</Typo.H2>
+          </View>
+        </Pressable>
       </View>
     </View>
   );

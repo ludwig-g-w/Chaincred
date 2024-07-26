@@ -4,25 +4,15 @@ import { Button } from "@lib/components/ui/button";
 import { Switch } from "@lib/components/ui/switch";
 import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME, STORAGE_AUTH_KEY } from "@lib/constants";
-import {
-  chain,
-  connectConfig,
-  thirdwebClient,
-  wallets,
-} from "@lib/services/thirdwebClient";
 
-import { useColorScheme } from "@lib/useColorScheme";
+import ConnectButtonThirdweb from "@lib/components/ConnectButtonThirdweb";
 import { storage } from "@lib/services/storage.client";
+import { useColorScheme } from "@lib/useColorScheme";
 import * as Application from "expo-application";
 import { router } from "expo-router";
 import React from "react";
 import { Pressable, View } from "react-native";
-import {
-  ConnectButton,
-  useActiveAccount,
-  useActiveWallet,
-  useDisconnect,
-} from "thirdweb/react";
+import { useActiveWallet, useDisconnect } from "thirdweb/react";
 
 export default () => {
   const activeWallet = useActiveWallet();
@@ -55,13 +45,7 @@ export default () => {
           <Button variant={"outline"} onPress={() => logout()}>
             <Typo.Large>Sign out</Typo.Large>
           </Button>
-          <ConnectButton
-            {...connectConfig}
-            onDisconnect={() => {
-              console.log("disconnect");
-              logout();
-            }}
-          />
+          <ConnectButtonThirdweb />
         </View>
 
         <Typo.Muted>Version: {Application.nativeApplicationVersion}</Typo.Muted>

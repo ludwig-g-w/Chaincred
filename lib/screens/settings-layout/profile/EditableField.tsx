@@ -34,8 +34,8 @@ export const EditableField = ({
             <View flex={1}>{children}</View>
             <Pressable onPress={onSave}>
               <NWSymbolView
-                className="w-8 aspect-square"
-                name="checkmark.circle"
+                className="w-8 h-10 aspect-square"
+                name="checkmark.circle.fill"
                 type="hierarchical"
                 tintColor={theme.primary}
               />
@@ -53,10 +53,10 @@ export const EditableField = ({
               }
             >
               <NWSymbolView
-                name="pencil.circle"
+                name="pencil.circle.fill"
                 type="hierarchical"
-                tintColor={theme.secondary}
-                className="w-8 aspect-square "
+                tintColor={theme.primary}
+                className="w-8 h-10 aspect-square"
               />
             </Pressable>
           </>

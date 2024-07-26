@@ -41,7 +41,7 @@ const ProfileListItem = (props: Props) => {
           </View>
         </View>
         <NWSymbolView
-          tintColor={theme.secondary}
+          tintColor={theme.primary}
           name="chevron.right.circle.fill"
         />
       </View>

@@ -12,12 +12,23 @@ export const chain = sepolia;
 export const wallets = [
   inAppWallet({
     auth: {
-      options: ["google", "facebook", "apple", "email", "passkey"],
+      options: ["google", "facebook", "apple", "email"],
     },
   }),
 
   createWallet("io.metamask"),
-  createWallet("com.coinbase.wallet"),
+  createWallet("com.coinbase.wallet", {
+    chains: [sepolia],
+    appMetadata: {
+      name: "ChainCred",
+      logoUrl: "assets/icon.png",
+      url: "gtfol.xyz",
+    },
+
+    mobileConfig: {
+      callbackURL: "chaincred:///",
+    },
+  }),
   createWallet("me.rainbow"),
   createWallet("com.trustwallet.app"),
   createWallet("app.backpack"),
@@ -27,8 +38,8 @@ export const wallets = [
 export const connectConfig = {
   client: thirdwebClient,
   wallets: wallets,
-  chain: sepolia,
-  chains: [sepolia],
+  chain: chain,
+  chains: [chain],
   // accountAbstraction: {
   //   factoryAddress: "0x7675fbfd3c6aff22db02edb74773067b5e15ac0f",
   //   sponsorGas: true,

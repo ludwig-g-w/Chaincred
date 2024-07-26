@@ -12,7 +12,7 @@ export default function TabLayout() {
     <Tabs
       initialRouteName="(home)"
       screenOptions={{
-        tabBarActiveTintColor: theme.secondary,
+        tabBarActiveTintColor: theme.primary,
         header: () => null,
         tabBarStyle: {
           backgroundColor: theme.background,
