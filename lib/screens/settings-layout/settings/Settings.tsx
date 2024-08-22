@@ -42,9 +42,6 @@ export default () => {
       </View>
       <View className="mt-auto items-center">
         <View className="flex-row gap-2 flex-wrap ">
-          <Button variant={"outline"} onPress={() => logout()}>
-            <Typo.Large>Sign out</Typo.Large>
-          </Button>
           <ConnectButtonThirdweb />
         </View>
 
