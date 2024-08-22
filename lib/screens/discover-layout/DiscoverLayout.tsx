@@ -15,40 +15,8 @@ export default function App() {
 
   return (
     <View className="flex-1 bg-background">
-      {/* <View className="w-full flex-row bg-background pb-2">
-        <Link href="/discoverMap" asChild>
-          <Pressable
-            className={`flex items-center rounded-l-full w-24 px-4 py-2 ${
-              isMap ? "bg-accent" : "bg-gray-300"
-            }`}
-          >
-            <Typo.Muted
-              className={`font-bold ${
-                isMap ? "text-accent-foreground" : "text-gray-800"
-              }`}
-            >
-              Map
-            </Typo.Muted>
-          </Pressable>
-        </Link>
-        <Link href="/discoverList" asChild>
-          <Pressable
-            className={`flex items-center rounded-r-full px-4 py-2 w-24 ${
-              !isMap ? "bg-accent" : "bg-gray-300"
-            }`}
-          >
-            <Typo.Muted
-              className={`font-bold ${
-                !isMap ? "text-accent-foreground" : "text-gray-800"
-              }`}
-            >
-              List
-            </Typo.Muted>
-          </Pressable>
-        </Link>
-      </View> */}
-
       <SegmentedControl
+        selectedIndex={isMap ? 0 : 1}
         activeFontStyle={{
           color: theme.text,
           fontSize: 18,

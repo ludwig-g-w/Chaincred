@@ -65,7 +65,7 @@ export default () => {
           <Typo.H4>{title}</Typo.H4>
           {children ?? (
             <NWSymbolView
-              tintColor={theme.secondary}
+              tintColor={theme.primary}
               name="chevron.right.circle.fill"
             />
           )}

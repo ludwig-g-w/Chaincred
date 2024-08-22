@@ -1,28 +1,20 @@
 import MainButton from "@components/MainButton";
 import ReviewComponent from "@components/Rating";
 import MyToast from "@components/Toast";
-import {
-  Box,
-  Textarea,
-  TextareaInput,
-  VStack,
-  useToast,
-} from "@gluestack-ui/themed";
+import { Box, Textarea, TextareaInput, useToast } from "@gluestack-ui/themed";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { useActiveAccount } from "thirdweb/react";
 import { createReviewAttestation } from "@utils/eas";
 import { shortenAddress } from "@utils/index";
+import { useActiveAccount } from "thirdweb/react";
 
 import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
 import { Camera, CameraView } from "expo-camera";
-import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import invariant from "tiny-invariant";
-import { match } from "ts-pattern";
 
 const ScanScreen = () => {
   const { isDarkColorScheme } = useColorScheme();
@@ -165,11 +157,12 @@ const ScanScreen = () => {
             </Typo.Muted>
 
             <ReviewComponent onRatingChange={handleRatingChange} />
-            <Textarea p="$1" my="$4" rounded="$lg" bg="$blueGray100">
+            <Textarea p="$1" my="$4" rounded="$lg" bg="$backgroundLight800">
               <TextareaInput
                 onChangeText={setComment}
                 returnKeyType="default"
                 placeholder="Make a comment..."
+                color="$textDark200"
               />
             </Textarea>
 
