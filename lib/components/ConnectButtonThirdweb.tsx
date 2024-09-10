@@ -3,11 +3,11 @@ import { storage } from "@lib/services/storage.client";
 import { thirdwebClient, wallets } from "@lib/services/thirdwebClient";
 import { trpc } from "@lib/utils/trpc";
 import React from "react";
-import { sepolia } from "thirdweb/chains";
 import { View } from "react-native";
+import { sepolia } from "thirdweb/chains";
 
 import { ConnectButton, useActiveWallet, useDisconnect } from "thirdweb/react";
-import { Lead } from "./ui/typography";
+import invariant from "tiny-invariant";
 
 function ConnectButtonThirdweb() {
   const utils = trpc.useUtils();
@@ -18,9 +18,10 @@ function ConnectButtonThirdweb() {
   const wallet = useActiveWallet();
 
   const logout = async () => {
+    invariant(wallet, "No wallet connected");
     await storage.delete(STORAGE_AUTH_KEY);
-    await wallet?.disconnect();
-    await disconnect(wallet?.id);
+    await wallet.disconnect();
+    await disconnect(wallet.id);
   };
 
   return (
@@ -30,13 +31,6 @@ function ConnectButtonThirdweb() {
         wallets={wallets}
         chain={sepolia}
         chains={[sepolia]}
-        detailsButton={{
-          render: () => (
-            <View className="w-full h-full">
-              <Lead>Connect</Lead>
-            </View>
-          ),
-        }}
         appMetadata={{
           name: "ChainCred",
           logoUrl: "assets/icon.png",

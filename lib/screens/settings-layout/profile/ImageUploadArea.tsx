@@ -14,7 +14,7 @@ export default function ImageUploadArea({
   const { isDarkColorScheme } = useColorScheme();
   const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
   return (
-    <Pressable className="active:opacity-80 transition-all" onPress={onPress}>
+    <Pressable onPress={onPress}>
       <View className="bg-background rounded-full h-[180] aspect-square justify-center  border-dashed border-2 border-secondary">
         {img ? (
           <Image

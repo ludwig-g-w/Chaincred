@@ -74,8 +74,8 @@ const Index = () => {
                     We will show you want you can do!
                   </CardDescription>
                 </CardHeader>
-                <CardHeader className="">
-                  <View className="animate-bounce">
+                <CardHeader>
+                  <View>
                     <NWSymbolView
                       tintColor={theme.border}
                       name="chevron.right.circle.fill"
