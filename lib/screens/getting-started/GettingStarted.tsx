@@ -1,9 +1,9 @@
 import { Progress, ProgressFilledTrack } from "@gluestack-ui/themed";
-import { NWSymbolView } from "@lib/components/nativeWindInterop";
+import { NWIcon } from "@lib/components/nativeWindInterop";
 import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME } from "@lib/constants";
 import React, { useRef, useState } from "react";
-import { Dimensions, ScrollView, View } from "react-native";
+import { Dimensions, Platform, ScrollView, View } from "react-native";
 const { width: viewportWidth, height: viewportHeight } =
   Dimensions.get("window");
 
@@ -11,22 +11,22 @@ const slides = [
   {
     title: "Give a review",
     text: "Scan somebody QR code and give them a Smiley 😍 & a comment",
-    icon: "camera.fill",
+    icon: Platform.OS === "ios" ? "camera.fill" : "camera",
   },
   {
     title: "Find other users",
     text: "Use the discover tab to find other users and see their score",
-    icon: "binoculars.fill",
+    icon: Platform.OS === "ios" ? "binoculars.fill" : "binoculars",
   },
   {
     title: "Keep track on your own score",
     text: "On the home screen you see all activity and your own score",
-    icon: "house.fill",
+    icon: Platform.OS === "ios" ? "house.fill" : "house-chimney",
   },
   {
     title: "Create your profile",
     text: "Don't forget to edit your profile, you won't be discoverable until that is set up",
-    icon: "gearshape.fill",
+    icon: Platform.OS === "ios" ? "gearshape.fill" : "gear",
   },
 ];
 
@@ -74,12 +74,13 @@ const OnboardingCarousel = () => {
             key={index}
             className="justify-center items-center px-4 gap-4"
           >
-            <NWSymbolView
+            <NWIcon
               size={88}
+              color={NAV_THEME["light"].primary}
               resizeMode="scaleAspectFill"
               // @ts-ignore
               name={slide.icon ?? "homepod.fill"}
-              tintColor={NAV_THEME["light"].secondary}
+              tintColor={NAV_THEME["light"].primary}
               animationSpec={{
                 repeating: true,
                 speed: 0.05,

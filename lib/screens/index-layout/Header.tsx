@@ -3,14 +3,14 @@ import React from "react";
 import { Box, ChevronLeftIcon, Text } from "@gluestack-ui/themed";
 import { usePathname } from "expo-router";
 import { memo } from "react";
-import { Pressable, View } from "react-native";
+import { Platform, Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { match, P } from "ts-pattern";
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
 import * as Typo from "@lib/components/ui/typography";
 import ConnectWalletV5 from "@lib/components/connect-modal-v5";
-import { NWSymbolView } from "@lib/components/nativeWindInterop";
+import { NWIcon } from "@lib/components/nativeWindInterop";
 
 const Header = memo(() => {
   const { isDarkColorScheme } = useColorScheme();
@@ -43,12 +43,18 @@ const Header = memo(() => {
         >
           <View className="gap-4 flex-row items-center justify-center">
             {!!router.canGoBack() && (
-              <NWSymbolView
+              <NWIcon
                 style={{
                   opacity: router.canGoBack() ? 1 : 0,
                 }}
                 className="h-[20] aspect-square"
-                name="chevron.compact.left"
+                name={
+                  Platform.OS === "ios"
+                    ? "chevron.compact.left"
+                    : "chevron-left"
+                }
+                color={tTheme.text}
+                size={18}
                 tintColor={tTheme.text}
               />
             )}

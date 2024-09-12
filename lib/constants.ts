@@ -17,7 +17,7 @@ export const NAV_THEME = {
     border: hslToHex(20, 5.9, 90), // border
     card: hslToHex(0, 0, 100), // card
     notification: hslToHex(0, 84.2, 60.2), // destructive
-    primary: hslToHex(47.9, 95.8, 53.1), // primary
+    primary: hslToHex(151, 71, 55), // primary
     text: hslToHex(20, 14.3, 4.1), // foreground
     secondary: hslToHex(60, 4.8, 95.9), // secondary
     accent: hslToHex(60, 4.8, 95.9), // accent
@@ -27,7 +27,7 @@ export const NAV_THEME = {
     border: hslToHex(12, 6.5, 15.1), // border
     card: hslToHex(20, 14.3, 4.1), // card
     notification: hslToHex(0, 62.8, 30.6), // destructive
-    primary: hslToHex(47.9, 95.8, 53.1), // primary
+    primary: hslToHex(151, 71, 55), // primary
     text: hslToHex(60, 9.1, 97.8), // foreground
     secondary: hslToHex(12, 6.5, 15.1), // secondary
     accent: hslToHex(12, 6.5, 15.1), // accent

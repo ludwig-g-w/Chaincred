@@ -5,7 +5,7 @@ import { Entypo } from "@expo/vector-icons";
 
 import { Input } from "@lib/components/ui/input";
 import { Button } from "@lib/components/ui/button";
-import { NWSymbolView } from "./nativeWindInterop";
+import { NWIcon } from "./nativeWindInterop";
 import { NAV_THEME } from "@lib/constants";
 
 export type ThemedInputProps = {
@@ -40,10 +40,15 @@ export function InputWithButton(props: ThemedInputProps) {
               color={NAV_THEME["light"].text}
             />
           ) : (
-            <NWSymbolView
+            <NWIcon
               size={22}
-              name="chevron.right.circle"
+              name={
+                Platform.OS === "ios"
+                  ? "chevron.right.circle"
+                  : "circle-chevron-right"
+              }
               tintColor={NAV_THEME["light"].text}
+              color={NAV_THEME["light"].text}
             />
           )}
         </Button>

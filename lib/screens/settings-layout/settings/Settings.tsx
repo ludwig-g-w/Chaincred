@@ -1,5 +1,5 @@
 import { HStack } from "@gluestack-ui/themed";
-import { NWSymbolView } from "@lib/components/nativeWindInterop";
+import { NWIcon } from "@lib/components/nativeWindInterop";
 import { Button } from "@lib/components/ui/button";
 import { Switch } from "@lib/components/ui/switch";
 import * as Typo from "@lib/components/ui/typography";
@@ -11,7 +11,7 @@ import { useColorScheme } from "@lib/useColorScheme";
 import * as Application from "expo-application";
 import { router } from "expo-router";
 import React from "react";
-import { Pressable, View } from "react-native";
+import { Platform, Pressable, View } from "react-native";
 import { useActiveWallet, useDisconnect } from "thirdweb/react";
 
 export default () => {
@@ -64,9 +64,15 @@ export default () => {
         >
           <Typo.H4>{title}</Typo.H4>
           {children ?? (
-            <NWSymbolView
+            <NWIcon
               tintColor={theme.primary}
-              name="chevron.right.circle.fill"
+              name={
+                Platform.OS === "ios"
+                  ? "chevron.right.circle.fill"
+                  : "circle-chevron-right"
+              }
+              color={theme.primary}
+              size={24}
             />
           )}
         </HStack>

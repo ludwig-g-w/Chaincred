@@ -1,7 +1,7 @@
 import ReviewListItem from "@components/ReviewListItem";
 import SuspenseFallback from "@components/SuspenseFallback";
 import { Box, Text, View } from "@gluestack-ui/themed";
-import { NWSymbolView } from "@lib/components/nativeWindInterop";
+import { NWIcon } from "@lib/components/nativeWindInterop";
 import {
   Card,
   CardDescription,
@@ -16,7 +16,7 @@ import { Attestation, isReviewItem } from "@utils/types";
 import { format, parseISO } from "date-fns";
 import { useRouter } from "expo-router";
 import React, { Suspense, useMemo } from "react";
-import { Pressable } from "react-native";
+import { Platform, Pressable } from "react-native";
 import { useActiveAccount } from "thirdweb/react";
 
 const Index = () => {
@@ -76,9 +76,15 @@ const Index = () => {
                 </CardHeader>
                 <CardHeader>
                   <View>
-                    <NWSymbolView
+                    <NWIcon
                       tintColor={theme.border}
-                      name="chevron.right.circle.fill"
+                      name={
+                        Platform.OS === "ios"
+                          ? "chevron.right.circle.fill"
+                          : "circle-chevron-right"
+                      }
+                      color={theme.text}
+                      size={24}
                     />
                   </View>
                 </CardHeader>

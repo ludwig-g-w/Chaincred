@@ -1,6 +1,6 @@
 import * as Typo from "@lib/components/ui/typography";
 import React from "react";
-import { NWSymbolView } from "./nativeWindInterop";
+import { NWIcon } from "./nativeWindInterop";
 import { Button, ButtonProps } from "./ui/button";
 import { View } from "react-native";
 import { NAV_THEME } from "@lib/constants";
@@ -23,7 +23,7 @@ const MainButton = ({ loading = false, children, ...rest }: Props) => {
       <Typo.Large>{children}</Typo.Large>
       {loading && (
         <View className="absolute left-4 origin-center animate-spin">
-          <NWSymbolView name="gobackward" tintColor={theme.text} />
+          <NWIcon name="gobackward" tintColor={theme.text} />
         </View>
       )}
     </Button>

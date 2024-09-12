@@ -6,6 +6,7 @@ import { Account } from "thirdweb/wallets";
 import { ethers6Adapter } from "thirdweb/adapters/ethers6";
 import { thirdwebClient } from "@lib/services/thirdwebClient";
 import { sepolia } from "thirdweb/chains";
+import { createThirdwebClient } from "thirdweb";
 export const schemaEncoder = new SchemaEncoder(
   "string title,string description,string entityName,uint8 quantity"
 );
@@ -61,13 +62,15 @@ export async function createReviewAttestation({
 }) {
   const eas = new EAS(process.env.EXPO_PUBLIC_EAS_CONTRACT);
   try {
-    const signer = await ethers6Adapter.signer.toEthers({
+    const ethersSigner = await ethers6Adapter.signer.toEthers({
       account,
       chain: sepolia,
-      client: thirdwebClient,
+      client: createThirdwebClient({
+        clientId: "b1535b34b5222fc49bdf7394c152dc3e",
+      }),
     });
 
-    await eas.connect(signer);
+    await eas.connect(ethersSigner);
 
     const encodedData = schemaEncoderReview.encodeData([
       { name: "rating", value: rating, type: "uint8" },
@@ -77,7 +80,7 @@ export async function createReviewAttestation({
     const tx = await eas.attest({
       schema: process.env.EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW,
       data: {
-        recipient: address,
+        recipient: address!,
         expirationTime: 0 as any,
         revocable: true, // Be aware that if your schema is not revocable, this MUST be false
         data: encodedData,

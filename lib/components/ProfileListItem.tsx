@@ -7,7 +7,7 @@ import React from "react";
 import { Pressable } from "react-native";
 import { isAddress, shortenAddress } from "../utils";
 import * as Typo from "@lib/components/ui/typography";
-import { NWSymbolView } from "./nativeWindInterop";
+import { NWIcon } from "./nativeWindInterop";
 import { useColorScheme } from "@lib/useColorScheme";
 import { NAV_THEME } from "@lib/constants";
 
@@ -40,10 +40,7 @@ const ProfileListItem = (props: Props) => {
             <Typo.Large>{formattedTitle}</Typo.Large>
           </View>
         </View>
-        <NWSymbolView
-          tintColor={theme.primary}
-          name="chevron.right.circle.fill"
-        />
+        <NWIcon tintColor={theme.primary} name="chevron.right.circle.fill" />
       </View>
     </Pressable>
   );

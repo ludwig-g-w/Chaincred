@@ -1,7 +1,8 @@
-import { NWSymbolView } from "@lib/components/nativeWindInterop";
+import { NWIcon } from "@lib/components/nativeWindInterop";
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
 import { Tabs } from "expo-router";
+import { Platform } from "react-native";
 
 export default function TabLayout() {
   const { isDarkColorScheme } = useColorScheme();
@@ -25,11 +26,13 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            <NWSymbolView
-              className="aspect-square, w-8"
-              name="house.fill"
+            <NWIcon
+              className={Platform.OS === "ios" ? "aspect-square, w-8" : ""}
+              name={Platform.OS === "ios" ? "house.fill" : "house-chimney"}
               tintColor={color}
               type="hierarchical"
+              color={color}
+              size={24}
             />
           ),
         }}
@@ -40,10 +43,12 @@ export default function TabLayout() {
         options={{
           title: "Discover",
           tabBarIcon: ({ color }) => (
-            <NWSymbolView
-              className="aspect-square, w-8"
-              name="binoculars.fill"
+            <NWIcon
+              className={Platform.OS === "ios" ? "aspect-square, w-8" : ""}
+              name={Platform.OS === "ios" ? "binoculars.fill" : "binoculars"}
               tintColor={color}
+              color={color}
+              size={24}
             />
           ),
         }}
@@ -53,10 +58,12 @@ export default function TabLayout() {
         options={{
           title: "Scan",
           tabBarIcon: ({ color }) => (
-            <NWSymbolView
-              className="aspect-square, w-8"
-              name="camera.fill"
+            <NWIcon
+              className={Platform.OS === "ios" ? "aspect-square, w-8" : ""}
+              name={Platform.OS === "ios" ? "camera.fill" : "camera"}
               tintColor={color}
+              color={color}
+              size={24}
             />
           ),
         }}
@@ -66,10 +73,12 @@ export default function TabLayout() {
         options={{
           title: "Settings",
           tabBarIcon: ({ color }) => (
-            <NWSymbolView
-              className="aspect-square, w-8"
-              name="gearshape.fill"
+            <NWIcon
+              className={Platform.OS === "ios" ? "aspect-square, w-8" : ""}
+              name={Platform.OS === "ios" ? "gearshape.fill" : "gear"}
               tintColor={color}
+              color={color}
+              size={24}
             />
           ),
         }}

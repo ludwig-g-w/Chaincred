@@ -1,5 +1,4 @@
-import { AvatarImage, ChevronRightIcon } from "@gluestack-ui/themed";
-import { Avatar, Box, Center, HStack, Text } from "@gluestack-ui/themed";
+import { Box, Center, HStack, Text } from "@gluestack-ui/themed";
 import { Profile } from "@prisma/client";
 import { router } from "expo-router";
 import React, {
@@ -9,9 +8,18 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Dimensions, StyleSheet } from "react-native";
-import MapView, { Callout, Marker, Region } from "react-native-maps";
+import { Dimensions, Platform, StyleSheet } from "react-native";
+import * as Typo from "./ui/typography";
+import MapView, {
+  Callout,
+  Marker,
+  PROVIDER_DEFAULT,
+  PROVIDER_GOOGLE,
+  Region,
+} from "react-native-maps";
 import Supercluster from "supercluster";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { NWIcon } from "./nativeWindInterop";
 
 const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
   const mapRef = useRef(null);
@@ -104,6 +112,7 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
             </Marker>
           );
         }
+
         return (
           <Marker key={`marker-${profile?.id}`} coordinate={coord}>
             <Callout
@@ -119,16 +128,23 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
                 bgColor="white"
                 p="$4"
               >
-                <Avatar size={"md"}>
+                <Avatar alt="avatar">
                   <AvatarImage
-                    alt="avatar"
-                    source={{
-                      uri: profile?.image_url,
-                    }}
+                    className="w-10 h-10 aspect-square"
+                    source={{ uri: "https://github.com/mrzachnugent.png" }}
                   />
+                  <AvatarFallback>
+                    <Typo.Large>ZN</Typo.Large>
+                  </AvatarFallback>
                 </Avatar>
                 <Text bold>{profile?.title}</Text>
-                <ChevronRightIcon size="xl" />
+                <NWIcon
+                  name={
+                    Platform.OS === "ios" ? "chevron.right" : "chevron-right"
+                  }
+                  size={24}
+                  color="white"
+                />
               </HStack>
             </Callout>
           </Marker>
@@ -139,6 +155,7 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
 
   return (
     <MapView
+      provider={Platform.OS === "android" ? PROVIDER_GOOGLE : PROVIDER_DEFAULT}
       ref={mapRef}
       style={styles.map}
       onRegionChangeComplete={onRegionChange}

@@ -1,9 +1,10 @@
-import { NWSymbolView } from "@lib/components/nativeWindInterop";
+import { NWIcon } from "@lib/components/nativeWindInterop";
 import { Label } from "@lib/components/ui/label";
 import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
 import React, { ReactElement } from "react";
+import { Platform } from "react-native";
 import { Pressable, View } from "react-native";
 
 type EditableFieldProps = {
@@ -33,9 +34,9 @@ export const EditableField = ({
           <>
             <View flex={1}>{children}</View>
             <Pressable onPress={onSave}>
-              <NWSymbolView
+              <NWIcon
                 className="w-8 h-10 aspect-square"
-                name="checkmark.circle.fill"
+                name={Platform.OS === "ios" ? "checkmark.circle.fill" : "check"}
                 type="hierarchical"
                 tintColor={theme.primary}
               />
@@ -52,8 +53,8 @@ export const EditableField = ({
                 }))
               }
             >
-              <NWSymbolView
-                name="pencil.circle.fill"
+              <NWIcon
+                name={Platform.OS === "ios" ? "pencil.circle.fill" : "pencil"}
                 type="hierarchical"
                 tintColor={theme.primary}
                 className="w-8 h-10 aspect-square"

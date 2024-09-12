@@ -1,6 +1,6 @@
-import { View, Pressable } from "react-native";
+import { View, Pressable, Platform } from "react-native";
 import { Image } from "expo-image";
-import { NWSymbolView } from "@lib/components/nativeWindInterop";
+import { NWIcon } from "@lib/components/nativeWindInterop";
 import * as Typo from "@lib/components/ui/typography";
 import { useColorScheme } from "@lib/useColorScheme";
 import { NAV_THEME } from "@lib/constants";
@@ -29,10 +29,12 @@ export default function ImageUploadArea({
           />
         ) : (
           <View className="justify-center items-center">
-            <NWSymbolView
+            <NWIcon
               name="paperclip"
               tintColor={theme.secondary}
               className="h-12 aspect-square"
+              color={theme.secondary}
+              size={Platform.OS === "android" ? 24 : 32}
             />
             <Typo.Large className="text-center mt-4">Select image</Typo.Large>
           </View>

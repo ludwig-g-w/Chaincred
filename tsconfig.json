@@ -26,7 +26,7 @@
       "~/*": [
         "*"
       ]
-    },
+    }
   },
   "include": [
     "**/*.ts",
@@ -36,5 +36,6 @@
     "lib/services/db/importCSV.js",
     "api/index.js",
     "lib/useColorScheme.tx",
+    "nativewind-env.d.ts"
   ]
 }
