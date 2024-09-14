@@ -60,14 +60,14 @@ export async function createReviewAttestation({
   comment?: string;
   address?: string;
 }) {
-  const eas = new EAS(process.env.EXPO_PUBLIC_EAS_CONTRACT);
   try {
+    const eas = new EAS(process.env.EXPO_PUBLIC_EAS_CONTRACT);
+
+    // doesnt work with thirdweb
     // const ethersSigner = await ethers6Adapter.signer.toEthers({
     //   account,
     //   chain: sepolia,
-    //   client: createThirdwebClient({
-    //     clientId: "b1535b34b5222fc49bdf7394c152dc3e",
-    //   }),
+    //   client: ??
     // });
 
     await eas.connect(account as any);
@@ -86,8 +86,9 @@ export async function createReviewAttestation({
         data: encodedData,
       },
     });
+    const receipt = await tx.wait();
 
-    return tx;
+    return receipt;
   } catch (error) {
     console.log(error);
   }
