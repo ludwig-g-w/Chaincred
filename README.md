@@ -2,9 +2,9 @@
   <img src="./assets/icon.png" width="200" />
 </p>
 
-# ChainCred
+# Chaincred
 
-ChainCred is a decentralized review & loyalty app that allows users to verify their identity using their Ethereum address. It uses thirdweb's React Native SDK to interact
+Chaincred is a decentralized review & loyalty app that allows users to attest an review with EAS scanning the Ethereum address of another user. It uses thirdweb's React Native SDK to interact
 with the blockchain and thirdweb's Authentication SDK to handle user authentication.
 
 ## Demo
