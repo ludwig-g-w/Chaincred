@@ -43,7 +43,6 @@ To get started with ChainCred, follow these steps:
 
 - Node.js v18.x
 - Bun v1.x
-- MacOS, project only works on iOS atm
 - Docker
 
 1. Clone the repository to your local machine:
@@ -86,6 +85,10 @@ bun install
    bun ios
    ```
 
+## Known issues
+
+- social login doesn't work
+
 ## Contributing
 
 We welcome contributions to ChainCred! If you have any ideas or suggestions for how to improve the app, please open an issue or submit a pull request on our GitHub repository.
@@ -93,7 +96,3 @@ We welcome contributions to ChainCred! If you have any ideas or suggestions for 
 ## License
 
 ChainCred is licensed under the Apache License 2.0.
-
-## Contact
-
-If you have any questions or comments, please reach out to us at [ludwigw@hey.com](mailto:ludwigw@hey.com).
