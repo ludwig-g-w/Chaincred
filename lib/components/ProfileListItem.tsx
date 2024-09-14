@@ -1,15 +1,13 @@
-import { HStack } from "@gluestack-ui/themed";
 import { Profile } from "@utils/types";
 
-import { View } from "react-native";
+import * as Typo from "@lib/components/ui/typography";
+import { NAV_THEME } from "@lib/constants";
+import { useColorScheme } from "@lib/useColorScheme";
 import { Image } from "expo-image";
 import React from "react";
-import { Pressable } from "react-native";
+import { Platform, Pressable, View } from "react-native";
 import { isAddress, shortenAddress } from "../utils";
-import * as Typo from "@lib/components/ui/typography";
-import { NWSymbolView } from "./nativeWindInterop";
-import { useColorScheme } from "@lib/useColorScheme";
-import { NAV_THEME } from "@lib/constants";
+import { NWIcon } from "./nativeWindInterop";
 
 type Props = Profile & {
   onPress: () => void;
@@ -40,9 +38,15 @@ const ProfileListItem = (props: Props) => {
             <Typo.Large>{formattedTitle}</Typo.Large>
           </View>
         </View>
-        <NWSymbolView
-          tintColor={theme.secondary}
-          name="chevron.right.circle.fill"
+        <NWIcon
+          tintColor={theme.primary}
+          color={theme.primary}
+          name={
+            Platform.OS === "ios"
+              ? "chevron.right.circle.fill"
+              : "circle-chevron-right"
+          }
+          size={24}
         />
       </View>
     </Pressable>

@@ -82,7 +82,7 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
           <Badge
             alignSelf="flex-start"
             rounded="$md"
-            bg={userAttested ? "$yellow500" : "$purple500"}
+            bg={userAttested ? "$cyan500" : "$purple500"}
             gap="$1"
           >
             <BadgeIcon

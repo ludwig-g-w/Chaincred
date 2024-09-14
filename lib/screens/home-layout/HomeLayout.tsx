@@ -8,9 +8,9 @@ export default () => {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="index"
+        initialRouteName="homeIndex"
       >
-        <Stack.Screen name="index" />
+        <Stack.Screen name="homeIndex" />
       </Stack>
     </MyErrorBoundary>
   );

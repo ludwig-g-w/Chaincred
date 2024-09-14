@@ -1,28 +1,20 @@
 import MainButton from "@components/MainButton";
 import ReviewComponent from "@components/Rating";
 import MyToast from "@components/Toast";
-import {
-  Box,
-  Textarea,
-  TextareaInput,
-  VStack,
-  useToast,
-} from "@gluestack-ui/themed";
+import { Box, Textarea, TextareaInput, useToast } from "@gluestack-ui/themed";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { useSigner } from "@thirdweb-dev/react-native";
 import { createReviewAttestation } from "@utils/eas";
 import { shortenAddress } from "@utils/index";
+import { useActiveAccount } from "thirdweb/react";
 
 import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
 import { Camera, CameraView } from "expo-camera";
-import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import invariant from "tiny-invariant";
-import { match } from "ts-pattern";
 
 const ScanScreen = () => {
   const { isDarkColorScheme } = useColorScheme();
@@ -30,16 +22,16 @@ const ScanScreen = () => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
   const [scannedAddress, setScannedAddress] = useState("");
-  const [rating, setRating] = useState(0);
-  const [sControl, setSControl] = useState("Review");
+  const [rating, setRating] = useState();
+
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
   const [comment, setComment] = useState("");
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const signer = useSigner();
+  const account = useActiveAccount();
   const toast = useToast();
 
   const handleSubmitReview = async () => {
-    if (!signer) {
+    if (!account) {
       toast.show({
         duration: 6_000,
         placement: "top",
@@ -53,50 +45,47 @@ const ScanScreen = () => {
         ),
       });
     }
-    invariant(signer || scannedAddress || rating || comment, " Missing input");
-    setLoading(true);
     try {
-      const id = await createReviewAttestation({
+      invariant(scannedAddress && rating, " Missing input");
+      setLoading(true);
+      const tx = await createReviewAttestation({
         address: scannedAddress,
         rating,
         comment,
-        signer,
+        account: account,
       });
       toast.show({
         duration: 3_000,
         placement: "top",
         render: () => (
           <MyToast
-            onPress={() => {
-              WebBrowser.openBrowserAsync(
-                `https://sepolia.easscan.org/attestation/view/${id}`
-              );
-            }}
             action="success"
             variant="solid"
             title="Review sent!"
-            description="check it on EAS here"
-            id={id}
+            description="You can check it in the history"
           />
         ),
       });
       setIsBottomSheetVisible(false);
     } catch (error) {
       toast.show({
-        duration: 10_000,
+        duration: 3_000,
         placement: "top",
         render: () => (
           <MyToast
             action="error"
             variant="solid"
             title="Error occurred!"
-            description="Make sure you have some funds on your account"
+            description={error?.message}
           />
         ),
       });
       console.log(error);
     } finally {
       setLoading(false);
+      setIsBottomSheetVisible(false);
+      setScannedAddress("");
+      setRating(undefined);
     }
   };
 
@@ -158,33 +147,37 @@ const ScanScreen = () => {
           enablePanDownToClose={true}
           onClose={() => setIsBottomSheetVisible(false)}
         >
-          <KeyboardAwareScrollView>
-            <VStack p="$4">
-              <Typo.P>
-                Scanned Ethereum Address:
-                <Typo.Large className="color-secondary">
-                  {shortenAddress(scannedAddress)}
-                </Typo.Large>
-              </Typo.P>
-              {match(sControl)
-                .with("Review", () => (
-                  <>
-                    <ReviewComponent onRatingChange={handleRatingChange} />
-                    <Textarea p="$1" my="$4" rounded="$lg" bg="$blueGray100">
-                      <TextareaInput
-                        onChangeText={setComment}
-                        returnKeyType="default"
-                        placeholder="Make a comment..."
-                      />
-                    </Textarea>
+          <KeyboardAwareScrollView style={{ paddingHorizontal: 16, flex: 1 }}>
+            <Typo.Muted className="mb-4">
+              Scanned Ethereum Address:{" "}
+              <Typo.Large className="color-primary">
+                {shortenAddress(scannedAddress)}
+              </Typo.Large>
+            </Typo.Muted>
 
-                    <MainButton onPress={handleSubmitReview} {...{ loading }}>
-                      Confirm
-                    </MainButton>
-                  </>
-                ))
-                .run()}
-            </VStack>
+            <ReviewComponent onRatingChange={handleRatingChange} />
+            <Textarea
+              p="$1"
+              my="$4"
+              rounded="$lg"
+              bg={
+                isDarkColorScheme ? "$backgroundDark800" : "$backgroundLight800"
+              }
+              borderColor={
+                isDarkColorScheme ? "$borderDark200" : "$borderLight200"
+              }
+            >
+              <TextareaInput
+                onChangeText={setComment}
+                returnKeyType="default"
+                placeholder="Make a comment..."
+                color={isDarkColorScheme ? "$textDark200" : "$textLight200"}
+              />
+            </Textarea>
+
+            <MainButton onPress={handleSubmitReview} {...{ loading }}>
+              Send review to EAS
+            </MainButton>
           </KeyboardAwareScrollView>
         </BottomSheet>
       )}

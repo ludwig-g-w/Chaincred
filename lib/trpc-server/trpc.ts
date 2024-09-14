@@ -7,13 +7,13 @@ export const protectedProcedure = t.procedure.use(async function isAuthed(
   opts
 ) {
   const { ctx } = opts;
-  if (!ctx.user) {
+  if (!ctx.valid) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
 
   return opts.next({
     ctx: {
-      user: ctx.user,
+      auth: ctx,
     },
   });
 });

@@ -1,43 +1,36 @@
 import ReviewListItem from "@components/ReviewListItem";
 import SuspenseFallback from "@components/SuspenseFallback";
 import { Box, Text, View } from "@gluestack-ui/themed";
-import { NWSymbolView } from "@lib/components/nativeWindInterop";
+import { NWIcon } from "@lib/components/nativeWindInterop";
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@lib/components/ui/card";
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
 import { FlashList } from "@shopify/flash-list";
-import { skipToken } from "@tanstack/react-query";
-import { useUser } from "@thirdweb-dev/react-native";
 import { trpc } from "@utils/trpc";
 import { Attestation, isReviewItem } from "@utils/types";
 import { format, parseISO } from "date-fns";
 import { useRouter } from "expo-router";
 import React, { Suspense, useMemo } from "react";
-import { Pressable } from "react-native";
+import { Platform, Pressable } from "react-native";
+import { useActiveAccount } from "thirdweb/react";
 
 const Index = () => {
-  const { user } = useUser();
+  const user = useActiveAccount();
+
   const { isDarkColorScheme } = useColorScheme();
   const router = useRouter();
   const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
 
   const [attestations, { refetch, isRefetching }] =
-    trpc.attestations.useSuspenseQuery(
-      // @ts-ignore
-      user
-        ? {
-            recipients: [user?.address],
-            attesters: [user?.address],
-          }
-        : skipToken
-    );
+    trpc.attestations.useSuspenseQuery({
+      recipients: [user?.address ?? ""],
+      attesters: [user?.address ?? ""],
+    });
 
   const sortedAndGroupedList = useMemo(() => {
     const groups =
@@ -81,11 +74,17 @@ const Index = () => {
                     We will show you want you can do!
                   </CardDescription>
                 </CardHeader>
-                <CardHeader className="">
-                  <View className="animate-bounce">
-                    <NWSymbolView
+                <CardHeader>
+                  <View>
+                    <NWIcon
                       tintColor={theme.border}
-                      name="chevron.right.circle.fill"
+                      name={
+                        Platform.OS === "ios"
+                          ? "chevron.right.circle.fill"
+                          : "circle-chevron-right"
+                      }
+                      color={theme.text}
+                      size={24}
                     />
                   </View>
                 </CardHeader>

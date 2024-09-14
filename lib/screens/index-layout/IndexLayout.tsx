@@ -1,51 +1,43 @@
-import "@thirdweb-dev/react-native-compat";
-import "expo-dev-client";
-import "react-native-gesture-handler";
-import "../../../global.css";
-import { useAsyncStorageDevTools } from "@dev-plugins/async-storage";
 import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
 import { config } from "@gluestack-ui/config";
-import { StatusBar } from "expo-status-bar";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import NetInfo from "@react-native-community/netinfo";
 import { onlineManager } from "@tanstack/react-query";
 import TRPCProvider from "@utils/tRPCProvider";
 import { SplashScreen, Stack, useNavigationContainerRef } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import React, { StrictMode } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useAutoConnect } from "thirdweb/react";
 
 import MyErrorBoundary from "@lib/components/ErrorBoudary";
 import { useCallback } from "react";
 import Header from "./Header";
-import MyThirdwebProvider from "./ThirdwebProvider";
-import { useRedirectAuth } from "./useRedirectAuth";
-import { useSelectColorScheme } from "@lib/utils/hooks";
+
 import { useColorScheme } from "@lib/useColorScheme";
+import { useSelectColorScheme } from "@lib/utils/hooks";
+import { ThirdwebProvider } from "thirdweb/react";
+import { useRedirectAuth } from "./useRedirectAuth";
+
+import { connectConfig } from "@lib/services/thirdwebClient";
 
 SplashScreen.preventAutoHideAsync();
 console.log({
   EXPO_PUBLIC_SERVER_URL: process.env.EXPO_PUBLIC_SERVER_URL,
+  TW: process.env.EXPO_PUBLIC_TW_CLIENT_ID,
   ENV: process.env.NODE_ENV,
 });
 
 const App = () => {
-  const navigationRef = useNavigationContainerRef();
-  useReactNavigationDevTools(navigationRef);
-  useAsyncStorageDevTools({
-    errorHandler: (err) => {
-      console.log("", err);
-    },
-  });
-
   return (
     <StrictMode>
       <MyErrorBoundary>
         <TRPCProvider>
           <GestureHandlerRootView style={{ flex: 1 }}>
             <GluestackUIProvider config={config}>
-              <MyThirdwebProvider>
+              <ThirdwebProvider>
                 <Inner />
-              </MyThirdwebProvider>
+              </ThirdwebProvider>
             </GluestackUIProvider>
           </GestureHandlerRootView>
         </TRPCProvider>
@@ -55,6 +47,9 @@ const App = () => {
 };
 
 const Inner = () => {
+  const navigationRef = useNavigationContainerRef();
+  useReactNavigationDevTools(navigationRef);
+  useAutoConnect(connectConfig);
   useSelectColorScheme();
   useRedirectAuth();
 
@@ -72,18 +67,18 @@ const Inner = () => {
     <>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <Stack
-        initialRouteName="(tabs)"
+        initialRouteName="index"
         screenOptions={{
           header,
         }}
       >
-        <Stack.Screen name="(tabs)" />
         <Stack.Screen
           options={{
             header: () => null,
           }}
-          name="login"
+          name="index"
         />
+        <Stack.Screen name="(tabs)" />
         <Stack.Screen
           options={{
             header: () => null,

@@ -1,17 +1,27 @@
 import { HStack } from "@gluestack-ui/themed";
-import { NWSymbolView } from "@lib/components/nativeWindInterop";
+import { NWIcon } from "@lib/components/nativeWindInterop";
 import { Button } from "@lib/components/ui/button";
 import { Switch } from "@lib/components/ui/switch";
 import * as Typo from "@lib/components/ui/typography";
-import { NAV_THEME } from "@lib/constants";
+import { NAV_THEME, STORAGE_AUTH_KEY } from "@lib/constants";
+
+import ConnectButtonThirdweb from "@lib/components/ConnectButtonThirdweb";
+import { storage } from "@lib/services/storage.client";
 import { useColorScheme } from "@lib/useColorScheme";
-import { useLogout } from "@thirdweb-dev/react-native";
 import * as Application from "expo-application";
 import { router } from "expo-router";
 import React from "react";
-import { Pressable, View } from "react-native";
+import { Platform, Pressable, View } from "react-native";
+import { useActiveWallet, useDisconnect } from "thirdweb/react";
+
 export default () => {
-  const { logout } = useLogout();
+  const activeWallet = useActiveWallet();
+  const { disconnect } = useDisconnect();
+  const logout = async () => {
+    await storage.delete(STORAGE_AUTH_KEY);
+    await activeWallet?.disconnect();
+    await disconnect(activeWallet as any);
+  };
   const { setColorScheme, isDarkColorScheme } = useColorScheme();
   const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
   return (
@@ -31,14 +41,10 @@ export default () => {
         </Item>
       </View>
       <View className="mt-auto items-center">
-        <Button
-          variant="outline"
-          className="rounded-full w-[70%] border-secondary overflow-visible"
-          //   @ts-ignore
-          onPress={logout}
-        >
-          <Typo.Lead className="color-secondary pb-4">Logout</Typo.Lead>
-        </Button>
+        <View className="flex-row gap-2 flex-wrap ">
+          <ConnectButtonThirdweb />
+        </View>
+
         <Typo.Muted>Version: {Application.nativeApplicationVersion}</Typo.Muted>
         <Typo.Small>build: {Application.nativeBuildVersion} </Typo.Small>
       </View>
@@ -58,9 +64,15 @@ export default () => {
         >
           <Typo.H4>{title}</Typo.H4>
           {children ?? (
-            <NWSymbolView
-              tintColor={theme.secondary}
-              name="chevron.right.circle.fill"
+            <NWIcon
+              tintColor={theme.primary}
+              name={
+                Platform.OS === "ios"
+                  ? "chevron.right.circle.fill"
+                  : "circle-chevron-right"
+              }
+              color={theme.primary}
+              size={24}
             />
           )}
         </HStack>

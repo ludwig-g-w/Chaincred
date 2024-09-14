@@ -2,10 +2,16 @@ import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { ListAttestationFragment } from "@generated/graphql"; // Adjust the import path according to where your generated code is
 import { convertJsonToObject } from "@utils/attestations";
 import { ReviewItem } from "@utils/types";
+import { Account } from "thirdweb/wallets";
+import { ethers6Adapter } from "thirdweb/adapters/ethers6";
+import { thirdwebClient } from "@lib/services/thirdwebClient";
+import { sepolia } from "thirdweb/chains";
+import { createThirdwebClient } from "thirdweb";
 export const schemaEncoder = new SchemaEncoder(
   "string title,string description,string entityName,uint8 quantity"
 );
 
+// Not in use
 export async function createActionAttestation({
   signer,
   title,
@@ -44,30 +50,48 @@ export const schemaEncoderReview = new SchemaEncoder(
   "uint8 rating,string comment"
 );
 export async function createReviewAttestation({
-  signer,
-  rating = 0,
-  comment = "",
-  address = "",
+  account,
+  rating,
+  comment,
+  address,
+}: {
+  account: Account;
+  rating: number;
+  comment?: string;
+  address?: string;
 }) {
-  const eas = new EAS(process.env.EXPO_PUBLIC_EAS_CONTRACT);
-  await eas.connect(signer);
+  try {
+    const eas = new EAS(process.env.EXPO_PUBLIC_EAS_CONTRACT);
 
-  const encodedData = schemaEncoderReview.encodeData([
-    { name: "rating", value: rating, type: "uint8" },
-    { name: "comment", value: comment, type: "string" },
-  ]);
+    // doesnt work with thirdweb
+    // const ethersSigner = await ethers6Adapter.signer.toEthers({
+    //   account,
+    //   chain: sepolia,
+    //   client: ??
+    // });
 
-  const tx = await eas.attest({
-    schema: process.env.EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW,
-    data: {
-      recipient: address,
-      expirationTime: 0 as any,
-      revocable: true, // Be aware that if your schema is not revocable, this MUST be false
-      data: encodedData,
-    },
-  });
+    await eas.connect(account as any);
 
-  return await tx.wait();
+    const encodedData = schemaEncoderReview.encodeData([
+      { name: "rating", value: rating, type: "uint8" },
+      { name: "comment", value: comment ?? "", type: "string" },
+    ]);
+
+    const tx = await eas.attest({
+      schema: process.env.EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW,
+      data: {
+        recipient: address!,
+        expirationTime: 0 as any,
+        revocable: true, // Be aware that if your schema is not revocable, this MUST be false
+        data: encodedData,
+      },
+    });
+    const receipt = await tx.wait();
+
+    return receipt;
+  } catch (error) {
+    console.log(error);
+  }
 }
 export const decodeDataReviewOrAction = (att: ListAttestationFragment) => {
   let decodedData;

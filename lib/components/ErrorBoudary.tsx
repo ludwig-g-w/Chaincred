@@ -1,32 +1,28 @@
-import { Box, Button, Center, Text } from "@gluestack-ui/themed";
+import * as Typo from "@lib/components/ui/typography";
+import { storage } from "@lib/services/storage.client";
 import { ErrorBoundary } from "react-error-boundary";
-import { ScrollView } from "react-native";
-// @ts-ignore
+import { View } from "react-native";
+import { Button } from "./ui/button";
+
+import { STORAGE_AUTH_KEY } from "@lib/constants";
+
 const MyErrorBoundary = ({ children }) => {
   return (
     <ErrorBoundary
-      fallbackRender={({ error, resetErrorBoundary }) => {
-        return (
-          <ScrollView>
-            <Box bgColor="$red900" flex={1}>
-              <Center>
-                <Text color="white" bold fontSize={"$2xl"}>
-                  Something went wrong
-                </Text>
-                <Text color="white" mt="$4">
-                  {JSON.stringify(error)}
-                </Text>
-                <Button onPress={resetErrorBoundary} mt="auto">
-                  <Text color="white">Reset</Text>
-                </Button>
-              </Center>
-            </Box>
-          </ScrollView>
-        );
+      onError={(error) => {
+        if (error.message === "UNAUTHORIZED") {
+          storage.delete(STORAGE_AUTH_KEY);
+        }
       }}
-      onReset={(details) => {
-        // Reset the state of your app so the error doesn't happen again
-      }}
+      FallbackComponent={({ error, resetErrorBoundary }) => (
+        <View className="gap-2 flex h-full flex-1 items-center justify-center bg-background">
+          <Typo.H3>Something went wrong</Typo.H3>
+          <Typo.Lead>{error?.message}</Typo.Lead>
+          <Button variant="outline" onPress={resetErrorBoundary}>
+            <Typo.Large>Try again</Typo.Large>
+          </Button>
+        </View>
+      )}
     >
       {children}
     </ErrorBoundary>

@@ -14,11 +14,11 @@ import * as Typo from "@lib/components/ui/typography";
 const ProfileScreen = () => {
   const { address } = useLocalSearchParams<{ address: string }>();
   const [profile] = trpc.getProfileByAddress.useSuspenseQuery({
-    address: address,
+    address: address!,
   });
 
   const [reviews] = trpc.attestations.useSuspenseQuery({
-    recipients: [address],
+    recipients: [address!],
   });
 
   const avgScore = useMemo(
@@ -93,7 +93,9 @@ const ListHeader = React.memo(({ profile, address, avgScore }: any) => (
     />
     <VStack gap={"$2"} pt="$6" pb="$4" px="$2" flex={1}>
       <Typo.H2>{profile?.title}</Typo.H2>
-      <Typo.P className="color-secondary">{shortenAddress(address)}</Typo.P>
+      <Typo.Large className="color-primary">
+        {shortenAddress(address)}
+      </Typo.Large>
       <Typo.Large>{profile?.description}</Typo.Large>
       <Divider />
       <Typo.H4>Reviews</Typo.H4>

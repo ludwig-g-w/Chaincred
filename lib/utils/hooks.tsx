@@ -1,7 +1,7 @@
 import { SplashScreen, useFocusEffect } from "expo-router";
 import React from "react";
 import { NotifyOnChangeProps } from "@tanstack/query-core";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { storage } from "@lib/services/storage.client";
 import { Platform } from "react-native";
 import { useColorScheme } from "@lib/useColorScheme";
 import * as DevClient from "expo-dev-client";
@@ -52,26 +52,23 @@ export function useFocusNotifyOnChangeProps(
 export const useSelectColorScheme = () => {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
-  console.log(colorScheme);
 
   React.useEffect(() => {
     (async () => {
       DevClient.DevMenu.hideMenu();
       DevClient.DevMenu.closeMenu();
-      const theme = await AsyncStorage.getItem("theme");
+      const theme = storage.getString("theme");
       if (Platform.OS === "web") {
         // Adds the background color to the html element to prevent white background on overscroll.
         document.documentElement.classList.add("bg-background");
       }
       if (!theme) {
-        AsyncStorage.setItem("theme", colorScheme);
+        storage.set("theme", colorScheme);
         setIsColorSchemeLoaded(true);
         return;
       }
       const colorTheme = theme === "dark" ? "dark" : "light";
       if (colorTheme !== colorScheme) {
-        console.log(colorScheme);
-
         setColorScheme(colorTheme);
 
         setIsColorSchemeLoaded(true);

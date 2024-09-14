@@ -1,40 +1,25 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useAddress, useUser } from "@thirdweb-dev/react-native";
+import { STORAGE_AUTH_KEY } from "@lib/constants";
+import { storage } from "@lib/services/storage.client";
 import { router } from "expo-router";
 import { useEffect } from "react";
-import { focusManager } from "@tanstack/react-query";
-import type { AppStateStatus } from "react-native";
-import { AppState, Platform } from "react-native";
 
 export const useRedirectAuth = () => {
-  const { isLoggedIn, isLoading, user } = useUser();
-  const address = useAddress();
   useEffect(() => {
-    if (!isLoading && !isLoggedIn) {
-      router.replace("/login");
-    }
-  }, [isLoggedIn, isLoading]);
-
-  useEffect(() => {
-    if (!address || !user?.address) return;
-
-    if (address !== user.address) {
-      router.replace("/wrongAccount");
-    }
-  }, [address, user]);
-
-  function onAppStateChange(status: AppStateStatus) {
-    if (Platform.OS !== "web") {
-      focusManager.setFocused(status === "active");
-    }
-  }
-
-  useEffect(() => {
-    AsyncStorage.getItem("auth_token_storage_key").then((s) => {
-      !s && router.replace("/login");
+    let jwt = storage.getString(STORAGE_AUTH_KEY);
+    const subscription = storage.addOnValueChangedListener((key) => {
+      if (key === STORAGE_AUTH_KEY) {
+        jwt = storage.getString(STORAGE_AUTH_KEY);
+        if (jwt) {
+          router.replace("/homeIndex");
+        } else {
+          router.replace("/");
+        }
+      }
     });
-    const subscription = AppState.addEventListener("change", onAppStateChange);
 
+    if (jwt) {
+      router.replace("/homeIndex");
+    }
     return () => subscription.remove();
   }, []);
 };

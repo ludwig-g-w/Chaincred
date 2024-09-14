@@ -1,6 +1,6 @@
-import { View, Pressable } from "react-native";
+import { View, Pressable, Platform } from "react-native";
 import { Image } from "expo-image";
-import { NWSymbolView } from "./nativeWindInterop";
+import { NWIcon } from "@lib/components/nativeWindInterop";
 import * as Typo from "@lib/components/ui/typography";
 import { useColorScheme } from "@lib/useColorScheme";
 import { NAV_THEME } from "@lib/constants";
@@ -14,7 +14,7 @@ export default function ImageUploadArea({
   const { isDarkColorScheme } = useColorScheme();
   const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
   return (
-    <Pressable className="active:opacity-80 transition-all" onPress={onPress}>
+    <Pressable onPress={onPress}>
       <View className="bg-background rounded-full h-[180] aspect-square justify-center  border-dashed border-2 border-secondary">
         {img ? (
           <Image
@@ -29,14 +29,14 @@ export default function ImageUploadArea({
           />
         ) : (
           <View className="justify-center items-center">
-            <NWSymbolView
+            <NWIcon
               name="paperclip"
               tintColor={theme.secondary}
               className="h-12 aspect-square"
+              color={theme.secondary}
+              size={Platform.OS === "android" ? 24 : 32}
             />
-            <Typo.Large className="text-center mt-4">
-              Click and select image
-            </Typo.Large>
+            <Typo.Large className="text-center mt-4">Select image</Typo.Large>
           </View>
         )}
       </View>
