@@ -13,11 +13,11 @@ export default function LoginScreen() {
     <View className="flex-1 justify-center items-center gap-4 bg-background">
       <Typo.H1 className="color-primary">ChainCred</Typo.H1>
       <Typo.Lead>An app for reviewing decentralized</Typo.Lead>
-      <View className="flex-row gap-4 items-center">
+      <View className="flex-wrap gap-4 items-center">
         <ConnectButtonThirdweb />
         {wallet && (
           <Button
-            className="p-8 rounded-lg"
+            className="p-x-12 p-y-4 rounded-2xl"
             variant={"outline"}
             onPress={() => disconnect(wallet)}
           >

@@ -20,7 +20,7 @@ export default () => {
   const logout = async () => {
     await storage.delete(STORAGE_AUTH_KEY);
     await activeWallet?.disconnect();
-    await disconnect(activeWallet?.id);
+    await disconnect(activeWallet as any);
   };
   const { setColorScheme, isDarkColorScheme } = useColorScheme();
   const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];

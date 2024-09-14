@@ -20,6 +20,7 @@ import MapView, {
 import Supercluster from "supercluster";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { NWIcon } from "./nativeWindInterop";
+import { NAV_THEME } from "@lib/constants";
 
 const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
   const mapRef = useRef(null);
@@ -130,8 +131,13 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
               >
                 <Avatar alt="avatar">
                   <AvatarImage
-                    className="w-10 h-10 aspect-square"
-                    source={{ uri: "https://github.com/mrzachnugent.png" }}
+                    className="w-10 h-10"
+                    style={{
+                      aspectRatio: 1,
+                      width: 48,
+                      height: 48,
+                    }}
+                    source={{ uri: profile?.image_url ?? "" }}
                   />
                   <AvatarFallback>
                     <Typo.Large>ZN</Typo.Large>
@@ -142,8 +148,9 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
                   name={
                     Platform.OS === "ios" ? "chevron.right" : "chevron-right"
                   }
-                  size={24}
-                  color="white"
+                  size={22}
+                  color="#e0e0e0"
+                  tintColor="#e0e0e0"
                 />
               </HStack>
             </Callout>

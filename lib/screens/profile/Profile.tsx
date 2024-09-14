@@ -14,11 +14,11 @@ import * as Typo from "@lib/components/ui/typography";
 const ProfileScreen = () => {
   const { address } = useLocalSearchParams<{ address: string }>();
   const [profile] = trpc.getProfileByAddress.useSuspenseQuery({
-    address: address,
+    address: address!,
   });
 
   const [reviews] = trpc.attestations.useSuspenseQuery({
-    recipients: [address],
+    recipients: [address!],
   });
 
   const avgScore = useMemo(

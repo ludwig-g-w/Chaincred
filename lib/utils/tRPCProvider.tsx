@@ -28,7 +28,7 @@ function Providers({ children }: { children: React.ReactNode }) {
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         {children}
-        {process.env.NODE_ENV !== "production" ? <DevToolsBubble /> : null}
+        {/* {process.env.NODE_ENV !== "production" ? <DevToolsBubble /> : null} */}
       </QueryClientProvider>
     </trpc.Provider>
   );

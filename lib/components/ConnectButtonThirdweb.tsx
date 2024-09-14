@@ -1,6 +1,7 @@
 import { STORAGE_AUTH_KEY } from "@lib/constants";
 import { storage } from "@lib/services/storage.client";
 import { thirdwebClient, wallets } from "@lib/services/thirdwebClient";
+import { useColorScheme } from "@lib/useColorScheme";
 import { trpc } from "@lib/utils/trpc";
 import React from "react";
 import { View } from "react-native";
@@ -16,12 +17,13 @@ function ConnectButtonThirdweb() {
   const { mutateAsync: generatePayload } = trpc.generatePayload.useMutation();
   const { disconnect } = useDisconnect();
   const wallet = useActiveWallet();
+  const { isDarkColorScheme } = useColorScheme();
 
   const logout = async () => {
     invariant(wallet, "No wallet connected");
     await storage.delete(STORAGE_AUTH_KEY);
     await wallet.disconnect();
-    await disconnect(wallet.id);
+    await disconnect(wallet);
   };
 
   return (
@@ -31,6 +33,7 @@ function ConnectButtonThirdweb() {
         wallets={wallets}
         chain={sepolia}
         chains={[sepolia]}
+        theme={isDarkColorScheme ? "light" : "dark"}
         appMetadata={{
           name: "ChainCred",
           logoUrl: "assets/icon.png",

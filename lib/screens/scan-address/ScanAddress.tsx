@@ -45,16 +45,15 @@ const ScanScreen = () => {
         ),
       });
     }
-    invariant(account || scannedAddress || rating || comment, " Missing input");
-    setLoading(true);
     try {
+      invariant(scannedAddress && rating, " Missing input");
+      setLoading(true);
       const tx = await createReviewAttestation({
         address: scannedAddress,
         rating,
         comment,
         account: account,
       });
-      const id = await tx.wait();
       toast.show({
         duration: 3_000,
         placement: "top",
@@ -63,7 +62,7 @@ const ScanScreen = () => {
             action="success"
             variant="solid"
             title="Review sent!"
-            id={id}
+            description="You can check it in the history"
           />
         ),
       });
@@ -157,12 +156,22 @@ const ScanScreen = () => {
             </Typo.Muted>
 
             <ReviewComponent onRatingChange={handleRatingChange} />
-            <Textarea p="$1" my="$4" rounded="$lg" bg="$backgroundLight800">
+            <Textarea
+              p="$1"
+              my="$4"
+              rounded="$lg"
+              bg={
+                isDarkColorScheme ? "$backgroundDark800" : "$backgroundLight800"
+              }
+              borderColor={
+                isDarkColorScheme ? "$borderDark200" : "$borderLight200"
+              }
+            >
               <TextareaInput
                 onChangeText={setComment}
                 returnKeyType="default"
                 placeholder="Make a comment..."
-                color="$textDark200"
+                color={isDarkColorScheme ? "$textDark200" : "$textLight200"}
               />
             </Textarea>
 

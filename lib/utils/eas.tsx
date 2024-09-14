@@ -56,25 +56,25 @@ export async function createReviewAttestation({
   address,
 }: {
   account: Account;
-  rating?: number;
+  rating: number;
   comment?: string;
   address?: string;
 }) {
   const eas = new EAS(process.env.EXPO_PUBLIC_EAS_CONTRACT);
   try {
-    const ethersSigner = await ethers6Adapter.signer.toEthers({
-      account,
-      chain: sepolia,
-      client: createThirdwebClient({
-        clientId: "b1535b34b5222fc49bdf7394c152dc3e",
-      }),
-    });
+    // const ethersSigner = await ethers6Adapter.signer.toEthers({
+    //   account,
+    //   chain: sepolia,
+    //   client: createThirdwebClient({
+    //     clientId: "b1535b34b5222fc49bdf7394c152dc3e",
+    //   }),
+    // });
 
-    await eas.connect(ethersSigner);
+    await eas.connect(account as any);
 
     const encodedData = schemaEncoderReview.encodeData([
       { name: "rating", value: rating, type: "uint8" },
-      { name: "comment", value: comment, type: "string" },
+      { name: "comment", value: comment ?? "", type: "string" },
     ]);
 
     const tx = await eas.attest({
