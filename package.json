@@ -129,6 +129,11 @@
     "schema": "lib/services/db/schema.prisma"
   },
   "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "enabled": true
+      }
+    },
     "install": {
       "exclude": [
         "react-native@~0.74.0",
