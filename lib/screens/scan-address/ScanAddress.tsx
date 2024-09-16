@@ -48,11 +48,11 @@ const ScanScreen = () => {
     try {
       invariant(scannedAddress && rating, " Missing input");
       setLoading(true);
-      const tx = await createReviewAttestation({
+      await createReviewAttestation({
         address: scannedAddress,
         rating,
         comment,
-        account: account,
+        account,
       });
       toast.show({
         duration: 3_000,
