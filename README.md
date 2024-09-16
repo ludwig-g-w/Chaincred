@@ -89,6 +89,15 @@ bun install
 
 - social login doesn't work
 
+## Roadmap
+
+- Migrate to Gluestack Nativewind or remove
+- Fix social login
+- Add lens protocol integration so that you can use your Lens profile to login
+- Add more attestation types
+- Make the app more beautiful
+- Make Discover profiles scalable
+
 ## Contributing
 
 We welcome contributions to ChainCred! If you have any ideas or suggestions for how to improve the app, please open an issue or submit a pull request on our GitHub repository.
