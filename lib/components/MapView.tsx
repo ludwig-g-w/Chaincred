@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Dimensions, Platform, StyleSheet } from "react-native";
+import { View, Dimensions, Platform, StyleSheet } from "react-native";
 import * as Typo from "./ui/typography";
 import MapView, {
   Callout,
@@ -20,7 +20,6 @@ import MapView, {
 import Supercluster from "supercluster";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { NWIcon } from "./nativeWindInterop";
-import { NAV_THEME } from "@lib/constants";
 
 const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
   const mapRef = useRef(null);
@@ -40,7 +39,7 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
     const points = profiles
       .filter((p) => (p.location_coords?.length ?? 0) > 2)
       .map((p) => {
-        const [lat, long] = p?.location_coords.split(",");
+        const [lat, long] = p?.location_coords?.split(",") ?? [];
         return {
           type: "Feature",
           properties: {
@@ -122,13 +121,7 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
               }}
               tooltip
             >
-              <HStack
-                gap="$2"
-                alignItems="center"
-                rounded={"$lg"}
-                bgColor="white"
-                p="$4"
-              >
+              <View className="gap-2 items-center rounded-lg bg-card p-4 flex-row">
                 <Avatar alt="avatar">
                   <AvatarImage
                     className="w-10 h-10"
@@ -143,16 +136,16 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
                     <Typo.Large>ZN</Typo.Large>
                   </AvatarFallback>
                 </Avatar>
-                <Text bold>{profile?.title}</Text>
+                <Typo.P>{profile?.title}</Typo.P>
                 <NWIcon
                   name={
                     Platform.OS === "ios" ? "chevron.right" : "chevron-right"
                   }
-                  size={22}
+                  size={14}
                   color="#e0e0e0"
                   tintColor="#e0e0e0"
                 />
-              </HStack>
+              </View>
             </Callout>
           </Marker>
         );

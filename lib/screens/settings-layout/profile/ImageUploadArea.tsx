@@ -18,6 +18,7 @@ export default function ImageUploadArea({
       <View className="bg-background rounded-full h-[180] aspect-square justify-center  border-dashed border-2 border-secondary">
         {img ? (
           <Image
+            cachePolicy={"none"}
             contentFit="cover"
             style={{
               left: 3,

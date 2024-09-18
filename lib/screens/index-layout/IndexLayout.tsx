@@ -1,25 +1,23 @@
 import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
 import { config } from "@gluestack-ui/config";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
+import MyErrorBoundary from "@lib/components/ErrorBoudary";
+import { useColorScheme } from "@lib/useColorScheme";
+import { useSelectColorScheme } from "@lib/utils/hooks";
 import NetInfo from "@react-native-community/netinfo";
+import { PortalHost } from "@rn-primitives/portal";
 import { onlineManager } from "@tanstack/react-query";
 import TRPCProvider from "@utils/tRPCProvider";
 import { SplashScreen, Stack, useNavigationContainerRef } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { StrictMode } from "react";
+import React, { StrictMode, useCallback } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useAutoConnect } from "thirdweb/react";
-
-import MyErrorBoundary from "@lib/components/ErrorBoudary";
-import { useCallback } from "react";
+import { ThirdwebProvider, useAutoConnect } from "thirdweb/react";
 import Header from "./Header";
-
-import { useColorScheme } from "@lib/useColorScheme";
-import { useSelectColorScheme } from "@lib/utils/hooks";
-import { ThirdwebProvider } from "thirdweb/react";
 import { useRedirectAuth } from "./useRedirectAuth";
 
 import { connectConfig } from "@lib/services/thirdwebClient";
+import { LogBox } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 console.log({
@@ -66,6 +64,7 @@ const Inner = () => {
   return (
     <>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+
       <Stack
         initialRouteName="index"
         screenOptions={{
@@ -101,8 +100,15 @@ const Inner = () => {
           name="gettingStarted"
         />
       </Stack>
+      <PortalHost />
     </>
   );
 };
 
 export default App;
+
+LogBox.ignoreLogs([
+  /.*Warning: findNodeHandle is deprecated in StrictMode..*/,
+
+  /.*TRPCClientError:.*/,
+]);

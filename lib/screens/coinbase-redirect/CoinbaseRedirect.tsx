@@ -1,15 +1,11 @@
-import React, { useEffect } from "react";
-import { useRouter } from "expo-router";
 import MainButton from "@lib/components/MainButton";
-import { View } from "react-native";
 import * as Typo from "@lib/components/ui/typography";
+import { useRouter } from "expo-router";
+import React from "react";
+import { View } from "react-native";
 
 const WSegue: React.FC = () => {
   const router = useRouter();
-
-  useEffect(() => {
-    router.replace("/homeIndex");
-  }, []);
 
   return (
     <View className="flex h-full flex-1 items-center justify-center">

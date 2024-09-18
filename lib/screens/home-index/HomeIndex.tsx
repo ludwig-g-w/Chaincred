@@ -102,20 +102,29 @@ const Index = () => {
                 {items.map((subItem, index) => {
                   const isUserAttester =
                     user?.address ===
-                    (subItem?.attester?.address ?? subItem.attester);
+                    (typeof subItem.attester === "object"
+                      ? subItem.attester.address
+                      : subItem.attester);
 
                   const itemUser = isUserAttester
                     ? subItem.recipient
                     : subItem.attester;
+
+                  const avatarUri =
+                    typeof itemUser === "object"
+                      ? itemUser.image_url
+                      : undefined;
+                  const userName =
+                    typeof itemUser === "object" ? itemUser.title : itemUser;
+
                   return (
                     <Box pb="$2" key={index}>
                       <ReviewListItem
-                        avatarUri={itemUser?.image_url}
+                        avatarUri={avatarUri ?? undefined}
                         userAttested={isUserAttester}
-                        userName={itemUser?.title ?? itemUser}
-                        rating={subItem.data.rating}
-                        comment={subItem.data.comment}
-                        timeAgo={subItem.timeCreated}
+                        userName={userName ?? undefined}
+                        rating={subItem.data?.rating ?? 0}
+                        comment={subItem.data?.comment ?? ""}
                         id={subItem.id}
                       />
                     </Box>

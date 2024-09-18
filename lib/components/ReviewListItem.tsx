@@ -16,11 +16,11 @@ import {
   Pressable,
   VStack,
 } from "@gluestack-ui/themed";
-import { isAddress, shortenAddress } from "@utils/index";
-import React, { useState } from "react";
-import * as WebBrowser from "expo-web-browser";
-import { View } from "react-native";
 import * as Typo from "@lib/components/ui/typography";
+import { isAddress, shortenAddress } from "@utils/index";
+import * as WebBrowser from "expo-web-browser";
+import React, { useState } from "react";
+import { View } from "react-native";
 interface UserCommentProps {
   avatarUri?: string;
   fallbackInitials?: string;

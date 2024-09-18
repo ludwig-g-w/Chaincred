@@ -9,6 +9,7 @@ import { NAV_THEME } from "@lib/constants";
 
 export default function App() {
   const path = usePathname();
+
   const isMap = path === "/discoverMap" ?? true;
   const { isDarkColorScheme } = useColorScheme();
   const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
@@ -22,7 +23,7 @@ export default function App() {
           fontSize: 18,
         }}
         style={{
-          height: 36,
+          height: 48,
           backgroundColor: theme.background,
           marginBottom: 12,
           marginHorizontal: 12,
