@@ -35,6 +35,7 @@ const ProfileScreen = () => {
     () => sortAndGroupByDateReviews(reviews as ReviewListItem[]),
     [reviews]
   );
+  console.log(avgScore);
 
   return (
     <View className="bg-background flex-1">
@@ -102,10 +103,12 @@ const ListHeader = React.memo(({ profile, address, avgScore }: any) => (
       <HStack alignItems="center" gap="$4">
         <View className="p-2 rounded-full border-secondary border-1 bg-secondary aspect-square items-center justify-center">
           <Typo.H3 className="b-2">
-            {avgScore ? ["😔", "😐", "😊", "😃", "🤩"][avgScore] : "🤷‍♂️"}
+            {typeof avgScore === "number"
+              ? ["😔", "😐", "😊", "😃", "🤩"][avgScore]
+              : "🤷‍♂️"}
           </Typo.H3>
         </View>
-        <Typo.P>Avg score</Typo.P>
+        <Typo.P>Average score</Typo.P>
       </HStack>
     </VStack>
   </>
