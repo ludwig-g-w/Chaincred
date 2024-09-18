@@ -1,6 +1,8 @@
 import { supabase } from "@services/supabase";
-import * as ImagePicker from "expo-image-picker";
 import { decode } from "base64-arraybuffer";
+import * as ImagePicker from "expo-image-picker";
+
+import * as FileSystem from "expo-file-system";
 
 const SUPABASE_BUCKET = "profiles";
 
@@ -41,3 +43,31 @@ export async function uploadImage(base64: string, address: string) {
       .publicUrl;
   }
 }
+
+export const fetchImageAndConvertToBase64 = async (
+  imageUrl: string
+): Promise<string | null> => {
+  try {
+    // Download the image to a temporary file
+    const fileUri = FileSystem.cacheDirectory + "temp_image.jpg";
+    const downloadResult = await FileSystem.downloadAsync(imageUrl, fileUri);
+
+    if (downloadResult.status === 200) {
+      // Read the file and convert to base64
+      const base64 = await FileSystem.readAsStringAsync(fileUri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+
+      // Clean up: remove the temporary file
+      await FileSystem.deleteAsync(fileUri);
+
+      return base64;
+    } else {
+      console.error("Failed to download image");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching and converting image to base64:", error);
+    return null;
+  }
+};
