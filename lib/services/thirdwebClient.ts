@@ -12,7 +12,7 @@ export const chain = sepolia;
 export const wallets = [
   inAppWallet({
     auth: {
-      options: ["google", "facebook", "apple", "email"],
+      options: ["google", "facebook", "apple", "email", "guest"],
     },
   }),
 

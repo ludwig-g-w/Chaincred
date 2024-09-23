@@ -108,7 +108,7 @@ const Inner = () => {
 export default App;
 
 LogBox.ignoreLogs([
-  /.*Warning: findNodeHandle is deprecated in StrictMode..*/,
+  /Warning: findNodeHandle is deprecated .*/,
 
-  /.*TRPCClientError:.*/,
+  /.*TRPCClientError: .*/,
 ]);

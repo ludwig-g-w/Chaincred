@@ -8,7 +8,7 @@ const WSegue: React.FC = () => {
   const router = useRouter();
 
   return (
-    <View className="flex h-full flex-1 items-center justify-center">
+    <View className="flex h-full flex-1 items-center justify-center p-x-8">
       <Typo.H1>Redirecting...</Typo.H1>
       <MainButton onPress={() => router.replace("/homeIndex")}>
         Go to Home

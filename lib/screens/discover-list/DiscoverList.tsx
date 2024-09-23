@@ -5,11 +5,16 @@ import { FlashList } from "@shopify/flash-list";
 import { router } from "expo-router";
 import React from "react";
 import { View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useActiveAccount } from "thirdweb/react";
 
 const DiscoverList = () => {
   const user = useActiveAccount();
   const [profiles, { refetch, isRefetching }] = trpc.profiles.useSuspenseQuery({
+    take: 20,
+    orderBy: {
+      title: "asc",
+    },
     where: {
       image_url: {
         startsWith: "https://",
@@ -25,15 +30,16 @@ const DiscoverList = () => {
       <FlashList
         numColumns={1}
         onRefresh={refetch}
-        estimatedItemSize={88}
+        estimatedItemSize={64}
         refreshing={isRefetching}
         keyExtractor={(d) => d.id.toString()}
         data={profiles}
         ItemSeparatorComponent={() => <Box h="$2" />}
         renderItem={({ item }) => (
+          // @ts-ignore works well
           <ListItem
-            onPress={() => router.push(`/profiles/${item.address}`)}
             {...item}
+            onPress={() => router.push(`/profiles/${item.address}`)}
           />
         )}
       />

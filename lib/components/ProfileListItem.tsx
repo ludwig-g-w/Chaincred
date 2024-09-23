@@ -22,7 +22,7 @@ const ProfileListItem = (props: Props) => {
       : props.title;
   return (
     <Pressable onPress={props.onPress}>
-      <View className="flex-row justify-between p-2 items-center rounded-lg bg-card">
+      <View className="flex-row justify-between p-2 items-center rounded-lg bg-card ">
         <View className="items-center flex-row">
           <Image
             style={{
