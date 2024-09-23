@@ -70,7 +70,7 @@ bun install
    EXPO_PUBLIC_API_KEY_GOOGLE=<your-google-api-key>
    EXPO_PUBLIC_ORGANIZATION_MANAGER_ADDRESS=<your-organization-manager-address>
    EXPO_PUBLIC_SUPABASE_URL=<your-supabase-url>
-   EXPO_PUBLIC_THIRDWEB_AUTH_PRIVATE_KEY=<your-thirdweb-auth-private-key>
+   THIRDWEB_AUTH_PRIVATE_KEY=<your-thirdweb-auth-private-key>
    EXPO_PUBLIC_SUPABASE_ANON_KEY=<your-supabase-anon-key>
    EXPO_PUBLIC_SERVER_URL=<your-server-url>
    EXPO_PUBLIC_POSTGRES_PRISMA_URL=<your-postgres-url>
@@ -93,10 +93,6 @@ bun install
 
 - Migrate to Gluestack Nativewind or remove
 - Fix social login
-- Add lens protocol integration so that you can use your Lens profile to login
-- Add more attestation types
-- Make the app more beautiful
-- Make Discover profiles scalable
 
 ## Contributing
 
