@@ -1,5 +1,5 @@
 import { createThirdwebClient } from "thirdweb";
-import { sepolia } from "thirdweb/chains";
+import { baseSepolia } from "thirdweb/chains";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
 
 const clientId = process.env.EXPO_PUBLIC_TW_CLIENT_ID!;
@@ -8,7 +8,7 @@ export const thirdwebClient = createThirdwebClient({
   clientId,
 });
 
-export const chain = sepolia;
+export const chain = baseSepolia;
 export const wallets = [
   inAppWallet({
     auth: {
@@ -18,7 +18,7 @@ export const wallets = [
 
   createWallet("io.metamask"),
   createWallet("com.coinbase.wallet", {
-    chains: [sepolia],
+    chains: [baseSepolia],
     appMetadata: {
       name: "ChainCred",
       logoUrl: "assets/icon.png",

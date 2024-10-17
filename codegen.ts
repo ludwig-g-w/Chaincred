@@ -2,7 +2,7 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: ["https://sepolia.easscan.org/graphql"],
+  schema: ["https://base-sepolia.easscan.org/graphql"],
   documents: ["app/**/*.{ts,tsx,graphql}", "lib/**/*.{ts,tsx,graphql}"],
   generates: {
     "./generated/generated.ts:": {

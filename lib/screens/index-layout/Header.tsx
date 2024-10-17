@@ -58,7 +58,7 @@ const Header = memo(() => {
                 tintColor={tTheme.text}
               />
             )}
-            <Typo.H2 className="font-extrabold p-0 m-0">{title}</Typo.H2>
+            <Typo.H1 className="font-extrabold p-0 m-0 ">{title}</Typo.H1>
           </View>
         </Pressable>
       </View>

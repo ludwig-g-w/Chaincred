@@ -5,7 +5,7 @@ import { useColorScheme } from "@lib/useColorScheme";
 import { trpc } from "@lib/utils/trpc";
 import React from "react";
 import { View } from "react-native";
-import { sepolia } from "thirdweb/chains";
+import { baseSepolia } from "thirdweb/chains";
 
 import { ConnectButton, useActiveWallet, useDisconnect } from "thirdweb/react";
 import invariant from "tiny-invariant";
@@ -31,8 +31,8 @@ function ConnectButtonThirdweb() {
       <ConnectButton
         client={thirdwebClient}
         wallets={wallets}
-        chain={sepolia}
-        chains={[sepolia]}
+        chain={baseSepolia}
+        chains={[baseSepolia]}
         theme={isDarkColorScheme ? "light" : "dark"}
         appMetadata={{
           name: "ChainCred",

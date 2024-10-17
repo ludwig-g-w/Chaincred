@@ -106,7 +106,7 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
             <Button
               onPress={() => {
                 WebBrowser.openBrowserAsync(
-                  `https://sepolia.easscan.org/attestation/view/${id}`
+                  `https://base-sepolia.easscan.org/attestation/view/${id}`
                 );
               }}
               variant="link"

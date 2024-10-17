@@ -12,6 +12,7 @@
         "kind": "OBJECT",
         "name": "AffectedRowsOutput",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "count",
@@ -39,6 +40,7 @@
         "kind": "OBJECT",
         "name": "AggregateAttestation",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_avg",
@@ -110,6 +112,7 @@
         "kind": "OBJECT",
         "name": "AggregateEnsName",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_avg",
@@ -181,6 +184,7 @@
         "kind": "OBJECT",
         "name": "AggregateOffchainRevocation",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_avg",
@@ -252,6 +256,7 @@
         "kind": "OBJECT",
         "name": "AggregateSchema",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_avg",
@@ -323,6 +328,7 @@
         "kind": "OBJECT",
         "name": "AggregateSchemaName",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_avg",
@@ -394,6 +400,7 @@
         "kind": "OBJECT",
         "name": "AggregateServiceStat",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_count",
@@ -441,6 +448,7 @@
         "kind": "OBJECT",
         "name": "AggregateTimestamp",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_avg",
@@ -512,6 +520,7 @@
         "kind": "OBJECT",
         "name": "Attestation",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "attester",
@@ -795,6 +804,7 @@
         "kind": "OBJECT",
         "name": "AttestationAvgAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "expirationTime",
@@ -854,6 +864,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationAvgOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -913,6 +924,7 @@
         "kind": "OBJECT",
         "name": "AttestationCountAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_all",
@@ -1196,6 +1208,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationCountOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -1399,6 +1412,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationCreateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -1662,6 +1676,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationCreateManyInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -1925,6 +1940,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationCreateManySchemaInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -2172,6 +2188,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationCreateManySchemaInputEnvelope",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -2219,6 +2236,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationCreateNestedManyWithoutSchemaInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -2302,6 +2320,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationCreateOrConnectWithoutSchemaInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -2345,6 +2364,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationCreateWithoutSchemaInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -2592,6 +2612,7 @@
         "kind": "OBJECT",
         "name": "AttestationGroupBy",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_avg",
@@ -2919,6 +2940,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationListRelationFilter",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -2966,6 +2988,7 @@
         "kind": "OBJECT",
         "name": "AttestationMaxAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "attester",
@@ -3169,6 +3192,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationMaxOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -3372,6 +3396,7 @@
         "kind": "OBJECT",
         "name": "AttestationMinAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "attester",
@@ -3575,6 +3600,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationMinOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -3778,6 +3804,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationOrderByRelationAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -3801,6 +3828,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationOrderByWithAggregationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -4064,6 +4092,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationOrderByWithRelationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -4279,6 +4308,7 @@
         "kind": "ENUM",
         "name": "AttestationScalarFieldEnum",
         "description": null,
+        "isOneOf": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -4386,6 +4416,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationScalarWhereInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -4649,6 +4680,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationScalarWhereWithAggregatesInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -4912,6 +4944,7 @@
         "kind": "OBJECT",
         "name": "AttestationSumAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "expirationTime",
@@ -4971,6 +5004,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationSumOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -5030,6 +5064,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationUpdateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -5233,6 +5268,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationUpdateManyMutationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -5424,6 +5460,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationUpdateManyWithWhereWithoutSchemaInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -5467,6 +5504,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationUpdateManyWithoutSchemaNestedInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -5690,6 +5728,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationUpdateWithWhereUniqueWithoutSchemaInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -5733,6 +5772,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationUpdateWithoutSchemaInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -5924,6 +5964,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationUpsertWithWhereUniqueWithoutSchemaInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -5983,6 +6024,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationWhereInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -6258,6 +6300,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AttestationWhereUniqueInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -6281,6 +6324,7 @@
         "kind": "INPUT_OBJECT",
         "name": "BoolFieldUpdateOperationsInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -6304,6 +6348,7 @@
         "kind": "INPUT_OBJECT",
         "name": "BoolFilter",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -6339,6 +6384,7 @@
         "kind": "INPUT_OBJECT",
         "name": "BoolWithAggregatesFilter",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -6410,6 +6456,7 @@
         "kind": "SCALAR",
         "name": "Boolean",
         "description": "The `Boolean` scalar type represents `true` or `false`.",
+        "isOneOf": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -6420,6 +6467,7 @@
         "kind": "OBJECT",
         "name": "EnsName",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "id",
@@ -6479,6 +6527,7 @@
         "kind": "OBJECT",
         "name": "EnsNameAvgAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "timestamp",
@@ -6502,6 +6551,7 @@
         "kind": "INPUT_OBJECT",
         "name": "EnsNameAvgOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -6525,6 +6575,7 @@
         "kind": "OBJECT",
         "name": "EnsNameCountAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_all",
@@ -6600,6 +6651,7 @@
         "kind": "INPUT_OBJECT",
         "name": "EnsNameCountOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -6647,6 +6699,7 @@
         "kind": "INPUT_OBJECT",
         "name": "EnsNameCreateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -6706,6 +6759,7 @@
         "kind": "INPUT_OBJECT",
         "name": "EnsNameCreateManyInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -6765,6 +6819,7 @@
         "kind": "OBJECT",
         "name": "EnsNameGroupBy",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_avg",
@@ -6884,6 +6939,7 @@
         "kind": "OBJECT",
         "name": "EnsNameMaxAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "id",
@@ -6931,6 +6987,7 @@
         "kind": "INPUT_OBJECT",
         "name": "EnsNameMaxOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -6978,6 +7035,7 @@
         "kind": "OBJECT",
         "name": "EnsNameMinAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "id",
@@ -7025,6 +7083,7 @@
         "kind": "INPUT_OBJECT",
         "name": "EnsNameMinOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -7072,6 +7131,7 @@
         "kind": "INPUT_OBJECT",
         "name": "EnsNameOrderByWithAggregationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -7179,6 +7239,7 @@
         "kind": "INPUT_OBJECT",
         "name": "EnsNameOrderByWithRelationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -7226,6 +7287,7 @@
         "kind": "ENUM",
         "name": "EnsNameScalarFieldEnum",
         "description": null,
+        "isOneOf": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -7255,6 +7317,7 @@
         "kind": "INPUT_OBJECT",
         "name": "EnsNameScalarWhereWithAggregatesInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -7362,6 +7425,7 @@
         "kind": "OBJECT",
         "name": "EnsNameSumAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "timestamp",
@@ -7385,6 +7449,7 @@
         "kind": "INPUT_OBJECT",
         "name": "EnsNameSumOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -7408,6 +7473,7 @@
         "kind": "INPUT_OBJECT",
         "name": "EnsNameUpdateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -7455,6 +7521,7 @@
         "kind": "INPUT_OBJECT",
         "name": "EnsNameUpdateManyMutationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -7502,6 +7569,7 @@
         "kind": "INPUT_OBJECT",
         "name": "EnsNameWhereInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -7609,6 +7677,7 @@
         "kind": "INPUT_OBJECT",
         "name": "EnsNameWhereUniqueInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -7632,6 +7701,7 @@
         "kind": "SCALAR",
         "name": "Float",
         "description": "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).",
+        "isOneOf": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -7642,6 +7712,7 @@
         "kind": "SCALAR",
         "name": "Int",
         "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
+        "isOneOf": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -7652,6 +7723,7 @@
         "kind": "INPUT_OBJECT",
         "name": "IntFieldUpdateOperationsInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -7723,6 +7795,7 @@
         "kind": "INPUT_OBJECT",
         "name": "IntFilter",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -7846,6 +7919,7 @@
         "kind": "INPUT_OBJECT",
         "name": "IntWithAggregatesFilter",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -8029,6 +8103,7 @@
         "kind": "OBJECT",
         "name": "Mutation",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "createManyAttestation",
@@ -10133,6 +10208,7 @@
         "kind": "INPUT_OBJECT",
         "name": "NestedBoolFilter",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -10168,6 +10244,7 @@
         "kind": "INPUT_OBJECT",
         "name": "NestedBoolWithAggregatesFilter",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -10239,6 +10316,7 @@
         "kind": "INPUT_OBJECT",
         "name": "NestedFloatFilter",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -10362,6 +10440,7 @@
         "kind": "INPUT_OBJECT",
         "name": "NestedIntFilter",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -10485,6 +10564,7 @@
         "kind": "INPUT_OBJECT",
         "name": "NestedIntWithAggregatesFilter",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -10668,6 +10748,7 @@
         "kind": "INPUT_OBJECT",
         "name": "NestedStringFilter",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -10827,6 +10908,7 @@
         "kind": "INPUT_OBJECT",
         "name": "NestedStringWithAggregatesFilter",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -11022,6 +11104,7 @@
         "kind": "OBJECT",
         "name": "OffchainRevocation",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "from",
@@ -11113,6 +11196,7 @@
         "kind": "OBJECT",
         "name": "OffchainRevocationAvgAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "timestamp",
@@ -11136,6 +11220,7 @@
         "kind": "INPUT_OBJECT",
         "name": "OffchainRevocationAvgOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -11159,6 +11244,7 @@
         "kind": "OBJECT",
         "name": "OffchainRevocationCountAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_all",
@@ -11266,6 +11352,7 @@
         "kind": "INPUT_OBJECT",
         "name": "OffchainRevocationCountOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -11337,6 +11424,7 @@
         "kind": "INPUT_OBJECT",
         "name": "OffchainRevocationCreateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -11424,6 +11512,7 @@
         "kind": "INPUT_OBJECT",
         "name": "OffchainRevocationCreateManyInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -11511,6 +11600,7 @@
         "kind": "OBJECT",
         "name": "OffchainRevocationGroupBy",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_avg",
@@ -11662,6 +11752,7 @@
         "kind": "OBJECT",
         "name": "OffchainRevocationMaxAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "from",
@@ -11733,6 +11824,7 @@
         "kind": "INPUT_OBJECT",
         "name": "OffchainRevocationMaxOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -11804,6 +11896,7 @@
         "kind": "OBJECT",
         "name": "OffchainRevocationMinAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "from",
@@ -11875,6 +11968,7 @@
         "kind": "INPUT_OBJECT",
         "name": "OffchainRevocationMinOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -11946,6 +12040,7 @@
         "kind": "INPUT_OBJECT",
         "name": "OffchainRevocationOrderByWithAggregationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -12077,6 +12172,7 @@
         "kind": "INPUT_OBJECT",
         "name": "OffchainRevocationOrderByWithRelationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -12148,6 +12244,7 @@
         "kind": "ENUM",
         "name": "OffchainRevocationScalarFieldEnum",
         "description": null,
+        "isOneOf": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -12189,6 +12286,7 @@
         "kind": "INPUT_OBJECT",
         "name": "OffchainRevocationScalarWhereWithAggregatesInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -12320,6 +12418,7 @@
         "kind": "OBJECT",
         "name": "OffchainRevocationSumAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "timestamp",
@@ -12343,6 +12442,7 @@
         "kind": "INPUT_OBJECT",
         "name": "OffchainRevocationSumOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -12366,6 +12466,7 @@
         "kind": "INPUT_OBJECT",
         "name": "OffchainRevocationUpdateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -12437,6 +12538,7 @@
         "kind": "INPUT_OBJECT",
         "name": "OffchainRevocationUpdateManyMutationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -12508,6 +12610,7 @@
         "kind": "INPUT_OBJECT",
         "name": "OffchainRevocationWhereInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -12639,6 +12742,7 @@
         "kind": "INPUT_OBJECT",
         "name": "OffchainRevocationWhereUniqueInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -12662,6 +12766,7 @@
         "kind": "OBJECT",
         "name": "Query",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "aggregateAttestation",
@@ -16698,6 +16803,7 @@
         "kind": "ENUM",
         "name": "QueryMode",
         "description": null,
+        "isOneOf": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -16721,6 +16827,7 @@
         "kind": "OBJECT",
         "name": "Schema",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_count",
@@ -17098,6 +17205,7 @@
         "kind": "OBJECT",
         "name": "SchemaAvgAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "time",
@@ -17121,6 +17229,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaAvgOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -17144,6 +17253,7 @@
         "kind": "OBJECT",
         "name": "SchemaCount",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "attestations",
@@ -17187,6 +17297,7 @@
         "kind": "OBJECT",
         "name": "SchemaCountAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_all",
@@ -17342,6 +17453,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaCountOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -17449,6 +17561,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaCreateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -17612,6 +17725,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaCreateManyInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -17751,6 +17865,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaCreateNestedOneWithoutAttestationsInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -17798,6 +17913,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaCreateNestedOneWithoutSchemaNamesInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -17845,6 +17961,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaCreateOrConnectWithoutAttestationsInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -17888,6 +18005,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaCreateOrConnectWithoutSchemaNamesInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -17931,6 +18049,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaCreateWithoutAttestationsInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -18082,6 +18201,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaCreateWithoutSchemaNamesInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -18233,6 +18353,7 @@
         "kind": "OBJECT",
         "name": "SchemaGroupBy",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_avg",
@@ -18432,6 +18553,7 @@
         "kind": "OBJECT",
         "name": "SchemaMaxAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "creator",
@@ -18539,6 +18661,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaMaxOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -18646,6 +18769,7 @@
         "kind": "OBJECT",
         "name": "SchemaMinAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "creator",
@@ -18753,6 +18877,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaMinOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -18860,6 +18985,7 @@
         "kind": "OBJECT",
         "name": "SchemaName",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "attesterAddress",
@@ -18983,6 +19109,7 @@
         "kind": "OBJECT",
         "name": "SchemaNameAvgAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "time",
@@ -19006,6 +19133,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameAvgOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -19029,6 +19157,7 @@
         "kind": "OBJECT",
         "name": "SchemaNameCountAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_all",
@@ -19152,6 +19281,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameCountOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -19235,6 +19365,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameCreateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -19338,6 +19469,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameCreateManyInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -19441,6 +19573,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameCreateManySchemaInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -19528,6 +19661,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameCreateManySchemaInputEnvelope",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -19575,6 +19709,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameCreateNestedManyWithoutSchemaInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -19658,6 +19793,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameCreateOrConnectWithoutSchemaInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -19701,6 +19837,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameCreateWithoutSchemaInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -19788,6 +19925,7 @@
         "kind": "OBJECT",
         "name": "SchemaNameGroupBy",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_avg",
@@ -19955,6 +20093,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameListRelationFilter",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -20002,6 +20141,7 @@
         "kind": "OBJECT",
         "name": "SchemaNameMaxAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "attesterAddress",
@@ -20085,6 +20225,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameMaxOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -20168,6 +20309,7 @@
         "kind": "OBJECT",
         "name": "SchemaNameMinAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "attesterAddress",
@@ -20251,6 +20393,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameMinOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -20334,6 +20477,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameOrderByRelationAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -20357,6 +20501,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameOrderByWithAggregationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -20500,6 +20645,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameOrderByWithRelationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -20595,6 +20741,7 @@
         "kind": "ENUM",
         "name": "SchemaNameScalarFieldEnum",
         "description": null,
+        "isOneOf": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -20642,6 +20789,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameScalarWhereInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -20785,6 +20933,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameScalarWhereWithAggregatesInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -20928,6 +21077,7 @@
         "kind": "OBJECT",
         "name": "SchemaNameSumAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "time",
@@ -20951,6 +21101,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameSumOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -20974,6 +21125,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameUpdateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -21057,6 +21209,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameUpdateManyMutationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -21128,6 +21281,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameUpdateManyWithWhereWithoutSchemaInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -21171,6 +21325,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameUpdateManyWithoutSchemaNestedInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -21394,6 +21549,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameUpdateWithWhereUniqueWithoutSchemaInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -21437,6 +21593,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameUpdateWithoutSchemaInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -21508,6 +21665,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameUpsertWithWhereUniqueWithoutSchemaInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -21567,6 +21725,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameWhereInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -21722,6 +21881,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaNameWhereUniqueInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -21745,6 +21905,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaOrderByWithAggregationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -21912,6 +22073,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaOrderByWithRelationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -22043,6 +22205,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaRelationFilter",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -22078,6 +22241,7 @@
         "kind": "ENUM",
         "name": "SchemaScalarFieldEnum",
         "description": null,
+        "isOneOf": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -22137,6 +22301,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaScalarWhereWithAggregatesInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -22304,6 +22469,7 @@
         "kind": "OBJECT",
         "name": "SchemaSumAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "time",
@@ -22327,6 +22493,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaSumOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -22350,6 +22517,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaUpdateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -22481,6 +22649,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaUpdateManyMutationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -22588,6 +22757,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaUpdateOneRequiredWithoutAttestationsNestedInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -22659,6 +22829,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaUpdateOneRequiredWithoutSchemaNamesNestedInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -22730,6 +22901,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaUpdateWithoutAttestationsInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -22849,6 +23021,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaUpdateWithoutSchemaNamesInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -22968,6 +23141,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaUpsertWithoutAttestationsInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -23011,6 +23185,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaUpsertWithoutSchemaNamesInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -23054,6 +23229,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaWhereInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -23245,6 +23421,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SchemaWhereUniqueInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -23268,6 +23445,7 @@
         "kind": "OBJECT",
         "name": "ServiceStat",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "name",
@@ -23311,6 +23489,7 @@
         "kind": "OBJECT",
         "name": "ServiceStatCountAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_all",
@@ -23370,6 +23549,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ServiceStatCountOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -23405,6 +23585,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ServiceStatCreateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -23448,6 +23629,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ServiceStatCreateManyInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -23491,6 +23673,7 @@
         "kind": "OBJECT",
         "name": "ServiceStatGroupBy",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_count",
@@ -23570,6 +23753,7 @@
         "kind": "OBJECT",
         "name": "ServiceStatMaxAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "name",
@@ -23605,6 +23789,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ServiceStatMaxOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -23640,6 +23825,7 @@
         "kind": "OBJECT",
         "name": "ServiceStatMinAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "name",
@@ -23675,6 +23861,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ServiceStatMinOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -23710,6 +23897,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ServiceStatOrderByWithAggregationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -23781,6 +23969,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ServiceStatOrderByWithRelationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -23816,6 +24005,7 @@
         "kind": "ENUM",
         "name": "ServiceStatScalarFieldEnum",
         "description": null,
+        "isOneOf": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -23839,6 +24029,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ServiceStatScalarWhereWithAggregatesInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -23934,6 +24125,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ServiceStatUpdateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -23969,6 +24161,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ServiceStatUpdateManyMutationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -24004,6 +24197,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ServiceStatWhereInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -24099,6 +24293,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ServiceStatWhereUniqueInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -24122,6 +24317,7 @@
         "kind": "ENUM",
         "name": "SortOrder",
         "description": null,
+        "isOneOf": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -24145,6 +24341,7 @@
         "kind": "SCALAR",
         "name": "String",
         "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
+        "isOneOf": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -24155,6 +24352,7 @@
         "kind": "INPUT_OBJECT",
         "name": "StringFieldUpdateOperationsInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -24178,6 +24376,7 @@
         "kind": "INPUT_OBJECT",
         "name": "StringFilter",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -24349,6 +24548,7 @@
         "kind": "INPUT_OBJECT",
         "name": "StringWithAggregatesFilter",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -24556,6 +24756,7 @@
         "kind": "OBJECT",
         "name": "Timestamp",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "from",
@@ -24647,6 +24848,7 @@
         "kind": "OBJECT",
         "name": "TimestampAvgAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "timestamp",
@@ -24670,6 +24872,7 @@
         "kind": "INPUT_OBJECT",
         "name": "TimestampAvgOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -24693,6 +24896,7 @@
         "kind": "OBJECT",
         "name": "TimestampCountAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_all",
@@ -24800,6 +25004,7 @@
         "kind": "INPUT_OBJECT",
         "name": "TimestampCountOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -24871,6 +25076,7 @@
         "kind": "INPUT_OBJECT",
         "name": "TimestampCreateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -24958,6 +25164,7 @@
         "kind": "INPUT_OBJECT",
         "name": "TimestampCreateManyInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -25045,6 +25252,7 @@
         "kind": "OBJECT",
         "name": "TimestampGroupBy",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "_avg",
@@ -25196,6 +25404,7 @@
         "kind": "OBJECT",
         "name": "TimestampMaxAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "from",
@@ -25267,6 +25476,7 @@
         "kind": "INPUT_OBJECT",
         "name": "TimestampMaxOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -25338,6 +25548,7 @@
         "kind": "OBJECT",
         "name": "TimestampMinAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "from",
@@ -25409,6 +25620,7 @@
         "kind": "INPUT_OBJECT",
         "name": "TimestampMinOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -25480,6 +25692,7 @@
         "kind": "INPUT_OBJECT",
         "name": "TimestampOrderByWithAggregationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -25611,6 +25824,7 @@
         "kind": "INPUT_OBJECT",
         "name": "TimestampOrderByWithRelationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -25682,6 +25896,7 @@
         "kind": "ENUM",
         "name": "TimestampScalarFieldEnum",
         "description": null,
+        "isOneOf": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -25723,6 +25938,7 @@
         "kind": "INPUT_OBJECT",
         "name": "TimestampScalarWhereWithAggregatesInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -25854,6 +26070,7 @@
         "kind": "OBJECT",
         "name": "TimestampSumAggregate",
         "description": null,
+        "isOneOf": null,
         "fields": [
           {
             "name": "timestamp",
@@ -25877,6 +26094,7 @@
         "kind": "INPUT_OBJECT",
         "name": "TimestampSumOrderByAggregateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -25900,6 +26118,7 @@
         "kind": "INPUT_OBJECT",
         "name": "TimestampUpdateInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -25971,6 +26190,7 @@
         "kind": "INPUT_OBJECT",
         "name": "TimestampUpdateManyMutationInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -26042,6 +26262,7 @@
         "kind": "INPUT_OBJECT",
         "name": "TimestampWhereInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -26173,6 +26394,7 @@
         "kind": "INPUT_OBJECT",
         "name": "TimestampWhereUniqueInput",
         "description": null,
+        "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
@@ -26196,6 +26418,7 @@
         "kind": "OBJECT",
         "name": "__Directive",
         "description": "A Directive provides a way to describe alternate runtime execution and type validation behavior in a GraphQL document.\n\nIn some cases, you need to provide options to alter GraphQL's execution behavior in ways field arguments will not suffice, such as conditionally including or skipping a field. Directives provide this by describing additional information to the executor.",
+        "isOneOf": null,
         "fields": [
           {
             "name": "name",
@@ -26312,6 +26535,7 @@
         "kind": "ENUM",
         "name": "__DirectiveLocation",
         "description": "A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.",
+        "isOneOf": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -26437,6 +26661,7 @@
         "kind": "OBJECT",
         "name": "__EnumValue",
         "description": "One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string.",
+        "isOneOf": null,
         "fields": [
           {
             "name": "name",
@@ -26504,6 +26729,7 @@
         "kind": "OBJECT",
         "name": "__Field",
         "description": "Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type.",
+        "isOneOf": null,
         "fields": [
           {
             "name": "name",
@@ -26624,6 +26850,7 @@
         "kind": "OBJECT",
         "name": "__InputValue",
         "description": "Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.",
+        "isOneOf": null,
         "fields": [
           {
             "name": "name",
@@ -26719,6 +26946,7 @@
         "kind": "OBJECT",
         "name": "__Schema",
         "description": "A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.",
+        "isOneOf": null,
         "fields": [
           {
             "name": "description",
@@ -26830,6 +27058,7 @@
         "kind": "OBJECT",
         "name": "__Type",
         "description": "The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.\n\nDepending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.",
+        "isOneOf": null,
         "fields": [
           {
             "name": "kind",
@@ -27033,6 +27262,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "isOneOf",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -27044,6 +27285,7 @@
         "kind": "ENUM",
         "name": "__TypeKind",
         "description": "An enum describing what kind of type a given `__Type` is.",
+        "isOneOf": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
