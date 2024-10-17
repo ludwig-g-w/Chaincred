@@ -87,12 +87,13 @@ bun install
 
 ## Known issues
 
-- social login doesn't work
+---
 
 ## Roadmap
 
-- Migrate to Gluestack Nativewind or remove
-- Fix social login
+- Move to Gluestack Nativewind or remove
+- Discover section to be scalable
+-
 
 ## Contributing
 
