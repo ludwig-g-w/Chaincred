@@ -1,13 +1,7 @@
+import GetStartedCard from "@components/GetStartedCard";
 import ReviewListItem from "@components/ReviewListItem";
 import SuspenseFallback from "@components/SuspenseFallback";
 import { Box, Text, View } from "@gluestack-ui/themed";
-import { NWIcon } from "@lib/components/nativeWindInterop";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@lib/components/ui/card";
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
 import { FlashList } from "@shopify/flash-list";
@@ -16,7 +10,6 @@ import { Attestation, isReviewItem } from "@utils/types";
 import { format, parseISO } from "date-fns";
 import { useRouter } from "expo-router";
 import React, { Suspense, useMemo } from "react";
-import { Platform, Pressable } from "react-native";
 import { useActiveAccount } from "thirdweb/react";
 
 const Index = () => {
@@ -63,34 +56,7 @@ const Index = () => {
           data={sortedAndGroupedList}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <Box h="$4" />}
-          ListEmptyComponent={
-            <Pressable onPress={() => router.navigate("/gettingStarted")}>
-              <Card className="w-full bg-secondary  flex-row justify-between items-center">
-                <CardHeader>
-                  <CardTitle className="color-secondary-foreground">
-                    Get started here!
-                  </CardTitle>
-                  <CardDescription className="color-secondary-foreground">
-                    We will show you want you can do!
-                  </CardDescription>
-                </CardHeader>
-                <CardHeader>
-                  <View>
-                    <NWIcon
-                      tintColor={theme.border}
-                      name={
-                        Platform.OS === "ios"
-                          ? "chevron.right.circle.fill"
-                          : "circle-chevron-right"
-                      }
-                      color={theme.text}
-                      size={24}
-                    />
-                  </View>
-                </CardHeader>
-              </Card>
-            </Pressable>
-          }
+          ListEmptyComponent={<GetStartedCard />}
           renderItem={({ item }) => {
             const [date, items] = item;
 

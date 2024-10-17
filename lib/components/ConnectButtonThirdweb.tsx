@@ -33,11 +33,11 @@ function ConnectButtonThirdweb() {
         wallets={wallets}
         chain={baseSepolia}
         chains={[baseSepolia]}
-        theme={isDarkColorScheme ? "light" : "dark"}
+        theme={isDarkColorScheme ? "dark" : "light"}
         appMetadata={{
           name: "ChainCred",
           logoUrl: "assets/icon.png",
-          url: "gtfol.xyz",
+          url: "https://gtfol.xyz",
         }}
         auth={{
           isLoggedIn: async () => {
