@@ -3,7 +3,7 @@ export { Profile };
 export { Attestation } from "@lib/trpc-server/routers/_app";
 
 export type AttestItem = { title: string; description: string };
-export type ReviewItem = { comment: string; rating: number };
+export type ReviewItem = { message: string; review: number };
 
 export const isAttestItem = (
   item: AttestItem | ReviewItem
@@ -13,7 +13,7 @@ export const isAttestItem = (
 export const isReviewItem = (
   item?: AttestItem | ReviewItem | null
 ): item is ReviewItem => {
-  return (item as ReviewItem).rating !== undefined;
+  return (item as ReviewItem).review !== undefined;
 };
 
 export const isProfile = (attester: string | Profile): attester is Profile => {

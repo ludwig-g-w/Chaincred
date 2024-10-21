@@ -1,4 +1,4 @@
-import ReviewListItem from "@components/ReviewListItem";
+import ReviewListItem, { UserCommentProps } from "@components/ReviewListItem";
 
 import { Box, Divider, HStack, Text, VStack } from "@gluestack-ui/themed";
 import SuspenseFallback from "@lib/components/SuspenseFallback";
@@ -24,7 +24,7 @@ const ProfileScreen = () => {
   const avgScore = useMemo(
     () =>
       reviews?.reduce((prev, curr, i) => {
-        let accScore = prev + (curr.data?.rating ?? 0);
+        let accScore = prev + (curr.data?.review ?? 0);
         let l = i + 1;
         return l === reviews.length ? Math.round(accScore / l) : accScore;
       }, 0),
@@ -32,7 +32,7 @@ const ProfileScreen = () => {
   );
 
   const reviewsByDate = useMemo(
-    () => sortAndGroupByDateReviews(reviews as ReviewListItem[]),
+    () => sortAndGroupByDateReviews(reviews),
     [reviews]
   );
   console.log(avgScore);
@@ -61,8 +61,8 @@ const ProfileScreen = () => {
                       <ReviewListItem
                         avatarUri={subItem?.attester?.image_url}
                         userName={subItem?.attester?.title ?? subItem.attester}
-                        rating={subItem.data.rating}
-                        comment={subItem.data.comment}
+                        rating={subItem.data?.review}
+                        comment={subItem.data?.message}
                         id={subItem.id}
                       />
                     </Box>

@@ -13,10 +13,9 @@ import { VerifyLoginPayloadParams } from "thirdweb/auth";
 import { z } from "zod";
 import { openProcedure, protectedProcedure, router } from "../trpc";
 import { FindManyProfileInput } from "./zod";
-import { generate } from "@graphql-codegen/cli";
 // TODO: ENV VAR move to .env when it works on server
-const EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW =
-  "0xba299dc0f2f0caf692628b8bcb62037763e865804462c85b8adcf7ef7b8beb53";
+const EAS_ADDRESS_REVIEW =
+  "0xcddb22d1ae4a241838b7f8b7a9063ee955e0e2632320cb1c41c1ee1ab61e70ef";
 
 export const appRouter = router({
   isLoggedIn: openProcedure.input(z.string()).query(async ({ input }) => {
@@ -76,7 +75,7 @@ export const appRouter = router({
               { attester: { in: attesters } },
             ],
             schemaId: {
-              in: [EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW],
+              in: [EAS_ADDRESS_REVIEW],
             },
           },
         });

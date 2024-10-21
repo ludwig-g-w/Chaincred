@@ -2,8 +2,8 @@ declare namespace NodeJS {
   export interface ProcessEnv {
     EXPO_PUBLIC_TW_CLIENT_ID: string;
     EXPO_PUBLIC_EAS_CONTRACT: string;
-    EXPO_PUBLIC_SCHEMA_ADRESS_ACTION: string;
-    EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW: string;
+    EXPO_PUBLIC_SCHEMA_ADDRESS_ACTION: string;
+    EXPO_PUBLIC_SCHEMA_ADDRESS_REVIEW: string;
     EXPO_PUBLIC_EAS_SCHEMA_REGISTRY: string;
     EXPO_PUBLIC_EAS_GRAPHQL: string;
     EXPO_PUBLIC_API_KEY_GOOGLE: string;

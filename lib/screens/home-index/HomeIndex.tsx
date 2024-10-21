@@ -89,8 +89,8 @@ const Index = () => {
                         avatarUri={avatarUri ?? undefined}
                         userAttested={isUserAttester}
                         userName={userName ?? undefined}
-                        rating={subItem.data?.rating ?? 0}
-                        comment={subItem.data?.comment ?? ""}
+                        rating={subItem.data?.review ?? 0}
+                        comment={subItem.data?.message ?? ""}
                         id={subItem.id}
                       />
                     </Box>

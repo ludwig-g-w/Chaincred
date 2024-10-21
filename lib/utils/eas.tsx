@@ -1,15 +1,17 @@
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { ListAttestationFragment } from "@generated/graphql"; // Adjust the import path according to where your generated code is
+import { thirdwebClient } from "@lib/services/thirdwebClient";
 import { convertJsonToObject } from "@utils/attestations";
 import { ReviewItem } from "@utils/types";
+import { baseSepolia } from "thirdweb/chains";
 import { Account } from "thirdweb/wallets";
+import { ethers6Adapter } from "thirdweb/adapters/ethers6";
 export const schemaEncoder = new SchemaEncoder(
   "string title,string description,string entityName,uint8 quantity"
 );
 
-export const schemaEncoderReview = new SchemaEncoder(
-  "uint8 rating,string comment"
-);
+const schemaEncoderReview = new SchemaEncoder("uint8 review,string message");
+
 export async function createReviewAttestation({
   account,
   rating,
@@ -27,19 +29,20 @@ export async function createReviewAttestation({
     // doesnt work with thirdweb
     // const ethersSigner = await ethers6Adapter.signer.toEthers({
     //   account,
-    //   chain: sepolia,
-    //   client: ??
+    //   chain: baseSepolia,
+    //   client: thirdwebClient,
     // });
 
-    await eas.connect(account as any);
+    // @ts-ignore
+    await eas.connect(account);
 
     const encodedData = schemaEncoderReview.encodeData([
-      { name: "rating", value: rating, type: "uint8" },
-      { name: "comment", value: comment ?? "", type: "string" },
+      { name: "review", value: rating, type: "uint8" },
+      { name: "message", value: comment ?? "", type: "string" },
     ]);
 
     const tx = await eas.attest({
-      schema: process.env.EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW,
+      schema: process.env.EXPO_PUBLIC_SCHEMA_ADDRESS_REVIEW,
       data: {
         recipient: address!,
         expirationTime: 0 as any,
@@ -48,6 +51,7 @@ export async function createReviewAttestation({
       },
     });
     const receipt = await tx.wait();
+    console.log(receipt);
 
     return receipt;
   } catch (error) {
