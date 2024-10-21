@@ -22,7 +22,7 @@ const ScanScreen = () => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
   const [scannedAddress, setScannedAddress] = useState("");
-  const [rating, setRating] = useState();
+  const [rating, setRating] = useState<number>();
 
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
   const [comment, setComment] = useState("");
@@ -31,20 +31,6 @@ const ScanScreen = () => {
   const toast = useToast();
 
   const handleSubmitReview = async () => {
-    if (!account) {
-      toast.show({
-        duration: 6_000,
-        placement: "top",
-        render: () => (
-          <MyToast
-            action="warning"
-            variant="solid"
-            title="Connect to your wallet"
-            description="Button is in the top right corner"
-          />
-        ),
-      });
-    }
     try {
       invariant(scannedAddress && rating, " Missing input");
       setLoading(true);
@@ -52,7 +38,7 @@ const ScanScreen = () => {
         address: scannedAddress,
         rating,
         comment,
-        account,
+        account: account as any,
       });
       toast.show({
         duration: 3_000,
@@ -72,12 +58,7 @@ const ScanScreen = () => {
         duration: 3_000,
         placement: "top",
         render: () => (
-          <MyToast
-            action="error"
-            variant="solid"
-            title="Error occurred!"
-            description={error?.message}
-          />
+          <MyToast action="error" variant="solid" title="Error occurred!" />
         ),
       });
       console.log(error);

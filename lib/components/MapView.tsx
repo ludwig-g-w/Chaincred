@@ -103,7 +103,7 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
                 zIndex={99}
                 p="$1"
                 borderRadius="$2xl"
-                bgColor="$fuchsia400"
+                bgColor="$green400"
               >
                 <Center>
                   <Text color="$white">{feature.properties?.point_count}</Text>
