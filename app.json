@@ -74,6 +74,20 @@
         {
           "android": {
             "minSdkVersion": 26
+          },
+          "ios": {
+            // TODO: verify that this doesn't break the app
+            "extraPods": [
+              {
+                "name": "OpenSSL-Universal",
+                "configurations": [
+                  "Release",
+                  "Debug"
+                ],
+                "modular_headers": true,
+                "version": "3.1.5004"
+              }
+            ]
           }
         }
       ]
