@@ -4,9 +4,8 @@ generator client {
 }
 
 datasource db {
-    provider  = "postgresql"
-    url       = env("EXPO_PUBLIC_POSTGRES_PRISMA_URL")
-    directUrl = env("EXPO_PUBLIC_POSTGRES_URL_NON_POOLING")
+    provider = "sqlite"
+    url      = "file:./dev.db"
 }
 
 model Profile {
@@ -15,8 +14,8 @@ model Profile {
     image_url       String?
     description     String?
     location_coords String?
-    created_at      DateTime  @default(now()) @map("created_at") @db.Timestamptz
-    updated_at      DateTime? @updatedAt @map("updated_at") @db.Timestamptz
+    created_at      DateTime  @default(now()) @map("created_at")
+    updated_at      DateTime? @updatedAt @map("updated_at")
     address         String    @unique
     location_name   String?
 }

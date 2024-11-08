@@ -1,16 +1,14 @@
 -- CreateTable
 CREATE TABLE "Profile" (
-    "id" SERIAL NOT NULL,
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "title" TEXT,
     "image_url" TEXT,
     "description" TEXT,
     "location_coords" TEXT,
-    "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMPTZ,
+    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" DATETIME,
     "address" TEXT NOT NULL,
-    "location_name" TEXT,
-
-    CONSTRAINT "Profile_pkey" PRIMARY KEY ("id")
+    "location_name" TEXT
 );
 
 -- CreateIndex
