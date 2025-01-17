@@ -20,6 +20,7 @@ export default () => {
     await activeWallet?.disconnect();
     await disconnect(activeWallet as any);
   };
+
   const { setColorScheme, isDarkColorScheme } = useColorScheme();
   const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
   return (
@@ -29,7 +30,12 @@ export default () => {
           title="Your Profile"
           onPress={() => router.push("/settingsProfile")}
         />
-        <Item title="Dark Theme">
+        <Item
+          title="Dark Theme"
+          onPress={() => {
+            setColorScheme(isDarkColorScheme ? "light" : "dark");
+          }}
+        >
           <Switch
             checked={isDarkColorScheme}
             onCheckedChange={() =>

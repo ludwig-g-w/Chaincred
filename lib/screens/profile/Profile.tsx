@@ -108,27 +108,24 @@ type ListHeaderProps = {
 
 const ListHeader = React.memo(
   ({ profile, address, avgScore }: ListHeaderProps) => (
-    <View className="space-y-4 px-4 pb-4">
+    <View className="gap-4">
       <Image
         style={{
           aspectRatio: 1.5 / 1,
           width: "100%",
-          backgroundColor: "#0553",
         }}
         source={{
           uri: profile?.image_url ?? "",
         }}
         contentFit="cover"
       />
-      <View className="space-y-2">
+      <View className="gap-2">
         <Typo.H2>{profile?.title}</Typo.H2>
-        <Typo.Large className="text-primary">
-          {shortenAddress(address)}
-        </Typo.Large>
+        <Typo.P className="text-primary">{shortenAddress(address)}</Typo.P>
         <Typo.Large>{profile?.description}</Typo.Large>
       </View>
       <View className="h-px bg-gray-200" />
-      <View className="space-y-2">
+      <View className="gap-2">
         <Typo.H4>Reviews</Typo.H4>
         <View className="flex-row items-center gap-4">
           <View className="p-2 rounded-full border border-secondary bg-secondary/10 items-center justify-center aspect-square">
