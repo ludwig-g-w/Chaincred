@@ -44,3 +44,4 @@ build-*.ipa
 eas.json
 ios/
 android/
+*.db

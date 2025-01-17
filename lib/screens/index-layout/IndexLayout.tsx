@@ -16,6 +16,15 @@ import { useRedirectAuth } from "./useRedirectAuth";
 
 import { connectConfig } from "@lib/services/thirdwebClient";
 import { LogBox } from "react-native";
+import {
+  configureReanimatedLogger,
+  ReanimatedLogLevel,
+} from "react-native-reanimated";
+
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false,
+});
 
 SplashScreen.preventAutoHideAsync();
 console.log({
