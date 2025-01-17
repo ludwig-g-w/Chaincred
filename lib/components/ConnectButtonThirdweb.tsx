@@ -6,7 +6,6 @@ import { trpc } from "@lib/utils/trpc";
 import React from "react";
 import { View } from "react-native";
 import { baseSepolia } from "thirdweb/chains";
-
 import { ConnectButton, useActiveWallet, useDisconnect } from "thirdweb/react";
 import invariant from "tiny-invariant";
 
@@ -27,38 +26,40 @@ function ConnectButtonThirdweb() {
   };
 
   return (
-    <View className="w-[200px]">
-      <ConnectButton
-        client={thirdwebClient}
-        wallets={wallets}
-        chain={baseSepolia}
-        chains={[baseSepolia]}
-        theme={isDarkColorScheme ? "dark" : "light"}
-        appMetadata={{
-          name: "ChainCred",
-          logoUrl: "assets/icon.png",
-          url: "https://gtfol.xyz",
-        }}
-        auth={{
-          isLoggedIn: async () => {
-            const jwt = storage.getString(STORAGE_AUTH_KEY);
-            if (!jwt) return false;
-            const isLoggedIn = await utils.isLoggedIn.fetch(jwt);
-            return isLoggedIn;
-          },
-          doLogin: async (params) => {
-            const jwt = await verifyLoginPayload(params);
-            if (jwt) {
-              storage.set(STORAGE_AUTH_KEY, jwt);
-            }
-          },
-          getLoginPayload: async (payload) => generatePayload(payload),
-          doLogout: async () => {
-            await logout();
-          },
-        }}
-      />
-    </View>
+    <ConnectButton
+      client={thirdwebClient}
+      wallets={wallets}
+      chain={baseSepolia}
+      recommendedWallets={wallets}
+      chains={[baseSepolia]}
+      theme={isDarkColorScheme ? "dark" : "light"}
+      connectModal={{
+        size: "wide",
+      }}
+      appMetadata={{
+        name: "ChainCred",
+        logoUrl: "assets/icon.png",
+        url: "https://gtfol.xyz",
+      }}
+      auth={{
+        isLoggedIn: async () => {
+          const jwt = storage.getString(STORAGE_AUTH_KEY);
+          if (!jwt) return false;
+          const isLoggedIn = await utils.isLoggedIn.fetch(jwt);
+          return isLoggedIn;
+        },
+        doLogin: async (params) => {
+          const jwt = await verifyLoginPayload(params);
+          if (jwt) {
+            storage.set(STORAGE_AUTH_KEY, jwt);
+          }
+        },
+        getLoginPayload: async (payload) => generatePayload(payload),
+        doLogout: async () => {
+          await logout();
+        },
+      }}
+    />
   );
 }
 

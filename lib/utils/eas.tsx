@@ -25,16 +25,19 @@ export async function createReviewAttestation({
 }) {
   try {
     const eas = new EAS(process.env.EXPO_PUBLIC_EAS_CONTRACT);
-
-    // doesnt work with thirdweb
-    // const ethersSigner = await ethers6Adapter.signer.toEthers({
-    //   account,
-    //   chain: baseSepolia,
-    //   client: thirdwebClient,
-    // });
+    let ethersSigner = account;
+    try {
+      ethersSigner = ethers6Adapter.signer.toEthers({
+        account: account,
+        chain: baseSepolia,
+        client: thirdwebClient,
+      });
+    } catch (error) {
+      console.log("ethersSigner error", error);
+    }
 
     // @ts-ignore
-    await eas.connect(account);
+    await eas.connect(ethersSigner);
 
     const encodedData = schemaEncoderReview.encodeData([
       { name: "review", value: rating, type: "uint8" },
@@ -50,6 +53,7 @@ export async function createReviewAttestation({
         data: encodedData,
       },
     });
+
     const receipt = await tx.wait();
     console.log(receipt);
 

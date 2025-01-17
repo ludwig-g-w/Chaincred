@@ -1,4 +1,5 @@
 import { NWIcon } from "@lib/components/nativeWindInterop";
+import { ConnectButton, useActiveWallet, useDisconnect } from "thirdweb/react";
 import { Switch } from "@lib/components/ui/switch";
 import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME, STORAGE_AUTH_KEY } from "@lib/constants";
@@ -10,7 +11,7 @@ import * as Application from "expo-application";
 import { router } from "expo-router";
 import React from "react";
 import { Platform, Pressable, View } from "react-native";
-import { useActiveWallet, useDisconnect } from "thirdweb/react";
+import { thirdwebClient, wallets } from "@lib/services/thirdwebClient";
 
 export default () => {
   const activeWallet = useActiveWallet();
@@ -45,10 +46,7 @@ export default () => {
         </Item>
       </View>
       <View className="mt-auto items-center">
-        <View className="flex-row gap-2 flex-wrap ">
-          <ConnectButtonThirdweb />
-        </View>
-
+        <ConnectButtonThirdweb />
         <Typo.Muted>Version: {Application.nativeApplicationVersion}</Typo.Muted>
         <Typo.Small>build: {Application.nativeBuildVersion} </Typo.Small>
       </View>

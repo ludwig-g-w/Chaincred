@@ -119,13 +119,13 @@ const ListHeader = React.memo(
         }}
         contentFit="cover"
       />
-      <View className="gap-2">
+      <View className="gap-2 px-2">
         <Typo.H2>{profile?.title}</Typo.H2>
         <Typo.P className="text-primary">{shortenAddress(address)}</Typo.P>
         <Typo.Large>{profile?.description}</Typo.Large>
       </View>
       <View className="h-px bg-gray-200" />
-      <View className="gap-2">
+      <View className="gap-2 px-2">
         <Typo.H4>Reviews</Typo.H4>
         <View className="flex-row items-center gap-4">
           <View className="p-2 rounded-full border border-secondary bg-secondary/10 items-center justify-center aspect-square">

@@ -12,21 +12,21 @@ export const chain = baseSepolia;
 export const wallets = [
   inAppWallet({
     auth: {
-      options: ["google", "facebook", "apple", "email", "guest"],
+      options: ["guest"],
     },
-    // hidePrivateKeyExport: true,
-    // metadata: {
-    //   image: {
-    //     src: "assets/icon.png",
-    //     width: 32,
-    //     height: 32,
-    //   },
-    // },
-    // smartAccount: {
-    //   chain: baseSepolia,
-    //   sponsorGas: false,
-    //   factoryAddress: process.env.EXPO_PUBLIC_THIRDWEB_FACTORY_ADDRESS!,
-    // },
+    hidePrivateKeyExport: true,
+    metadata: {
+      image: {
+        src: "assets/icon.png",
+        width: 32,
+        height: 32,
+      },
+    },
+    smartAccount: {
+      chain: baseSepolia,
+      sponsorGas: true,
+      factoryAddress: process.env.EXPO_PUBLIC_THIRDWEB_FACTORY_ADDRESS!,
+    },
   }),
 
   createWallet("io.metamask"),
@@ -44,8 +44,6 @@ export const wallets = [
   }),
   createWallet("me.rainbow"),
   createWallet("com.trustwallet.app"),
-  createWallet("app.backpack"),
-  createWallet("com.bitcoin"),
 ];
 
 export const connectConfig = {
