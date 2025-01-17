@@ -1,4 +1,5 @@
 import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
+import { ToastProvider } from "react-native-toast-notifications";
 import MyErrorBoundary from "@lib/components/ErrorBoudary";
 import { useColorScheme } from "@lib/useColorScheme";
 import { useSelectColorScheme } from "@lib/utils/hooks";
@@ -40,7 +41,9 @@ const App = () => {
         <TRPCProvider>
           <GestureHandlerRootView style={{ flex: 1 }}>
             <ThirdwebProvider>
-              <Inner />
+              <ToastProvider>
+                <Inner />
+              </ToastProvider>
             </ThirdwebProvider>
           </GestureHandlerRootView>
         </TRPCProvider>

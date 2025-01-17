@@ -1566,6 +1566,27 @@ PODS:
     - Yoga
   - react-native-aes-gcm-crypto (0.2.2):
     - React-Core
+  - react-native-compat (2.17.4):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - react-native-get-random-values (1.11.0):
     - React-Core
   - react-native-maps (1.18.0):
@@ -1593,7 +1614,7 @@ PODS:
     - Yoga
   - react-native-netinfo (11.4.1):
     - React-Core
-  - react-native-passkey (3.0.0):
+  - react-native-passkey (3.1.0):
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
@@ -2325,6 +2346,7 @@ DEPENDENCIES:
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
   - react-native-aes-gcm-crypto (from `../node_modules/react-native-aes-gcm-crypto`)
+  - "react-native-compat (from `../node_modules/@walletconnect/react-native-compat`)"
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
@@ -2519,6 +2541,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
   react-native-aes-gcm-crypto:
     :path: "../node_modules/react-native-aes-gcm-crypto"
+  react-native-compat:
+    :path: "../node_modules/@walletconnect/react-native-compat"
   react-native-get-random-values:
     :path: "../node_modules/react-native-get-random-values"
   react-native-maps:
@@ -2683,11 +2707,12 @@ SPEC CHECKSUMS:
   React-Mapbuffer: f760d2229640be48cb3c2d4832b5bbc3018123fc
   React-microtasksnativemodule: 1364ae5354f51b3ecee8eb718b5b6d1686d2ff4d
   react-native-aes-gcm-crypto: f1bade1824458569b0e0f27ef4bc647ffe48ebbc
+  react-native-compat: e81231e7f22401f2da870cf321d12ab1578a2f05
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
   react-native-maps: 2e6e9896195781327ee15b33e3e84bf73c08207a
   react-native-mmkv: 21d0f6ed2d9532f2370cef81eca4ccbef7350441
   react-native-netinfo: f0a9899081c185db1de5bb2fdc1c88c202a059ac
-  react-native-passkey: b3f76dc1f14b7170307ae4f995cdeda251cb1122
+  react-native-passkey: e0b0f58fa9b33c424bafaa0a93d66fb0e21dc092
   react-native-quick-base64: 6ddd4121d8dcb412ad32ca5fa67633dbea8d3761
   react-native-quick-crypto: b0ba954b5828644c9b3a648267baa2eb2552b6d8
   react-native-safe-area-context: 458f6b948437afcb59198016b26bbd02ff9c3b47
