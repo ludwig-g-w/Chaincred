@@ -88,9 +88,6 @@
       }
     },
     "owner": "ludwigw",
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
     "updates": {
       "url": "https://u.expo.dev/ff56839b-d376-4b6f-bbae-895cf64f49ea"
     }

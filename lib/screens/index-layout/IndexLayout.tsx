@@ -31,23 +31,24 @@ SplashScreen.preventAutoHideAsync();
 console.log({
   EXPO_PUBLIC_SERVER_URL: process.env.EXPO_PUBLIC_SERVER_URL,
   TW: process.env.EXPO_PUBLIC_TW_CLIENT_ID,
+  THIRDWEB_FACTORY_ADDRESS: process.env.EXPO_PUBLIC_THIRDWEB_FACTORY_ADDRESS,
   ENV: process.env.NODE_ENV,
 });
 
 const App = () => {
   return (
     <StrictMode>
-      <MyErrorBoundary>
-        <TRPCProvider>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <ThirdwebProvider>
-              <ToastProvider>
+      <TRPCProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <ThirdwebProvider>
+            <ToastProvider>
+              <MyErrorBoundary>
                 <Inner />
-              </ToastProvider>
-            </ThirdwebProvider>
-          </GestureHandlerRootView>
-        </TRPCProvider>
-      </MyErrorBoundary>
+              </MyErrorBoundary>
+            </ToastProvider>
+          </ThirdwebProvider>
+        </GestureHandlerRootView>
+      </TRPCProvider>
     </StrictMode>
   );
 };
