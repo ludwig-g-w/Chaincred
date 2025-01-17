@@ -1,6 +1,5 @@
-import ReviewListItem, { UserCommentProps } from "@components/ReviewListItem";
-
-import { Box, Divider, HStack, Text, VStack } from "@gluestack-ui/themed";
+import ReviewListItem from "@components/ReviewListItem";
+import { Text } from "@lib/components/ui/text";
 import SuspenseFallback from "@lib/components/SuspenseFallback";
 import { trpc } from "@lib/utils/trpc";
 import { FlashList } from "@shopify/flash-list";
@@ -11,6 +10,16 @@ import { useLocalSearchParams } from "expo-router";
 import React, { Suspense, useMemo } from "react";
 import { View } from "react-native";
 import * as Typo from "@lib/components/ui/typography";
+import { type Profile } from "@prisma/client";
+
+type Attestation = {
+  id: string;
+  data: { message: string; review: number } | null;
+  attester: string | Profile;
+  recipient: string;
+  timeCreated: number;
+};
+
 const ProfileScreen = () => {
   const { address } = useLocalSearchParams<{ address: string }>();
   const [profile] = trpc.getProfileByAddress.useSuspenseQuery({
@@ -32,10 +41,9 @@ const ProfileScreen = () => {
   );
 
   const reviewsByDate = useMemo(
-    () => sortAndGroupByDateReviews(reviews),
+    () => sortAndGroupByDateReviews(reviews as Attestation[]),
     [reviews]
   );
-  console.log(avgScore);
 
   return (
     <View className="bg-background flex-1">
@@ -47,30 +55,39 @@ const ProfileScreen = () => {
           estimatedItemSize={88}
           data={reviewsByDate}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => {
-            const [date, items] = item;
-
+          renderItem={({ item: [date, reviews] }) => {
             return (
-              <Box px="$2">
-                <Typo.H4 pb="$2" size="lg">
-                  {format(parseISO(date), "MMMM do, yyyy")}
-                </Typo.H4>
-                {items.map((subItem, index) => {
-                  return (
-                    <Box pb="$2" key={index}>
-                      <ReviewListItem
-                        avatarUri={subItem?.attester?.image_url}
-                        userName={subItem?.attester?.title ?? subItem.attester}
-                        rating={subItem.data?.review}
-                        comment={subItem.data?.message}
-                        id={subItem.id}
-                      />
-                    </Box>
-                  );
-                })}
-              </Box>
+              <View className="px-4">
+                <Text className="text-sm text-gray-500 mb-2">
+                  {format(parseISO(date), "MMMM d, yyyy")}
+                </Text>
+                <View className="space-y-4">
+                  {reviews.map((review) => (
+                    <ReviewListItem
+                      key={review.id}
+                      id={review.id}
+                      avatarUri={
+                        typeof review.attester === "object"
+                          ? review.attester.image_url ?? undefined
+                          : undefined
+                      }
+                      userName={
+                        typeof review.attester === "object"
+                          ? review.attester.title ?? review.attester.address
+                          : review.attester
+                      }
+                      comment={review.data?.message}
+                      rating={review.data?.review}
+                      userAttested={false}
+                    />
+                  ))}
+                </View>
+              </View>
             );
           }}
+          ItemSeparatorComponent={() => (
+            <View className="h-px bg-gray-200 my-4" />
+          )}
         />
       </Suspense>
     </View>
@@ -79,37 +96,51 @@ const ProfileScreen = () => {
 
 export default ProfileScreen;
 
-const ListHeader = React.memo(({ profile, address, avgScore }: any) => (
-  <>
-    <Image
-      style={{
-        aspectRatio: 1.5 / 1,
-        width: "100%",
-        backgroundColor: "#0553",
-      }}
-      source={{
-        uri: profile?.image_url ?? "",
-      }}
-      contentFit="cover"
-    />
-    <VStack gap={"$2"} pt="$6" pb="$4" px="$2" flex={1}>
-      <Typo.H2>{profile?.title}</Typo.H2>
-      <Typo.Large className="color-primary">
-        {shortenAddress(address)}
-      </Typo.Large>
-      <Typo.Large>{profile?.description}</Typo.Large>
-      <Divider />
-      <Typo.H4>Reviews</Typo.H4>
-      <HStack alignItems="center" gap="$4">
-        <View className="p-2 rounded-full border-secondary border-1 bg-secondary aspect-square items-center justify-center">
-          <Typo.H3 className="b-2">
-            {typeof avgScore === "number"
-              ? ["😔", "😐", "😊", "😃", "🤩"][avgScore]
-              : "🤷‍♂️"}
-          </Typo.H3>
+type ListHeaderProps = {
+  profile: {
+    title: string | null;
+    image_url: string | null;
+    description: string | null;
+  } | null;
+  address: string;
+  avgScore: number | undefined;
+};
+
+const ListHeader = React.memo(
+  ({ profile, address, avgScore }: ListHeaderProps) => (
+    <View className="space-y-4 px-4 pb-4">
+      <Image
+        style={{
+          aspectRatio: 1.5 / 1,
+          width: "100%",
+          backgroundColor: "#0553",
+        }}
+        source={{
+          uri: profile?.image_url ?? "",
+        }}
+        contentFit="cover"
+      />
+      <View className="space-y-2">
+        <Typo.H2>{profile?.title}</Typo.H2>
+        <Typo.Large className="text-primary">
+          {shortenAddress(address)}
+        </Typo.Large>
+        <Typo.Large>{profile?.description}</Typo.Large>
+      </View>
+      <View className="h-px bg-gray-200" />
+      <View className="space-y-2">
+        <Typo.H4>Reviews</Typo.H4>
+        <View className="flex-row items-center gap-4">
+          <View className="p-2 rounded-full border border-secondary bg-secondary/10 items-center justify-center aspect-square">
+            <Typo.H3>
+              {typeof avgScore === "number"
+                ? ["😔", "😐", "😊", "😃", "🤩"][avgScore]
+                : "🤷‍♂️"}
+            </Typo.H3>
+          </View>
+          <Typo.P>Average score</Typo.P>
         </View>
-        <Typo.P>Average score</Typo.P>
-      </HStack>
-    </VStack>
-  </>
-));
+      </View>
+    </View>
+  )
+);

@@ -1,7 +1,7 @@
 import MainButton from "@components/MainButton";
 import ReviewComponent from "@components/Rating";
 import MyToast from "@components/Toast";
-import { Box, Textarea, TextareaInput, useToast } from "@gluestack-ui/themed";
+import { useToast } from "react-native-toast-notifications";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { createReviewAttestation } from "@utils/eas";
 import { shortenAddress } from "@utils/index";
@@ -15,6 +15,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import invariant from "tiny-invariant";
+import { Textarea } from "@lib/components/ui/textarea";
 
 const ScanScreen = () => {
   const { isDarkColorScheme } = useColorScheme();
@@ -40,26 +41,16 @@ const ScanScreen = () => {
         comment,
         account: account as any,
       });
-      toast.show({
-        duration: 3_000,
+      toast.show("Review sent!", {
+        type: "success",
         placement: "top",
-        render: () => (
-          <MyToast
-            action="success"
-            variant="solid"
-            title="Review sent!"
-            description="You can check it in the history"
-          />
-        ),
       });
       setIsBottomSheetVisible(false);
     } catch (error) {
-      toast.show({
-        duration: 3_000,
+      toast.show("Error occurred!", {
+        type: "error",
         placement: "top",
-        render: () => (
-          <MyToast action="error" variant="solid" title="Error occurred!" />
-        ),
+        duration: 3_000,
       });
       console.log(error);
     } finally {
@@ -100,7 +91,7 @@ const ScanScreen = () => {
     );
   }
   return (
-    <Box flex={1}>
+    <View className="flex-1">
       <CameraView
         style={styles.camera}
         onBarcodeScanned={({ type, data }) => {
@@ -138,23 +129,10 @@ const ScanScreen = () => {
 
             <ReviewComponent onRatingChange={handleRatingChange} />
             <Textarea
-              p="$1"
-              my="$4"
-              rounded="$lg"
-              bg={
-                isDarkColorScheme ? "$backgroundDark800" : "$backgroundLight800"
-              }
-              borderColor={
-                isDarkColorScheme ? "$borderDark200" : "$borderLight200"
-              }
-            >
-              <TextareaInput
-                onChangeText={setComment}
-                returnKeyType="default"
-                placeholder="Make a comment..."
-                color={isDarkColorScheme ? "$textDark200" : "$textLight200"}
-              />
-            </Textarea>
+              className="p-1 my-4 rounded-lg bg-primary border-border"
+              placeholder="Make a comment..."
+              onChangeText={setComment}
+            />
 
             <MainButton onPress={handleSubmitReview} {...{ loading }}>
               Send review to EAS
@@ -162,7 +140,7 @@ const ScanScreen = () => {
           </KeyboardAwareScrollView>
         </BottomSheet>
       )}
-    </Box>
+    </View>
   );
 };
 const styles = StyleSheet.create({

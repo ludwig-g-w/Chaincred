@@ -1,6 +1,4 @@
 import { useReactNavigationDevTools } from "@dev-plugins/react-navigation";
-import { config } from "@gluestack-ui/config";
-import { GluestackUIProvider } from "@gluestack-ui/themed";
 import MyErrorBoundary from "@lib/components/ErrorBoudary";
 import { useColorScheme } from "@lib/useColorScheme";
 import { useSelectColorScheme } from "@lib/utils/hooks";
@@ -32,11 +30,9 @@ const App = () => {
       <MyErrorBoundary>
         <TRPCProvider>
           <GestureHandlerRootView style={{ flex: 1 }}>
-            <GluestackUIProvider config={config}>
-              <ThirdwebProvider>
-                <Inner />
-              </ThirdwebProvider>
-            </GluestackUIProvider>
+            <ThirdwebProvider>
+              <Inner />
+            </ThirdwebProvider>
           </GestureHandlerRootView>
         </TRPCProvider>
       </MyErrorBoundary>

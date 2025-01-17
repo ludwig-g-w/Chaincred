@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import {
-  ChevronDownIcon,
-  ChevronRightIcon,
-  VStack,
-} from "@gluestack-ui/themed";
-import { Badge, Center, HStack, Text } from "@gluestack-ui/themed";
-import { Pressable } from "react-native";
+import { Pressable, View } from "react-native";
+import { Text } from "@lib/components/ui/text";
+import { Entypo } from "@expo/vector-icons";
 import { isAddress, shortenAddress } from "@utils/index";
 
 const AttestationItem = ({
@@ -24,58 +20,42 @@ const AttestationItem = ({
   };
 
   const styleExpanded = isExpanded && {
-    borderBottomEndRadius: 0,
-    borderBottomStartRadius: 0,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 0,
     borderBottomColor: "transparent",
   };
 
   return (
     <Pressable onPress={handlePress}>
-      <VStack>
-        <HStack
-          borderWidth="$1"
-          borderColor="$coolGray300"
-          justifyContent="space-between"
-          p="$1"
-          alignItems="center"
-          rounded={"$xl"}
-          bgColor="$white"
+      <View className="flex flex-col">
+        <View
+          className="flex-row justify-between items-center p-1 rounded-xl bg-white border border-gray-300"
           style={styleExpanded}
         >
-          <HStack alignItems="center">
-            <VStack px="$4" py="$2" gap="$2">
-              <Text bold>{formattedTitle}</Text>
+          <View className="flex-row items-center">
+            <View className="px-4 py-2 gap-2">
+              <Text className="font-bold">{formattedTitle}</Text>
               {count > 0 && (
-                <Badge borderRadius={50} variant="solid">
-                  <Text>Received {count}</Text>
-                </Badge>
+                <View className="bg-blue-500 rounded-full px-2 py-1">
+                  <Text className="text-white">Received {count}</Text>
+                </View>
               )}
-            </VStack>
-          </HStack>
-
+            </View>
+          </View>
           {description ? (
             isExpanded ? (
-              <ChevronDownIcon />
+              <Entypo name="chevron-down" size={24} color="#000" />
             ) : (
-              <ChevronRightIcon />
+              <Entypo name="chevron-right" size={24} color="#000" />
             )
           ) : null}
-        </HStack>
+        </View>
         {isExpanded && description && (
-          <VStack
-            borderWidth="$1"
-            borderColor="$coolGray300"
-            borderTopEndRadius={0}
-            borderTopStartRadius={0}
-            rounded={"$xl"}
-            bg="$blueGray100"
-            px="$4"
-            py="$2"
-          >
+          <View className="border border-gray-300 rounded-xl bg-gray-100 px-4 py-2">
             <Text>{description}</Text>
-          </VStack>
+          </View>
         )}
-      </VStack>
+      </View>
     </Pressable>
   );
 };

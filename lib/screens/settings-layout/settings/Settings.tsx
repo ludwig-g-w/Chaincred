@@ -1,6 +1,4 @@
-import { HStack } from "@gluestack-ui/themed";
 import { NWIcon } from "@lib/components/nativeWindInterop";
-import { Button } from "@lib/components/ui/button";
 import { Switch } from "@lib/components/ui/switch";
 import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME, STORAGE_AUTH_KEY } from "@lib/constants";
@@ -57,11 +55,7 @@ export default () => {
         className="px-2 py-4 border-b-hairline border-secondary"
         onPress={onPress}
       >
-        <HStack
-          borderBottomColor="$trueGray700"
-          justifyContent="space-between"
-          alignItems="center"
-        >
+        <View className="flex-row justify-between items-center">
           <Typo.H4>{title}</Typo.H4>
           {children ?? (
             <NWIcon
@@ -75,7 +69,7 @@ export default () => {
               size={24}
             />
           )}
-        </HStack>
+        </View>
       </Pressable>
     );
   }

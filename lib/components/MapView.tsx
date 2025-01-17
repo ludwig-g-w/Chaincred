@@ -1,4 +1,3 @@
-import { Box, Center, HStack, Text } from "@gluestack-ui/themed";
 import { Profile } from "@prisma/client";
 import { router } from "expo-router";
 import React, {
@@ -9,6 +8,7 @@ import React, {
   useState,
 } from "react";
 import { View, Dimensions, Platform, StyleSheet } from "react-native";
+import { Text } from "@lib/components/ui/text";
 import * as Typo from "./ui/typography";
 import MapView, {
   Callout,
@@ -98,17 +98,13 @@ const Map = ({ profiles = [] }: { profiles: Profile[] }) => {
               coordinate={coord}
               title={`Cluster of ${feature.properties?.point_count} items`}
             >
-              <Box
-                aspectRatio={1}
-                zIndex={99}
-                p="$1"
-                borderRadius="$2xl"
-                bgColor="$green400"
-              >
-                <Center>
-                  <Text color="$white">{feature.properties?.point_count}</Text>
-                </Center>
-              </Box>
+              <View className="aspect-square p-1 rounded-2xl bg-green-400 z-10">
+                <View className="items-center justify-center">
+                  <Text className="text-white">
+                    {feature.properties?.point_count}
+                  </Text>
+                </View>
+              </View>
             </Marker>
           );
         }

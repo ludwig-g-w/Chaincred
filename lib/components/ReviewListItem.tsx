@@ -1,33 +1,19 @@
-import {
-  Avatar,
-  AvatarFallbackText,
-  AvatarImage,
-  Badge,
-  BadgeIcon,
-  BadgeText,
-  BellIcon,
-  Button,
-  ButtonIcon,
-  ButtonText,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  HStack,
-  LinkIcon,
-  Pressable,
-  VStack,
-} from "@gluestack-ui/themed";
+import { Text } from "@lib/components/ui/text";
 import * as Typo from "@lib/components/ui/typography";
 import { isAddress, shortenAddress } from "@utils/index";
+import { Image } from "expo-image";
+import { Feather } from "@expo/vector-icons";
 import * as WebBrowser from "expo-web-browser";
 import React, { useState } from "react";
-import { View } from "react-native";
+import { View, Pressable } from "react-native";
+
 interface UserCommentProps {
   avatarUri?: string;
   fallbackInitials?: string;
   userName?: string;
   comment?: string;
   rating?: number;
-  onPress?: () => {};
+  onPress?: () => void;
   userAttested: boolean;
   id: string;
 }
@@ -48,77 +34,80 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
 
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const emoji = ["😔", "😐", "😊", "😃", "🤩"][rating ?? 0];
-
   const handlePress = () => {
-    setIsExpanded(!isExpanded);
+    if (!comment) return;
+    !onPress && setIsExpanded(!isExpanded);
     onPress();
   };
 
-  const styleExpanded = isExpanded && {
-    borderBottomEndRadius: 0,
-    borderBottomStartRadius: 0,
-    borderBottomColor: "transparent",
+  const handleViewOnEAS = () => {
+    WebBrowser.openBrowserAsync(
+      `https://sepolia.easscan.org/attestation/view/${id}`
+    );
   };
 
   return (
-    <Pressable onPress={handlePress}>
-      <View
-        className="flex-row gap-2 border border-border justify-between p-2 items-center rounded-xl bg-card"
-        style={styleExpanded}
+    <View className="bg-white rounded-xl border border-gray-300">
+      <Pressable
+        onPress={handlePress}
+        className="flex-row items-center justify-between p-4"
       >
-        <Avatar>
-          <AvatarFallbackText>
-            {!isAddress(userName) ? userName : fallbackInitials}
-          </AvatarFallbackText>
-          <AvatarImage
-            alt="profileImage"
-            source={{
-              uri: avatarUri || "",
-            }}
-          />
-        </Avatar>
-        <VStack>
-          <Badge
-            alignSelf="flex-start"
-            rounded="$md"
-            bg={userAttested ? "$cyan500" : "$purple500"}
-            gap="$1"
+        <View className="flex-row items-center gap-3">
+          <View className="h-10 w-10 rounded-full overflow-hidden bg-gray-100">
+            {avatarUri ? (
+              <Image
+                source={{ uri: avatarUri }}
+                className="h-full w-full"
+                contentFit="cover"
+              />
+            ) : (
+              <View className="h-full w-full items-center justify-center">
+                <Text className="text-sm">{fallbackInitials}</Text>
+              </View>
+            )}
+          </View>
+          <View className="gap-1">
+            <Text className="font-medium">{formattedUserName}</Text>
+            {rating !== undefined && (
+              <View className="flex-row items-center gap-1">
+                <Text className="text-sm text-gray-500">Rating:</Text>
+                <Text className="text-sm">
+                  {["😔", "😐", "😊", "😃", "🤩"][rating]}
+                </Text>
+              </View>
+            )}
+          </View>
+        </View>
+        <View className="flex-row items-center gap-2">
+          {userAttested && (
+            <View className="bg-primary/10 rounded-full p-2">
+              <Feather name="bell" size={16} color="#000" />
+            </View>
+          )}
+          <Pressable
+            onPress={handleViewOnEAS}
+            className="bg-primary/10 rounded-full p-2"
           >
-            <BadgeIcon
-              color={userAttested ? "$yellow100" : "$purple100"}
-              as={BellIcon}
-              fill={userAttested ? "$yellow100" : "$purple100"}
-            />
-            <BadgeText color={userAttested ? "$yellow100" : "$purple100"}>
-              {userAttested ? "Given to" : "Received by"}
-            </BadgeText>
-          </Badge>
-          <Typo.P>{formattedUserName}</Typo.P>
-        </VStack>
-        <Typo.H1 className="ml-auto">{emoji}</Typo.H1>
-        {isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
-      </View>
-      {isExpanded && (
-        <View className="border border-border bg-muted px-4 rounded-xl rounded-t-none">
-          <HStack alignItems="center" justifyContent="space-between">
-            <Typo.P>{comment}</Typo.P>
-            <Button
-              onPress={() => {
-                WebBrowser.openBrowserAsync(
-                  `https://base-sepolia.easscan.org/attestation/view/${id}`
-                );
-              }}
-              variant="link"
-              gap="$2"
-            >
-              <ButtonText size="sm">Check on EAS</ButtonText>
-              <ButtonIcon as={LinkIcon} />
-            </Button>
-          </HStack>
+            <Feather name="external-link" size={16} color="#000" />
+          </Pressable>
+          {comment && (
+            <View className="bg-primary/10 rounded-full p-2">
+              {isExpanded ? (
+                <Feather name="chevron-down" size={16} color="#000" />
+              ) : (
+                <Feather name="chevron-right" size={16} color="#000" />
+              )}
+            </View>
+          )}
+        </View>
+      </Pressable>
+      {isExpanded && comment && (
+        <View className="px-4 pb-4">
+          <View className="h-px bg-gray-200 mb-3" />
+          <Text>{comment}</Text>
         </View>
       )}
-    </Pressable>
+    </View>
   );
 };
 

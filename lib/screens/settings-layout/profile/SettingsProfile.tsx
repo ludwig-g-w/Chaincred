@@ -1,13 +1,11 @@
 import MainButton from "@components/MainButton";
-import MyToast from "@components/Toast";
-import { Divider, useToast } from "@gluestack-ui/themed";
 import SuspenseFallback from "@lib/components/SuspenseFallback";
 import { Input } from "@lib/components/ui/input";
 import { Textarea } from "@lib/components/ui/textarea";
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
+import { useToast } from "react-native-toast-notifications";
 
-import { Button } from "@lib/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -122,15 +120,9 @@ export default function SettingsProfile() {
         }
       }
 
-      toast.show({
+      toast.show("Lens Profile Copied!", {
+        type: "success",
         placement: "top",
-        render: () => (
-          <MyToast
-            title="Lens Profile Copied!"
-            action="success"
-            variant="solid"
-          />
-        ),
       });
     }
   };
@@ -167,23 +159,17 @@ export default function SettingsProfile() {
         },
       });
 
-      toast.show({
+      toast.show("Profile Updated!", {
+        type: "success",
         placement: "top",
-        duration: 8_000,
-        render() {
-          return (
-            <MyToast
-              title="Profile Updated!"
-              action="success"
-              variant="solid"
-            />
-          );
-        },
       });
       router.push("/settings");
-      // ... the rest of the original submit function
     } catch (err) {
       console.error("contract call failure", err);
+      toast.show("Error occurred!", {
+        type: "error",
+        placement: "top",
+      });
     } finally {
       setLoading(false);
     }
@@ -247,9 +233,8 @@ export default function SettingsProfile() {
                   </TooltipTrigger>
                   <TooltipContent insets={contentInsets}>
                     <Typo.P
-                      className="color-primary text-primary"
+                      className="text-primary p-0 m-0"
                       onPress={copyLensProfile}
-                      className="p-0 m-0"
                     >
                       Copy
                     </Typo.P>
@@ -257,7 +242,7 @@ export default function SettingsProfile() {
                 </Tooltip>
               )}
             </View>
-            <Divider mb={24} />
+            <View className="flex-row gap-2"></View>
 
             <EditableField
               label={"Title"}

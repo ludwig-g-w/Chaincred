@@ -17,7 +17,7 @@ with the blockchain and thirdweb's Authentication SDK to handle user authenticat
 - [EAS](https://attest.org/)
 - [Supabase](https://supabase.com/)
 - [Nativewind](https://nativewind.dev/)
-- [Gluestack](https://gluestack.io/)
+
 - [React Native](https://reactnative.dev/)
 - [Expo](https://expo.dev/)
 - [tRPC](https://trpc.io/)
@@ -91,9 +91,7 @@ bun install
 
 ## Roadmap
 
-- Move to Gluestack Nativewind or remove
 - Discover section to be scalable
--
 
 ## Contributing
 

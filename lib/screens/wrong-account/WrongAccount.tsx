@@ -1,8 +1,11 @@
-import { Button, ButtonText, Center, Text, View } from "@gluestack-ui/themed";
+import MainButton from "@lib/components/MainButton";
+import * as Typo from "@lib/components/ui/typography";
 import { router } from "expo-router";
 import React, { useEffect } from "react";
+import { View } from "react-native";
 import "react-native-gesture-handler";
 import { useActiveAccount } from "thirdweb/react";
+
 // not used
 const WrongAccount = () => {
   const account = useActiveAccount();
@@ -16,29 +19,18 @@ const WrongAccount = () => {
     }
   }, [address, user]);
   return (
-    <View flex={1}>
-      <Center flex={1} gap="$4" p="$2">
-        <Text textAlign="center" bold size="4xl">
+    <View className="flex-1">
+      <View className="flex-1 gap-4 p-2">
+        <Typo.H4 className="text-center">
           Your wallet doesn't match your user
-        </Text>
-        <Text textAlign="center" size="xl">
+        </Typo.H4>
+        <Typo.H4 className="text-center">
           Switch to corresponding account or logout and login with the account
           belonging to this wallet
-        </Text>
+        </Typo.H4>
 
-        <Button
-          rounded="$full"
-          variant="outline"
-          // @ts-ignore
-          // onPress={logout}
-          borderColor="$backgroundLight500"
-          bg="$backgroundLight200"
-          w="70%"
-        >
-          <ButtonText color="$backgroundLight900">Logout</ButtonText>
-        </Button>
-        {/* <ConnectWallet buttonTitle="Switch account here" /> */}
-      </Center>
+        <MainButton>Logout</MainButton>
+      </View>
     </View>
   );
 };

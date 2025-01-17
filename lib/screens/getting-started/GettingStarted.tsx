@@ -1,4 +1,3 @@
-import { Progress, ProgressFilledTrack } from "@gluestack-ui/themed";
 import { NWIcon } from "@lib/components/nativeWindInterop";
 import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME } from "@lib/constants";
@@ -42,7 +41,7 @@ const OnboardingCarousel = () => {
 
   return (
     <View className="flex-1 bg-background">
-      <Progress
+      {/* <Progress
         value={(100 / slides.length) * (activeSlide + 1)}
         w={"$full"}
         h="$2"
@@ -53,7 +52,7 @@ const OnboardingCarousel = () => {
           rounded={"$none"}
           bgColor={NAV_THEME["light"].primary}
         />
-      </Progress>
+      </Progress> */}
 
       <ScrollView
         ref={scrollViewRef}

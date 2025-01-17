@@ -1,4 +1,3 @@
-import { Box } from "@gluestack-ui/themed";
 import ListItem from "@lib/components/ProfileListItem";
 import { trpc } from "@lib/utils/trpc";
 import { FlashList } from "@shopify/flash-list";
@@ -34,7 +33,7 @@ const DiscoverList = () => {
         refreshing={isRefetching}
         keyExtractor={(d) => d.id.toString()}
         data={profiles}
-        ItemSeparatorComponent={() => <Box h="$2" />}
+        ItemSeparatorComponent={() => <View className="h-2" />}
         renderItem={({ item }) => (
           // @ts-ignore works well
           <ListItem

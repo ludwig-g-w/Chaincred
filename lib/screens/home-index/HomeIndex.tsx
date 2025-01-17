@@ -1,7 +1,7 @@
 import GetStartedCard from "@components/GetStartedCard";
 import ReviewListItem from "@components/ReviewListItem";
 import SuspenseFallback from "@components/SuspenseFallback";
-import { Box, Text, View } from "@gluestack-ui/themed";
+
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
 import { FlashList } from "@shopify/flash-list";
@@ -11,6 +11,7 @@ import { format, parseISO } from "date-fns";
 import { useRouter } from "expo-router";
 import React, { Suspense, useMemo } from "react";
 import { useActiveAccount } from "thirdweb/react";
+import { View, Text } from "react-native";
 
 const Index = () => {
   const user = useActiveAccount();
@@ -44,7 +45,7 @@ const Index = () => {
 
   return (
     <View className="bg-background px-2 flex-1">
-      <Text color="$textLight600" my="$4" size="lg" bold>
+      <Text className="text-textLight600 my-4 text-lg font-bold">
         All Activity
       </Text>
       <Suspense fallback={<SuspenseFallback />}>
@@ -55,14 +56,14 @@ const Index = () => {
           estimatedItemSize={88}
           data={sortedAndGroupedList}
           showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={() => <Box h="$4" />}
+          ItemSeparatorComponent={() => <View className="h-4" />}
           ListEmptyComponent={<GetStartedCard />}
           renderItem={({ item }) => {
             const [date, items] = item;
 
             return isReviewItem(items[0]?.data) ? (
-              <Box>
-                <Text pb="$2" size="md" bold>
+              <View>
+                <Text className="pb-2 text-md font-bold">
                   {format(parseISO(date), "MMMM do, yyyy")}
                 </Text>
                 {items.map((subItem, index) => {
@@ -84,7 +85,7 @@ const Index = () => {
                     typeof itemUser === "object" ? itemUser.title : itemUser;
 
                   return (
-                    <Box pb="$2" key={index}>
+                    <View key={index}>
                       <ReviewListItem
                         avatarUri={avatarUri ?? undefined}
                         userAttested={isUserAttester}
@@ -93,10 +94,10 @@ const Index = () => {
                         comment={subItem.data?.message ?? ""}
                         id={subItem.id}
                       />
-                    </Box>
+                    </View>
                   );
                 })}
-              </Box>
+              </View>
             ) : null;
           }}
         />

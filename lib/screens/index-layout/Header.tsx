@@ -1,6 +1,5 @@
 import { router } from "expo-router";
 import React from "react";
-import { Box, ChevronLeftIcon, Text } from "@gluestack-ui/themed";
 import { usePathname } from "expo-router";
 import { memo } from "react";
 import { Platform, Pressable, View } from "react-native";
