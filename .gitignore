@@ -42,3 +42,5 @@ ChainCred.app
 build-*.tar.gz
 build-*.ipa
 eas.json
+ios/
+android/

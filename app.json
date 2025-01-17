@@ -75,7 +75,9 @@
           "android": {
             "minSdkVersion": 26
           },
-          "ios": {}
+          "ios": {
+            "newArchEnabled": true
+          }
         }
       ]
     ],
