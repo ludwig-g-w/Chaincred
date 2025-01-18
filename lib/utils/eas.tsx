@@ -12,6 +12,8 @@ export const schemaEncoder = new SchemaEncoder(
 
 const schemaEncoderReview = new SchemaEncoder("uint8 review,string message");
 
+// This file provides utility functions for creating and decoding attestations
+// using the Ethereum Attestation Service (EAS) in a React Native application.
 export async function createReviewAttestation({
   account,
   rating,

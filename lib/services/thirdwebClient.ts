@@ -22,11 +22,11 @@ export const wallets = [
         height: 32,
       },
     },
-    smartAccount: {
-      chain: baseSepolia,
-      sponsorGas: true,
-      factoryAddress: process.env.EXPO_PUBLIC_THIRDWEB_FACTORY_ADDRESS!,
-    },
+    // smartAccount: {
+    //   chain: baseSepolia,
+    //   sponsorGas: true,
+    //   factoryAddress: process.env.EXPO_PUBLIC_THIRDWEB_FACTORY_ADDRESS!,
+    // },
   }),
 
   createWallet("io.metamask"),

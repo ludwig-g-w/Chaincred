@@ -1,40 +1,232 @@
-You are an expert in TypeScript, React Native, Expo, and Mobile App Development.
+# INSTRUCTIONS
+- BUILD IN A TDD FASHION -> WRITE THE TESTS FIRST -> THEN WRITE THE CODE
 
-Code Style and Structure:
+# TECK STACK
+- EXPO.IO
+- EXPO ROUTER
+- NATIVEWIND
+- PRISMA
+- TRPC
+- TYPESCRIPT
+- THIRDWEB SDK (thirdweb.com)
 
-- Write concise, type-safe TypeScript code.
-- Use functional components and hooks over class components.
-- Ensure components are modular, reusable, and maintainable.
-- Organize files by feature, grouping related components, hooks, and styles.
+# TESTING
+- JEST
+- REACT NATIVE TESTING LIBRARY
+- MAESTRO E2E
 
-Naming Conventions:
+# CODING STYLE
+- FUNCTIONAL PROGRAMMING
+- READABILITY OVER CONCISE
+- KISS PRINCIPLE
+- COMMENT AT TOP OF FILE EXPLAINING WHAT THE FILE IS FOR
 
-- Use camelCase for variable and function names (e.g., `isFetchingData`, `handleUserInput`).
-- Use PascalCase for component names (e.g., `UserProfile`, `ChatScreen`).
-- Directory names should be lowercase and hyphenated (e.g., `user-profile`, `chat-screen`).
+#CURRENT FILE STRUCTURE
+tree -I 'node_modules|.gradle|build|.git|.cxx|.gitignore |ios|android|.*' -a -L 4
+----
+.
+├── LICENSE
+├── README.md
+├── api
+│   └── index.js
+├── app
+│   ├── (tabs)
+│   │   ├── (discover)
+│   │   │   ├── _layout.tsx
+│   │   │   ├── discoverList.tsx
+│   │   │   └── discoverMap.tsx
+│   │   ├── (home)
+│   │   │   ├── _layout.tsx
+│   │   │   └── homeIndex.tsx
+│   │   ├── (settings)
+│   │   │   ├── _layout.tsx
+│   │   │   ├── settings.tsx
+│   │   │   └── settingsProfile.tsx
+│   │   ├── _layout.tsx
+│   │   └── scanAddress.tsx
+│   ├── _layout.tsx
+│   ├── api
+│   │   ├── auth
+│   │   │   ├── isLoggedIn+api.ts
+│   │   │   └── login+api.ts
+│   │   └── trpc
+│   │       └── [trpc]+api.ts
+│   ├── gettingStarted.tsx
+│   ├── index.tsx
+│   ├── profiles
+│   │   └── [address].tsx
+│   ├── wrongAccount.tsx
+│   └── wsegue.tsx
+├── app.json
+├── assets
+│   ├── adaptive-icon.png
+│   ├── favicon.png
+│   ├── icon.png
+│   ├── images
+│   │   ├── apple.png
+│   │   ├── facebook.png
+│   │   └── google.png
+│   └── splash.png
+├── babel.config.js
+├── bun.lockb
+├── codegen.ts
+├── codegen.yml
+├── components
+│   └── ui
+│       ├── gluestack-ui-provider
+│       └── toast
+├── components.json
+├── compose.yaml
+├── demo.gif
+├── dockerfile
+├── e2e
+│   └── ios-flow.yaml
+├── eas.json
+├── entrypoint.sh
+├── env.d.ts
+├── expo-env.d.ts
+├── generated
+│   ├── graphql.ts
+│   └── supabase.ts
+├── global.css
+├── graphql.schema.json
+├── index.js
+├── lib
+│   ├── components
+│   │   ├── AttestationItem.tsx
+│   │   ├── ConnectButtonThirdweb.tsx
+│   │   ├── ErrorBoudary.tsx
+│   │   ├── GetStartedCard.tsx
+│   │   ├── InputWithButton.tsx
+│   │   ├── MainButton.tsx
+│   │   ├── MapView.tsx
+│   │   ├── MySegmentedControl.tsx
+│   │   ├── ProfileListItem.tsx
+│   │   ├── Rating.tsx
+│   │   ├── ReviewListItem.tsx
+│   │   ├── SuspenseFallback.tsx
+│   │   ├── Toast.tsx
+│   │   ├── WebNotImplemented.tsx
+│   │   ├── connect-modal-v5
+│   │   │   ├── ConnectWithPhoneNumber.tsx
+│   │   │   ├── ConnectWithSocial.tsx
+│   │   │   ├── Connected.tsx
+│   │   │   ├── ExternalWallets.tsx
+│   │   │   └── index.tsx
+│   │   ├── nativeWindInterop.tsx
+│   │   ├── primitives
+│   │   │   ├── label
+│   │   │   ├── slot.tsx
+│   │   │   ├── switch
+│   │   │   └── types.ts
+│   │   └── ui
+│   │       ├── avatar.tsx
+│   │       ├── button.tsx
+│   │       ├── card.tsx
+│   │       ├── input.tsx
+│   │       ├── label.tsx
+│   │       ├── switch.tsx
+│   │       ├── text.tsx
+│   │       ├── textarea.tsx
+│   │       ├── tooltip.tsx
+│   │       └── typography.tsx
+│   ├── constants.ts
+│   ├── graphql
+│   │   ├── client.ts
+│   │   └── index.graphql
+│   ├── screens
+│   │   ├── coinbase-redirect
+│   │   │   ├── CoinbaseRedirect.tsx
+│   │   │   └── CoinbaseRedirect.web.tsx
+│   │   ├── discover-layout
+│   │   │   ├── DiscoverLayout.tsx
+│   │   │   └── DiscoverLayout.web.tsx
+│   │   ├── discover-list
+│   │   │   ├── DiscoverList.tsx
+│   │   │   └── DiscoverList.web.tsx
+│   │   ├── discover-map
+│   │   │   ├── DiscoverMap.tsx
+│   │   │   └── DiscoverMap.web.tsx
+│   │   ├── getting-started
+│   │   │   ├── GettingStarted.tsx
+│   │   │   └── GettingStarted.web.tsx
+│   │   ├── home-index
+│   │   │   ├── HomeIndex.tsx
+│   │   │   └── HomeIndex.web.tsx
+│   │   ├── home-layout
+│   │   │   ├── HomeLayout.tsx
+│   │   │   └── HomeLayout.web.tsx
+│   │   ├── index-layout
+│   │   │   ├── Header.tsx
+│   │   │   ├── IndexLayout.tsx
+│   │   │   ├── IndexLayout.web.tsx
+│   │   │   ├── ThirdwebProvider.tsx
+│   │   │   └── useRedirectAuth.tsx
+│   │   ├── login
+│   │   │   ├── Login.tsx
+│   │   │   └── Login.web.tsx
+│   │   ├── profile
+│   │   │   ├── Profile.tsx
+│   │   │   └── Profile.web.tsx
+│   │   ├── scan-address
+│   │   │   ├── ScanAddress.tsx
+│   │   │   └── ScanAddress.web.tsx
+│   │   ├── settings-layout
+│   │   │   ├── SettingsLayout.tsx
+│   │   │   ├── SettingsLayout.web.tsx
+│   │   │   ├── profile
+│   │   │   └── settings
+│   │   ├── tabs-layout
+│   │   │   ├── LayoutTabs.tsx
+│   │   │   └── LayoutTabs.web.tsx
+│   │   └── wrong-account
+│   │       ├── WrongAccount.tsx
+│   │       └── WrongAccount.web.tsx
+│   ├── services
+│   │   ├── db
+│   │   │   ├── dev.db
+│   │   │   ├── functions.ts
+│   │   │   ├── importCSV.js
+│   │   │   ├── migrations
+│   │   │   ├── prismaClient.ts
+│   │   │   ├── profiles_rows.csv
+│   │   │   └── schema.prisma
+│   │   ├── storage.client.ts
+│   │   ├── supabase.ts
+│   │   ├── thirdwebAuth.ts
+│   │   └── thirdwebClient.ts
+│   ├── trpc-server
+│   │   ├── context.ts
+│   │   ├── routers
+│   │   │   ├── _app.ts
+│   │   │   └── zod.ts
+│   │   └── trpc.ts
+│   ├── useColorScheme.tsx
+│   └── utils
+│       ├── attestations.ts
+│       ├── constants.tsx
+│       ├── eas.tsx
+│       ├── hooks.tsx
+│       ├── index.ts
+│       ├── tRPCProvider.tsx
+│       ├── trpc.ts
+│       ├── types.tsx
+│       └── uploading.ts
+├── metro.config.js
+├── migrations
+│   ├── 20240229163349_init
+│   │   └── migration.sql
+│   └── migration_lock.toml
+├── nativewind-env.d.ts
+├── package.json
+├── scripts
+│   ├── split_code.sh
+│   └── web_build.sh
+├── server.js
+├── tailwind.config.js
+├── tsconfig.json
+├── vercel.json
+└── wait-for-it.sh
 
-TypeScript Usage:
 
-- Use TypeScript for all components, favoring interfaces for props and state.
-- Enable strict typing in `tsconfig.json`.
-- Avoid using `any`; strive for precise types.
-- Utilize `React.FC` for defining functional components with props.
 
-Performance Optimization:
-
-- Minimize `useEffect`, `useState`, and heavy computations inside render methods.
-- Use `React.memo()` for components with static props to prevent unnecessary re-renders.
-- Optimize FlatLists with props like `removeClippedSubviews`, `maxToRenderPerBatch`, and `windowSize`.
-- Use `getItemLayout` for FlatLists when items have a consistent size to improve performance.
-- Avoid anonymous functions in `renderItem` or event handlers to prevent re-renders.
-
-UI and Styling:
-
-- NativeWind is used for styling
-- mrzachnugent/react-native-reusables is used for UI components
-
-Best Practices:
-
-- Follow React Native's threading model to ensure smooth UI performance.
-- Utilize Expo's EAS Build and Updates for continuous deployment and Over-The-Air (OTA) updates.
-- Use React Navigation for handling navigation and deep linking with best practices.

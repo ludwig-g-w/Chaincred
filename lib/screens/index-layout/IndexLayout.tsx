@@ -39,7 +39,7 @@ const App = () => {
   return (
     <StrictMode>
       <TRPCProvider>
-        <GestureHandlerRootView style={{ flex: 1 }}>
+        <GestureHandlerRootView>
           <ThirdwebProvider>
             <ToastProvider>
               <MyErrorBoundary>
