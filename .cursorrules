@@ -1,5 +1,6 @@
 # INSTRUCTIONS
 - BUILD IN A TDD FASHION -> WRITE THE TESTS FIRST -> THEN WRITE THE CODE
+- THIS IS A FULL STACK APP which means that we can leverage Node.js within the ./app/api folder
 
 # TECK STACK
 - EXPO.IO

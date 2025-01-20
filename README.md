@@ -61,29 +61,33 @@ bun install
    Create a `.env.production.local` or file in the root directory of the project and add the following variables:
 
    ```
-   EXPO_PUBLIC_TW_CLIENT_ID=<your-thirdweb-client-id>
-   EXPO_PUBLIC_EAS_CONTRACT=<your-eas-contract-address>
-   EXPO_PUBLIC_SCHEMA_ADRESS_ACTION=<your-schema-address-action>
-   EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW=<your-schema-address-review>
-   EXPO_PUBLIC_EAS_SCHEMA_REGISTRY=<your-eas-schema-registry-address>
-   EXPO_PUBLIC_EAS_GRAPHQL=<your-eas-graphql-endpoint>
-   EXPO_PUBLIC_API_KEY_GOOGLE=<your-google-api-key>
-   EXPO_PUBLIC_ORGANIZATION_MANAGER_ADDRESS=<your-organization-manager-address>
-   EXPO_PUBLIC_SUPABASE_URL=<your-supabase-url>
-   THIRDWEB_AUTH_PRIVATE_KEY=<your-thirdweb-auth-private-key>
-   EXPO_PUBLIC_SUPABASE_ANON_KEY=<your-supabase-anon-key>
-   EXPO_PUBLIC_SERVER_URL=<your-server-url>
-   EXPO_PUBLIC_POSTGRES_PRISMA_URL=<your-postgres-url>
-   EXPO_PUBLIC_POSTGRES_URL_NON_POOLING=<your-postgres-url>
+   EXPO_PUBLIC_TW_CLIENT_ID=<your-thirdweb-client-id> // Your Thirdweb client ID for authentication
+   EXPO_PUBLIC_EAS_CONTRACT=<your-eas-contract-address> // The contract address for EAS (Ethereum Attestation Service)
+   EXPO_PUBLIC_SCHEMA_ADRESS_ACTION=<your-schema-address-action> // The schema address for action attestations
+   EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW=<your-schema-address-review> // The schema address for review attestations
+   EXPO_PUBLIC_EAS_SCHEMA_REGISTRY=<your-eas-schema-registry-address> // The address for the EAS schema registry
+   EXPO_PUBLIC_EAS_GRAPHQL=<your-eas-graphql-endpoint> // The GraphQL endpoint for EAS
+   EXPO_PUBLIC_API_KEY_GOOGLE=<your-google-api-key> // Your Google API key for accessing Google services
+   EXPO_PUBLIC_ORGANIZATION_MANAGER_ADDRESS=<your-organization-manager-address> // The address for the organization manager
+   EXPO_PUBLIC_SUPABASE_URL=<your-supabase-url> // The URL for your Supabase instance
+   EXPO_PUBLIC_SUPABASE_ANON_KEY=<your-supabase-anon-key> // The anonymous key for accessing Supabase
+   EXPO_PUBLIC_SERVER_URL=<your-server-url> // The URL for your server
+   EXPO_PUBLIC_POSTGRES_PRISMA_URL=<your-postgres-url> // The URL for your Postgres database with Prisma
+   EXPO_PUBLIC_POSTGRES_URL_NON_POOLING=<your-postgres-url> // The non-pooling URL for your Postgres database
+   EXPO_PUBLIC_THIRDWEB_FACTORY_ADDRESS=<your-thirdweb-factory-address> // The factory address for Thirdweb
+   THIRDWEB_AUTH_PRIVATE_KEY=<your-thirdweb-auth-private-key> // Your private key for Thirdweb authentication
+   THIRDWEB_SECRET_KEY=<your-thirdweb-secret-key> // Your secret key for Thirdweb
    ```
 
 4. run docker-compose up
 
 5. Run the app:
 
-   ```
-   bun ios
-   ```
+```
+
+bun ios
+
+```
 
 ## Known issues
 
@@ -91,7 +95,7 @@ bun install
 
 ## Roadmap
 
-- Discover section to be scalable
+- Add more attestation types
 
 ## Contributing
 
@@ -100,3 +104,7 @@ We welcome contributions to ChainCred! If you have any ideas or suggestions for 
 ## License
 
 ChainCred is licensed under the Apache License 2.0.
+
+```
+
+```
