@@ -10,6 +10,7 @@
 - tRPC, to handle API requests
 - TYPESCRIPT 
 - THIRDWEB SDK (thirdweb.com)
+- BUN, to run the app
 
 # TESTING
 - JEST, to run tests
