@@ -12,7 +12,7 @@ import { decodeDataReviewOrAction } from "@utils/eas";
 import { VerifyLoginPayloadParams } from "thirdweb/auth";
 import { z } from "zod";
 import { openProcedure, protectedProcedure, router } from "../trpc";
-import { FindManyProfileInput } from "./zod";
+import { FindManyProfileInput, ProfileSelect } from "./zod";
 // TODO: ENV VAR move to .env when it works on server
 const EAS_ADDRESS_REVIEW =
   "0xcddb22d1ae4a241838b7f8b7a9063ee955e0e2632320cb1c41c1ee1ab61e70ef";
@@ -59,6 +59,7 @@ export const appRouter = router({
       z.object({
         recipients: z.array(z.string()).optional(),
         attesters: z.array(z.string()).optional(),
+        select: ProfileSelect,
       })
     )
     .query(async ({ input, ctx }) => {
@@ -66,7 +67,7 @@ export const appRouter = router({
         return [];
       }
 
-      const { attesters = [], recipients = [] } = input;
+      const { attesters = [], recipients = [], select } = input;
       try {
         const responseAttestations = await sdk.Attestations({
           where: {
@@ -85,7 +86,10 @@ export const appRouter = router({
             a.recipient,
           ])
         );
-        const profiles = await getProfilesByAddresses(Array.from(addresses));
+        const profiles = await getProfilesByAddresses(
+          Array.from(addresses),
+          select
+        );
 
         const formattedAttestation = responseAttestations.attestations.map(
           (attestation) => {
@@ -114,9 +118,14 @@ export const appRouter = router({
       }
     }),
   getProfileByAddress: protectedProcedure
-    .input(z.object({ address: z.string().min(1) }))
+    .input(
+      z.object({
+        address: z.string().min(1),
+        select: ProfileSelect,
+      })
+    )
     .query(async ({ ctx, input }) => {
-      const profile = await getProfileByAddress(input.address);
+      const profile = await getProfileByAddress(input.address, input.select);
       return profile;
     }),
   setOrModifyProfile: protectedProcedure
@@ -139,11 +148,16 @@ export const appRouter = router({
       return profile;
     }),
   getProfiles: protectedProcedure
-    .input(z.array(z.string()).optional())
-    .query(async ({ ctx, input: addresses }) => {
-      const profiles = addresses
-        ? await getProfilesByAddresses(addresses)
-        : await getAllProfiles();
+    .input(
+      z.object({
+        addresses: z.array(z.string()).optional(),
+        select: ProfileSelect,
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const profiles = input.addresses
+        ? await getProfilesByAddresses(input.addresses, input.select)
+        : await getAllProfiles(input.select);
 
       return profiles;
     }),

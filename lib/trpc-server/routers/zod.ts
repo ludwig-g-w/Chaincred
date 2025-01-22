@@ -1,41 +1,79 @@
 import { z } from "zod";
+import { Prisma } from "@prisma/client";
 
-const FilterOperations = z.object({
-  equals: z.union([z.string(), z.number()]).optional(),
-  in: z.array(z.union([z.string(), z.number()])).optional(),
-  notIn: z.array(z.union([z.string(), z.number(), z.null()])).optional(),
-  not: z.union([z.string(), z.number(), z.null()]).optional(),
-  lt: z.number().optional(),
-  lte: z.number().optional(),
-  gt: z.number().optional(),
-  gte: z.number().optional(),
-  contains: z.string().optional(),
-  startsWith: z.string().optional(),
-  endsWith: z.string().optional(),
-});
+// Define which fields can be selected
+export const ProfileSelect = z.record(z.boolean()).optional();
 
+// Define filter operations for different field types
+const StringFilter = z
+  .object({
+    equals: z.string().optional(),
+    in: z.array(z.string()).optional(),
+    notIn: z.array(z.string()).optional(),
+    lt: z.string().optional(),
+    lte: z.string().optional(),
+    gt: z.string().optional(),
+    gte: z.string().optional(),
+    contains: z.string().optional(),
+    startsWith: z.string().optional(),
+    endsWith: z.string().optional(),
+    not: z.string().optional(),
+  })
+  .optional();
+
+const IntFilter = z
+  .object({
+    equals: z.number().optional(),
+    in: z.array(z.number()).optional(),
+    notIn: z.array(z.number()).optional(),
+    lt: z.number().optional(),
+    lte: z.number().optional(),
+    gt: z.number().optional(),
+    gte: z.number().optional(),
+    not: z.number().optional(),
+  })
+  .optional();
+
+const DateTimeFilter = z
+  .object({
+    equals: z.date().optional(),
+    in: z.array(z.date()).optional(),
+    notIn: z.array(z.date()).optional(),
+    lt: z.date().optional(),
+    lte: z.date().optional(),
+    gt: z.date().optional(),
+    gte: z.date().optional(),
+    not: z.date().optional(),
+  })
+  .optional();
+
+// Define the Profile schema for where clauses
 export const ProfileSchema = z.object({
-  id: z.number().or(FilterOperations).optional(), // Assuming autoincrement implies it's always present and a number
-  title: z.string().or(FilterOperations).optional(), // Optional String
-  image_url: z.string().or(FilterOperations).optional(), // Optional String
-  description: z.string().or(FilterOperations).optional(), // Optional String
-  location_coords: z.string().or(FilterOperations).optional(), // Optional String
-  created_at: z.date().or(FilterOperations).optional(), // Assuming always present with a default now() value
-  updated_at: z.date().optional().or(FilterOperations).optional(), // Optional DateTime
-  address: z.string().or(FilterOperations).optional(), // String and unique but uniqueness is a
+  id: z.number().or(IntFilter).optional(),
+  title: z.string().or(StringFilter).optional(),
+  image_url: z.string().or(StringFilter).optional(),
+  description: z.string().or(StringFilter).optional(),
+  location_coords: z.string().or(StringFilter).optional(),
+  created_at: z.date().or(DateTimeFilter).optional(),
+  updated_at: z.date().or(DateTimeFilter).optional(),
+  address: z.string().or(StringFilter).optional(),
+  location_name: z.string().or(StringFilter).optional(),
 });
 
 // Define a schema for the orderBy clause
+export const SortOrder = z.enum(["asc", "desc"]);
+
 export const ProfileOrderByWithRelationInput = z
   .object({
-    id: z.enum(["asc", "desc"]).optional(),
-    title: z.enum(["asc", "desc"]).optional(),
-    image_url: z.enum(["asc", "desc"]).optional(),
-    description: z.enum(["asc", "desc"]).optional(),
-    location_coords: z.enum(["asc", "desc"]).optional(),
-    created_at: z.enum(["asc", "desc"]).optional(),
-    updated_at: z.enum(["asc", "desc"]).optional(),
-    address: z.enum(["asc", "desc"]).optional(),
+    id: SortOrder.optional(),
+    title: SortOrder.optional(),
+    image_url: SortOrder.optional(),
+    description: SortOrder.optional(),
+    location_coords: SortOrder.optional(),
+    created_at: SortOrder.optional(),
+    updated_at: SortOrder.optional(),
+    address: SortOrder.optional(),
+    location_name: SortOrder.optional(),
   })
   .optional();
 
@@ -45,4 +83,5 @@ export const FindManyProfileInput = z.object({
   orderBy: ProfileOrderByWithRelationInput,
   take: z.number().optional(),
   skip: z.number().optional(),
+  select: ProfileSelect,
 });
