@@ -11,7 +11,7 @@ const DiscoverList = () => {
         not: user?.address ?? "",
       },
       location_coords: {
-        not: null,
+        not: "",
       },
     },
   });

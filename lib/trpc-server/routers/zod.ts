@@ -17,7 +17,7 @@ const StringFilter = z
     contains: z.string().optional(),
     startsWith: z.string().optional(),
     endsWith: z.string().optional(),
-    not: z.string().optional(),
+    not: z.string().or(z.null()).optional(),
   })
   .optional();
 

@@ -37,19 +37,17 @@ console.log({
 
 const App = () => {
   return (
-    <StrictMode>
-      <TRPCProvider>
-        <GestureHandlerRootView>
-          <ThirdwebProvider>
-            <ToastProvider>
-              <MyErrorBoundary>
-                <Inner />
-              </MyErrorBoundary>
-            </ToastProvider>
-          </ThirdwebProvider>
-        </GestureHandlerRootView>
-      </TRPCProvider>
-    </StrictMode>
+    <TRPCProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ThirdwebProvider>
+          <ToastProvider>
+            <MyErrorBoundary>
+              <Inner />
+            </MyErrorBoundary>
+          </ToastProvider>
+        </ThirdwebProvider>
+      </GestureHandlerRootView>
+    </TRPCProvider>
   );
 };
 
