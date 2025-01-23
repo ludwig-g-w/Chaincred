@@ -6,6 +6,7 @@ import { ReviewItem } from "@utils/types";
 import { baseSepolia } from "thirdweb/chains";
 import { Account } from "thirdweb/wallets";
 import { ethers6Adapter } from "thirdweb/adapters/ethers6";
+import { Signer } from "ethers";
 export const schemaEncoder = new SchemaEncoder(
   "string title,string description,string entityName,uint8 quantity"
 );
@@ -27,18 +28,17 @@ export async function createReviewAttestation({
 }) {
   try {
     const eas = new EAS(process.env.EXPO_PUBLIC_EAS_CONTRACT);
-    let ethersSigner = account;
+    let ethersSigner: Signer = account as unknown as Signer;
     try {
       ethersSigner = ethers6Adapter.signer.toEthers({
-        account: account,
+        account: { ...account },
         chain: baseSepolia,
-        client: thirdwebClient,
+        client: { ...thirdwebClient },
       });
     } catch (error) {
       console.log("ethersSigner error", error);
     }
 
-    // @ts-ignore
     await eas.connect(ethersSigner);
 
     const encodedData = schemaEncoderReview.encodeData([

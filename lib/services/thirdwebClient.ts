@@ -62,6 +62,3 @@ export const connectConfig = {
     url: "gtfol.xyz",
   },
 };
-
-// Verify the client configuration
-console.log("ThirdWeb Client Config:", thirdwebClient.config);
