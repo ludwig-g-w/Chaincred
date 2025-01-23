@@ -1,5 +1,6 @@
 {
   "expo": {
+    "newArchEnabled": true,
     "experiments": {
       "typedRoutes": true
     },
@@ -73,12 +74,8 @@
         "expo-build-properties",
         {
           "android": {
-            "minSdkVersion": 26,
-            "newArchEnabled": true
+            "minSdkVersion": 26
           },
-          "ios": {
-            "newArchEnabled": true
-          }
         }
       ]
     ],
