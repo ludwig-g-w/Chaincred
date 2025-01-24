@@ -1,17 +1,18 @@
 import * as Typo from "@lib/components/ui/typography";
 import React from "react";
 import { View } from "react-native";
-
+import { css } from "react-native-reanimated";
 import ConnectButtonThirdweb from "@lib/components/ConnectButtonThirdweb";
 import { useActiveWallet, useDisconnect } from "thirdweb/react";
 import { Button } from "@lib/components/ui/button";
+import { AnimatedTitle } from "./components/AnimatedTitle";
 
 export default function LoginScreen() {
   const { disconnect } = useDisconnect();
   const wallet = useActiveWallet();
   return (
     <View className="flex-1 justify-center items-center gap-4 bg-background">
-      <Typo.H1 className="color-primary">ChainCred</Typo.H1>
+      <AnimatedTitle />
       <Typo.Lead>An app for reviewing decentralized</Typo.Lead>
       <View className="flex-wrap gap-4 items-center">
         <ConnectButtonThirdweb />
