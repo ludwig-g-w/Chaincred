@@ -33,7 +33,7 @@ function ConnectButtonThirdweb() {
         chain={baseSepolia}
         recommendedWallets={wallets}
         chains={[baseSepolia]}
-        theme={isDarkColorScheme ? "dark" : "light"}
+        theme={!isDarkColorScheme ? "dark" : "light"}
         connectModal={{
           size: "wide",
         }}
