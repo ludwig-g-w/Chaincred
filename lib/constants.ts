@@ -13,24 +13,24 @@ function hslToHex(h, s, l) {
 
 export const NAV_THEME = {
   light: {
-    background: hslToHex(0, 0, 100), // background
-    border: hslToHex(20, 5.9, 90), // border
-    card: hslToHex(0, 0, 100), // card
-    notification: hslToHex(0, 84.2, 60.2), // destructive
-    primary: hslToHex(151, 71, 55), // primary
-    text: hslToHex(20, 14.3, 4.1), // foreground
-    secondary: hslToHex(60, 4.8, 95.9), // secondary
-    accent: hslToHex(60, 4.8, 95.9), // accent
+    background: hslToHex(0, 0, 100), // White background
+    border: hslToHex(220, 13, 91), // Light gray-blue border
+    card: hslToHex(0, 0, 100), // White cards
+    notification: hslToHex(0, 84, 60), // Red for errors/destructive
+    primary: hslToHex(221, 83, 53), // Coinbase blue (#1652F0)
+    text: hslToHex(224, 71, 4), // Dark navy text
+    secondary: hslToHex(221, 83, 90), // Light blue secondary
+    accent: hslToHex(221, 83, 40), // Darker blue accent
   },
   dark: {
-    background: hslToHex(20, 14.3, 4.1), // background
-    border: hslToHex(12, 6.5, 15.1), // border
-    card: hslToHex(20, 14.3, 4.1), // card
-    notification: hslToHex(0, 62.8, 30.6), // destructive
-    primary: hslToHex(151, 71, 55), // primary
-    text: hslToHex(60, 9.1, 97.8), // foreground
-    secondary: hslToHex(12, 6.5, 15.1), // secondary
-    accent: hslToHex(12, 6.5, 15.1), // accent
+    background: hslToHex(224, 71, 4), // Dark navy background
+    border: hslToHex(224, 71, 15), // Medium navy border
+    card: hslToHex(224, 71, 6), // Slightly darker navy cards
+    notification: hslToHex(0, 84, 50), // Brighter red for dark mode
+    primary: hslToHex(221, 83, 60), // Bright Coinbase blue
+    text: hslToHex(210, 17, 98), // Off-white text
+    secondary: hslToHex(221, 83, 20), // Dark blue secondary
+    accent: hslToHex(221, 83, 50), // Medium blue accent
   },
 };
 

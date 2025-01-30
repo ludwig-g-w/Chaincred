@@ -86,7 +86,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="(chat)"
         options={{
-          tabBarIcon: ({ color }) => <NWIcon name="chat" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <NWIcon name="ellipsis.bubble" color={color} />
+          ),
           tabBarLabel: "Chat",
         }}
       />

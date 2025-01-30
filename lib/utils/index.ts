@@ -2,6 +2,7 @@ import { Attestation } from "@utils/types";
 import { format } from "date-fns";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import Constants from "expo-constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -72,4 +73,24 @@ export const sortAndGroupByDateReviews = (attestations: Attestation[]) => {
   return Object.entries(groups).sort(
     ([date1], [date2]) => -date1.localeCompare(date2)
   );
+};
+
+export const generateAPIUrl = (relativePath: string) => {
+  const origin =
+    Constants.experienceUrl?.replace("exp://", "http://") ??
+    process.env.EXPO_PUBLIC_SERVER_URL;
+
+  const path = relativePath.startsWith("/") ? relativePath : `/${relativePath}`;
+
+  if (process.env.NODE_ENV === "development") {
+    return origin.concat(path);
+  }
+
+  if (!process.env.EXPO_PUBLIC_SERVER_URL) {
+    throw new Error(
+      "EXPO_PUBLIC_SERVER_URL environment variable is not defined"
+    );
+  }
+
+  return process.env.EXPO_PUBLIC_SERVER_URL.concat(path);
 };

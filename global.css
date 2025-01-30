@@ -5,25 +5,25 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 20 14.3% 4.1%;
+    --foreground: 224 71% 4%;
     --card: 0 0% 100%;
-    --card-foreground: 20 14.3% 4.1%;
+    --card-foreground: 224 71% 4%;
     --popover: 0 0% 100%;
-    --popover-foreground: 20 14.3% 4.1%;
-    --primary: 151 71% 55%;
-    --primary-foreground: 26 83.3% 14.1%;
-    --secondary: 60 4.8% 95.9%;
-    --secondary-foreground: 24 9.8% 10%;
-    --muted: 60 4.8% 95.9%;
-    --muted-foreground: 25 5.3% 44.7%;
-    --accent: 60 4.8% 95.9%;
-    --accent-foreground: 24 9.8% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 60 9.1% 97.8%;
-    --border: 20 5.9% 90%;
-    --input: 20 5.9% 90%;
-    --ring: 20 14.3% 4.1%;
-    --radius: 1rem;
+    --popover-foreground: 224 71% 4%;
+    --primary: 221 83% 53%; /* Coinbase blue (#1652F0) */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 221 83% 90%;
+    --secondary-foreground: 224 71% 4%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 8% 44%;
+    --accent: 221 83% 40%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 221 83% 40%;
+    --radius: 0.5rem;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -32,29 +32,83 @@
   }
 
   .dark:root {
-    --background: 20 14.3% 4.1%;
-    --foreground: 60 9.1% 97.8%;
-    --card: 20 14.3% 4.1%;
-    --card-foreground: 60 9.1% 97.8%;
-    --popover: 20 14.3% 4.1%;
-    --popover-foreground: 60 9.1% 97.8%;
-    --primary: 151 71% 55%;
-    --primary-foreground: 26 83.3% 14.1%;
-    --secondary: 12 6.5% 15.1%;
-    --secondary-foreground: 60 9.1% 97.8%;
-    --muted: 12 6.5% 15.1%;
-    --muted-foreground: 24 5.4% 63.9%;
-    --accent: 12 6.5% 15.1%;
-    --accent-foreground: 60 9.1% 97.8%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 60 9.1% 97.8%;
-    --border: 12 6.5% 15.1%;
-    --input: 12 6.5% 15.1%;
-    --ring: 35.5 91.7% 32.9%;
+    --background: 224 71% 4%; /* Coinbase dark navy */
+    --foreground: 210 17% 98%;
+    --card: 224 71% 6%;
+    --card-foreground: 210 17% 98%;
+    --popover: 224 71% 6%;
+    --popover-foreground: 210 17% 98%;
+    --primary: 221 83% 60%;
+    --primary-foreground: 224 71% 4%;
+    --secondary: 221 83% 20%;
+    --secondary-foreground: 210 17% 98%;
+    --muted: 224 71% 15%;
+    --muted-foreground: 220 8% 70%;
+    --accent: 221 83% 50%;
+    --accent-foreground: 210 17% 98%;
+    --destructive: 0 84% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 224 71% 15%;
+    --input: 224 71% 15%;
+    --ring: 221 83% 60%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+  }
+
+  .coinbase-theme {
+    --background: 0 0% 100%;
+    --foreground: 224 71% 4%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71% 4%;
+    --primary: 221 83% 53%; /* Coinbase's primary blue (#1652F0) */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 221 83% 90%; /* Light blue tint */
+    --secondary-foreground: 224 71% 4%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 8% 44%;
+    --accent: 221 83% 40%; /* Darker blue for accents */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 221 83% 40%;
+    --chart-1: 221 83% 53%; /* Blue */
+    --chart-2: 200 78% 54%; /* Teal */
+    --chart-3: 261 51% 63%; /* Purple */
+    --chart-4: 346 73% 49%; /* Red */
+    --chart-5: 37 96% 61%; /* Orange */
+  }
+
+  .coinbase-theme.dark {
+    --background: 224 71% 4%; /* Dark navy base */
+    --foreground: 210 17% 98%;
+    --card: 224 71% 6%;
+    --card-foreground: 210 17% 98%;
+    --popover: 224 71% 6%;
+    --popover-foreground: 210 17% 98%;
+    --primary: 221 83% 60%; /* Brighter blue for dark mode */
+    --primary-foreground: 224 71% 4%;
+    --secondary: 221 83% 20%;
+    --secondary-foreground: 210 17% 98%;
+    --muted: 224 71% 15%;
+    --muted-foreground: 220 8% 70%;
+    --accent: 221 83% 50%;
+    --accent-foreground: 210 17% 98%;
+    --destructive: 0 84% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 224 71% 15%;
+    --input: 224 71% 15%;
+    --ring: 221 83% 60%;
+    --chart-1: 221 83% 60%;
+    --chart-2: 200 78% 60%;
+    --chart-3: 261 51% 70%;
+    --chart-4: 346 73% 60%;
+    --chart-5: 37 96% 70%;
   }
 }

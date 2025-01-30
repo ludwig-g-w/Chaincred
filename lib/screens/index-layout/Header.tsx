@@ -47,13 +47,10 @@ const Header = memo(() => {
                   opacity: router.canGoBack() ? 1 : 0,
                 }}
                 className="h-[20] aspect-square"
-                name={
-                  Platform.OS === "ios"
-                    ? "chevron.compact.left"
-                    : "chevron-left"
-                }
+                name={Platform.OS === "ios" ? "chevron.left" : "chevron-left"}
                 color={tTheme.text}
                 size={18}
+                width={18}
                 tintColor={tTheme.text}
               />
             )}
