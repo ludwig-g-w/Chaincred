@@ -87,7 +87,7 @@ export default function TabLayout() {
         name="(chat)"
         options={{
           tabBarIcon: ({ color }) => (
-            <NWIcon name="ellipsis.bubble" color={color} />
+            <NWIcon name="ellipsis.bubble" color={color} tintColor={color} />
           ),
           tabBarLabel: "Chat",
         }}

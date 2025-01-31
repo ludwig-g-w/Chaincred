@@ -26,7 +26,7 @@ export default function Chat() {
     <View className="flex-1 bg-background">
       <ScrollView
         className="flex-1 p-4"
-        contentContainerStyle={{ paddingBottom: 80 }}
+        contentContainerStyle={{ paddingBottom: 80, paddingTop: 60, gap: 10 }}
         showsVerticalScrollIndicator={false}
       >
         {messages?.map((message) =>
@@ -34,21 +34,20 @@ export default function Chat() {
             .with("user", () => (
               <View
                 key={message.id}
-                className="flex-grow-0 flex-row items-center  bg-primary rounded-lg p-4  rounded-br-none"
+                className="flex-row bg-primary rounded-lg p-2"
+                style={{ alignSelf: "flex-start" }}
               >
                 <Typo.P className="text-primary-foreground">
                   {message.content}
                 </Typo.P>
-                <NWIcon
-                  name="ellipsis.bubble"
-                  size={20}
-                  className="text-foreground"
-                />
               </View>
             ))
             .with("assistant", () => (
               <View key={message.id} className="flex-row justify-start mb-4">
-                <View className="max-w-[80%] rounded-lg p-4 bg-card rounded-bl-none">
+                <View
+                  className="rounded-lg p-4 bg-card rounded-bl-none"
+                  style={{ alignSelf: "flex-start" }}
+                >
                   <Typo.P>{message.content}</Typo.P>
                 </View>
               </View>
@@ -72,17 +71,19 @@ export default function Chat() {
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        className="absolute bottom-0 w-full bg-background border-t border-border pt-2"
+        keyboardVerticalOffset={Platform.OS === "ios" ? 120 : 0}
+        className="bottom-0 w-full bg-background border-t border-border pt-2"
       >
         <View className="flex-row items-center p-4 gap-2">
           <TextInput
             value={input}
             onChangeText={setInput}
-            className="text-end flex-1 bg-card rounded-xl px-4 h-12 text-foreground border border-border "
+            className="flex-1 bg-card rounded px-4 h-12 text-foreground border border-border "
             placeholder="Type your message..."
             placeholderTextColor="#64748b"
             multiline
             maxLength={2000}
+            autoCorrect={false}
           />
           <Button
             onPress={handleSubmit}
@@ -92,6 +93,7 @@ export default function Chat() {
             <NWIcon
               name="paperplane.fill"
               size={20}
+              tintColor="white"
               className="text-background"
             />
           </Button>
