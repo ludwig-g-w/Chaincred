@@ -8,7 +8,6 @@ import { match, P } from "ts-pattern";
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
 import * as Typo from "@lib/components/ui/typography";
-import ConnectWalletV5 from "@lib/components/connect-modal-v5";
 import { NWIcon } from "@lib/components/nativeWindInterop";
 
 const Header = memo(() => {
