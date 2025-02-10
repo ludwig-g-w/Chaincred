@@ -1,4 +1,5 @@
 import { NWIcon } from "@lib/components/nativeWindInterop";
+import { Progress } from "@lib/components/ui/progress";
 import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME } from "@lib/constants";
 import React, { useRef, useState } from "react";
@@ -41,18 +42,11 @@ const OnboardingCarousel = () => {
 
   return (
     <View className="flex-1 bg-background">
-      {/* <Progress
+      <Progress
+        className="w-full h-2  bg-border"
+        indicatorClassName="bg-primary"
         value={(100 / slides.length) * (activeSlide + 1)}
-        w={"$full"}
-        h="$2"
-        size="xl"
-        rounded={"$none"}
-      >
-        <ProgressFilledTrack
-          rounded={"$none"}
-          bgColor={NAV_THEME["light"].primary}
-        />
-      </Progress> */}
+      />
 
       <ScrollView
         ref={scrollViewRef}
