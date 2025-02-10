@@ -7,9 +7,9 @@
 Chaincred is a decentralized review & loyalty app that allows users to attest an review with EAS scanning the Ethereum address of another user. It uses thirdweb's React Native SDK to interact
 with the blockchain and thirdweb's Authentication SDK to handle user authentication.
 
-## Demo
+<!-- ## Demo
 
-![Demo](./demo.gif)
+![Demo](./demo.gif) -->
 
 ## Tools
 

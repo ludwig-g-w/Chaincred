@@ -55,8 +55,10 @@ export const useSelectColorScheme = () => {
 
   React.useEffect(() => {
     (async () => {
-      DevClient.DevMenu.hideMenu();
-      DevClient.DevMenu.closeMenu();
+      if (Platform.OS !== "web") {
+        DevClient.hideMenu();
+        DevClient.closeMenu();
+      }
       const theme = storage.getString("theme");
       if (Platform.OS === "web") {
         // Adds the background color to the html element to prevent white background on overscroll.

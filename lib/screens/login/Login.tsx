@@ -3,9 +3,10 @@ import React from "react";
 import { View } from "react-native";
 import { css } from "react-native-reanimated";
 import ConnectButtonThirdweb from "@lib/components/ConnectButtonThirdweb";
-import { useActiveWallet, useDisconnect } from "thirdweb/react";
+import { ConnectButton, useActiveWallet, useDisconnect } from "thirdweb/react";
 import { Button } from "@lib/components/ui/button";
 import { AnimatedTitle } from "./components/AnimatedTitle";
+import { thirdwebClient } from "@lib/services/thirdwebClient";
 
 export default function LoginScreen() {
   const { disconnect } = useDisconnect();

@@ -38,14 +38,16 @@ export function AnimatedTitle() {
           style={[
             styles.gradientContainer,
             {
-              animationName: {
-                from: {
-                  transform: [{ translateX: "-25%" }],
+              animationName: [
+                {
+                  from: {
+                    transform: [{ translateX: "-25%" }],
+                  },
+                  to: {
+                    transform: [{ translateX: "25%" }],
+                  },
                 },
-                to: {
-                  transform: [{ translateX: "25%" }],
-                },
-              },
+              ],
               animationDuration: "3s",
               animationIterationCount: "infinite",
               animationTimingFunction: "linear",
@@ -71,8 +73,8 @@ export function AnimatedTitle() {
               animationDelay: "0.1s",
               animationDuration: "2.1s",
               animationFillMode: "forwards",
-              animationName: startFactory(8, -5, 20, 1.1),
-              animationTimingFunction: cubicBezier(0.42, 0, 0.58, 1),
+              animationName: [startFactory(8, -5, 20, 1.1)],
+              animationTimingFunction: "ease-in-out",
               animationIterationCount: "infinite",
             },
           ]}
@@ -86,8 +88,8 @@ export function AnimatedTitle() {
             {
               animationDuration: "2.8s",
               animationFillMode: "forwards",
-              animationName: startFactory(-8, -8, 10, 1.2),
-              animationTimingFunction: "easeIn",
+              animationName: [startFactory(-8, -8, 10, 1.2)],
+              animationTimingFunction: "ease-in",
               animationIterationCount: "infinite",
             },
           ]}
@@ -102,8 +104,8 @@ export function AnimatedTitle() {
               animationDelay: "0.2s",
               animationDuration: "2.4s",
               animationFillMode: "forwards",
-              animationName: startFactory(5, 8, 30, 0.8),
-              animationTimingFunction: "easeIn",
+              animationName: [startFactory(5, 8, 30, 0.8)],
+              animationTimingFunction: "ease-in",
               animationIterationCount: "infinite",
             },
           ]}
@@ -117,8 +119,8 @@ export function AnimatedTitle() {
             {
               animationDuration: "2.2s",
               animationFillMode: "forwards",
-              animationName: startFactory(10, -5, 40, 1.3),
-              animationTimingFunction: "easeIn",
+              animationName: [startFactory(10, -5, 40, 1.3)],
+              animationTimingFunction: "ease-in",
               animationIterationCount: "infinite",
             },
           ]}
