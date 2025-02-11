@@ -2,8 +2,10 @@ import { NWIcon } from "@lib/components/nativeWindInterop";
 import { Progress } from "@lib/components/ui/progress";
 import * as Typo from "@lib/components/ui/typography";
 import { NAV_THEME } from "@lib/constants";
+import { router, useRouter } from "expo-router";
 import React, { useRef, useState } from "react";
 import { Dimensions, Platform, ScrollView, View } from "react-native";
+import { Pressable } from "react-native-gesture-handler";
 const { width: viewportWidth, height: viewportHeight } =
   Dimensions.get("window");
 
@@ -33,6 +35,7 @@ const slides = [
 const OnboardingCarousel = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const scrollViewRef = useRef(null);
+  const router = useRouter();
   const handleScroll = (event: any) => {
     const slideWidth = viewportWidth;
     const offsetX = event.nativeEvent.contentOffset.x;
@@ -41,12 +44,19 @@ const OnboardingCarousel = () => {
   };
 
   return (
-    <View className="flex-1 bg-background">
+    <View className="flex-1 bg-background relative ">
       <Progress
         className="w-full h-2  bg-border"
         indicatorClassName="bg-primary"
         value={(100 / slides.length) * (activeSlide + 1)}
       />
+      <Pressable className="mt-4 ml-4" onPress={() => router.back()}>
+        <NWIcon
+          name={Platform.OS === "ios" ? "chevron.backward" : "arrow-left"}
+          size={24}
+          color={NAV_THEME["light"].primary}
+        />
+      </Pressable>
 
       <ScrollView
         ref={scrollViewRef}

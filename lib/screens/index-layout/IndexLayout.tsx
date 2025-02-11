@@ -102,7 +102,8 @@ const Inner = () => {
         <Stack.Screen
           options={{
             header: () => null,
-            presentation: "modal",
+            presentation: "containedModal",
+            animation: "slide_from_bottom",
           }}
           name="gettingStarted"
         />
