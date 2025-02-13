@@ -31,6 +31,7 @@ export default () => {
           title="Your Profile"
           onPress={() => router.push("/settingsProfile")}
         />
+        <Item title="My Rewards" onPress={() => router.push("/rewards")} />
         <Item
           title="Dark Theme"
           onPress={() => {

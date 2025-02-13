@@ -14,14 +14,6 @@ export const wallets = [
     auth: {
       options: ["guest"],
     },
-    hidePrivateKeyExport: true,
-    metadata: {
-      image: {
-        src: "assets/icon.png",
-        width: 32,
-        height: 32,
-      },
-    },
     // smartAccount: {
     //   chain: baseSepolia,
     //   sponsorGas: true,
@@ -29,7 +21,6 @@ export const wallets = [
     // },
   }),
 
-  createWallet("io.metamask"),
   createWallet("com.coinbase.wallet", {
     chains: [baseSepolia],
     appMetadata: {
@@ -42,8 +33,7 @@ export const wallets = [
       callbackURL: "chaincred:///",
     },
   }),
-  createWallet("me.rainbow"),
-  createWallet("com.trustwallet.app"),
+  createWallet("io.metamask"),
 ];
 
 export const connectConfig = {

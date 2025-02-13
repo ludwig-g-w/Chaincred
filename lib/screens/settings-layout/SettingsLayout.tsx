@@ -10,6 +10,7 @@ export default () => {
     >
       <Stack.Screen name="settings" />
       <Stack.Screen name="settingsProfile" />
+      <Stack.Screen name="rewards" />
     </Stack>
   );
 };

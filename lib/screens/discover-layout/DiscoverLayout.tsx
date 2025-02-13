@@ -1,16 +1,14 @@
-import React from "react";
-import { View, Pressable, Text } from "react-native";
-import { Link, router, Stack, usePathname } from "expo-router";
-import * as Typo from "@lib/components/ui/typography";
-import MySegmentedControl from "@lib/components/MySegmentedControl";
-import SegmentedControl from "@react-native-segmented-control/segmented-control";
-import { useColorScheme } from "@lib/useColorScheme";
 import { NAV_THEME } from "@lib/constants";
+import { useColorScheme } from "@lib/useColorScheme";
+import SegmentedControl from "@react-native-segmented-control/segmented-control";
+import { router, Stack, usePathname } from "expo-router";
+import React from "react";
+import { View } from "react-native";
 
 export default function App() {
   const path = usePathname();
 
-  const isMap = path === "/discoverMap" ?? true;
+  const isMap = path === "/discoverMap";
   const { isDarkColorScheme } = useColorScheme();
   const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
 

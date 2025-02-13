@@ -1,6 +1,6 @@
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import Animated, { cubicBezier } from "react-native-reanimated";
 import * as Typo from "@components/ui/typography";
 
@@ -29,14 +29,18 @@ const startFactory = (x: number, y: number, rotate: number, scale: number) => ({
 
 export function AnimatedTitle() {
   return (
-    <Animated.View style={styles.container}>
+    <Animated.View className="relative z-50">
       <MaskedView
-        style={styles.mask}
-        maskElement={<Typo.H1 style={styles.label}>ChainCred</Typo.H1>}
+        className="h-[78px] w-[235px] overflow-visible"
+        maskElement={
+          <Typo.H1 className="m-0 p-0 pt-10 overflow-visible text-[38px] font-bold text-center">
+            ChainCred
+          </Typo.H1>
+        }
       >
         <Animated.View
+          className="flex-1 w-[300%] -mx-full"
           style={[
-            styles.gradientContainer,
             {
               animationName: [
                 {
@@ -59,16 +63,15 @@ export function AnimatedTitle() {
             locations={[0.46, 0.5, 0.54]}
             start={{ x: 0, y: -3 }}
             end={{ x: 1, y: 3 }}
-            style={styles.gradient}
+            className="flex-1 w-full"
           />
         </Animated.View>
       </MaskedView>
 
-      <View style={styles.starWrapper}>
+      <View className="flex-row absolute top-10">
         <Animated.Text
+          className="text-[#facc15] opacity-0 relative -bottom-20 text-[32px] -left-[110px]"
           style={[
-            styles.star,
-            styles.star1,
             {
               animationDelay: "0.1s",
               animationDuration: "2.1s",
@@ -82,9 +85,8 @@ export function AnimatedTitle() {
           ✦
         </Animated.Text>
         <Animated.Text
+          className="text-[#facc15] opacity-0 relative text-[26px] -left-[130px] -top-[10px]"
           style={[
-            styles.star,
-            styles.star2,
             {
               animationDuration: "2.8s",
               animationFillMode: "forwards",
@@ -97,9 +99,8 @@ export function AnimatedTitle() {
           ✦
         </Animated.Text>
         <Animated.Text
+          className="text-[#facc15] opacity-0 relative text-[30px] -right-[130px] top-[15px]"
           style={[
-            styles.star,
-            styles.star3,
             {
               animationDelay: "0.2s",
               animationDuration: "2.4s",
@@ -113,9 +114,8 @@ export function AnimatedTitle() {
           ✦
         </Animated.Text>
         <Animated.Text
+          className="text-[#facc15] opacity-0 relative -bottom-[18px] text-[28px] -right-[105px]"
           style={[
-            styles.star,
-            styles.star4,
             {
               animationDuration: "2.2s",
               animationFillMode: "forwards",
@@ -131,69 +131,3 @@ export function AnimatedTitle() {
     </Animated.View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    position: "relative",
-  },
-  shimmerContainer: {
-    width: "100%",
-    height: 80,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  mask: {
-    height: 78,
-    overflow: "visible",
-    width: 235,
-  },
-  gradientContainer: {
-    flex: 1,
-    width: "300%",
-    marginHorizontal: "-100%",
-  },
-  gradient: {
-    flex: 1,
-    width: "100%",
-  },
-  label: {
-    margin: 0,
-    padding: 0,
-    paddingTop: 40,
-    overflow: "visible",
-    fontSize: 38,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  star: {
-    color: "#facc15",
-    opacity: 0,
-    position: "relative",
-  },
-  star1: {
-    bottom: -20,
-    fontSize: 32,
-    left: -110,
-  },
-  star2: {
-    fontSize: 26,
-    left: -130,
-    top: -10,
-  },
-  star3: {
-    bottom: 20,
-    fontSize: 30,
-    right: -130,
-    top: 15,
-  },
-  star4: {
-    bottom: 18,
-    fontSize: 28,
-    right: -105,
-  },
-  starWrapper: {
-    flexDirection: "row",
-    position: "absolute",
-    top: 40,
-  },
-});

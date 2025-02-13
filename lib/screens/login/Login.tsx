@@ -1,31 +1,116 @@
-import * as Typo from "@lib/components/ui/typography";
-import React from "react";
-import { View } from "react-native";
-import { css } from "react-native-reanimated";
+import * as Typo from "@components/ui/typography";
 import ConnectButtonThirdweb from "@lib/components/ConnectButtonThirdweb";
-import { ConnectButton, useActiveWallet, useDisconnect } from "thirdweb/react";
 import { Button } from "@lib/components/ui/button";
-import { AnimatedTitle } from "./components/AnimatedTitle";
-import { thirdwebClient } from "@lib/services/thirdwebClient";
+import {
+  LinearGradient as ExpoLinearGradient,
+  LinearGradient,
+} from "expo-linear-gradient";
+import React from "react";
+import { Dimensions, Pressable, View } from "react-native";
+import Animated from "react-native-reanimated";
+import { useActiveWallet, useDisconnect } from "thirdweb/react";
 
-export default function LoginScreen() {
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
+
+const Star = ({ startY }: { startY: number }) => {
+  return (
+    <Animated.View
+      className="absolute w-[2px] h-[2px] bg-white rounded-[1px]"
+      style={[
+        {
+          left: Math.random() * SCREEN_WIDTH,
+          animationName: [
+            {
+              from: {
+                transform: [{ translateY: startY }],
+              },
+              to: {
+                transform: [{ translateY: SCREEN_HEIGHT }],
+              },
+            },
+          ],
+          animationDuration: `${2000 + Math.random() * 3000}ms`,
+          animationIterationCount: "infinite",
+          animationTimingFunction: "linear",
+        },
+      ]}
+    />
+  );
+};
+
+const AnimatedLinearGradient =
+  Animated.createAnimatedComponent(ExpoLinearGradient);
+
+export default function Login() {
   const { disconnect } = useDisconnect();
   const wallet = useActiveWallet();
+  const stars = Array(20)
+    .fill(0)
+    .map((_, i) => ({
+      id: i,
+      startY: -Math.random() * SCREEN_HEIGHT,
+    }));
+
   return (
-    <View className="flex-1 justify-center items-center gap-4 bg-background">
-      <AnimatedTitle />
-      <Typo.Lead>An app for reviewing decentralized</Typo.Lead>
-      <View className="flex-wrap gap-4 items-center">
-        <ConnectButtonThirdweb />
-        {wallet && (
-          <Button
-            className="p-x-12 p-y-4 rounded-2xl"
-            variant={"outline"}
-            onPress={() => disconnect(wallet)}
+    <View className="flex-1 bg-[#030303] items-center justify-center relative">
+      {stars.map((star) => (
+        <Star key={star.id} startY={star.startY} />
+      ))}
+      <View className="z-10">
+        <Pressable
+          onPress={() => console.log("Button pressed")}
+          className="relative w-[240px] h-[70px]"
+          style={({ pressed }) =>
+            pressed ? { opacity: 0.8, transform: [{ scale: 0.98 }] } : {}
+          }
+        >
+          <Animated.View
+            className="absolute -top-[3px] -left-[3px] -right-[3px] -bottom-[3px] rounded-[16px] overflow-hidden shadow-[0_0_20px_rgba(0,255,204,0.8)]"
+            style={[
+              {
+                animationName: [
+                  {
+                    from: { transform: [{ scale: 1 }] },
+                    "50%": { transform: [{ scale: 1.05 }] },
+                    to: { transform: [{ scale: 1 }] },
+                  },
+                ],
+                animationDuration: "3s",
+                animationIterationCount: "infinite",
+                animationTimingFunction: "ease-out",
+              },
+            ]}
           >
-            <Typo.Large>Disconnect</Typo.Large>
-          </Button>
-        )}
+            <LinearGradient
+              colors={["#00ffcc", "#7700ff", "#00ffcc"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              className="flex-1 p-[3px]"
+            />
+          </Animated.View>
+          <View className="flex-1 justify-center items-center border-2 border-transparent gap-4">
+            <Typo.H1
+              className="text-white  font-bold tracking-[4px]"
+              style={{
+                textShadowColor: "#00ffcc",
+                textShadowOffset: { width: 0, height: 0 },
+                textShadowRadius: 15,
+              }}
+            >
+              ChainCred
+            </Typo.H1>
+            <ConnectButtonThirdweb />
+            {wallet && (
+              <Button
+                className="p-x-12 p-y-4 rounded-2xl"
+                variant={"outline"}
+                onPress={() => disconnect(wallet)}
+              >
+                <Typo.Large>Disconnect</Typo.Large>
+              </Button>
+            )}
+          </View>
+        </Pressable>
       </View>
     </View>
   );
