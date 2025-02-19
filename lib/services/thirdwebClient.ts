@@ -23,12 +23,9 @@ export const wallets = [
 
   createWallet("com.coinbase.wallet", {
     chains: [baseSepolia],
-    appMetadata: {
-      name: "ChainCred",
-      logoUrl: "assets/icon.png",
-      url: "gtfol.xyz",
+    walletConfig: {
+      options: "all",
     },
-
     mobileConfig: {
       callbackURL: "chaincred:///",
     },
