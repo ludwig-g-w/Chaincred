@@ -32,7 +32,7 @@ export async function createReviewAttestation({
     try {
       ethersSigner = ethers6Adapter.signer.toEthers({
         account: { ...account },
-        chain: baseSepolia,
+        chain: { ...baseSepolia },
         client: { ...thirdwebClient },
       });
     } catch (error) {

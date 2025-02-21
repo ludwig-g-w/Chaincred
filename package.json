@@ -27,7 +27,7 @@
     "@ethereum-attestation-service/eas-sdk": "^2.7.0",
     "@expo/vector-icons": "^14.0.4",
     "@gorhom/bottom-sheet": "^5.1.1",
-    "@langchain/langgraph-sdk": "^0.0.36",
+    "@langchain/langgraph-sdk": "^0.0.43",
     "@prisma/client": "^6.3.1",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-clipboard/clipboard": "^1.16.1",

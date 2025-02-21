@@ -36,7 +36,7 @@ const ScanScreen = () => {
     try {
       invariant(scannedAddress && rating, " Missing input");
       setLoading(true);
-      await createReviewAttestation({
+      const tx = await createReviewAttestation({
         address: scannedAddress,
         rating,
         comment,

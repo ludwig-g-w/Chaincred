@@ -64,30 +64,6 @@ export default function Login() {
             pressed ? { opacity: 0.8, transform: [{ scale: 0.98 }] } : {}
           }
         >
-          <Animated.View
-            className="absolute -top-[3px] -left-[3px] -right-[3px] -bottom-[3px] rounded-[16px] overflow-hidden shadow-[0_0_20px_rgba(0,255,204,0.8)]"
-            style={[
-              {
-                animationName: [
-                  {
-                    from: { transform: [{ scale: 1 }] },
-                    "50%": { transform: [{ scale: 1.05 }] },
-                    to: { transform: [{ scale: 1 }] },
-                  },
-                ],
-                animationDuration: "3s",
-                animationIterationCount: "infinite",
-                animationTimingFunction: "ease-out",
-              },
-            ]}
-          >
-            <LinearGradient
-              colors={["#00ffcc", "#7700ff", "#00ffcc"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              className="flex-1 p-[3px]"
-            />
-          </Animated.View>
           <View className="flex-1 justify-center items-center border-2 border-transparent gap-4">
             <Typo.H1
               className="text-white  font-bold tracking-[4px]"

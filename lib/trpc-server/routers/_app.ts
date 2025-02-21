@@ -72,8 +72,13 @@ export const appRouter = router({
         const responseAttestations = await sdk.Attestations({
           where: {
             OR: [
-              { recipient: { in: recipients } },
-              { attester: { in: attesters } },
+              {
+                recipient: {
+                  // TODO: there is a bug of case sensitivity of this value
+                  equals: "0x3279698b8A6CC5924bD19170137a4d4C5B002021",
+                },
+              },
+              { attester: { equals: attesters[0].toUpperCase() } },
             ],
             schemaId: {
               in: [EAS_ADDRESS_REVIEW],
