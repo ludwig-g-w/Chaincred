@@ -84,7 +84,9 @@ const Inner = () => {
           }}
           name="index"
         />
-        <Stack.Screen name="(tabs)" />
+        <Stack.Screen options={{
+          header: () => null,
+        }} name="(tabs)" />
         <Stack.Screen
           options={{
             header: () => null,

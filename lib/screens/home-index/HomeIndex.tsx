@@ -1,6 +1,7 @@
 import GetStartedCard from "@components/GetStartedCard";
 import ReviewListItem from "@components/ReviewListItem";
 import SuspenseFallback from "@components/SuspenseFallback";
+import { Image, Pressable } from "react-native";
 
 import { NAV_THEME } from "@lib/constants";
 import { useColorScheme } from "@lib/useColorScheme";
@@ -9,13 +10,16 @@ import { trpc } from "@utils/trpc";
 import { Attestation, isReviewItem } from "@utils/types";
 import { format, parseISO } from "date-fns";
 import { useRouter } from "expo-router";
-import React, { Suspense, useMemo } from "react";
+import React, { Suspense, useMemo, useState, useRef } from "react";
 import { useActiveAccount } from "thirdweb/react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity, Animated } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import * as Typo from "@lib/components/ui/typography";
+import { N } from "ethers";
+import { NWIcon } from "@lib/components/nativeWindInterop";
 
 const Index = () => {
   const user = useActiveAccount();
-
   const { isDarkColorScheme } = useColorScheme();
   const router = useRouter();
   const theme = NAV_THEME[isDarkColorScheme ? "dark" : "light"];
@@ -44,26 +48,61 @@ const Index = () => {
   }, [attestations]);
 
   return (
-    <View className="bg-background px-2 flex-1">
-      <Text className="text-textLight600 my-4 text-lg font-bold">
-        All Activity
-      </Text>
+    <View className="bg-background flex-1">
       <Suspense fallback={<SuspenseFallback />}>
         <FlashList
+          ListHeaderComponent={() => (
+            <>
+              <LinearGradient
+                colors={["#1652F0", "#1652F4"]}
+                style={{
+                  overflow: "visible",
+                  width: "100%",
+                  height: 300,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Typo.H1 className="text-textLight600 my-4 text-lg font-bold">
+                  All Activity
+                </Typo.H1>
+              </LinearGradient>
+              <View className="flex flex-row justify-around w-full absolute bottom-16">
+                <Pressable className="aspect-square bg-primary rounded-lg p-2 items-center justify-center shadow-border">
+                  <NWIcon
+                    name="plus"
+                    size={24}
+                    color={NAV_THEME.dark.card}
+                    type="hierarchical"
+                  />
+                </Pressable>
+                <Pressable className="aspect-square bg-card rounded-lg p-2 align-middle">
+                  <Text className="text-textLight600">Button 2</Text>
+                </Pressable>
+                <Pressable className="aspect-square bg-card rounded-lg p-2 align-middle">
+                  <Text className="text-textLight600">Button 3</Text>
+                </Pressable>
+              </View>
+              <View className="h-12" />
+              <Text className="text-textLight600 my-4 text-lg font-bold ">
+                All Activity
+              </Text>
+            </>
+          )}
           onRefresh={refetch}
           refreshing={isRefetching}
           numColumns={1}
           estimatedItemSize={88}
           data={sortedAndGroupedList}
           showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={() => <View className="h-4" />}
+          ItemSeparatorComponent={() => <View className="h-10" />}
           ListEmptyComponent={<GetStartedCard />}
           renderItem={({ item }) => {
             const [date, items] = item;
 
             return isReviewItem(items[0]?.data) ? (
               <View>
-                <Text className="pb-2 text-md font-bold">
+                <Text className="text-foreground pb-2 text-md font-bold">
                   {format(parseISO(date), "MMMM do, yyyy")}
                 </Text>
                 {items.map((subItem, index) => {
@@ -85,7 +124,7 @@ const Index = () => {
                     typeof itemUser === "object" ? itemUser.title : itemUser;
 
                   return (
-                    <View key={index}>
+                    <View className={`${!index ? "mt-2" : "mt-0"}`} key={index}>
                       <ReviewListItem
                         avatarUri={avatarUri ?? undefined}
                         userAttested={isUserAttester}

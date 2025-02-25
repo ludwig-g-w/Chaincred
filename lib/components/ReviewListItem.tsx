@@ -2,10 +2,12 @@ import { Text } from "@lib/components/ui/text";
 import * as Typo from "@lib/components/ui/typography";
 import { isAddress, shortenAddress } from "@utils/index";
 import { Image } from "expo-image";
-import { Feather } from "@expo/vector-icons";
+import { Feather, FontAwesome6 } from "@expo/vector-icons";
 import * as WebBrowser from "expo-web-browser";
 import React, { useState } from "react";
 import { View, Pressable } from "react-native";
+import { NWIcon } from "./nativeWindInterop";
+import { NAV_THEME } from "@lib/constants";
 
 interface UserCommentProps {
   avatarUri?: string;
@@ -40,20 +42,21 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
     onPress();
   };
 
+
   const handleViewOnEAS = () => {
     WebBrowser.openBrowserAsync(
-      `https://sepolia.easscan.org/attestation/view/${id}`
+      `${process.env.EXPO_PUBLIC_EAS_BASE_URL}attestation/view/${id}`
     );
   };
 
   return (
-    <View className="bg-white rounded-xl border border-gray-300">
+    <View className="bg-card rounded-xl border border-border mt-2">
       <Pressable
         onPress={handlePress}
         className="flex-row items-center justify-between p-4"
       >
         <View className="flex-row items-center gap-3">
-          <View className="h-10 w-10 rounded-full overflow-hidden bg-gray-100">
+          <View className="h-10 w-10 rounded-full overflow-hidden bg-muted">
             {avatarUri ? (
               <Image
                 source={{ uri: avatarUri }}
@@ -88,7 +91,7 @@ const ReviewListItem: React.FC<UserCommentProps> = ({
             onPress={handleViewOnEAS}
             className="bg-primary/10 rounded-full p-2"
           >
-            <Feather name="external-link" size={16} color="#000" />
+            <NWIcon name="link" tintColor={NAV_THEME.dark.primary} color={NAV_THEME.dark.primary} type={"monochrome"} animated={false} />
           </Pressable>
           {comment && (
             <View className="bg-primary/10 rounded-full p-2">

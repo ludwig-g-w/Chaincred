@@ -14,6 +14,7 @@ export default function TabLayout() {
       initialRouteName="(home)"
       screenOptions={{
         tabBarActiveTintColor: theme.primary,
+        headerShown: false,
         header: () => null,
         tabBarStyle: {
           backgroundColor: theme.background,

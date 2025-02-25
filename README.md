@@ -66,7 +66,6 @@ bun install
    EXPO_PUBLIC_SCHEMA_ADRESS_ACTION=<your-schema-address-action> // The schema address for action attestations
    EXPO_PUBLIC_SCHEMA_ADRESS_REVIEW=<your-schema-address-review> // The schema address for review attestations
    EXPO_PUBLIC_EAS_SCHEMA_REGISTRY=<your-eas-schema-registry-address> // The address for the EAS schema registry
-   EXPO_PUBLIC_EAS_GRAPHQL=<your-eas-graphql-endpoint> // The GraphQL endpoint for EAS
    EXPO_PUBLIC_API_KEY_GOOGLE=<your-google-api-key> // Your Google API key for accessing Google services
    EXPO_PUBLIC_ORGANIZATION_MANAGER_ADDRESS=<your-organization-manager-address> // The address for the organization manager
    EXPO_PUBLIC_SUPABASE_URL=<your-supabase-url> // The URL for your Supabase instance
