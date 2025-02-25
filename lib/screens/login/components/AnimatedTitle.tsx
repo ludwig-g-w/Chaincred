@@ -29,7 +29,7 @@ const startFactory = (x: number, y: number, rotate: number, scale: number) => ({
 
 export function AnimatedTitle() {
   return (
-    <Animated.View className="relative z-50">
+    <View testID="animated-title">
       <MaskedView
         className="h-[78px] w-[235px] overflow-visible"
         maskElement={
@@ -128,6 +128,6 @@ export function AnimatedTitle() {
           ✦
         </Animated.Text>
       </View>
-    </Animated.View>
+    </View>
   );
 }

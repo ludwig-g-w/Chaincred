@@ -1,6 +1,6 @@
 ---
 description: instructions on how to set up tests
-globs: 
+globs: *.test.{tsx, ts}
 alwaysApply: false
 ---
 - create tests files as close to the file getting tested

@@ -23,7 +23,7 @@ const MainButton = ({ loading = false, children, ...rest }: Props) => {
       <Typo.Large>{children}</Typo.Large>
       {loading && (
         <View className="absolute left-4 origin-center animate-spin">
-          <NWIcon name="gobackward" tintColor={theme.text} />
+          <NWIcon name="gobackward" tintColor={theme.text} color={theme.text} />
         </View>
       )}
     </Button>
