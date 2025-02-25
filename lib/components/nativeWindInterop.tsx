@@ -17,6 +17,7 @@ type Props = SymbolViewProps & {
 export const NWIcon = cssInterop<IconType, Props>(
   Platform.OS === "ios" ? SymbolView : FontAwesome6,
   {
+    // @ts-ignore
     className: {
       target: "style",
     },

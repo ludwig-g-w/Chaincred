@@ -1,6 +1,6 @@
-/*
- * Jest setup file for ChainCred project
- * This file sets up global environment variables required by Expo during tests.
- */
+import "react-native-gesture-handler/jestSetup";
 
-process.env.EXPO_OS = process.env.EXPO_OS || "ios";
+// Mock the necessary native modules
+jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper");
+
+// Add any other mocks needed for your tests
