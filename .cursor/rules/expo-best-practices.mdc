@@ -1,0 +1,9 @@
+---
+description: Best practices for developing with Expo
+globs: **/*.{ts,tsx,js,jsx}
+alwaysApply: false
+---
+- Use `expo start` for development and `expo build` for production builds
+- Leverage Expo's managed workflow for easier app deployment
+- Utilize Expo's APIs for device features like camera, file system, and secure storage
+- Implement `expo-updates` for OTA updates in production

@@ -1,0 +1,8 @@
+---
+description: instructions on how to set up tests
+globs: 
+alwaysApply: false
+---
+- create tests files as close to the file getting tested
+- never test implementation details, always focus on functionality
+- libraries used are React Native Testing Library
