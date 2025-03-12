@@ -48,98 +48,110 @@ const Index = () => {
   }, [attestations]);
 
   return (
-    <View className="bg-background flex-1">
+    <View className="bg-background flex-1 relative">
+      <LinearGradient
+        colors={["#4B83FF", "#1652F4"]}
+        style={{
+          overflow: "visible",
+          width: "100%",
+          height: 300,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typo.H3 className="text-primary-foreground">Address</Typo.H3>
+        <Typo.P className="text-primary-foreground">{user?.address}</Typo.P>
+      </LinearGradient>
+      <View className="flex flex-row justify-around w-full translate-y-[-20px]">
+        <Pressable className="aspect-square bg-primary rounded-lg p-2 items-center justify-center shadow-border p-4">
+          <NWIcon
+            name="plus"
+            size={24}
+            color={"white"}
+            tintColor={"white"}
+            type="hierarchical"
+          />
+        </Pressable>
+        <Pressable className="aspect-square bg-primary rounded-lg p-2 items-center justify-center shadow-border">
+          <NWIcon
+            name="plus"
+            size={24}
+            color={"white"}
+            tintColor={"white"}
+            type="hierarchical"
+          />
+        </Pressable>
+        <Pressable className="aspect-square bg-primary rounded-lg p-2 items-center justify-center shadow-border">
+          <NWIcon
+            name="plus"
+            size={24}
+            color={"white"}
+            tintColor={"white"}
+            type="hierarchical"
+          />
+        </Pressable>
+      </View>
+      <View className="h-12" />
+
       <Suspense fallback={<SuspenseFallback />}>
-        <FlashList
-          ListHeaderComponent={() => (
-            <>
-              <LinearGradient
-                colors={["#1652F0", "#1652F4"]}
-                style={{
-                  overflow: "visible",
-                  width: "100%",
-                  height: 300,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Typo.H1 className="text-textLight600 my-4 text-lg font-bold">
-                  All Activity
-                </Typo.H1>
-              </LinearGradient>
-              <View className="flex flex-row justify-around w-full absolute bottom-16">
-                <Pressable className="aspect-square bg-primary rounded-lg p-2 items-center justify-center shadow-border">
-                  <NWIcon
-                    name="plus"
-                    size={24}
-                    color={NAV_THEME.dark.card}
-                    type="hierarchical"
-                  />
-                </Pressable>
-                <Pressable className="aspect-square bg-card rounded-lg p-2 align-middle">
-                  <Text className="text-textLight600">Button 2</Text>
-                </Pressable>
-                <Pressable className="aspect-square bg-card rounded-lg p-2 align-middle">
-                  <Text className="text-textLight600">Button 3</Text>
-                </Pressable>
-              </View>
-              <View className="h-12" />
-              <Text className="text-textLight600 my-4 text-lg font-bold ">
-                All Activity
-              </Text>
-            </>
-          )}
-          onRefresh={refetch}
-          refreshing={isRefetching}
-          numColumns={1}
-          estimatedItemSize={88}
-          data={sortedAndGroupedList}
-          showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={() => <View className="h-10" />}
-          ListEmptyComponent={<GetStartedCard />}
-          renderItem={({ item }) => {
-            const [date, items] = item;
+        <View className="px-4 flex-1">
+          <Typo.H2 className="my-4 ">All Activity</Typo.H2>
+          <FlashList
+            onRefresh={refetch}
+            refreshing={isRefetching}
+            numColumns={1}
+            estimatedItemSize={88}
+            data={sortedAndGroupedList}
+            showsVerticalScrollIndicator={false}
+            ItemSeparatorComponent={() => <View className="h-10" />}
+            ListEmptyComponent={<GetStartedCard />}
+            renderItem={({ item }) => {
+              const [date, items] = item;
 
-            return isReviewItem(items[0]?.data) ? (
-              <View>
-                <Text className="text-foreground pb-2 text-md font-bold">
-                  {format(parseISO(date), "MMMM do, yyyy")}
-                </Text>
-                {items.map((subItem, index) => {
-                  const isUserAttester =
-                    user?.address ===
-                    (typeof subItem.attester === "object"
-                      ? subItem.attester.address
-                      : subItem.attester);
+              return isReviewItem(items[0]?.data) ? (
+                <View>
+                  <Text className="text-foreground pb-2 text-md font-bold">
+                    {format(parseISO(date), "MMMM do, yyyy")}
+                  </Text>
+                  {items.map((subItem, index) => {
+                    const isUserAttester =
+                      user?.address ===
+                      (typeof subItem.attester === "object"
+                        ? subItem.attester.address
+                        : subItem.attester);
 
-                  const itemUser = isUserAttester
-                    ? subItem.recipient
-                    : subItem.attester;
+                    const itemUser = isUserAttester
+                      ? subItem.recipient
+                      : subItem.attester;
 
-                  const avatarUri =
-                    typeof itemUser === "object"
-                      ? itemUser.image_url
-                      : undefined;
-                  const userName =
-                    typeof itemUser === "object" ? itemUser.title : itemUser;
+                    const avatarUri =
+                      typeof itemUser === "object"
+                        ? itemUser.image_url
+                        : undefined;
+                    const userName =
+                      typeof itemUser === "object" ? itemUser.title : itemUser;
 
-                  return (
-                    <View className={`${!index ? "mt-2" : "mt-0"}`} key={index}>
-                      <ReviewListItem
-                        avatarUri={avatarUri ?? undefined}
-                        userAttested={isUserAttester}
-                        userName={userName ?? undefined}
-                        rating={subItem.data?.review ?? 0}
-                        comment={subItem.data?.message ?? ""}
-                        id={subItem.id}
-                      />
-                    </View>
-                  );
-                })}
-              </View>
-            ) : null;
-          }}
-        />
+                    return (
+                      <View
+                        className={`${!index ? "mt-2" : "mt-0"}`}
+                        key={index}
+                      >
+                        <ReviewListItem
+                          avatarUri={avatarUri ?? undefined}
+                          userAttested={isUserAttester}
+                          userName={userName ?? undefined}
+                          rating={subItem.data?.review ?? 0}
+                          comment={subItem.data?.message ?? ""}
+                          id={subItem.id}
+                        />
+                      </View>
+                    );
+                  })}
+                </View>
+              ) : null;
+            }}
+          />
+        </View>
       </Suspense>
     </View>
   );
